@@ -3,11 +3,11 @@ import { useState } from 'react'
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 
 function App() {
-  return (
-    <div>
-      <PartsExplorer />
-    </div>
-  )
+	return (
+		<div>
+			<AssemblyDisplay />
+		</div>
+	)
 }
 
 export default App;
