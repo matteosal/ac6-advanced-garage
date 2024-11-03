@@ -3,11 +3,8 @@ import { useState } from 'react'
 import partsData from './PartsData.json';
 partsData = partsData.map((part, idx) => Object.assign(part, {ID: idx}))
 
-const partKinds = ['Unit', 'Head', 'Core', 'Arms', 'Legs','Booster', 'FCS', 
-  'Generator', 'Expansion']
-
-const KindSelector = ({kind, border, kindSetter, partSetter}) => {
-  let style = {display : 'inline-block', margin: '10px'}
+const SlotSelector = ({slot, border, slotSetter, partSetter}) => {
+  let style = {display : 'inline-block', margin: '8px'}
   if(border)
     style['border'] = 'solid'
   return (
@@ -15,12 +12,12 @@ const KindSelector = ({kind, border, kindSetter, partSetter}) => {
       style = {style}
       onMouseEnter = {
         () => {
-          kindSetter(kind)
+          slotSetter(slot)
           partSetter(null)
         }
       }
     >
-    {kind}
+    {slot}
     </div>
   )
 }
@@ -31,14 +28,28 @@ const PartSelector = ({name, id, setter}) => {
   )  
 }
 
-const PartList = ({kind, setter}) => {
+const PartList = ({slot, setter}) => {
+  const style = {
+    display: 'inline-block',
+    verticalAlign: 'top',
+    height: '500px',
+    overflowY: 'auto'
+  }
+
+  let filterFunc
+  if(['Right Arm', 'Left Arm', 'Right Shoulder', 'Left Shoulder'].includes(slot)) {
+    /* Removes the whitespace in slot to perform key lookup of the RightArm, etc fields */
+    filterFunc = (part) => (part.Kind === 'Unit' && part[slot.replace(/\s/g, "")]);
+  } else {
+    filterFunc = (part) => (part.Kind === slot)
+  }
+  let filteredData = partsData.filter(filterFunc);
+
   return(
     <>
-    <div style = {{display: 'inline-block', verticalAlign: 'top'}}>
+    <div style = {style}>
       {
-        partsData.
-          filter((part) => part.Kind === kind).
-          map(
+        filteredData.map(
             (part) => <PartSelector
               name={part.Name} 
               id={part.ID} 
@@ -87,26 +98,29 @@ const PartStats = ({id}) => {
   )
 }
 
+const partSlots = ['Right Arm', 'Left Arm', 'Right Shoulder', 'Left Shoulder', 'Head', 'Core', 
+  'Arms', 'Legs','Booster', 'FCS', 'Generator', 'Expansion']
+
 const PartsExplorer = () => {
-  const [selectedKind, setSelectedKind] = useState('Unit')
+  const [selectedSlot, setSelectedSlot] = useState(partSlots[0])
   const [selectedPart, setSelectedPart] = useState(null)
 
   return (
     <>
     {
-      partKinds.map((k) => 
-        <KindSelector 
-          kind = {k}
-          border = {k === selectedKind}
-          kindSetter = {setSelectedKind}
+      partSlots.map((s) => 
+        <SlotSelector 
+          slot = {s}
+          border = {s === selectedSlot}
+          slotSetter = {setSelectedSlot}
           partSetter = {setSelectedPart}
-          key = {k}
+          key = {s}
         />
       )
     }
     <br/>
     <div>
-    <PartList kind={selectedKind} setter={setSelectedPart} />
+    <PartList slot={selectedSlot} setter={setSelectedPart} />
     <PartStats id={selectedPart} />
     </div>
     </>
