@@ -27,15 +27,14 @@ const KindSelector = ({kind, border, kindSetter, partSetter}) => {
 
 const PartSelector = ({name, id, setter}) => {
   return (
-    <li onMouseEnter = {() => setter(id)}>{name}</li>
+    <div onMouseEnter = {() => setter(id)}>{name}</div>
   )  
 }
 
 const PartList = ({kind, setter}) => {
   return(
     <>
-    <div style = {{display : 'inline-block'}}>
-    <ul style = {{'listStyleType': 'none'}}>
+    <div style = {{display: 'inline-block', verticalAlign: 'top'}}>
       {
         partsData.
           filter((part) => part.Kind === kind).
@@ -48,11 +47,17 @@ const PartList = ({kind, setter}) => {
             />
           )
       }
-    </ul>
     </div>
     </>
   )
 }
+
+const hidddenProps = ['Name', 'Kind', 'RightArm', 'LeftArm', 'RightShoulder', 'LeftShoulder',
+  'ID']
+
+function filterEntries(entries) {
+  return entries.filter(([prop, val]) =>  !hidddenProps.includes(prop))
+} 
 
 const PartStats = ({id}) => {
   if(id === null) {
@@ -60,11 +65,11 @@ const PartStats = ({id}) => {
   }
   return (
     <>
-    <div style = {{display : 'inline-block'}}>
+    <div style = {{display: 'inline-block', verticalAlign: 'top'}}>
     <table>
     <tbody>
     {
-      Object.entries(partsData[id]).map(
+      filterEntries(Object.entries(partsData[id])).map(
         ([prop, val]) => {
           return (
             <tr key={prop}>
@@ -100,7 +105,7 @@ const PartsExplorer = () => {
       )
     }
     <br/>
-    <div style={{'verticalAlign': 'top'}}>
+    <div>
     <PartList kind={selectedKind} setter={setSelectedPart} />
     <PartStats id={selectedPart} />
     </div>
