@@ -1,40 +1,20 @@
 import { useState } from 'react'
 
-import {partsData, partSlots} from '../Globals.js'
+import {globPartsData, globPartSlots} from '../Globals.js'
 
 const PartReplacer = ({name, pos, setExplorerSlot}) => {
 	return (
-		<div onClick={() => setExplorerSlot(partSlots[pos])}>{name}</div>
+		<div onClick={() => setExplorerSlot(globPartSlots[pos])}>{name}</div>
 	)
 }
 
-const starterACPartNames = [
-	'RF-024 TURNER',
-	'HI-32: BU-TT/A',
-	'BML-G1/P20MLT-04',
-	'No Unit',
-	'HC-2000 FINDER EYE',
-	'CC-2000 ORBITER',
-	'AC-2000 TOOL ARM',
-	'2C-2000 CRAWLER',
-	'BST-G1/P10',
-	'FCS-G1/P01',
-	'AG-J-098 JOSO',
-	'No Expansion'
-]
-const starterACPartIDs = starterACPartNames.map(
-	name => partsData.find(part => part.Name === name).ID
-)
-
-const AssemblyDisplay = ({setExplorerSlot}) => {
-	const [partIDs, setPartIDs] = useState(starterACPartIDs)
-
+const AssemblyDisplay = ({setExplorerSlot, partIDs}) => {
 	return(
 		<>
 		{
 			partIDs.map(
 				(id, pos) => <PartReplacer 
-					name={partsData[id].Name}
+					name={globPartsData[id].Name}
 					setExplorerSlot={setExplorerSlot}
 					pos={pos}
 					key={pos}

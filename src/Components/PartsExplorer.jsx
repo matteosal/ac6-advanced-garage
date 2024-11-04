@@ -1,10 +1,10 @@
 import { useState } from 'react'
 
-import {partsData, partSlots} from '../Globals.js'
+import {globPartsData, globPartSlots} from '../Globals.js'
 
 /*****************************************************************************/
 
-const SlotSelector = ({slot, border, setSlot, partSetter}) => {
+const SlotSelector = ({slot, border, setSlot, setPreviewPart}) => {
 	let style = {display : 'inline-block', margin: '8px'}
 	if(border)
 		style['border'] = 'solid'
@@ -13,7 +13,7 @@ const SlotSelector = ({slot, border, setSlot, partSetter}) => {
 			style = {style}
 			onMouseEnter = {() => {
 					setSlot(slot)
-					partSetter(null)
+					setPreviewPart(null)
 			}}
 		>
 		{slot}
@@ -23,13 +23,25 @@ const SlotSelector = ({slot, border, setSlot, partSetter}) => {
 
 /*****************************************************************************/
 
-const PartSelector = ({name, id, setter}) => {
+function setAssemblyPartSingle(assemblyParts, setAssemblyParts, id, slot, setSlot) {
+	let newParts = [...assemblyParts]
+	newParts[globPartSlots.indexOf(slot)] = id
+	setAssemblyParts(newParts)
+	setSlot(null)
+}
+
+const PartSelector = ({part, setPreviewPart, updateAssembly}) => {
 	return (
-		<div onMouseEnter = {() => setter(id)}>{name}</div>
+		<div 
+			onMouseEnter = {() => setPreviewPart(part.ID)}
+			onClick = {updateAssembly}
+		>
+		{part.Name}
+		</div>
 	)
 }
 
-const PartList = ({slot, setter}) => {
+const PartList = ({slot, setSlot, assemblyParts, setAssemblyParts, setPreviewPart}) => {
 	const style = {
 		display: 'inline-block',
 		verticalAlign: 'top',
@@ -48,7 +60,7 @@ const PartList = ({slot, setter}) => {
 	} else {
 		filterFunc = (part) => (part.Kind === slot)
 	}
-	let filteredData = partsData.filter(filterFunc);
+	let filteredData = globPartsData.filter(filterFunc);
 
 	return(
 		<>
@@ -56,10 +68,18 @@ const PartList = ({slot, setter}) => {
 		{
 			filteredData.map(
 				(part) => <PartSelector
-					name={part.Name} 
-					id={part.ID} 
-					setter={setter} 
-					key={part.ID}
+					part = {part}
+					setPreviewPart = {setPreviewPart}
+					updateAssembly = {
+						() => setAssemblyPartSingle(
+							assemblyParts,
+							setAssemblyParts,
+							part.ID,
+							slot,
+							setSlot
+						)
+					}
+					key = {part.ID}
 				/>
 			)
 		}
@@ -87,7 +107,7 @@ const PartStats = ({id}) => {
 		<table>
 		<tbody>
 		{
-			filterEntries(Object.entries(partsData[id])).map(
+			filterEntries(Object.entries(globPartsData[id])).map(
 				([prop, val]) => {
 					return (
 					<tr key={prop}>
@@ -107,26 +127,32 @@ const PartStats = ({id}) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({slot, setSlot}) => {
-	const [selectedPart, setSelectedPart] = useState(null)
+const PartsExplorer = ({slot, setSlot, assemblyParts, setAssemblyParts}) => {
+	const [previewPart, setPreviewPart] = useState(null)
 
 	return (
 		<>
 		{
-			partSlots.map(
+			globPartSlots.map(
 				(s) => <SlotSelector 
 					slot = {s}
 					border = {s === slot}
 					setSlot = {setSlot}
-					partSetter = {setSelectedPart}
+					setPreviewPart = {setPreviewPart}
 					key = {s}
 				/>
 			)
 		}
 		<br/>
 		<div>
-		<PartList slot={slot} setter={setSelectedPart} />
-		<PartStats id={selectedPart} />
+		<PartList
+			slot={slot}
+			setSlot={setSlot}
+			assemblyParts={assemblyParts}
+			setAssemblyParts={setAssemblyParts}
+			setPreviewPart={setPreviewPart}
+		/>
+		<PartStats id={previewPart} />
 		</div>
 		</>
 	)
