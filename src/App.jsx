@@ -8,7 +8,7 @@ const starterACPartNames = [
 	'RF-024 TURNER',
 	'HI-32: BU-TT/A',
 	'BML-G1/P20MLT-04',
-	'No Unit',
+	'None',
 	'HC-2000 FINDER EYE',
 	'CC-2000 ORBITER',
 	'AC-2000 TOOL ARM',
@@ -16,10 +16,14 @@ const starterACPartNames = [
 	'BST-G1/P10',
 	'FCS-G1/P01',
 	'AG-J-098 JOSO',
-	'No Expansion'
+	'None'
 ]
+const assemblyKinds = ['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs',
+	'Booster', 'FCS', 'Generator', 'Expansion']
 const starterACPartIDs = starterACPartNames.map(
-	name => globPartsData.find(part => part.Name === name).ID
+	(name, pos) => globPartsData.find(
+		part => part.Kind === assemblyKinds[pos] && part.Name === name
+	).ID
 )
 
 function App() {

@@ -1,7 +1,7 @@
 import globPartsData from './PartsData.json';
 
 const noneUnit = {
-	"Name": "No Unit",
+	"Name": "None",
 	"Kind": "Unit",
 	"RightArm": true,
 	"LeftArm": true,
@@ -11,7 +11,7 @@ const noneUnit = {
 	"ENLoad": 0
 }
 const noneExpansion = {
-	"Name": "No Expansion",
+	"Name": "None",
 	"Kind": "Expansion"
 }
 
