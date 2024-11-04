@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import {globPartsData, globPartSlots} from '../Globals.js'
+import {globPartsData, globPartSlots} from '../Misc/Globals.js'
 
 /*****************************************************************************/
 
@@ -144,7 +144,7 @@ const PartsExplorer = ({slot, setSlot, assemblyParts, setAssemblyParts}) => {
 			)
 		}
 		<br/>
-		<div>
+		<div style={{display : 'inline-block', margin: '8px'}}>
 		<PartList
 			slot={slot}
 			setSlot={setSlot}

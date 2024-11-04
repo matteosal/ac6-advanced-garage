@@ -1,8 +1,9 @@
 import { useState } from 'react'
 
-import {globPartsData, globPartSlots} from './Globals.js'
+import {globPartsData, globPartSlots} from './Misc/Globals.js'
 import AssemblyDisplay from "./Components/AssemblyDisplay.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
+import StatsDisplay from "./Components/StatsDisplay.jsx";
 
 const starterACPartNames = [
 	'RF-024 TURNER',
@@ -42,6 +43,7 @@ function App() {
 						setAssemblyParts={setAssemblyParts}
 					/>
 			}
+			<StatsDisplay assemblyParts={assemblyParts} />
 		</div>
 	)
 }
