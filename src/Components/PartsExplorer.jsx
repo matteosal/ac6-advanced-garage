@@ -4,7 +4,7 @@ import {partsData, partSlots} from '../Globals.js'
 
 /*****************************************************************************/
 
-const SlotSelector = ({slot, border, slotSetter, partSetter}) => {
+const SlotSelector = ({slot, border, setSlot, partSetter}) => {
 	let style = {display : 'inline-block', margin: '8px'}
 	if(border)
 		style['border'] = 'solid'
@@ -12,7 +12,7 @@ const SlotSelector = ({slot, border, slotSetter, partSetter}) => {
 		<div 
 			style = {style}
 			onMouseEnter = {() => {
-					slotSetter(slot)
+					setSlot(slot)
 					partSetter(null)
 			}}
 		>
@@ -107,7 +107,7 @@ const PartStats = ({id}) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({selectedSlot, slotSetter}) => {
+const PartsExplorer = ({slot, setSlot}) => {
 	const [selectedPart, setSelectedPart] = useState(null)
 
 	return (
@@ -116,8 +116,8 @@ const PartsExplorer = ({selectedSlot, slotSetter}) => {
 			partSlots.map(
 				(s) => <SlotSelector 
 					slot = {s}
-					border = {s === selectedSlot}
-					slotSetter = {slotSetter}
+					border = {s === slot}
+					setSlot = {setSlot}
 					partSetter = {setSelectedPart}
 					key = {s}
 				/>
@@ -125,7 +125,7 @@ const PartsExplorer = ({selectedSlot, slotSetter}) => {
 		}
 		<br/>
 		<div>
-		<PartList slot={selectedSlot} setter={setSelectedPart} />
+		<PartList slot={slot} setter={setSelectedPart} />
 		<PartStats id={selectedPart} />
 		</div>
 		</>

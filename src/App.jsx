@@ -4,13 +4,13 @@ import AssemblyDisplay from "./Components/AssemblyDisplay.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 
 function App() {
-	const [selectedSlot, setSelectedSlot] = useState(null)
+	const [explorerSlot, setExplorerSlot] = useState(null)
 	return (
 		<div>
 			{
-				selectedSlot === null ? 
-					<AssemblyDisplay explorerSlotSetter={setSelectedSlot} /> : 
-					<PartsExplorer selectedSlot={selectedSlot} slotSetter={setSelectedSlot} />
+				explorerSlot === null ? 
+					<AssemblyDisplay setExplorerSlot={setExplorerSlot} /> : 
+					<PartsExplorer slot={explorerSlot} setSlot={setExplorerSlot} />
 			}
 		</div>
 	)

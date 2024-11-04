@@ -2,9 +2,9 @@ import { useState } from 'react'
 
 import {partsData, partSlots} from '../Globals.js'
 
-const PartReplacer = ({name, pos, explorerSlotSetter}) => {
+const PartReplacer = ({name, pos, setExplorerSlot}) => {
 	return (
-		<div onClick={() => explorerSlotSetter(partSlots[pos])}>{name}</div>
+		<div onClick={() => setExplorerSlot(partSlots[pos])}>{name}</div>
 	)
 }
 
@@ -26,7 +26,7 @@ const starterACPartIDs = starterACPartNames.map(
 	name => partsData.find(part => part.Name === name).ID
 )
 
-const AssemblyDisplay = ({explorerSlotSetter}) => {
+const AssemblyDisplay = ({setExplorerSlot}) => {
 	const [partIDs, setPartIDs] = useState(starterACPartIDs)
 
 	return(
@@ -35,7 +35,7 @@ const AssemblyDisplay = ({explorerSlotSetter}) => {
 			partIDs.map(
 				(id, pos) => <PartReplacer 
 					name={partsData[id].Name}
-					explorerSlotSetter={explorerSlotSetter}
+					setExplorerSlot={setExplorerSlot}
 					pos={pos}
 					key={pos}
 				/>
