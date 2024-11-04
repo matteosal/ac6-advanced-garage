@@ -4,7 +4,7 @@ import AssemblyDisplay from "./Components/AssemblyDisplay.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 
 function App() {
-  const [selectedSlot, setSelectedSlot] = useState(null)
+	const [selectedSlot, setSelectedSlot] = useState(null)
 	return (
 		<div>
 			{

@@ -20,6 +20,6 @@ partsData.push(noneExpansion)
 partsData = partsData.map((part, idx) => Object.assign(part, {ID: idx}))
 
 const partSlots = ['Right Arm', 'Left Arm', 'Right Shoulder', 'Left Shoulder', 'Head', 'Core', 
-  'Arms', 'Legs','Booster', 'FCS', 'Generator', 'Expansion']
+	'Arms', 'Legs','Booster', 'FCS', 'Generator', 'Expansion']
 
 export {partsData, partSlots}
