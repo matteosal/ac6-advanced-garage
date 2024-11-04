@@ -23,10 +23,8 @@ const SlotSelector = ({slot, border, setSlot, setPreviewPart}) => {
 
 /*****************************************************************************/
 
-function setAssemblyPartSingle(assemblyParts, setAssemblyParts, id, slot, setSlot) {
-	let newParts = [...assemblyParts]
-	newParts[globPartSlots.indexOf(slot)] = id
-	setAssemblyParts(newParts)
+function setAssemblyPartSingle(assemblyPartsDispatch, id, slot, setSlot) {
+	assemblyPartsDispatch({slot: slot, id: id})
 	setSlot(null)
 }
 
@@ -41,7 +39,7 @@ const PartSelector = ({part, setPreviewPart, updateAssembly}) => {
 	)
 }
 
-const PartList = ({slot, setSlot, assemblyParts, setAssemblyParts, setPreviewPart}) => {
+const PartList = ({slot, setSlot, assemblyPartsDispatch, setPreviewPart}) => {
 	const style = {
 		display: 'inline-block',
 		verticalAlign: 'top',
@@ -72,8 +70,7 @@ const PartList = ({slot, setSlot, assemblyParts, setAssemblyParts, setPreviewPar
 					setPreviewPart = {setPreviewPart}
 					updateAssembly = {
 						() => setAssemblyPartSingle(
-							assemblyParts,
-							setAssemblyParts,
+							assemblyPartsDispatch,
 							part.ID,
 							slot,
 							setSlot
@@ -127,7 +124,7 @@ const PartStats = ({id}) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({slot, setSlot, assemblyParts, setAssemblyParts}) => {
+const PartsExplorer = ({slot, setSlot, assemblyPartsDispatch}) => {
 	const [previewPart, setPreviewPart] = useState(null)
 
 	return (
@@ -148,8 +145,7 @@ const PartsExplorer = ({slot, setSlot, assemblyParts, setAssemblyParts}) => {
 		<PartList
 			slot={slot}
 			setSlot={setSlot}
-			assemblyParts={assemblyParts}
-			setAssemblyParts={setAssemblyParts}
+			assemblyPartsDispatch={assemblyPartsDispatch}
 			setPreviewPart={setPreviewPart}
 		/>
 		<PartStats id={previewPart} />

@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useReducer } from 'react'
 
 import {globPartsData, globPartSlots} from './Misc/Globals.js'
 import AssemblyDisplay from "./Components/AssemblyDisplay.jsx";
@@ -27,8 +27,17 @@ const starterACPartIDs = starterACPartNames.map(
 	).ID
 )
 
+const assemblyPartsReducer = (parts, action) => {
+	let newParts = [...parts]
+	newParts[globPartSlots.indexOf(action.slot)] = action.id
+	return newParts
+}
+
 function App() {
-	const [assemblyParts, setAssemblyParts] = useState(starterACPartIDs)
+	const [assemblyParts, assemblyPartsDispatch] = useReducer(
+		assemblyPartsReducer,
+		starterACPartIDs
+	)
 	const [explorerSlot, setExplorerSlot] = useState(null)
 
 	return (
@@ -39,8 +48,7 @@ function App() {
 					<PartsExplorer 
 						slot={explorerSlot}
 						setSlot={setExplorerSlot}
-						assemblyParts={assemblyParts}
-						setAssemblyParts={setAssemblyParts}
+						assemblyPartsDispatch={assemblyPartsDispatch}
 					/>
 			}
 			<StatsDisplay assemblyParts={assemblyParts} />
