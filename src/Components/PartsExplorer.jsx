@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import partsData from '../Globals.js'
+import {partsData, partSlots} from '../Globals.js'
 
 /*****************************************************************************/
 
@@ -37,6 +37,10 @@ const PartList = ({slot, setter}) => {
 	 verticalAlign: 'top',
 	 height: '500px',
 	 overflowY: 'auto'
+  }
+
+  if(slot === null) {
+  	return
   }
 
   let filterFunc
@@ -105,11 +109,7 @@ const PartStats = ({id}) => {
 
 /*****************************************************************************/
 
-const partSlots = ['Right Arm', 'Left Arm', 'Right Shoulder', 'Left Shoulder', 'Head', 'Core', 
-  'Arms', 'Legs','Booster', 'FCS', 'Generator', 'Expansion']
-
-const PartsExplorer = () => {
-  const [selectedSlot, setSelectedSlot] = useState(partSlots[0])
+const PartsExplorer = ({selectedSlot, slotSetter}) => {
   const [selectedPart, setSelectedPart] = useState(null)
 
   return (
@@ -119,7 +119,7 @@ const PartsExplorer = () => {
 		  <SlotSelector 
 			 slot = {s}
 			 border = {s === selectedSlot}
-			 slotSetter = {setSelectedSlot}
+			 slotSetter = {slotSetter}
 			 partSetter = {setSelectedPart}
 			 key = {s}
 		  />
