@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 
 import {globPartsData, globPartSlots, capitalizeFirstLetter} from '../Misc/Globals.js'
 
@@ -135,6 +135,18 @@ const PartStats = ({id}) => {
 
 const PartsExplorer = ({slot, setSlot, assemblyParts, assemblyPartsDispatch}) => {
 	const [previewPart, setPreviewPart] = useState(null)
+
+	const handleKeyDown = (event) => {
+		if(event.key == 'Escape')
+			setSlot(null)
+	}
+
+	useEffect(() => {
+			document.addEventListener('keydown', handleKeyDown)
+			return () => document.removeEventListener('keydown', handleKeyDown)
+		},
+		[]
+	)
 
 	return (
 		<>
