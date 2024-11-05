@@ -2,19 +2,19 @@ import { useState } from 'react'
 
 import {globPartsData, globPartSlots} from '../Misc/Globals.js'
 
-const PartReplacer = ({name, pos, setExplorerSlot}) => {
+const PartBox = ({name, pos, setExplorerSlot}) => {
 	return (
 		<div onClick={() => setExplorerSlot(globPartSlots[pos])}>{name}</div>
 	)
 }
 
-const AssemblyDisplay = ({setExplorerSlot, partIDs}) => {
+const AssemblyDisplay = ({setExplorerSlot, parts}) => {
 	return(
 		<div style={{display : 'inline-block', verticalAlign: 'top'}}>
 		{
-			partIDs.map(
-				(id, pos) => <PartReplacer 
-					name={globPartsData[id].Name}
+			parts.map(
+				(part, pos) => <PartBox 
+					name={part.Name}
 					setExplorerSlot={setExplorerSlot}
 					pos={pos}
 					key={pos}

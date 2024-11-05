@@ -21,22 +21,22 @@ const starterACPartNames = [
 ]
 const assemblyKinds = ['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs',
 	'Booster', 'FCS', 'Generator', 'Expansion']
-const starterACPartIDs = starterACPartNames.map(
+const starterACParts = starterACPartNames.map(
 	(name, pos) => globPartsData.find(
 		part => part.Kind === assemblyKinds[pos] && part.Name === name
-	).ID
+	)
 )
 
 const assemblyPartsReducer = (parts, action) => {
 	let newParts = [...parts]
-	newParts[globPartSlots.indexOf(action.slot)] = action.id
+	newParts[globPartSlots.indexOf(action.slot)] = globPartsData[action.id]
 	return newParts
 }
 
 function App() {
 	const [assemblyParts, assemblyPartsDispatch] = useReducer(
 		assemblyPartsReducer,
-		starterACPartIDs
+		starterACParts
 	)
 	const [explorerSlot, setExplorerSlot] = useState(null)
 
@@ -44,7 +44,7 @@ function App() {
 		<div>
 			{
 				explorerSlot === null ? 
-					<AssemblyDisplay partIDs={assemblyParts} setExplorerSlot={setExplorerSlot} /> : 
+					<AssemblyDisplay parts={assemblyParts} setExplorerSlot={setExplorerSlot} /> : 
 					<PartsExplorer 
 						slot={explorerSlot}
 						setSlot={setExplorerSlot}

@@ -23,11 +23,6 @@ const SlotSelector = ({slot, border, setSlot, setPreviewPart}) => {
 
 /*****************************************************************************/
 
-function setAssemblyPartSingle(assemblyPartsDispatch, id, slot, setSlot) {
-	assemblyPartsDispatch({slot: slot, id: id})
-	setSlot(null)
-}
-
 const PartSelector = ({part, setPreviewPart, updateAssembly}) => {
 	return (
 		<div 
@@ -69,12 +64,10 @@ const PartList = ({slot, setSlot, assemblyPartsDispatch, setPreviewPart}) => {
 					part = {part}
 					setPreviewPart = {setPreviewPart}
 					updateAssembly = {
-						() => setAssemblyPartSingle(
-							assemblyPartsDispatch,
-							part.ID,
-							slot,
-							setSlot
-						)
+						() => {
+							assemblyPartsDispatch({slot: slot, id: part.ID})
+							setSlot(null)							
+						}
 					}
 					key = {part.ID}
 				/>

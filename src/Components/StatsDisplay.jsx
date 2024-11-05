@@ -91,8 +91,7 @@ function computeAllStats(parts) {
 /**********************************************************************************/
 
 const StatsDisplay = ({assemblyParts}) => {
-	const actualAssemblyParts = assemblyParts.map(pos => globPartsData[pos])
-	const stats = computeAllStats(actualAssemblyParts)
+	const stats = computeAllStats(assemblyParts)
 
 	return (
 		<div style={{display: 'inline-block', verticalAlign: 'top', margin: '30px'}}>
