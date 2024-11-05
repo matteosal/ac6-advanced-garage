@@ -1,12 +1,10 @@
-import {globPartsData, globPartSlots} from '../Misc/Globals.js'
+import {globPartsData, globPartSlots, round} from '../Misc/Globals.js'
 
 /**********************************************************************************/
 
 function complement(arr1, arr2) {
 	return arr1.filter(elem => !arr2.includes(elem))
 }
-
-
 
 function sumKeyOver(parts, key, slots) {
 	return slots.map(slot => parts[slot]).reduce(
@@ -49,7 +47,7 @@ function getAttitudeRecovery(weight) {
 		weight / 10000., 
 		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]]
 	)
-	return base * multiplier
+	return round(base * multiplier)
 }
 
 const firearmSpecMapping = {26: 41, 45: 72, 53: 80, 80: 86, 88: 87, 92: 88, 95: 89, 96: 89, 
@@ -64,7 +62,7 @@ function getBoostSpeed(baseSpeed, weight) {
 		weight / 10000., 
 		[[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.6]]
 	)
-	return baseSpeed * multiplier	
+	return round(baseSpeed * multiplier)
 }
 
 function getQBSpeed(baseQBSpeed, weight) {
@@ -72,32 +70,7 @@ function getQBSpeed(baseQBSpeed, weight) {
 		weight / 10000., 
 		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]]
 	)
-	return baseQBSpeed * multiplier	
-}
-
-
-function computeQuickBoostSpeed(totalWeight, hiddenBoostValue) {
-  let multiplier;
-
-  if (totalWeight <= 40000) {
-      multiplier = 1;
-  } else if (totalWeight <= 62500) {
-      // Linear interpolation between 1 and 0.9
-      multiplier = 1.1778 - 0.0444 * totalWeight / 10000;
-  } else if (totalWeight <= 75000) {
-      // Linear interpolation between 0.9 and 0.85
-      multiplier = 1.15 - 0.04 * totalWeight / 10000;
-  } else if (totalWeight <= 80000) {
-      // Linear interpolation between 0.85 and 0.8
-      multiplier = 1.6 - 0.1 * totalWeight / 10000;
-  } else if (totalWeight <= 120000) {
-      // Linear interpolation between 0.8 and 0.7
-      multiplier = 1 - 0.025 * totalWeight / 10000;
-  } else {
-      multiplier = 0.7;
-  }
-
-  return hiddenBoostValue * multiplier;
+	return round(baseQBSpeed * multiplier)
 }
 
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
@@ -105,7 +78,7 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 		(weight - idealWeight) / 10000., 
 		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]]
 	)
-	return baseReloadTime * multiplier	
+	return round(baseReloadTime * multiplier, 0.1)
 }
 
 /**********************************************************************************/
@@ -117,16 +90,22 @@ const allSlots = unitSlots.concat(frameSlots, ['booster', 'fcs', 'generator'])
 function computeAllStats(parts) {
 	const totWeight = sumKeyOver(parts, 'Weight', allSlots)
 
-	let baseSpeed, baseQBSpeed
+	let baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption
 	if(parts.legs['LegType'] === 'Tank')
-		[baseSpeed, baseQBSpeed] = [
+		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption] = [
 			parts.legs['TravelSpeed'],
-			parts.legs['"HighSpeedPerf"']
+			parts.legs['HighSpeedPerf'],
+			parts.legs['QBReloadTime'],
+			parts.legs['QBReloadIdealWeight'],
+			parts.legs['QBENConsumption']
 		]
 	else
-		[baseSpeed, baseQBSpeed] = [
+		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption] = [
 			parts.booster['Thrust'] * 6 / 100.,
-			parts.booster['QBThrust'] / 50.
+			parts.booster['QBThrust'] / 50.,
+			parts.booster['QBReloadTime'],
+			parts.booster['QBReloadIdealWeight'],
+			parts.booster['QBENConsumption']
 		]
 
 	const res = {
@@ -140,11 +119,7 @@ function computeAllStats(parts) {
 		'Boost Speed': getBoostSpeed(baseSpeed, totWeight),
 		'QB Speed': getQBSpeed(baseQBSpeed, totWeight),
 		'QB EN Consumption': 0,
-		'QB Reload Time': getQBReloadTime(
-			parts.booster['QBReloadTime'],
-			parts.booster['QBReloadIdealWeight'],
-			totWeight
-		),
+		'QB Reload Time': getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, totWeight),
 		'EN Capacity': parts.generator['ENCapacity'],
 		'EN Supply Efficiency': 0,
 		'EN Recharge Delay': 0,
