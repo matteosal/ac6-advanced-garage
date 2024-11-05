@@ -4,7 +4,7 @@ import {globPartsData, globPartSlots} from '../Misc/Globals.js'
 
 /*****************************************************************************/
 
-const SlotSelector = ({slot, border, setSlot, setPreviewPart}) => {
+const SlotSelector = ({slot, inactive, border, setSlot, setPreviewPart}) => {
 	let style = {display : 'inline-block', margin: '8px'}
 	if(border)
 		style['border'] = 'solid'
@@ -12,8 +12,12 @@ const SlotSelector = ({slot, border, setSlot, setPreviewPart}) => {
 		<div 
 			style = {style}
 			onMouseEnter = {() => {
+				if(inactive) {
+					return
+				} else {
 					setSlot(slot)
 					setPreviewPart(null)
+				}
 			}}
 		>
 		{slot}
@@ -50,6 +54,8 @@ const PartList = ({slot, setSlot, assemblyPartsDispatch, setPreviewPart}) => {
 	if(['Right Arm', 'Left Arm', 'Right Shoulder', 'Left Shoulder'].includes(slot)) {
 		/* Removes the whitespace in slot to perform key lookup of the RightArm, etc fields */
 		filterFunc = (part) => (part.Kind === 'Unit' && part[slot.replace(/\s/g, "")]);
+	} else if(slot === 'Booster') {
+		filterFunc = (part) => (part.Kind === slot && part['Name'] != 'None')
 	} else {
 		filterFunc = (part) => (part.Kind === slot)
 	}
@@ -66,6 +72,7 @@ const PartList = ({slot, setSlot, assemblyPartsDispatch, setPreviewPart}) => {
 					updateAssembly = {
 						() => {
 							assemblyPartsDispatch({slot: slot, id: part.ID})
+							// setting the slot to null closes the explorer and shows the assembly
 							setSlot(null)							
 						}
 					}
@@ -117,7 +124,7 @@ const PartStats = ({id}) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({slot, setSlot, assemblyPartsDispatch}) => {
+const PartsExplorer = ({slot, setSlot, assemblyParts, assemblyPartsDispatch}) => {
 	const [previewPart, setPreviewPart] = useState(null)
 
 	return (
@@ -126,6 +133,7 @@ const PartsExplorer = ({slot, setSlot, assemblyPartsDispatch}) => {
 			globPartSlots.map(
 				(s) => <SlotSelector 
 					slot = {s}
+					inactive = {s === 'Booster' && assemblyParts[7]['LegType'] === 'Tank'}
 					border = {s === slot}
 					setSlot = {setSlot}
 					setPreviewPart = {setPreviewPart}

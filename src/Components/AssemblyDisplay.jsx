@@ -13,12 +13,21 @@ const AssemblyDisplay = ({setExplorerSlot, parts}) => {
 		<div style={{display : 'inline-block', verticalAlign: 'top'}}>
 		{
 			parts.map(
-				(part, pos) => <PartBox 
-					name={part.Name}
-					setExplorerSlot={setExplorerSlot}
-					pos={pos}
-					key={pos}
-				/>
+				(part, pos) => {
+					let setter
+					// Deactivate booster slot if legs are tank
+					if(pos === 8 && parts[7]['LegType'] === 'Tank') {
+						setter = () => {}
+					} else {
+						setter = setExplorerSlot
+					}
+					return <PartBox 
+						name={part.Name}
+						setExplorerSlot={setter}
+						pos={pos}
+						key={pos}
+					/>
+				}
 			)
 		}
 		</div>

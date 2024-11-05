@@ -1,9 +1,11 @@
 import { useState, useReducer } from 'react'
 
-import {globPartsData, globPartSlots} from './Misc/Globals.js'
+import {globPartsData, globNoneUnit, globNoneBooster, globPartSlots} from './Misc/Globals.js'
 import AssemblyDisplay from "./Components/AssemblyDisplay.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 import StatsDisplay from "./Components/StatsDisplay.jsx";
+
+/*************************************************************************************/
 
 const starterACPartNames = [
 	'RF-024 TURNER',
@@ -27,9 +29,32 @@ const starterACParts = starterACPartNames.map(
 	)
 )
 
+/*************************************************************************************/
+
+const checkedUnitSlots = [[0, 2], [2, 0], [1, 3], [3, 0]]
+
 const assemblyPartsReducer = (parts, action) => {
+	const slotID = globPartSlots.indexOf(action.slot)
+	const newPart = globPartsData[action.id]
 	let newParts = [...parts]
-	newParts[globPartSlots.indexOf(action.slot)] = globPartsData[action.id]
+
+	// Check if e.g. right arm unit is already placed in right shoulder slot and remove it
+	// from old slot
+	checkedUnitSlots.forEach(([slot1, slot2]) => {
+		if(slotID === slot1 && parts[slot2]['ID'] === action.id)
+			newParts[slot2] = globNoneUnit
+	})
+	// Manage tank legs and boosters (slot 7 is legs, slot 8 is booster)
+	if(slotID === 7) {
+		if(newPart['LegType'] === 'Tank' && parts[8] != globNoneBooster) {
+			newParts[8] = globNoneBooster
+		} else if(newPart['LegType'] != 'Tank' && parts[8] === globNoneBooster) {
+			newParts[8] = globPartsData.find((part) => part['Kind'] === 'Booster')
+		}
+	}
+
+	newParts[slotID] = newPart
+
 	return newParts
 }
 
@@ -48,6 +73,7 @@ function App() {
 					<PartsExplorer 
 						slot={explorerSlot}
 						setSlot={setExplorerSlot}
+						assemblyParts={assemblyParts}
 						assemblyPartsDispatch={assemblyPartsDispatch}
 					/>
 			}

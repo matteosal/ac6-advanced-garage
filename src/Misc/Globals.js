@@ -1,6 +1,6 @@
 import globPartsData from './PartsData.json';
 
-const noneUnit = {
+const globNoneUnit = {
 	"Name": "None",
 	"Kind": "Unit",
 	"RightArm": true,
@@ -10,16 +10,21 @@ const noneUnit = {
 	"Weight": 0,
 	"ENLoad": 0
 }
+const globNoneBooster = {
+	"Name": "None",
+	"Kind": "Booster",
+	"Weight": 0,
+	"ENLoad": 0
+}
 const noneExpansion = {
 	"Name": "None",
 	"Kind": "Expansion"
 }
 
-globPartsData.unshift(noneUnit)
-globPartsData.push(noneExpansion)
+globPartsData = globPartsData.concat([globNoneUnit, globNoneBooster, noneExpansion])
 globPartsData = globPartsData.map((part, idx) => Object.assign(part, {ID: idx}))
 
 const globPartSlots = ['Right Arm', 'Left Arm', 'Right Shoulder', 'Left Shoulder', 'Head', 'Core', 
 	'Arms', 'Legs','Booster', 'FCS', 'Generator', 'Expansion']
 
-export {globPartsData, globPartSlots}
+export {globPartsData, globNoneUnit, globNoneBooster, globPartSlots}
