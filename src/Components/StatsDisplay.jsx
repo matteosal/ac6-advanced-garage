@@ -110,23 +110,23 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 
 /**********************************************************************************/
 
-const unitSlots = ['RightArm', 'LeftArm', 'RightShoulder', 'LeftShoulder']
-const frameSlots = ['Head', 'Core', 'Arms', 'Legs']
-const allSlots = unitSlots.concat(frameSlots, ['Booster', 'FCS', 'Generator'])
+const unitSlots = ['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder']
+const frameSlots = ['head', 'core', 'arms', 'legs']
+const allSlots = unitSlots.concat(frameSlots, ['booster', 'fcs', 'generator'])
 
 function computeAllStats(parts) {
 	const totWeight = sumKeyOver(parts, 'Weight', allSlots)
 
 	let baseSpeed, baseQBSpeed
-	if(parts['Legs']['LegType'] === 'Tank')
+	if(parts.legs['LegType'] === 'Tank')
 		[baseSpeed, baseQBSpeed] = [
-			parts['Legs']['TravelSpeed'],
-			parts['Legs']['"HighSpeedPerf"']
+			parts.legs['TravelSpeed'],
+			parts.legs['"HighSpeedPerf"']
 		]
 	else
 		[baseSpeed, baseQBSpeed] = [
-			parts['Booster']['Thrust'] * 6 / 100.,
-			parts['Booster']['QBThrust'] / 50.
+			parts.booster['Thrust'] * 6 / 100.,
+			parts.booster['QBThrust'] / 50.
 		]
 
 	const res = {
@@ -134,26 +134,26 @@ function computeAllStats(parts) {
 		'Anti-Kinetic Defense': sumKeyOver(parts, 'AntiKineticDefense', frameSlots),
 		'Anti-Energy Defense': sumKeyOver(parts, 'AntiEnergyDefense', frameSlots),
 		'Anti-Explosive Defense': sumKeyOver(parts, 'AntiExplosiveDefense', frameSlots),
-		'Attitude Stability': sumKeyOver(parts, 'AttitudeStability', ['Head', 'Core', 'Legs']),
+		'Attitude Stability': sumKeyOver(parts, 'AttitudeStability', ['head', 'core', 'legs']),
 		'Attitude Recovery': getAttitudeRecovery(totWeight),
-		'Target Tracking': getTargetTracking(parts['Arms'].FirearmSpecialization),
+		'Target Tracking': getTargetTracking(parts.arms.FirearmSpecialization),
 		'Boost Speed': getBoostSpeed(baseSpeed, totWeight),
 		'QB Speed': getQBSpeed(baseQBSpeed, totWeight),
 		'QB EN Consumption': 0,
 		'QB Reload Time': getQBReloadTime(
-			parts['Booster']['QBReloadTime'],
-			parts['Booster']['QBReloadIdealWeight'],
+			parts.booster['QBReloadTime'],
+			parts.booster['QBReloadIdealWeight'],
 			totWeight
 		),
-		'EN Capacity': parts['Generator']['ENCapacity'],
+		'EN Capacity': parts.generator['ENCapacity'],
 		'EN Supply Efficiency': 0,
 		'EN Recharge Delay': 0,
 		'Total Weight': totWeight,
-		'Total Arms Load': sumKeyOver(parts, 'Weight', ['RightArm', 'LeftArm']),
-		'Arms Load Limit': parts['Arms']['ArmsLoadLimit'],
-		'Total Load': sumKeyOver(parts, 'Weight', complement(allSlots, 'Legs')),
-		'Load Limit': parts['Legs']['LoadLimit'],
-		'Total EN Load': sumKeyOver(parts, 'ENLoad', complement(allSlots, 'Generator')),
+		'Total Arms Load': sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']),
+		'Arms Load Limit': parts.arms['ArmsLoadLimit'],
+		'Total Load': sumKeyOver(parts, 'Weight', complement(allSlots, 'legs')),
+		'Load Limit': parts.legs['LoadLimit'],
+		'Total EN Load': sumKeyOver(parts, 'ENLoad', complement(allSlots, 'generator')),
 		'EN Output': 0
 		}
 	return res

@@ -36,8 +36,8 @@ const starterACParts = Object.fromEntries(
 
 /*************************************************************************************/
 
-const checkedUnitSlots = [['RightArm', 'RightShoulder'], ['RightShoulder', 'RightArm'], 
-	['LeftArm', 'LeftShoulder'], ['LeftShoulder', 'LeftArm']]
+const checkedUnitSlots = [['rightArm', 'rightShoulder'], ['rightShoulder', 'rightArm'], 
+	['leftArm', 'leftShoulder'], ['leftShoulder', 'leftArm']]
 
 const assemblyPartsReducer = (parts, action) => {
 	const newPart = globPartsData[action.id]
@@ -49,12 +49,12 @@ const assemblyPartsReducer = (parts, action) => {
 		if(action.slot === slot1 && parts[slot2]['ID'] === action.id)
 			newParts[slot2] = globNoneUnit
 	})
-	// Manage tank legs and boosters (slot 7 is legs, slot 8 is booster)
-	if(action.slot === 7) {
-		if(newPart['LegType'] === 'Tank' && parts['Booster'] != globNoneBooster) {
-			newParts['Booster'] = globNoneBooster
-		} else if(newPart['LegType'] != 'Tank' && parts['Booster'] === globNoneBooster) {
-			newParts['Booster'] = globPartsData.find((part) => part['Kind'] === 'Booster')
+	// Manage tank legs and boosters
+	if(action.slot === 'legs') {
+		if(newPart['LegType'] === 'Tank' && parts.booster != globNoneBooster) {
+			newParts.booster = globNoneBooster
+		} else if(newPart['LegType'] != 'Tank' && parts.booster === globNoneBooster) {
+			newParts.booster = globPartsData.find((part) => part['Kind'] === 'Booster')
 		}
 	}
 

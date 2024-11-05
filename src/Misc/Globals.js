@@ -24,7 +24,17 @@ const noneExpansion = {
 globPartsData = globPartsData.concat([globNoneUnit, globNoneBooster, noneExpansion])
 globPartsData = globPartsData.map((part, idx) => Object.assign(part, {ID: idx}))
 
-const globPartSlots = ['RightArm', 'LeftArm', 'RightShoulder', 'LeftShoulder', 'Head', 'Core', 
-	'Arms', 'Legs','Booster', 'FCS', 'Generator', 'Expansion']
+const globPartSlots = ['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder', 'head', 'core', 
+	'arms', 'legs','booster', 'fcs', 'generator', 'expansion']
 
-export {globPartsData, globNoneUnit, globNoneBooster, globPartSlots}
+function capitalizeFirstLetter(val) {
+    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+}
+
+function round(val, roundTarget = 1) {
+	const roundFactor = 1 / roundTarget
+	return Math.round(val * roundFactor) / roundFactor
+}
+
+export {globPartsData, globNoneUnit, globNoneBooster, globPartSlots, capitalizeFirstLetter,
+	round}

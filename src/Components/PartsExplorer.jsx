@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import {globPartsData, globPartSlots} from '../Misc/Globals.js'
+import {globPartsData, globPartSlots, capitalizeFirstLetter} from '../Misc/Globals.js'
 
 /*****************************************************************************/
 
@@ -51,13 +51,14 @@ const PartList = ({slot, setSlot, assemblyPartsDispatch, setPreviewPart}) => {
 	}
 
 	let filterFunc
-	if(['Right Arm', 'Left Arm', 'Right Shoulder', 'Left Shoulder'].includes(slot)) {
+	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot)
+	if(['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder'].includes(slot)) {
 		/* Removes the whitespace in slot to perform key lookup of the RightArm, etc fields */
-		filterFunc = (part) => (part.Kind === 'Unit' && part[slot.replace(/\s/g, "")]);
-	} else if(slot === 'Booster') {
-		filterFunc = (part) => (part.Kind === slot && part['Name'] != 'None')
+		filterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
+	} else if(slot === 'booster') {
+		filterFunc = part => (part.Kind === slotCapitalized && part['Name'] != 'None')
 	} else {
-		filterFunc = (part) => (part.Kind === slot)
+		filterFunc = part => (part.Kind === slotCapitalized)
 	}
 	let filteredData = globPartsData.filter(filterFunc);
 
@@ -133,7 +134,7 @@ const PartsExplorer = ({slot, setSlot, assemblyParts, assemblyPartsDispatch}) =>
 			globPartSlots.map(
 				(s) => <SlotSelector 
 					slot = {s}
-					inactive = {s === 'Booster' && assemblyParts['Legs']['LegType'] === 'Tank'}
+					inactive = {s === 'booster' && assemblyParts.legs['LegType'] === 'Tank'}
 					border = {s === slot}
 					setSlot = {setSlot}
 					setPreviewPart = {setPreviewPart}

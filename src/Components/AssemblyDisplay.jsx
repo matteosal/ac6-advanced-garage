@@ -16,7 +16,7 @@ const AssemblyDisplay = ({setExplorerSlot, parts}) => {
 				slot => {
 					let setter
 					// Deactivate booster slot if legs are tank
-					if(slot === 'Booster' && parts['Legs']['LegType'] === 'Tank') {
+					if(slot === 'booster' && parts.legs['LegType'] === 'Tank') {
 						setter = () => {}
 					} else {
 						setter = setExplorerSlot
