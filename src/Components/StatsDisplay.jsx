@@ -88,24 +88,27 @@ const frameSlots = ['head', 'core', 'arms', 'legs']
 const allSlots = unitSlots.concat(frameSlots, ['booster', 'fcs', 'generator'])
 
 function computeAllStats(parts) {
+
+	const {arms, legs, booster, generator} = parts
+
 	const totWeight = sumKeyOver(parts, 'Weight', allSlots)
 
 	let baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption
-	if(parts.legs['LegType'] === 'Tank')
+	if(legs['LegType'] === 'Tank')
 		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption] = [
-			parts.legs['TravelSpeed'],
-			parts.legs['HighSpeedPerf'],
-			parts.legs['QBReloadTime'],
-			parts.legs['QBReloadIdealWeight'],
-			parts.legs['QBENConsumption']
+			legs['TravelSpeed'],
+			legs['HighSpeedPerf'],
+			legs['QBReloadTime'],
+			legs['QBReloadIdealWeight'],
+			legs['QBENConsumption']
 		]
 	else
 		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption] = [
-			parts.booster['Thrust'] * 6 / 100.,
-			parts.booster['QBThrust'] / 50.,
-			parts.booster['QBReloadTime'],
-			parts.booster['QBReloadIdealWeight'],
-			parts.booster['QBENConsumption']
+			booster['Thrust'] * 6 / 100.,
+			booster['QBThrust'] / 50.,
+			booster['QBReloadTime'],
+			booster['QBReloadIdealWeight'],
+			booster['QBENConsumption']
 		]
 
 	const res = {
@@ -120,14 +123,14 @@ function computeAllStats(parts) {
 		'QB Speed': getQBSpeed(baseQBSpeed, totWeight),
 		'QB EN Consumption': 0,
 		'QB Reload Time': getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, totWeight),
-		'EN Capacity': parts.generator['ENCapacity'],
+		'EN Capacity': generator['ENCapacity'],
 		'EN Supply Efficiency': 0,
 		'EN Recharge Delay': 0,
 		'Total Weight': totWeight,
 		'Total Arms Load': sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']),
-		'Arms Load Limit': parts.arms['ArmsLoadLimit'],
+		'Arms Load Limit': arms['ArmsLoadLimit'],
 		'Total Load': sumKeyOver(parts, 'Weight', complement(allSlots, 'legs')),
-		'Load Limit': parts.legs['LoadLimit'],
+		'Load Limit': legs['LoadLimit'],
 		'Total EN Load': sumKeyOver(parts, 'ENLoad', complement(allSlots, 'generator')),
 		'EN Output': 0
 		}
