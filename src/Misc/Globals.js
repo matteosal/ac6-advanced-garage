@@ -24,7 +24,7 @@ const noneExpansion = {
 globPartsData = globPartsData.concat([globNoneUnit, globNoneBooster, noneExpansion])
 globPartsData = globPartsData.map((part, idx) => Object.assign(part, {ID: idx}))
 
-const globPartSlots = ['Right Arm', 'Left Arm', 'Right Shoulder', 'Left Shoulder', 'Head', 'Core', 
+const globPartSlots = ['RightArm', 'LeftArm', 'RightShoulder', 'LeftShoulder', 'Head', 'Core', 
 	'Arms', 'Legs','Booster', 'FCS', 'Generator', 'Expansion']
 
 export {globPartsData, globNoneUnit, globNoneBooster, globPartSlots}

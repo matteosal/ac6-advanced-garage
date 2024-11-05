@@ -133,7 +133,7 @@ const PartsExplorer = ({slot, setSlot, assemblyParts, assemblyPartsDispatch}) =>
 			globPartSlots.map(
 				(s) => <SlotSelector 
 					slot = {s}
-					inactive = {s === 'Booster' && assemblyParts[7]['LegType'] === 'Tank'}
+					inactive = {s === 'Booster' && assemblyParts['Legs']['LegType'] === 'Tank'}
 					border = {s === slot}
 					setSlot = {setSlot}
 					setPreviewPart = {setPreviewPart}

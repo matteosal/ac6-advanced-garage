@@ -23,37 +23,42 @@ const starterACPartNames = [
 ]
 const assemblyKinds = ['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs',
 	'Booster', 'FCS', 'Generator', 'Expansion']
-const starterACParts = starterACPartNames.map(
-	(name, pos) => globPartsData.find(
-		part => part.Kind === assemblyKinds[pos] && part.Name === name
+const starterACParts = Object.fromEntries(
+	starterACPartNames.map(
+		(name, pos) => [
+			globPartSlots[pos],
+			globPartsData.find(
+				part => part.Kind === assemblyKinds[pos] && part.Name === name
+			)
+		]
 	)
 )
 
 /*************************************************************************************/
 
-const checkedUnitSlots = [[0, 2], [2, 0], [1, 3], [3, 0]]
+const checkedUnitSlots = [['RightArm', 'RightShoulder'], ['RightShoulder', 'RightArm'], 
+	['LeftArm', 'LeftShoulder'], ['LeftShoulder', 'LeftArm']]
 
 const assemblyPartsReducer = (parts, action) => {
-	const slotID = globPartSlots.indexOf(action.slot)
 	const newPart = globPartsData[action.id]
-	let newParts = [...parts]
+	let newParts = {...parts}
 
 	// Check if e.g. right arm unit is already placed in right shoulder slot and remove it
 	// from old slot
 	checkedUnitSlots.forEach(([slot1, slot2]) => {
-		if(slotID === slot1 && parts[slot2]['ID'] === action.id)
+		if(action.slot === slot1 && parts[slot2]['ID'] === action.id)
 			newParts[slot2] = globNoneUnit
 	})
 	// Manage tank legs and boosters (slot 7 is legs, slot 8 is booster)
-	if(slotID === 7) {
-		if(newPart['LegType'] === 'Tank' && parts[8] != globNoneBooster) {
-			newParts[8] = globNoneBooster
-		} else if(newPart['LegType'] != 'Tank' && parts[8] === globNoneBooster) {
-			newParts[8] = globPartsData.find((part) => part['Kind'] === 'Booster')
+	if(action.slot === 7) {
+		if(newPart['LegType'] === 'Tank' && parts['Booster'] != globNoneBooster) {
+			newParts['Booster'] = globNoneBooster
+		} else if(newPart['LegType'] != 'Tank' && parts['Booster'] === globNoneBooster) {
+			newParts['Booster'] = globPartsData.find((part) => part['Kind'] === 'Booster')
 		}
 	}
 
-	newParts[slotID] = newPart
+	newParts[action.slot] = newPart
 
 	return newParts
 }

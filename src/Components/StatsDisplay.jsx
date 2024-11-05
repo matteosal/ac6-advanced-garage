@@ -2,13 +2,20 @@ import {globPartsData, globPartSlots} from '../Misc/Globals.js'
 
 /**********************************************************************************/
 
-function sumKeyOver(parts, key, pos) {
-	return pos.map(p => parts[p]).reduce(
+function complement(arr1, arr2) {
+	return arr1.filter(elem => !arr2.includes(elem))
+}
+
+
+
+function sumKeyOver(parts, key, slots) {
+	return slots.map(slot => parts[slot]).reduce(
 		(acc, current) => acc + current[key],
 		0
 	)
 }
 
+// returns slope and intercept of a line passing through points [x1, y1] and [x2, y2]
 function lineParameters([[x1, y1], [x2, y2]]) {
 	return [(y1 - y2) / (x1 - x2), (x2*y1 - x1*y2) / (x2 - x1)]
 }
@@ -38,7 +45,8 @@ function piecewiseLinear(x, breakpoints) {
 
 function getAttitudeRecovery(weight) {
 	const base = 100
-	const multiplier = piecewiseLinear(weight / 10000., 
+	const multiplier = piecewiseLinear(
+		weight / 10000., 
 		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]]
 	)
 	return base * multiplier
@@ -51,8 +59,50 @@ function getTargetTracking(firearmSpec) {
 	return firearmSpecMapping[firearmSpec]
 }
 
+function getBoostSpeed(baseSpeed, weight) {
+	const multiplier = piecewiseLinear(
+		weight / 10000., 
+		[[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.6]]
+	)
+	return baseSpeed * multiplier	
+}
+
+function getQBSpeed(baseQBSpeed, weight) {
+	const multiplier = piecewiseLinear(
+		weight / 10000., 
+		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]]
+	)
+	return baseQBSpeed * multiplier	
+}
+
+
+function computeQuickBoostSpeed(totalWeight, hiddenBoostValue) {
+  let multiplier;
+
+  if (totalWeight <= 40000) {
+      multiplier = 1;
+  } else if (totalWeight <= 62500) {
+      // Linear interpolation between 1 and 0.9
+      multiplier = 1.1778 - 0.0444 * totalWeight / 10000;
+  } else if (totalWeight <= 75000) {
+      // Linear interpolation between 0.9 and 0.85
+      multiplier = 1.15 - 0.04 * totalWeight / 10000;
+  } else if (totalWeight <= 80000) {
+      // Linear interpolation between 0.85 and 0.8
+      multiplier = 1.6 - 0.1 * totalWeight / 10000;
+  } else if (totalWeight <= 120000) {
+      // Linear interpolation between 0.8 and 0.7
+      multiplier = 1 - 0.025 * totalWeight / 10000;
+  } else {
+      multiplier = 0.7;
+  }
+
+  return hiddenBoostValue * multiplier;
+}
+
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
-	const multiplier = piecewiseLinear((weight - idealWeight) / 10000., 
+	const multiplier = piecewiseLinear(
+		(weight - idealWeight) / 10000., 
 		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]]
 	)
 	return baseReloadTime * multiplier	
@@ -60,32 +110,53 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 
 /**********************************************************************************/
 
+const unitSlots = ['RightArm', 'LeftArm', 'RightShoulder', 'LeftShoulder']
+const frameSlots = ['Head', 'Core', 'Arms', 'Legs']
+const allSlots = unitSlots.concat(frameSlots, ['Booster', 'FCS', 'Generator'])
+
 function computeAllStats(parts) {
-	const totWeight = sumKeyOver(parts, 'Weight', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
-	return (
-		{
-			'AP': sumKeyOver(parts, 'AP', [4, 5, 6, 7]),
-			'Anti-Kinetic Defense': sumKeyOver(parts, 'AntiKineticDefense', [4, 5, 6, 7]),
-			'Anti-Energy Defense': sumKeyOver(parts, 'AntiEnergyDefense', [4, 5, 6, 7]),
-			'Anti-Explosive Defense': sumKeyOver(parts, 'AntiExplosiveDefense', [4, 5, 6, 7]),
-			'Attitude Stability': sumKeyOver(parts, 'AttitudeStability', [4, 5, 7]),
-			'Attitude Recovery': getAttitudeRecovery(totWeight),
-			'Target Tracking': getTargetTracking(parts[6].FirearmSpecialization),
-			'Boost Speed': 0,
-			'QB Speed': 0,
-			'QB EN Consumption': 0,
-			'QB Reload Time': getQBReloadTime(parts[8].QBReloadTime, parts[8].QBReloadIdealWeight, totWeight),
-			'EN Capacity': parts[10].ENCapacity,
-			'EN Supply Efficiency': 0,
-			'EN Recharge Delay': 0,
-			'Total Weight': totWeight,
-			'Total Arms Load': sumKeyOver(parts, 'Weight', [0, 1]),
-			'Total Load': sumKeyOver(parts, 'Weight', [0, 1, 2, 3, 4, 5, 6, 8, 9, 10]),
-			'Load Limit': parts[7].LoadLimit,
-			'Total EN Load': sumKeyOver(parts, 'ENLoad', [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]),
-			'EN Output': 0
+	const totWeight = sumKeyOver(parts, 'Weight', allSlots)
+
+	let baseSpeed, baseQBSpeed
+	if(parts['Legs']['LegType'] === 'Tank')
+		[baseSpeed, baseQBSpeed] = [
+			parts['Legs']['TravelSpeed'],
+			parts['Legs']['"HighSpeedPerf"']
+		]
+	else
+		[baseSpeed, baseQBSpeed] = [
+			parts['Booster']['Thrust'] * 6 / 100.,
+			parts['Booster']['QBThrust'] / 50.
+		]
+
+	const res = {
+		'AP': sumKeyOver(parts, 'AP', frameSlots),
+		'Anti-Kinetic Defense': sumKeyOver(parts, 'AntiKineticDefense', frameSlots),
+		'Anti-Energy Defense': sumKeyOver(parts, 'AntiEnergyDefense', frameSlots),
+		'Anti-Explosive Defense': sumKeyOver(parts, 'AntiExplosiveDefense', frameSlots),
+		'Attitude Stability': sumKeyOver(parts, 'AttitudeStability', ['Head', 'Core', 'Legs']),
+		'Attitude Recovery': getAttitudeRecovery(totWeight),
+		'Target Tracking': getTargetTracking(parts['Arms'].FirearmSpecialization),
+		'Boost Speed': getBoostSpeed(baseSpeed, totWeight),
+		'QB Speed': getQBSpeed(baseQBSpeed, totWeight),
+		'QB EN Consumption': 0,
+		'QB Reload Time': getQBReloadTime(
+			parts['Booster']['QBReloadTime'],
+			parts['Booster']['QBReloadIdealWeight'],
+			totWeight
+		),
+		'EN Capacity': parts['Generator']['ENCapacity'],
+		'EN Supply Efficiency': 0,
+		'EN Recharge Delay': 0,
+		'Total Weight': totWeight,
+		'Total Arms Load': sumKeyOver(parts, 'Weight', ['RightArm', 'LeftArm']),
+		'Arms Load Limit': parts['Arms']['ArmsLoadLimit'],
+		'Total Load': sumKeyOver(parts, 'Weight', complement(allSlots, 'Legs')),
+		'Load Limit': parts['Legs']['LoadLimit'],
+		'Total EN Load': sumKeyOver(parts, 'ENLoad', complement(allSlots, 'Generator')),
+		'EN Output': 0
 		}
-	)
+	return res
 }
 
 /**********************************************************************************/
