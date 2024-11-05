@@ -2,13 +2,35 @@ import { useState } from 'react'
 
 import {globPartsData, globPartSlots} from '../Misc/Globals.js'
 
-const PartBox = ({name, slot, setExplorerSlot}) => {
+const PartBox = ({name, inactive, border, slot, setSelectedSlot, setExplorerSlot}) => {
+	let style = {}
+	if(border)
+		style['border'] = 'solid'
+	if(inactive)
+		style['color'] = 'gray'
 	return (
-		<div onClick={() => setExplorerSlot(slot)}>{name}</div>
+		<div
+			style = {style}
+			onMouseEnter = {() => 
+				{
+					if(inactive) {
+						return
+					} else {
+						setSelectedSlot(slot)
+					}
+				}
+			}
+			onMouseLeave = {() => setSelectedSlot(null)}
+			onClick = {() => setExplorerSlot(slot)}
+		>
+		{name}
+		</div>
 	)
 }
 
 const AssemblyDisplay = ({setExplorerSlot, parts}) => {
+	const [selectedSlot, setSelectedSlot] = useState(null)
+
 	return(
 		<div style={{display : 'inline-block', verticalAlign: 'top'}}>
 		{
@@ -22,10 +44,13 @@ const AssemblyDisplay = ({setExplorerSlot, parts}) => {
 						setter = setExplorerSlot
 					}
 					return <PartBox 
-						name={parts[slot]['Name']}
-						slot={slot}						
-						setExplorerSlot={setter}
-						key={slot}
+						name = {parts[slot]['Name']}
+						inactive = {slot === 'booster' && parts.legs['LegType'] === 'Tank'}
+						border = {slot === selectedSlot}
+						slot = {slot}
+						setSelectedSlot = {setSelectedSlot}
+						setExplorerSlot = {setter}
+						key = {slot}
 					/>
 				}
 			)

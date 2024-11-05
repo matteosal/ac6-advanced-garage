@@ -8,6 +8,8 @@ const SlotSelector = ({slot, inactive, border, setSlot, setPreviewPart}) => {
 	let style = {display : 'inline-block', margin: '8px'}
 	if(border)
 		style['border'] = 'solid'
+	if(inactive)
+		style['color'] = 'gray'
 	return (
 		<div 
 			style = {style}
@@ -27,10 +29,15 @@ const SlotSelector = ({slot, inactive, border, setSlot, setPreviewPart}) => {
 
 /*****************************************************************************/
 
-const PartSelector = ({part, setPreviewPart, updateAssembly}) => {
+const PartSelector = ({part, border, setPreviewPart, updateAssembly}) => {
+	let style = {}
+	if(border)
+		style['border'] = 'solid'
 	return (
 		<div 
+			style = {style}
 			onMouseEnter = {() => setPreviewPart(part.ID)}
+			onMouseLeave = {() => setPreviewPart(null)}
 			onClick = {updateAssembly}
 		>
 		{part.Name}
@@ -38,7 +45,7 @@ const PartSelector = ({part, setPreviewPart, updateAssembly}) => {
 	)
 }
 
-const PartList = ({slot, setSlot, assemblyPartsDispatch, setPreviewPart}) => {
+const PartList = ({slot, setSlot, assemblyPartsDispatch, previewPart, setPreviewPart}) => {
 	const style = {
 		display: 'inline-block',
 		verticalAlign: 'top',
@@ -69,6 +76,7 @@ const PartList = ({slot, setSlot, assemblyPartsDispatch, setPreviewPart}) => {
 			filteredData.map(
 				(part) => <PartSelector
 					part = {part}
+					border = {part['ID'] === previewPart}
 					setPreviewPart = {setPreviewPart}
 					updateAssembly = {
 						() => {
@@ -148,6 +156,7 @@ const PartsExplorer = ({slot, setSlot, assemblyParts, assemblyPartsDispatch}) =>
 			slot={slot}
 			setSlot={setSlot}
 			assemblyPartsDispatch={assemblyPartsDispatch}
+			previewPart={previewPart}
 			setPreviewPart={setPreviewPart}
 		/>
 		<PartStats id={previewPart} />
