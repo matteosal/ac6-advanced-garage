@@ -81,6 +81,13 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 	return round(baseReloadTime * multiplier, 0.1)
 }
 
+function getENSupplyEfficiency(enOutput, enLoad) {
+	const res = piecewiseLinear(enOutput - enLoad,
+		[[0., 1500.], [1800., 9000.], [3500., 16500.]]
+	)
+	return round(res)
+}
+
 /**********************************************************************************/
 
 const unitSlots = ['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder']
@@ -89,9 +96,10 @@ const allSlots = unitSlots.concat(frameSlots, ['booster', 'fcs', 'generator'])
 
 function computeAllStats(parts) {
 
-	const {arms, legs, booster, generator} = parts
+	const {core, arms, legs, booster, generator} = parts
 
 	const totWeight = sumKeyOver(parts, 'Weight', allSlots)
+	const enLoad = sumKeyOver(parts, 'ENLoad', complement(allSlots, 'generator'))
 
 	let baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption
 	if(legs['LegType'] === 'Tank')
@@ -111,6 +119,8 @@ function computeAllStats(parts) {
 			booster['QBENConsumption']
 		]
 
+	const enOutput = Math.floor(generator['ENOutput'] * 0.01 * core['GeneratorOutputAdj']);
+
 	const res = {
 		'AP': sumKeyOver(parts, 'AP', frameSlots),
 		'Anti-Kinetic Defense': sumKeyOver(parts, 'AntiKineticDefense', frameSlots),
@@ -121,18 +131,20 @@ function computeAllStats(parts) {
 		'Target Tracking': getTargetTracking(parts.arms.FirearmSpecialization),
 		'Boost Speed': getBoostSpeed(baseSpeed, totWeight),
 		'QB Speed': getQBSpeed(baseQBSpeed, totWeight),
-		'QB EN Consumption': 0,
+		'QB EN Consumption': 
+			round(baseQBENConsumption * (2 - core['BoosterEfficiencyAdj']/100.)),
 		'QB Reload Time': getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, totWeight),
 		'EN Capacity': generator['ENCapacity'],
-		'EN Supply Efficiency': 0,
-		'EN Recharge Delay': 0,
+		'EN Supply Efficiency': getENSupplyEfficiency(enOutput, enLoad),
+		'EN Recharge Delay': 
+			round(1000. / generator['ENRecharge'] * (2 - core['GeneratorSupplyAdj']/100.), 0.01),
 		'Total Weight': totWeight,
 		'Total Arms Load': sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']),
 		'Arms Load Limit': arms['ArmsLoadLimit'],
 		'Total Load': sumKeyOver(parts, 'Weight', complement(allSlots, 'legs')),
 		'Load Limit': legs['LoadLimit'],
-		'Total EN Load': sumKeyOver(parts, 'ENLoad', complement(allSlots, 'generator')),
-		'EN Output': 0
+		'Total EN Load': enLoad,
+		'EN Output': enOutput
 		}
 	return res
 }
