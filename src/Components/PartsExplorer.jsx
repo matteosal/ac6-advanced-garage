@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react'
 
-import {globPartsData, globPartSlots, capitalizeFirstLetter} from '../Misc/Globals.js'
+import {globPartsData, globPartSlots, capitalizeFirstLetter, toDisplayString} from '../Misc/Globals.js'
 
 /*****************************************************************************/
 
@@ -21,7 +21,7 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 				}
 			}}
 		>
-		{slot}
+		{toDisplayString(slot)}
 		</div>
 	)
 }
@@ -171,7 +171,7 @@ const PartStats = ({previewPart, curPart}) => {
 				name => {
 					return (
 					<tr key={name}>
-						<td>{name}</td>
+						<td>{toDisplayString(name)}</td>
 						<td>{leftStats[name]}</td>
 						<td>»</td>
 						<td>{rightStats[name]}</td>

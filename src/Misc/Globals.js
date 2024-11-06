@@ -1,5 +1,7 @@
 import globPartsData from './PartsData.json';
 
+/***************************************************************************************/
+
 const noneUnit = {
 	"Name": "None",
 	"Kind": "Unit",
@@ -32,14 +34,60 @@ const globNoneBooster = globPartsData[globPartsData.length - 2]
 const globPartSlots = ['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder', 'head', 'core', 
 	'arms', 'legs','booster', 'fcs', 'generator', 'expansion']
 
-function capitalizeFirstLetter(val) {
-    return String(val).charAt(0).toUpperCase() + String(val).slice(1);
+/***************************************************************************************/
+
+function capitalizeFirstLetter(str) {
+	return String(str).charAt(0).toUpperCase() + String(str).slice(1);
 }
+
+function insertCharacter(str, char, pos) {
+	return str.substr(0, pos) + char + str.substr(pos);
+}
+
+const displayStringTable = {'fcs': 'FCS'}
+
+function toDisplayString(str) {
+	const fromTable = displayStringTable[str]
+	if(fromTable != undefined)
+		return fromTable
+
+	let upperCasePos = []
+	for(var i = 1; i < str.length - 1; i++) {
+		if(
+			str[i].match(/[A-Z]/) != null && 
+			(str[i-1].match(/[A-Z]/) === null || str[i+1].match(/[A-Z]/) === null)
+		) {
+			upperCasePos.push(i);
+		}
+	}
+
+	let res = str
+	let counter = 0
+	upperCasePos.forEach(
+		pos => {
+			res = insertCharacter(res, " ", pos + counter)
+			counter++
+		}
+	)
+
+	return capitalizeFirstLetter(res)
+}
+
+/***************************************************************************************/
 
 function round(val, roundTarget = 1) {
 	const roundFactor = 1 / roundTarget
 	return Math.round(val * roundFactor) / roundFactor
 }
 
-export {globPartsData, globNoneUnit, globNoneBooster, globPartSlots, capitalizeFirstLetter,
-	round}
+/***************************************************************************************/
+
+export {
+	globPartsData,
+	globNoneUnit,
+	globNoneBooster,
+	globPartSlots,
+	capitalizeFirstLetter,
+	toDisplayString,
+	round
+}
