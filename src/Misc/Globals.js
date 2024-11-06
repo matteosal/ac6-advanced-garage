@@ -1,6 +1,6 @@
 import globPartsData from './PartsData.json';
 
-const globNoneUnit = {
+const noneUnit = {
 	"Name": "None",
 	"Kind": "Unit",
 	"RightArm": true,
@@ -10,7 +10,7 @@ const globNoneUnit = {
 	"Weight": 0,
 	"ENLoad": 0
 }
-const globNoneBooster = {
+const noneBooster = {
 	"Name": "None",
 	"Kind": "Booster",
 	"Weight": 0,
@@ -21,8 +21,13 @@ const noneExpansion = {
 	"Kind": "Expansion"
 }
 
-globPartsData = globPartsData.concat([globNoneUnit, globNoneBooster, noneExpansion])
+globPartsData = globPartsData.concat([noneUnit, noneBooster, noneExpansion])
 globPartsData = globPartsData.map((part, idx) => Object.assign(part, {ID: idx}))
+
+// We do this so that these have the ID field. If the ordering of globPartsData changes
+// these statements must be changed too
+const globNoneUnit = globPartsData[globPartsData.length - 3]
+const globNoneBooster = globPartsData[globPartsData.length - 2]
 
 const globPartSlots = ['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder', 'head', 'core', 
 	'arms', 'legs','booster', 'fcs', 'generator', 'expansion']

@@ -152,14 +152,14 @@ function computeAllStats(parts) {
 
 /**********************************************************************************/
 
-const StatsDisplay = ({acParts, previewACParts}) => {
-	const stats = computeAllStats(acParts)
-	if(previewACParts === null) {
+const StatsDisplay = ({acParts}) => {
+	const stats = computeAllStats(acParts.current)
+	if(acParts.preview === null) {
 		let nullStats = Object.fromEntries(Object.entries(stats).map(([k, v]) => [k, null]))
 		var [leftStats, rightStats] = [nullStats, stats]
 	}
 	else {
-		var previewStats = computeAllStats(previewACParts)
+		var previewStats = computeAllStats(acParts.preview)
 		var [leftStats, rightStats] = [stats, previewStats]
 	}
 

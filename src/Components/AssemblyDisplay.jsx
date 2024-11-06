@@ -28,7 +28,7 @@ const PartBox = ({name, inactive, border, slot, setSelectedSlot, setExplorerSlot
 	)
 }
 
-const AssemblyDisplay = ({setExplorerSlot, acParts}) => {
+const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 	const [selectedSlot, setSelectedSlot] = useState(null)
 
 	return(
@@ -38,14 +38,14 @@ const AssemblyDisplay = ({setExplorerSlot, acParts}) => {
 				slot => {
 					let setter
 					// Deactivate booster slot if legs are tank
-					if(slot === 'booster' && acParts.legs['LegType'] === 'Tank') {
+					if(slot === 'booster' && currentParts.legs['LegType'] === 'Tank') {
 						setter = () => {}
 					} else {
 						setter = setExplorerSlot
 					}
 					return <PartBox 
-						name = {acParts[slot]['Name']}
-						inactive = {slot === 'booster' && acParts.legs['LegType'] === 'Tank'}
+						name = {currentParts[slot]['Name']}
+						inactive = {slot === 'booster' && currentParts.legs['LegType'] === 'Tank'}
 						border = {slot === selectedSlot}
 						slot = {slot}
 						setSelectedSlot = {setSelectedSlot}

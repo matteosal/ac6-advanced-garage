@@ -44,9 +44,7 @@ const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly
 	)
 }
 
-const PartList = (params) => {
-	const {slot, curPart, updateAssembly, previewACPartsDispatch, previewPart, 
-		setPreviewPart} = params
+const PartList = ({slot, setSlot, curPart, acPartsDispatch, previewPart, setPreviewPart}) => {
 	const style = {
 		display: 'inline-block',
 		verticalAlign: 'top',
@@ -66,9 +64,27 @@ const PartList = (params) => {
 	}
 	let filteredData = globPartsData.filter(filterFunc);
 
+	const drawBorder = part => 
+		part['ID'] === curPart['ID'] ||
+		(previewPart != null && part['ID'] === previewPart['ID'])		
+
 	const clearPreview = () => {
 		setPreviewPart(null)
-		previewACPartsDispatch({setNull: true})		
+		acPartsDispatch({target: 'preview', setNull: true})		
+	}
+	const updatePreview = part => {
+		if(part['ID'] != curPart['ID']) {
+			setPreviewPart(part)
+			acPartsDispatch({target: 'preview', slot: slot, id: part['ID']})
+		} else {
+			clearPreview()
+		}
+	}
+	const updateAssembly = part => {
+		acPartsDispatch({target: 'current', slot: slot, id: part['ID']})
+		clearPreview()
+		// setting the slot to null closes the explorer and shows the assembly
+		setSlot(null)							
 	}
 
 	return(
@@ -78,22 +94,10 @@ const PartList = (params) => {
 			filteredData.map(
 				(part) => <PartSelector
 					part = {part}
-					border = {
-						part['ID'] === curPart['ID'] ||
-						(previewPart != null && part['ID'] === previewPart['ID'])
-					}
-					updatePreview = {
-						() => {
-							if(part['ID'] != curPart['ID']) {
-								setPreviewPart(part)
-								previewACPartsDispatch({slot: slot, id: part['ID']})
-							} else {
-								clearPreview()
-							}
-						}
-					}
+					border = {drawBorder(part)}
+					updatePreview = {() => updatePreview(part)}
 					clearPreview = {clearPreview}
-					updateAssembly = {() => updateAssembly(part['ID'])}
+					updateAssembly = {() => updateAssembly(part)}					
 					key = {part['ID']}
 				/>
 			)
@@ -106,11 +110,11 @@ const PartList = (params) => {
 /*****************************************************************************/
 
 const hidddenProps = ['Name', 'Kind', 'RightArm', 'LeftArm', 'RightShoulder', 
-  'LeftShoulder','ID']
+	'LeftShoulder','ID']
 
 function filterEntries(entries) {
 	return entries.filter(([prop, val]) =>  !hidddenProps.includes(prop))
-} 
+}
 
 const PartStats = ({previewPart, curPart}) => {
 	const curPartStats = Object.fromEntries(
@@ -157,7 +161,7 @@ const PartStats = ({previewPart, curPart}) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch, previewACPartsDispatch}) => {
+const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
 	const [previewPart, setPreviewPart] = useState(null)
 
 	const handleKeyDown = (event) => {
@@ -192,16 +196,9 @@ const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch, previewACPartsD
 		<div style={{display : 'inline-block', margin: '8px'}}>
 		<PartList
 			slot = {slot}
-			curPart={acParts[slot]}
-			updateAssembly = {
-				(partID)  => {
-					acPartsDispatch({slot: slot, id: partID})
-					previewACPartsDispatch({setNull: true})
-					// setting the slot to null closes the explorer and shows the assembly
-					setSlot(null)							
-				}				
-			}
-			previewACPartsDispatch = {previewACPartsDispatch}
+			setSlot = {setSlot}
+			curPart = {acParts[slot]}
+			acPartsDispatch = {acPartsDispatch}
 			previewPart = {previewPart}
 			setPreviewPart = {setPreviewPart}
 		/>

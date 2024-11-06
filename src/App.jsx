@@ -39,51 +39,47 @@ const starterACParts = Object.fromEntries(
 const checkedUnitSlots = [['rightArm', 'rightShoulder'], ['rightShoulder', 'rightArm'], 
 	['leftArm', 'leftShoulder'], ['leftShoulder', 'leftArm']]
 
-const assemblyPartsReducer = (parts, action, forcedSource) => {
-	// This can only happen when called by previewACPartsDispatch
-	if(action.setNull)
-		return null
-	// When this is called by previewACPartsDispatch we want to create a new preview
-	// from the current state of the non-preview assembly parts, which are passed in
-	// forcedSource
-	// When it's called from acPartsDispatch we still want to use the non-assembly
-	// parts as source but those are available in the first argument parts so we pass null
-	// as forcedSource
-	if(forcedSource === null)
-		var source = parts
-	else
-		var source = forcedSource
-	let newParts = {...source}
+const assemblyPartsReducer = (parts, action) => {
+	const output = {...parts}
+	if(action.setNull) {
+		output[action.target] = null
+		return output
+	}
 
+	let newPartList = {...parts.current}
 	const newPart = globPartsData[action.id]
 	// Check if e.g. right arm unit is already placed in right shoulder slot and remove it
 	// from old slot
 	checkedUnitSlots.forEach(([slot1, slot2]) => {
-		if(action.slot === slot1 && source[slot2]['ID'] === newPart)
-			newParts[slot2] = globNoneUnit
+		if(action.slot === slot1 && parts.current[slot2]['ID'] === newPart)
+			newPartList[slot2] = globNoneUnit
+		// TODO: emit a message here and for the tank/booster business
 	})
 	// Manage tank legs and boosters
 	if(action.slot === 'legs') {
-		if(newPart['LegType'] === 'Tank' && source.booster != globNoneBooster) {
-			newParts.booster = globNoneBooster
-		} else if(newPart['LegType'] != 'Tank' && source.booster === globNoneBooster) {
-			newParts.booster = globPartsData.find((part) => part['Kind'] === 'Booster')
+		if(
+			newPart['LegType'] === 'Tank' &&
+			parts.current.booster['ID'] != globNoneBooster['ID']
+		) {
+			newPartList.booster = globNoneBooster
+		} else if(
+			newPart['LegType'] != 'Tank' && 
+			parts.current.booster['ID'] === globNoneBooster['ID']
+		) {
+			newPartList.booster = globPartsData.find((part) => part['Kind'] === 'Booster')
 		}
 	}
+	newPartList[action.slot] = newPart
 
-	newParts[action.slot] = newPart
+	output[action.target] = newPartList
 
-	return newParts
+	return output
 }
 
 function App() {
 	const [acParts, acPartsDispatch] = useReducer(
-		(parts, action) => assemblyPartsReducer(parts, action, null),
-		starterACParts
-	)
-	const [previewACParts, previewACPartsDispatch] = useReducer(
-		(parts, action) => assemblyPartsReducer(parts, action, acParts),
-		null
+		assemblyPartsReducer,
+		{current: starterACParts, preview: null}
 	)
 	const [explorerSlot, setExplorerSlot] = useState(null)
 
@@ -91,16 +87,18 @@ function App() {
 		<div>
 			{
 				explorerSlot === null ? 
-					<AssemblyDisplay acParts={acParts} setExplorerSlot={setExplorerSlot} /> : 
+					<AssemblyDisplay 
+						currentParts={acParts.current}
+						setExplorerSlot={setExplorerSlot} 
+					/> : 
 					<PartsExplorer 
 						slot={explorerSlot}
 						setSlot={setExplorerSlot}
-						acParts={acParts}
+						acParts={acParts.current}
 						acPartsDispatch={acPartsDispatch}
-						previewACPartsDispatch={previewACPartsDispatch}
 					/>
 			}
-			<StatsDisplay acParts={acParts} previewACParts={previewACParts}/>
+			<StatsDisplay acParts={acParts}/>
 		</div>
 	)
 }
