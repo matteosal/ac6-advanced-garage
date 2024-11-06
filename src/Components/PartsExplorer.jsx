@@ -44,7 +44,44 @@ const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly
 	)
 }
 
-const PartList = ({slot, setSlot, curPart, acPartsDispatch, previewPart, setPreviewPart}) => {
+function getDisplayedParts(slot, searchString) {
+	// Get all parts for the slot. This is not smart because it could be precomputed for 
+	// every slot
+	let slotFilterFunc
+	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot)
+	if(['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder'].includes(slot)) {
+		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
+	} else if(slot === 'booster') {
+		// The None booster exists because of the tank legs but the user should not be allowed
+		//to set it manually
+		slotFilterFunc = part => (part.Kind === slotCapitalized && part['Name'] != 'None')
+	} else {
+		slotFilterFunc = part => (part.Kind === slotCapitalized)
+	}
+	let output = globPartsData.filter(slotFilterFunc)
+
+	const nonePart = output.find(part => part['Name'] === 'None')
+
+	// Filter by user query
+	if(searchString != '') {
+		const query = searchString.toLowerCase()
+		output = output.filter(part => part['Name'].toLowerCase().includes(query))
+	}
+
+	// If none part was there before search filter ensure it's still there and put it at
+	// the top
+	if(nonePart != undefined) {
+		output = output.filter(part => part['Name'] != 'None')
+		output.unshift(nonePart)
+	}
+
+	return output
+}
+
+const PartList = (params) => {
+	const {slot, setSlot, curPart, acPartsDispatch, previewPart, setPreviewPart,
+		searchString, setSearchString} = params
+
 	const style = {
 		display: 'inline-block',
 		verticalAlign: 'top',
@@ -52,17 +89,7 @@ const PartList = ({slot, setSlot, curPart, acPartsDispatch, previewPart, setPrev
 		overflowY: 'auto'
 	}
 
-	let filterFunc
-	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot)
-	if(['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder'].includes(slot)) {
-		/* Removes the whitespace in slot to perform key lookup of the RightArm, etc fields */
-		filterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
-	} else if(slot === 'booster') {
-		filterFunc = part => (part.Kind === slotCapitalized && part['Name'] != 'None')
-	} else {
-		filterFunc = part => (part.Kind === slotCapitalized)
-	}
-	let filteredData = globPartsData.filter(filterFunc);
+	const displayedParts = getDisplayedParts(slot, searchString)
 
 	const drawBorder = part => 
 		part['ID'] === curPart['ID'] ||
@@ -90,8 +117,9 @@ const PartList = ({slot, setSlot, curPart, acPartsDispatch, previewPart, setPrev
 	return(
 		<>
 		<div style = {style}>
+		<input value={searchString} onChange={event => setSearchString(event.target.value)}/>
 		{
-			filteredData.map(
+			displayedParts.map(
 				(part) => <PartSelector
 					part = {part}
 					border = {drawBorder(part)}
@@ -163,6 +191,7 @@ const PartStats = ({previewPart, curPart}) => {
 
 const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
 	const [previewPart, setPreviewPart] = useState(null)
+	const [searchString, setSearchString] = useState('')
 
 	const handleKeyDown = (event) => {
 		if(event.key == 'Escape')
@@ -187,6 +216,7 @@ const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
 					updateSlot = {() => {
 						setSlot(s)
 						setPreviewPart(null)
+						setSearchString('')
 					}}
 					key = {s}
 				/>
@@ -201,6 +231,8 @@ const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
 			acPartsDispatch = {acPartsDispatch}
 			previewPart = {previewPart}
 			setPreviewPart = {setPreviewPart}
+			searchString = {searchString}
+			setSearchString = {setSearchString}
 		/>
 		<PartStats previewPart={previewPart} curPart={acParts[slot]} />
 		</div>
