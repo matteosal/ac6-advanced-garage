@@ -154,24 +154,28 @@ function computeAllStats(parts) {
 
 const StatsDisplay = ({acParts, previewACParts}) => {
 	const stats = computeAllStats(acParts)
-	if(previewACParts === null) 
-		var previewStats = Object.fromEntries(Object.entries(stats).map(([k, v]) => [k, null]))
-	else
+	if(previewACParts === null) {
+		let nullStats = Object.fromEntries(Object.entries(stats).map(([k, v]) => [k, null]))
+		var [leftStats, rightStats] = [nullStats, stats]
+	}
+	else {
 		var previewStats = computeAllStats(previewACParts)
+		var [leftStats, rightStats] = [stats, previewStats]
+	}
 
 	return (
 		<div style={{display: 'inline-block', verticalAlign: 'top', margin: '30px'}}>
 		<table>
 		<tbody>
 		{
-			Object.entries(stats).map(
-				([prop, val]) => {
+			Object.keys(stats).map(
+				name => {
 					return (
-					<tr key={prop}>
-						<td>{prop}</td>
-						<td>{previewStats[prop]}</td>
+					<tr key={name}>
+						<td>{name}</td>
+						<td>{leftStats[name]}</td>
 						<td>»</td>
-						<td>{val}</td>
+						<td>{rightStats[name]}</td>
 					</tr>
 					)
 				}
