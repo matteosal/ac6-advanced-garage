@@ -29,8 +29,7 @@ const SlotSelector = ({slot, inactive, border, setSlot, setPreviewPart}) => {
 
 /*****************************************************************************/
 
-const PartSelector = (params) => {
-	const {part, border, setPreviewPart, updateAssembly, updatePreview} = params
+const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly}) => {
 	let style = {}
 	if(border)
 		style['border'] = 'solid'
@@ -38,7 +37,7 @@ const PartSelector = (params) => {
 		<div 
 			style = {style}
 			onMouseEnter = {updatePreview}
-			/*onMouseLeave = {() => setPreviewPart(null)}*/
+			onMouseLeave = {clearPreview}
 			onClick = {updateAssembly}
 		>
 		{part.Name}
@@ -47,17 +46,12 @@ const PartSelector = (params) => {
 }
 
 const PartList = (params) => {
-	const {slot, setSlot, assemblyPartsDispatch, previewAssemblyPartsDispatch, previewPart, 
-		setPreviewPart} = params
+	const {slot, updateAssembly, previewACPartsDispatch, previewPart, setPreviewPart} = params
 	const style = {
 		display: 'inline-block',
 		verticalAlign: 'top',
 		height: '500px',
 		overflowY: 'auto'
-	}
-
-	if(slot === null) {
-		return
 	}
 
 	let filterFunc
@@ -80,21 +74,20 @@ const PartList = (params) => {
 				(part) => <PartSelector
 					part = {part}
 					border = {part['ID'] === previewPart}
-					setPreviewPart = {setPreviewPart}
-					updateAssembly = {
-						() => {
-							assemblyPartsDispatch({slot: slot, id: part.ID})
-							// setting the slot to null closes the explorer and shows the assembly
-							setSlot(null)							
-						}
-					}
 					updatePreview = {
 						() => {
-							previewAssemblyPartsDispatch({slot: slot, id: part.ID})
-							setPreviewPart(part.ID)							
+							previewACPartsDispatch({slot: slot, id: part['ID']})
+							setPreviewPart(part['ID'])							
 						}
 					}
-					key = {part.ID}
+					clearPreview = {
+						() => {
+							previewACPartsDispatch({setNull: true})
+							setPreviewPart(null)
+						}
+					}
+					updateAssembly = {() => updateAssembly(part['ID'])}
+					key = {part['ID']}
 				/>
 			)
 		}
@@ -142,9 +135,7 @@ const PartStats = ({id}) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = (params) => {
-	const {slot, setSlot, assemblyParts, assemblyPartsDispatch, 
-		previewAssemblyPartsDispatch} = params
+const PartsExplorer = ({slot, setSlot, isTank, acPartsDispatch, previewACPartsDispatch}) => {
 	const [previewPart, setPreviewPart] = useState(null)
 
 	const handleKeyDown = (event) => {
@@ -165,7 +156,7 @@ const PartsExplorer = (params) => {
 			globPartSlots.map(
 				(s) => <SlotSelector 
 					slot = {s}
-					inactive = {s === 'booster' && assemblyParts.legs['LegType'] === 'Tank'}
+					inactive = {s === 'booster' && isTank}
 					border = {s === slot}
 					setSlot = {setSlot}
 					setPreviewPart = {setPreviewPart}
@@ -176,12 +167,18 @@ const PartsExplorer = (params) => {
 		<br/>
 		<div style={{display : 'inline-block', margin: '8px'}}>
 		<PartList
-			slot={slot}
-			setSlot={setSlot}
-			assemblyPartsDispatch={assemblyPartsDispatch}
-			previewAssemblyPartsDispatch={previewAssemblyPartsDispatch}
-			previewPart={previewPart}
-			setPreviewPart={setPreviewPart}
+			slot = {slot}
+			updateAssembly = {
+				(partID)  => {
+					acPartsDispatch({slot: slot, id: partID})
+					previewACPartsDispatch({setNull: true})
+					// setting the slot to null closes the explorer and shows the assembly
+					setSlot(null)							
+				}				
+			}
+			previewACPartsDispatch = {previewACPartsDispatch}
+			previewPart = {previewPart}
+			setPreviewPart = {setPreviewPart}
 		/>
 		<PartStats id={previewPart} />
 		</div>

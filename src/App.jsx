@@ -40,10 +40,13 @@ const checkedUnitSlots = [['rightArm', 'rightShoulder'], ['rightShoulder', 'righ
 	['leftArm', 'leftShoulder'], ['leftShoulder', 'leftArm']]
 
 const assemblyPartsReducer = (parts, action, forcedSource) => {
-	// When this is called by previewAssemblyPartsDispatch we want to create a new preview
+	// This can only happen when called by previewACPartsDispatch
+	if(action.setNull)
+		return null
+	// When this is called by previewACPartsDispatch we want to create a new preview
 	// from the current state of the non-preview assembly parts, which are passed in
 	// forcedSource
-	// When it's called from assemblyPartsDispatch we still want to use the non-assembly
+	// When it's called from acPartsDispatch we still want to use the non-assembly
 	// parts as source but those are available in the first argument parts so we pass null
 	// as forcedSource
 	if(forcedSource === null)
@@ -74,12 +77,12 @@ const assemblyPartsReducer = (parts, action, forcedSource) => {
 }
 
 function App() {
-	const [assemblyParts, assemblyPartsDispatch] = useReducer(
+	const [acParts, acPartsDispatch] = useReducer(
 		(parts, action) => assemblyPartsReducer(parts, action, null),
 		starterACParts
 	)
-	const [previewAssemblyParts, previewAssemblyPartsDispatch] = useReducer(
-		(parts, action) => assemblyPartsReducer(parts, action, assemblyParts),
+	const [previewACParts, previewACPartsDispatch] = useReducer(
+		(parts, action) => assemblyPartsReducer(parts, action, acParts),
 		null
 	)
 	const [explorerSlot, setExplorerSlot] = useState(null)
@@ -88,16 +91,16 @@ function App() {
 		<div>
 			{
 				explorerSlot === null ? 
-					<AssemblyDisplay parts={assemblyParts} setExplorerSlot={setExplorerSlot} /> : 
+					<AssemblyDisplay acParts={acParts} setExplorerSlot={setExplorerSlot} /> : 
 					<PartsExplorer 
 						slot={explorerSlot}
 						setSlot={setExplorerSlot}
-						assemblyParts={assemblyParts}
-						assemblyPartsDispatch={assemblyPartsDispatch}
-						previewAssemblyPartsDispatch={previewAssemblyPartsDispatch}
+						isTank={acParts.legs['LegType'] === 'Tank'}
+						acPartsDispatch={acPartsDispatch}
+						previewACPartsDispatch={previewACPartsDispatch}
 					/>
 			}
-			<StatsDisplay assemblyParts={assemblyParts} previewAssemblyParts={previewAssemblyParts}/>
+			<StatsDisplay acParts={acParts} previewACParts={previewACParts}/>
 		</div>
 	)
 }

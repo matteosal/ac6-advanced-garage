@@ -152,12 +152,12 @@ function computeAllStats(parts) {
 
 /**********************************************************************************/
 
-const StatsDisplay = ({assemblyParts, previewAssemblyParts}) => {
-	const stats = computeAllStats(assemblyParts)
-	if(previewAssemblyParts === null) 
-		var previewStats = Object.fromEntries(Object.entries(stats).map(([k, v]) => [k, 0]))
+const StatsDisplay = ({acParts, previewACParts}) => {
+	const stats = computeAllStats(acParts)
+	if(previewACParts === null) 
+		var previewStats = Object.fromEntries(Object.entries(stats).map(([k, v]) => [k, null]))
 	else
-		var previewStats = computeAllStats(previewAssemblyParts)
+		var previewStats = computeAllStats(previewACParts)
 
 	return (
 		<div style={{display: 'inline-block', verticalAlign: 'top', margin: '30px'}}>
@@ -170,6 +170,7 @@ const StatsDisplay = ({assemblyParts, previewAssemblyParts}) => {
 					<tr key={prop}>
 						<td>{prop}</td>
 						<td>{previewStats[prop]}</td>
+						<td>»</td>
 						<td>{val}</td>
 					</tr>
 					)
