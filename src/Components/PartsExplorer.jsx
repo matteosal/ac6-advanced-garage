@@ -4,7 +4,7 @@ import {globPartsData, globPartSlots, capitalizeFirstLetter} from '../Misc/Globa
 
 /*****************************************************************************/
 
-const SlotSelector = ({slot, inactive, border, setSlot, setPreviewPart}) => {
+const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 	let style = {display : 'inline-block', margin: '8px'}
 	if(border)
 		style['border'] = 'solid'
@@ -17,8 +17,7 @@ const SlotSelector = ({slot, inactive, border, setSlot, setPreviewPart}) => {
 				if(inactive) {
 					return
 				} else {
-					setSlot(slot)
-					setPreviewPart(null)
+					updateSlot()
 				}
 			}}
 		>
@@ -105,22 +104,37 @@ function filterEntries(entries) {
 	return entries.filter(([prop, val]) =>  !hidddenProps.includes(prop))
 } 
 
-const PartStats = ({id}) => {
-	if(id === null) {
-		return
+const PartStats = ({previewID, curPartID}) => {
+	const curPartStats = Object.fromEntries(
+		filterEntries(Object.entries(globPartsData[curPartID]))
+	)
+	if(previewID === null) {
+		let nullStats = Object.fromEntries(Object.entries(curPartStats).map(([k, v]) => [k, null]))
+		var [leftStats, rightStats] = [nullStats, curPartStats]
 	}
+	else {
+		var previewStats = Object.fromEntries(
+			filterEntries(Object.entries(globPartsData[previewID]))
+		)
+		var [leftStats, rightStats] = [curPartStats, previewStats]
+	}
+
+	console.log(rightStats)
+
 	return (
 		<>
 		<div style = {{display: 'inline-block', verticalAlign: 'top'}}>
 		<table>
 		<tbody>
 		{
-			filterEntries(Object.entries(globPartsData[id])).map(
-				([prop, val]) => {
+			Object.keys(rightStats).map(
+				name => {
 					return (
-					<tr key={prop}>
-						<td>{prop}</td>
-						<td>{val}</td>
+					<tr key={name}>
+						<td>{name}</td>
+						<td>{leftStats[name]}</td>
+						<td>»</td>
+						<td>{rightStats[name]}</td>
 					</tr>
 					)
 				}
@@ -135,7 +149,7 @@ const PartStats = ({id}) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({slot, setSlot, isTank, acPartsDispatch, previewACPartsDispatch}) => {
+const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch, previewACPartsDispatch}) => {
 	const [previewPart, setPreviewPart] = useState(null)
 
 	const handleKeyDown = (event) => {
@@ -156,10 +170,12 @@ const PartsExplorer = ({slot, setSlot, isTank, acPartsDispatch, previewACPartsDi
 			globPartSlots.map(
 				(s) => <SlotSelector 
 					slot = {s}
-					inactive = {s === 'booster' && isTank}
+					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
 					border = {s === slot}
-					setSlot = {setSlot}
-					setPreviewPart = {setPreviewPart}
+					updateSlot = {() => {
+						setSlot(s)
+						setPreviewPart(null)
+					}}
 					key = {s}
 				/>
 			)
@@ -180,7 +196,7 @@ const PartsExplorer = ({slot, setSlot, isTank, acPartsDispatch, previewACPartsDi
 			previewPart = {previewPart}
 			setPreviewPart = {setPreviewPart}
 		/>
-		<PartStats id={previewPart} />
+		<PartStats previewID={previewPart} curPartID={acParts[slot].ID} />
 		</div>
 		</>
 	)

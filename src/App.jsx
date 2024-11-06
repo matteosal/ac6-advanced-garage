@@ -95,7 +95,7 @@ function App() {
 					<PartsExplorer 
 						slot={explorerSlot}
 						setSlot={setExplorerSlot}
-						isTank={acParts.legs['LegType'] === 'Tank'}
+						acParts={acParts}
 						acPartsDispatch={acPartsDispatch}
 						previewACPartsDispatch={previewACPartsDispatch}
 					/>
