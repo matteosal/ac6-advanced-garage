@@ -50,8 +50,9 @@ function getAttitudeRecovery(weight) {
 	return round(base * multiplier)
 }
 
-const firearmSpecMapping = {26: 41, 45: 72, 53: 80, 80: 86, 88: 87, 92: 88, 95: 89, 96: 89, 
-	100: 90, 102: 90, 103: 90, 104: 90, 122: 94, 123: 94, 128: 95, 133: 96, 136: 97, 160: 104}
+const firearmSpecMapping = {26:41, 45:72, 53:80, 76:85, 80:86, 87:87, 88:87, 92:88, 95:89, 
+	96:89, 100:90, 102:90, 103:90, 104:90, 122:94, 123:94, 128:95, 133:96, 135:97, 136:97, 
+	140:98, 160:104}
 
 function getTargetTracking(firearmSpec) {
 	return firearmSpecMapping[firearmSpec]
