@@ -72,11 +72,11 @@ const PartList = (params) => {
 			filteredData.map(
 				(part) => <PartSelector
 					part = {part}
-					border = {part['ID'] === previewPart}
+					border = {previewPart != null && part['ID'] === previewPart['ID']}
 					updatePreview = {
 						() => {
 							previewACPartsDispatch({slot: slot, id: part['ID']})
-							setPreviewPart(part['ID'])							
+							setPreviewPart(part)							
 						}
 					}
 					clearPreview = {
@@ -104,22 +104,22 @@ function filterEntries(entries) {
 	return entries.filter(([prop, val]) =>  !hidddenProps.includes(prop))
 } 
 
-const PartStats = ({previewID, curPartID}) => {
+const PartStats = ({previewPart, curPart}) => {
 	const curPartStats = Object.fromEntries(
-		filterEntries(Object.entries(globPartsData[curPartID]))
+		filterEntries(Object.entries(curPart))
 	)
-	if(previewID === null) {
-		let nullStats = Object.fromEntries(Object.entries(curPartStats).map(([k, v]) => [k, null]))
+	if(previewPart === null) {
+		let nullStats = Object.fromEntries(
+			Object.entries(curPartStats).map(([k, v]) => [k, null])
+		)
 		var [leftStats, rightStats] = [nullStats, curPartStats]
 	}
 	else {
 		var previewStats = Object.fromEntries(
-			filterEntries(Object.entries(globPartsData[previewID]))
+			filterEntries(Object.entries(previewPart))
 		)
 		var [leftStats, rightStats] = [curPartStats, previewStats]
 	}
-
-	console.log(rightStats)
 
 	return (
 		<>
@@ -196,7 +196,7 @@ const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch, previewACPartsD
 			previewPart = {previewPart}
 			setPreviewPart = {setPreviewPart}
 		/>
-		<PartStats previewID={previewPart} curPartID={acParts[slot].ID} />
+		<PartStats previewPart={previewPart} curPart={acParts[slot]} />
 		</div>
 		</>
 	)
