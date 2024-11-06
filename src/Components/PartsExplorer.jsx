@@ -29,15 +29,16 @@ const SlotSelector = ({slot, inactive, border, setSlot, setPreviewPart}) => {
 
 /*****************************************************************************/
 
-const PartSelector = ({part, border, setPreviewPart, updateAssembly}) => {
+const PartSelector = (params) => {
+	const {part, border, setPreviewPart, updateAssembly, updatePreview} = params
 	let style = {}
 	if(border)
 		style['border'] = 'solid'
 	return (
 		<div 
 			style = {style}
-			onMouseEnter = {() => setPreviewPart(part.ID)}
-			onMouseLeave = {() => setPreviewPart(null)}
+			onMouseEnter = {updatePreview}
+			/*onMouseLeave = {() => setPreviewPart(null)}*/
 			onClick = {updateAssembly}
 		>
 		{part.Name}
@@ -45,7 +46,9 @@ const PartSelector = ({part, border, setPreviewPart, updateAssembly}) => {
 	)
 }
 
-const PartList = ({slot, setSlot, assemblyPartsDispatch, previewPart, setPreviewPart}) => {
+const PartList = (params) => {
+	const {slot, setSlot, assemblyPartsDispatch, previewAssemblyPartsDispatch, previewPart, 
+		setPreviewPart} = params
 	const style = {
 		display: 'inline-block',
 		verticalAlign: 'top',
@@ -83,6 +86,12 @@ const PartList = ({slot, setSlot, assemblyPartsDispatch, previewPart, setPreview
 							assemblyPartsDispatch({slot: slot, id: part.ID})
 							// setting the slot to null closes the explorer and shows the assembly
 							setSlot(null)							
+						}
+					}
+					updatePreview = {
+						() => {
+							previewAssemblyPartsDispatch({slot: slot, id: part.ID})
+							setPreviewPart(part.ID)							
 						}
 					}
 					key = {part.ID}
@@ -133,7 +142,9 @@ const PartStats = ({id}) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({slot, setSlot, assemblyParts, assemblyPartsDispatch}) => {
+const PartsExplorer = (params) => {
+	const {slot, setSlot, assemblyParts, assemblyPartsDispatch, 
+		previewAssemblyPartsDispatch} = params
 	const [previewPart, setPreviewPart] = useState(null)
 
 	const handleKeyDown = (event) => {
@@ -168,6 +179,7 @@ const PartsExplorer = ({slot, setSlot, assemblyParts, assemblyPartsDispatch}) =>
 			slot={slot}
 			setSlot={setSlot}
 			assemblyPartsDispatch={assemblyPartsDispatch}
+			previewAssemblyPartsDispatch={previewAssemblyPartsDispatch}
 			previewPart={previewPart}
 			setPreviewPart={setPreviewPart}
 		/>

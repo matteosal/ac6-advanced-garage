@@ -39,21 +39,31 @@ const starterACParts = Object.fromEntries(
 const checkedUnitSlots = [['rightArm', 'rightShoulder'], ['rightShoulder', 'rightArm'], 
 	['leftArm', 'leftShoulder'], ['leftShoulder', 'leftArm']]
 
-const assemblyPartsReducer = (parts, action) => {
-	const newPart = globPartsData[action.id]
-	let newParts = {...parts}
+const assemblyPartsReducer = (parts, action, forcedSource) => {
+	// When this is called by previewAssemblyPartsDispatch we want to create a new preview
+	// from the current state of the non-preview assembly parts, which are passed in
+	// forcedSource
+	// When it's called from assemblyPartsDispatch we still want to use the non-assembly
+	// parts as source but those are available in the first argument parts so we pass null
+	// as forcedSource
+	if(forcedSource === null)
+		var source = parts
+	else
+		var source = forcedSource
+	let newParts = {...source}
 
+	const newPart = globPartsData[action.id]
 	// Check if e.g. right arm unit is already placed in right shoulder slot and remove it
 	// from old slot
 	checkedUnitSlots.forEach(([slot1, slot2]) => {
-		if(action.slot === slot1 && parts[slot2]['ID'] === action.id)
+		if(action.slot === slot1 && source[slot2]['ID'] === newPart)
 			newParts[slot2] = globNoneUnit
 	})
 	// Manage tank legs and boosters
 	if(action.slot === 'legs') {
-		if(newPart['LegType'] === 'Tank' && parts.booster != globNoneBooster) {
+		if(newPart['LegType'] === 'Tank' && source.booster != globNoneBooster) {
 			newParts.booster = globNoneBooster
-		} else if(newPart['LegType'] != 'Tank' && parts.booster === globNoneBooster) {
+		} else if(newPart['LegType'] != 'Tank' && source.booster === globNoneBooster) {
 			newParts.booster = globPartsData.find((part) => part['Kind'] === 'Booster')
 		}
 	}
@@ -65,8 +75,12 @@ const assemblyPartsReducer = (parts, action) => {
 
 function App() {
 	const [assemblyParts, assemblyPartsDispatch] = useReducer(
-		assemblyPartsReducer,
+		(parts, action) => assemblyPartsReducer(parts, action, null),
 		starterACParts
+	)
+	const [previewAssemblyParts, previewAssemblyPartsDispatch] = useReducer(
+		(parts, action) => assemblyPartsReducer(parts, action, assemblyParts),
+		null
 	)
 	const [explorerSlot, setExplorerSlot] = useState(null)
 
@@ -80,9 +94,10 @@ function App() {
 						setSlot={setExplorerSlot}
 						assemblyParts={assemblyParts}
 						assemblyPartsDispatch={assemblyPartsDispatch}
+						previewAssemblyPartsDispatch={previewAssemblyPartsDispatch}
 					/>
 			}
-			<StatsDisplay assemblyParts={assemblyParts} />
+			<StatsDisplay assemblyParts={assemblyParts} previewAssemblyParts={previewAssemblyParts}/>
 		</div>
 	)
 }

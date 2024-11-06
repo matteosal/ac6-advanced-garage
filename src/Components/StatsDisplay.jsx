@@ -152,8 +152,12 @@ function computeAllStats(parts) {
 
 /**********************************************************************************/
 
-const StatsDisplay = ({assemblyParts}) => {
+const StatsDisplay = ({assemblyParts, previewAssemblyParts}) => {
 	const stats = computeAllStats(assemblyParts)
+	if(previewAssemblyParts === null) 
+		var previewStats = Object.fromEntries(Object.entries(stats).map(([k, v]) => [k, 0]))
+	else
+		var previewStats = computeAllStats(previewAssemblyParts)
 
 	return (
 		<div style={{display: 'inline-block', verticalAlign: 'top', margin: '30px'}}>
@@ -165,6 +169,7 @@ const StatsDisplay = ({assemblyParts}) => {
 					return (
 					<tr key={prop}>
 						<td>{prop}</td>
+						<td>{previewStats[prop]}</td>
 						<td>{val}</td>
 					</tr>
 					)
