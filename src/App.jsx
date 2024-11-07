@@ -1,6 +1,6 @@
-import { useState, useReducer } from 'react'
+import { useState, useReducer } from 'react';
 
-import {globPartsData, globNoneUnit, globNoneBooster, globPartSlots} from './Misc/Globals.js'
+import {globPartsData, globNoneUnit, globNoneBooster, globPartSlots} from './Misc/Globals.js';
 import AssemblyDisplay from "./Components/AssemblyDisplay.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 import StatsDisplay from "./Components/StatsDisplay.jsx";
@@ -20,9 +20,9 @@ const starterACPartNames = [
 	'FCS-G1/P01',
 	'AG-J-098 JOSO',
 	'None'
-]
+];
 const assemblyKinds = ['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs',
-	'Booster', 'FCS', 'Generator', 'Expansion']
+	'Booster', 'FCS', 'Generator', 'Expansion'];
 const starterACParts = Object.fromEntries(
 	starterACPartNames.map(
 		(name, pos) => [
@@ -37,22 +37,22 @@ const starterACParts = Object.fromEntries(
 /*************************************************************************************/
 
 const checkedUnitSlots = [['rightArm', 'rightShoulder'], ['rightShoulder', 'rightArm'], 
-	['leftArm', 'leftShoulder'], ['leftShoulder', 'leftArm']]
+	['leftArm', 'leftShoulder'], ['leftShoulder', 'leftArm']];
 
 const assemblyPartsReducer = (parts, action) => {
-	const output = {...parts}
+	const output = {...parts};
 	if(action.setNull) {
-		output[action.target] = null
-		return output
+		output[action.target] = null;
+		return output;
 	}
 
-	let newPartList = {...parts.current}
-	const newPart = globPartsData[action.id]
+	let newPartList = {...parts.current};
+	const newPart = globPartsData[action.id];
 	// Check if e.g. right arm unit is already placed in right shoulder slot and remove it
 	// from old slot
 	checkedUnitSlots.forEach(([slot1, slot2]) => {
 		if(action.slot === slot1 && parts.current[slot2]['ID'] === newPart)
-			newPartList[slot2] = globNoneUnit
+			newPartList[slot2] = globNoneUnit;
 		// TODO: emit a message here and for the tank/booster business
 	})
 	// Manage tank legs and boosters
@@ -61,17 +61,17 @@ const assemblyPartsReducer = (parts, action) => {
 			newPart['LegType'] === 'Tank' &&
 			parts.current.booster['ID'] != globNoneBooster['ID']
 		) {
-			newPartList.booster = globNoneBooster
+			newPartList.booster = globNoneBooster;
 		} else if(
 			newPart['LegType'] != 'Tank' && 
 			parts.current.booster['ID'] === globNoneBooster['ID']
 		) {
-			newPartList.booster = globPartsData.find((part) => part['Kind'] === 'Booster')
+			newPartList.booster = globPartsData.find((part) => part['Kind'] === 'Booster');
 		}
 	}
-	newPartList[action.slot] = newPart
+	newPartList[action.slot] = newPart;
 
-	output[action.target] = newPartList
+	output[action.target] = newPartList;
 
 	return output
 }
@@ -80,8 +80,8 @@ function App() {
 	const [acParts, acPartsDispatch] = useReducer(
 		assemblyPartsReducer,
 		{current: starterACParts, preview: null}
-	)
-	const [explorerSlot, setExplorerSlot] = useState(null)
+	);
+	const [explorerSlot, setExplorerSlot] = useState(null);
 
 	return (
 		<div>

@@ -1,17 +1,17 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect } from 'react';
 
-import {globPartsData, globPartSlots, capitalizeFirstLetter, toDisplayString} from '../Misc/Globals.js'
+import {globPartsData, globPartSlots, capitalizeFirstLetter, toDisplayString} from '../Misc/Globals.js';
 
-import StatsRow from './StatsRow.jsx'
+import StatsRow from './StatsRow.jsx';
 
 /*****************************************************************************/
 
 const SlotSelector = ({slot, inactive, border, updateSlot}) => {
-	let style = {display : 'inline-block', margin: '8px'}
+	let style = {display : 'inline-block', margin: '8px'};
 	if(border)
-		style['border'] = 'solid'
+		style['border'] = 'solid';
 	if(inactive)
-		style['color'] = 'gray'
+		style['color'] = 'gray';
 	return (
 		<div 
 			style = {style}
@@ -31,9 +31,9 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 /*****************************************************************************/
 
 const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly}) => {
-	let style = {}
+	let style = {};
 	if(border)
-		style['border'] = 'solid'
+		style['border'] = 'solid';
 	return (
 		<div 
 			style = {style}
@@ -49,40 +49,40 @@ const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly
 function getDisplayedParts(slot, searchString) {
 	// Get all parts for the slot. This is not smart because it could be precomputed for 
 	// every slot
-	let slotFilterFunc
-	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot)
+	let slotFilterFunc;
+	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot);
 	if(['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder'].includes(slot)) {
 		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
 	} else if(slot === 'booster') {
 		// The None booster exists because of the tank legs but the user should not be allowed
 		//to set it manually
-		slotFilterFunc = part => (part.Kind === slotCapitalized && part['Name'] != 'None')
+		slotFilterFunc = part => (part.Kind === slotCapitalized && part['Name'] != 'None');
 	} else {
-		slotFilterFunc = part => (part.Kind === slotCapitalized)
+		slotFilterFunc = part => (part.Kind === slotCapitalized);
 	}
-	let output = globPartsData.filter(slotFilterFunc)
+	let output = globPartsData.filter(slotFilterFunc);
 
-	const nonePart = output.find(part => part['Name'] === 'None')
+	const nonePart = output.find(part => part['Name'] === 'None');
 
 	// Filter by user query
 	if(searchString != '') {
-		const query = searchString.toLowerCase()
-		output = output.filter(part => part['Name'].toLowerCase().includes(query))
+		const query = searchString.toLowerCase();
+		output = output.filter(part => part['Name'].toLowerCase().includes(query));
 	}
 
 	// If none part was there before search filter ensure it's still there and put it at
 	// the top
 	if(nonePart != undefined) {
-		output = output.filter(part => part['Name'] != 'None')
-		output.unshift(nonePart)
+		output = output.filter(part => part['Name'] != 'None');
+		output.unshift(nonePart);
 	}
 
-	return output
+	return output;
 }
 
 const PartList = (params) => {
 	const {slot, setSlot, curPart, acPartsDispatch, previewPart, setPreviewPart,
-		searchString, setSearchString} = params
+		searchString, setSearchString} = params;
 
 	const style = {
 		display: 'inline-block',
@@ -91,11 +91,11 @@ const PartList = (params) => {
 		overflowY: 'auto'
 	}
 
-	const displayedParts = getDisplayedParts(slot, searchString)
+	const displayedParts = getDisplayedParts(slot, searchString);
 
 	const drawBorder = part => 
 		part['ID'] === curPart['ID'] ||
-		(previewPart != null && part['ID'] === previewPart['ID'])		
+		(previewPart != null && part['ID'] === previewPart['ID']);
 
 	const clearPreview = () => {
 		setPreviewPart(null)
@@ -134,33 +134,33 @@ const PartList = (params) => {
 		}
 		</div>
 		</>
-	)
+	);
 }
 
 /*****************************************************************************/
 
-const hidddenProps = ['Name', 'Kind', 'RightArm', 'LeftArm', 'RightShoulder', 
-	'LeftShoulder','ID']
+const hidddenPartStats = ['Name', 'Kind', 'RightArm', 'LeftArm', 'RightShoulder', 
+	'LeftShoulder','ID'];
 
-function filterEntries(entries) {
-	return entries.filter(([prop, val]) =>  !hidddenProps.includes(prop))
+function filterPartStats(entries) {
+	return entries.filter(([prop, val]) => !hidddenPartStats.includes(prop));
 }
 
 const PartStats = ({previewPart, curPart}) => {
 	const curPartStats = Object.fromEntries(
-		filterEntries(Object.entries(curPart))
-	)
+		filterPartStats(Object.entries(curPart))
+	);
 	if(previewPart === null) {
 		let nullStats = Object.fromEntries(
 			Object.entries(curPartStats).map(([k, v]) => [k, null])
-		)
-		var [leftStats, rightStats] = [nullStats, curPartStats]
+		);
+		var [leftStats, rightStats] = [nullStats, curPartStats];
 	}
 	else {
 		var previewStats = Object.fromEntries(
-			filterEntries(Object.entries(previewPart))
-		)
-		var [leftStats, rightStats] = [curPartStats, previewStats]
+			filterPartStats(Object.entries(previewPart))
+		);
+		var [leftStats, rightStats] = [curPartStats, previewStats];
 	}
 
 	return (
@@ -182,14 +182,14 @@ const PartStats = ({previewPart, curPart}) => {
 		</table>
 		</div>
 		</>
-	)
+	);
 }
 
 /*****************************************************************************/
 
 const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
-	const [previewPart, setPreviewPart] = useState(null)
-	const [searchString, setSearchString] = useState('')
+	const [previewPart, setPreviewPart] = useState(null);
+	const [searchString, setSearchString] = useState('');
 
 	const handleKeyDown = (event) => {
 		if(event.key == 'Escape')
@@ -197,8 +197,8 @@ const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
 	}
 
 	useEffect(() => {
-			document.addEventListener('keydown', handleKeyDown)
-			return () => document.removeEventListener('keydown', handleKeyDown)
+			document.addEventListener('keydown', handleKeyDown);
+			return () => document.removeEventListener('keydown', handleKeyDown);
 		},
 		[]
 	)
@@ -238,4 +238,4 @@ const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
 	)
 }
 
-export default PartsExplorer
+export default PartsExplorer;

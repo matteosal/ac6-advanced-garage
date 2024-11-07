@@ -1,13 +1,13 @@
-import { useState } from 'react'
+import { useState } from 'react';
 
-import {globPartsData, globPartSlots} from '../Misc/Globals.js'
+import {globPartsData, globPartSlots} from '../Misc/Globals.js';
 
 const PartBox = ({name, inactive, border, slot, setSelectedSlot, setExplorerSlot}) => {
-	let style = {}
+	let style = {};
 	if(border)
-		style['border'] = 'solid'
+		style['border'] = 'solid';
 	if(inactive)
-		style['color'] = 'gray'
+		style['color'] = 'gray';
 	return (
 		<div
 			style = {style}
@@ -25,23 +25,23 @@ const PartBox = ({name, inactive, border, slot, setSelectedSlot, setExplorerSlot
 		>
 		{name}
 		</div>
-	)
+	);
 }
 
 const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
-	const [selectedSlot, setSelectedSlot] = useState(null)
+	const [selectedSlot, setSelectedSlot] = useState(null);
 
 	return(
 		<div style={{display : 'inline-block', verticalAlign: 'top'}}>
 		{
 			globPartSlots.map(
 				slot => {
-					let setter
+					let setter;
 					// Deactivate booster slot if legs are tank
 					if(slot === 'booster' && currentParts.legs['LegType'] === 'Tank') {
-						setter = () => {}
+						setter = () => {};
 					} else {
-						setter = setExplorerSlot
+						setter = setExplorerSlot;
 					}
 					return <PartBox 
 						name = {currentParts[slot]['Name']}
@@ -59,4 +59,4 @@ const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 	)
 }
 
-export default AssemblyDisplay
+export default AssemblyDisplay;
