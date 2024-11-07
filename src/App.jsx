@@ -11,7 +11,7 @@ const starterACPartNames = [
 	'RF-024 TURNER',
 	'HI-32: BU-TT/A',
 	'BML-G1/P20MLT-04',
-	'None',
+	'(NOTHING)',
 	'HC-2000 FINDER EYE',
 	'CC-2000 ORBITER',
 	'AC-2000 TOOL ARM',
@@ -19,7 +19,7 @@ const starterACPartNames = [
 	'BST-G1/P10',
 	'FCS-G1/P01',
 	'AG-J-098 JOSO',
-	'None'
+	'(NOTHING)'
 ];
 const assemblyKinds = ['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs',
 	'Booster', 'FCS', 'Generator', 'Expansion'];

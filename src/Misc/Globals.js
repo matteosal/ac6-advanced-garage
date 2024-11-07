@@ -3,7 +3,7 @@ import globPartsData from './PartsData.json';
 /***************************************************************************************/
 
 const noneUnit = {
-	"Name": "None",
+	"Name": "(NOTHING)",
 	"Kind": "Unit",
 	"RightArm": true,
 	"LeftArm": true,
@@ -13,13 +13,13 @@ const noneUnit = {
 	"ENLoad": 0
 };
 const noneBooster = {
-	"Name": "None",
+	"Name": "(NOTHING)",
 	"Kind": "Booster",
 	"Weight": 0,
 	"ENLoad": 0
 };
 const noneExpansion = {
-	"Name": "None",
+	"Name": "(NOTHING)",
 	"Kind": "Expansion"
 };
 

@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
-import {globPartsData, globPartSlots, capitalizeFirstLetter, toDisplayString} from '../Misc/Globals.js';
+import {globPartsData, globPartSlots, capitalizeFirstLetter, toDisplayString, globNoneBooster}
+	from '../Misc/Globals.js';
 
 import StatsRow from './StatsRow.jsx';
 
@@ -51,18 +52,20 @@ function getDisplayedParts(slot, searchString) {
 	// every slot
 	let slotFilterFunc;
 	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot);
+
 	if(['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder'].includes(slot)) {
 		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
 	} else if(slot === 'booster') {
 		// The None booster exists because of the tank legs but the user should not be allowed
-		//to set it manually
-		slotFilterFunc = part => (part.Kind === slotCapitalized && part['Name'] != 'None');
+		// to set it manually
+		slotFilterFunc = part => 
+			(part.Kind === slotCapitalized && part['ID'] != globNoneBooster['ID']);
 	} else {
 		slotFilterFunc = part => (part.Kind === slotCapitalized);
 	}
 	let output = globPartsData.filter(slotFilterFunc);
 
-	const nonePart = output.find(part => part['Name'] === 'None');
+	const nonePart = output.find(part => part['Name'] === '(NOTHING)');
 
 	// Filter by user query
 	if(searchString != '') {
@@ -73,7 +76,7 @@ function getDisplayedParts(slot, searchString) {
 	// If none part was there before search filter ensure it's still there and put it at
 	// the top
 	if(nonePart != undefined) {
-		output = output.filter(part => part['Name'] != 'None');
+		output = output.filter(part => part['Name'] != '(NOTHING)');
 		output.unshift(nonePart);
 	}
 
