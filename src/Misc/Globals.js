@@ -44,7 +44,8 @@ function insertCharacter(str, char, pos) {
 	return str.substr(0, pos) + char + str.substr(pos);
 }
 
-const displayStringTable = {'fcs': 'FCS'}
+const displayStringTable = {'fcs': 'FCS', 'QBENConsumption': 'QB EN Consumption',
+	'ABENConsumption': 'AB EN Consumption'}
 
 function toDisplayString(str) {
 	const fromTable = displayStringTable[str]

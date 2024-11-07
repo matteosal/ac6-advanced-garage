@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react'
 
 import {globPartsData, globPartSlots, capitalizeFirstLetter, toDisplayString} from '../Misc/Globals.js'
 
+import StatsRow from './StatsRow.jsx'
+
 /*****************************************************************************/
 
 const SlotSelector = ({slot, inactive, border, updateSlot}) => {
@@ -168,16 +170,12 @@ const PartStats = ({previewPart, curPart}) => {
 		<tbody>
 		{
 			Object.keys(rightStats).map(
-				name => {
-					return (
-					<tr key={name}>
-						<td>{toDisplayString(name)}</td>
-						<td>{leftStats[name]}</td>
-						<td>»</td>
-						<td>{rightStats[name]}</td>
-					</tr>
-					)
-				}
+				name => <StatsRow 
+					name = {name}
+					left = {leftStats[name]}
+					right = {rightStats[name]} 
+					key = {name}
+				/>
 			)
 		}
 		</tbody>

@@ -1,4 +1,6 @@
-import {globPartsData, globPartSlots, round} from '../Misc/Globals.js'
+import {globPartsData, globPartSlots} from '../Misc/Globals.js'
+
+import StatsRow from './StatsRow.jsx'
 
 /**********************************************************************************/
 
@@ -47,7 +49,7 @@ function getAttitudeRecovery(weight) {
 		weight / 10000., 
 		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]]
 	)
-	return round(base * multiplier)
+	return base * multiplier
 }
 
 const firearmSpecMapping = {26:41, 45:72, 53:80, 76:85, 80:86, 87:87, 88:87, 92:88, 95:89, 
@@ -63,7 +65,7 @@ function getBoostSpeed(baseSpeed, weight) {
 		weight / 10000., 
 		[[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.6]]
 	)
-	return round(baseSpeed * multiplier)
+	return baseSpeed * multiplier
 }
 
 function getQBSpeed(baseQBSpeed, weight) {
@@ -71,7 +73,7 @@ function getQBSpeed(baseQBSpeed, weight) {
 		weight / 10000., 
 		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]]
 	)
-	return round(baseQBSpeed * multiplier)
+	return baseQBSpeed * multiplier
 }
 
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
@@ -79,14 +81,14 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 		(weight - idealWeight) / 10000., 
 		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]]
 	)
-	return round(baseReloadTime * multiplier, 0.1)
+	return baseReloadTime * multiplier
 }
 
 function getENSupplyEfficiency(enOutput, enLoad) {
 	const res = piecewiseLinear(enOutput - enLoad,
 		[[0., 1500.], [1800., 9000.], [3500., 16500.]]
 	)
-	return round(res)
+	return res
 }
 
 /**********************************************************************************/
@@ -124,28 +126,28 @@ function computeAllStats(parts) {
 
 	const res = {
 		'AP': sumKeyOver(parts, 'AP', frameSlots),
-		'Anti-Kinetic Defense': sumKeyOver(parts, 'AntiKineticDefense', frameSlots),
-		'Anti-Energy Defense': sumKeyOver(parts, 'AntiEnergyDefense', frameSlots),
-		'Anti-Explosive Defense': sumKeyOver(parts, 'AntiExplosiveDefense', frameSlots),
-		'Attitude Stability': sumKeyOver(parts, 'AttitudeStability', ['head', 'core', 'legs']),
-		'Attitude Recovery': getAttitudeRecovery(totWeight),
-		'Target Tracking': getTargetTracking(parts.arms.FirearmSpecialization),
-		'Boost Speed': getBoostSpeed(baseSpeed, totWeight),
-		'QB Speed': getQBSpeed(baseQBSpeed, totWeight),
-		'QB EN Consumption': 
-			round(baseQBENConsumption * (2 - core['BoosterEfficiencyAdj']/100.)),
-		'QB Reload Time': getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, totWeight),
-		'EN Capacity': generator['ENCapacity'],
-		'EN Supply Efficiency': getENSupplyEfficiency(enOutput, enLoad),
-		'EN Recharge Delay': 
-			round(1000. / generator['ENRecharge'] * (2 - core['GeneratorSupplyAdj']/100.), 0.01),
-		'Total Weight': totWeight,
-		'Total Arms Load': sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']),
-		'Arms Load Limit': arms['ArmsLoadLimit'],
-		'Total Load': sumKeyOver(parts, 'Weight', complement(allSlots, 'legs')),
-		'Load Limit': legs['LoadLimit'],
-		'Total EN Load': enLoad,
-		'EN Output': enOutput
+		'AntiKineticDefense': sumKeyOver(parts, 'AntiKineticDefense', frameSlots),
+		'AntiEnergyDefense': sumKeyOver(parts, 'AntiEnergyDefense', frameSlots),
+		'AntiExplosiveDefense': sumKeyOver(parts, 'AntiExplosiveDefense', frameSlots),
+		'AttitudeStability': sumKeyOver(parts, 'AttitudeStability', ['head', 'core', 'legs']),
+		'AttitudeRecovery': getAttitudeRecovery(totWeight),
+		'TargetTracking': getTargetTracking(parts.arms.FirearmSpecialization),
+		'BoostSpeed': getBoostSpeed(baseSpeed, totWeight),
+		'QBSpeed': getQBSpeed(baseQBSpeed, totWeight),
+		'QBENConsumption': 
+			baseQBENConsumption * (2 - core['BoosterEfficiencyAdj']/100.),
+		'QBReloadTime': getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, totWeight),
+		'ENCapacity': generator['ENCapacity'],
+		'ENSupplyEfficiency': getENSupplyEfficiency(enOutput, enLoad),
+		'ENRechargeDelay': 
+			1000. / generator['ENRecharge'] * (2 - core['GeneratorSupplyAdj']/100.),
+		'TotalWeight': totWeight,
+		'TotalArmsLoad': sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']),
+		'ArmsLoadLimit': arms['ArmsLoadLimit'],
+		'TotalLoad': sumKeyOver(parts, 'Weight', complement(allSlots, 'legs')),
+		'LoadLimit': legs['LoadLimit'],
+		'TotalENLoad': enLoad,
+		'ENOutput': enOutput
 		}
 	return res
 }
@@ -169,16 +171,12 @@ const StatsDisplay = ({acParts}) => {
 		<tbody>
 		{
 			Object.keys(stats).map(
-				name => {
-					return (
-					<tr key={name}>
-						<td>{name}</td>
-						<td>{leftStats[name]}</td>
-						<td>»</td>
-						<td>{rightStats[name]}</td>
-					</tr>
-					)
-				}
+				name => <StatsRow 
+					name = {name}
+					left = {leftStats[name]}
+					right = {rightStats[name]} 
+					key = {name}
+				/>
 			)
 		}
 		</tbody>
