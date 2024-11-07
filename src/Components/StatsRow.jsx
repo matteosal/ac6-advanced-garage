@@ -16,36 +16,61 @@ function isBetter(name, a, b) {
 		return a > b
 }
 
+const doubleArrowChar = '\u00bb'
+const upwardsTriangleChar = '\u23f6'
+const downwardsTriangleChar = '\u23f7'
+const longDashCharacter = '\u2012'
+
 const StatsRow = ({name, left, right}) => {
-	const hasLeft = left != null
+
 	const roundTarget = roundTargets[name]
 
-	var [leftDisplay, rightDisplay] = [left, right]
-	if(roundTarget != undefined) {
-		var rightDisplay = round(rightDisplay, roundTarget)
-		if(hasLeft)
+	let [leftDisplay, rightDisplay] = [left, right]
+	let [leftStyle, rightStyle] = [{}, {}]
+	let triangle = ''
+	if(left !== null && left !== undefined) { // Comparison with left field present
+		// Round if needed
+		if(roundTarget !== undefined) {
 			leftDisplay = round(leftDisplay, roundTarget)
+			rightDisplay = round(rightDisplay, roundTarget)
+		}
+		// Set colors and triangle if needed
+		if(typeof left === 'number') {
+			const [blueStyle, redStyle] = [{'color': 'blue'}, {'color': 'red'}]
+			if(isBetter(name, left, right)) {
+				triangle = downwardsTriangleChar;
+				[leftStyle, rightStyle] = [blueStyle, redStyle];
+			}
+			else if(isBetter(name, right, left)) {
+				triangle = upwardsTriangleChar;
+				[leftStyle, rightStyle] = [redStyle, blueStyle];
+			}
+		}
+	} else if(left !== null && left === undefined) { // Comparison with missing left field
+		// Round if needed
+		if(roundTarget !== undefined) {
+			rightDisplay = round(rightDisplay, roundTarget)
+		}		
+		leftDisplay = longDashCharacter
+	} else { // Not a comparison
+		// Round if needed
+		if(roundTarget !== undefined) {
+			rightDisplay = round(rightDisplay, roundTarget)
+		}		
+		leftDisplay = ''
 	}
 
-	if(hasLeft && typeof left === 'number') {
-		const [blueStyle, redStyle] = [{'color': 'blue'}, {'color': 'red'}]
-		if(left === right)
-			var [leftStyle, rightStyle] = [{}, {}]
-		else if(isBetter(name, left, right)) 
-			var [leftStyle, rightStyle] = [blueStyle, redStyle]
-		else
-			var [leftStyle, rightStyle] = [redStyle, blueStyle]
-			
-	} else {
-		var [leftStyle, rightStyle] = [{}, {}]
-	}
+	// For some reason the triangle makes the line taller
+	let triangleStyle = {...rightStyle}
+	triangleStyle['lineHeight'] = '1'
 
 	return (
 	<tr>
 		<td>{toDisplayString(name)}</td>
 		<td style={leftStyle}>{leftDisplay}</td>
-		<td>»</td>
+		<td>{doubleArrowChar}</td>
 		<td style={rightStyle}>{rightDisplay}</td>
+		<td style={triangleStyle}>{triangle}</td>
 	</tr>
 	)
 }
