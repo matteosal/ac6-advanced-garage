@@ -8,7 +8,7 @@ import StatsRow from './StatsRow.jsx';
 /*****************************************************************************/
 
 const SlotSelector = ({slot, inactive, border, updateSlot}) => {
-	let style = {display : 'inline-block', margin: '8px'};
+	let style = {display : 'inline-block', margin: '0px 10px 0px 0px'};
 	if(border)
 		style['border'] = 'solid';
 	if(inactive)
@@ -224,7 +224,6 @@ const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
 			)
 		}
 		<br/>
-		<div style={{display : 'inline-block', margin: '8px'}}>
 		<PartList
 			slot = {slot}
 			setSlot = {setSlot}
@@ -236,7 +235,6 @@ const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
 			setSearchString = {setSearchString}
 		/>
 		<PartStats previewPart={previewPart} curPart={acParts[slot]} />
-		</div>
 		</>
 	)
 }

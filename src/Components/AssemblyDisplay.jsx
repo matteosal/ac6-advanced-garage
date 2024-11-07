@@ -31,10 +31,8 @@ const PartBox = ({name, inactive, border, slot, setSelectedSlot, setExplorerSlot
 const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 	const [selectedSlot, setSelectedSlot] = useState(null);
 
-	const style = {display : 'inline-block', verticalAlign: 'top'}
-
 	return(
-		<div style={style}>
+		<>
 		{
 			globPartSlots.map(
 				slot => {
@@ -57,7 +55,7 @@ const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 				}
 			)
 		}
-		</div>
+		</>
 	)
 }
 

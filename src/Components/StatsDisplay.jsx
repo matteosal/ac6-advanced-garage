@@ -165,15 +165,8 @@ const StatsDisplay = ({acParts}) => {
 		var [leftStats, rightStats] = [stats, previewStats];
 	}
 
-	const style = {
-		display: 'inline-block',
-		verticalAlign: 'top',
-		margin: '0px 0px 0px 30px'
-	}
-
 	return (
-		<div style={style}>
-		<table style={{borderSpacing: '0px'}}>
+		<table>
 		<tbody>
 		{
 			Object.keys(stats).map(
@@ -187,7 +180,6 @@ const StatsDisplay = ({acParts}) => {
 		}
 		</tbody>
 		</table>
-		</div>
 	);
 }
 

@@ -5,6 +5,8 @@ import AssemblyDisplay from "./Components/AssemblyDisplay.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 import StatsDisplay from "./Components/StatsDisplay.jsx";
 
+import './reset.css'
+
 /*************************************************************************************/
 
 const starterACPartNames = [
@@ -85,6 +87,7 @@ function App() {
 
 	return (
 		<div>
+			<div style={{display : 'inline-block', verticalAlign: 'top'}}>
 			{
 				explorerSlot === null ? 
 					<AssemblyDisplay 
@@ -98,7 +101,10 @@ function App() {
 						acPartsDispatch={acPartsDispatch}
 					/>
 			}
+			</div>
+			<div style={{display: 'inline-block', verticalAlign: 'top'}}>
 			<StatsDisplay acParts={acParts}/>
+			</div>
 		</div>
 	)
 }
