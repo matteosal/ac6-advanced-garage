@@ -85,7 +85,11 @@ function App() {
 	);
 	const [explorerSlot, setExplorerSlot] = useState(null);
 
-	const containerStyle = {maxWidth : 'fit-content', margin: '0px auto 0px auto'}
+	const containerStyle = {
+		maxWidth : 'fit-content',
+		margin: '0px auto 0px auto',
+		background: 'radial-gradient(circle at center, #0064e1 , #003232)'
+	}
 	const leftDivStyle = {display : 'inline-block', verticalAlign: 'top', 
 		margin: '20px 0px 0px 0px', width: '800px'}
 	const rightDivStyle = {display: 'inline-block', verticalAlign: 'top', 

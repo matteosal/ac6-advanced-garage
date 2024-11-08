@@ -37,7 +37,7 @@ const StatsRow = ({name, left, right}) => {
 		}
 		// Set colors and triangle if needed
 		if(typeof left === 'number') {
-			const [blueStyle, redStyle] = [{'color': 'blue'}, {'color': 'red'}];
+			const [blueStyle, redStyle] = [{'color': '#00ffff'}, {'color': 'red'}];
 			if(isBetter(name, left, right)) {
 				triangle = downwardsTriangleChar;
 				[leftStyle, rightStyle] = [blueStyle, redStyle];
