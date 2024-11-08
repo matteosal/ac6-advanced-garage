@@ -85,9 +85,15 @@ function App() {
 	);
 	const [explorerSlot, setExplorerSlot] = useState(null);
 
+	const containerStyle = {maxWidth : 'fit-content', margin: '0px auto 0px auto'}
+	const leftDivStyle = {display : 'inline-block', verticalAlign: 'top', 
+		margin: '20px 0px 0px 0px', width: '800px'}
+	const rightDivStyle = {display: 'inline-block', verticalAlign: 'top', 
+		margin: '30px 0px 0px 0px'}
+
 	return (
-		<div>
-			<div style={{display : 'inline-block', verticalAlign: 'top'}}>
+		<div style={containerStyle}>
+			<div style={leftDivStyle}>
 			{
 				explorerSlot === null ? 
 					<AssemblyDisplay 
@@ -102,7 +108,7 @@ function App() {
 					/>
 			}
 			</div>
-			<div style={{display: 'inline-block', verticalAlign: 'top'}}>
+			<div style={rightDivStyle}>
 			<StatsDisplay acParts={acParts}/>
 			</div>
 		</div>

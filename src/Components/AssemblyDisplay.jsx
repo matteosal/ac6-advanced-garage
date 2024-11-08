@@ -32,7 +32,7 @@ const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 	const [selectedSlot, setSelectedSlot] = useState(null);
 
 	return(
-		<>
+		<div style={{width: '30%', margin: '50px 0px 0px 0px'}}>
 		{
 			globPartSlots.map(
 				slot => {
@@ -55,7 +55,7 @@ const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 				}
 			)
 		}
-		</>
+		</div>
 	)
 }
 
