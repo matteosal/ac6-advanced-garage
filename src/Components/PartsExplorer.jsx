@@ -31,10 +31,17 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 
 /*****************************************************************************/
 
+function toImageFileName(name) {
+	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
+}
+
 const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly}) => {
 	let style = {};
 	if(border)
 		style['border'] = 'solid';
+
+	const img = globPartImages[toImageFileName(part.Name)];
+
 	return (
 		<div 
 			style = {style}
@@ -42,7 +49,11 @@ const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly
 			onMouseLeave = {clearPreview}
 			onClick = {updateAssembly}
 		>
-		{part.Name}
+		{
+			img === undefined ?
+				<div>{part.Name}</div> :
+				<img style={{width: '200px', heigth: 'auto'}} src={img} />
+		}
 		</div>
 	)
 }
@@ -142,7 +153,7 @@ const PartList = (params) => {
 
 /*****************************************************************************/
 
-const hidddenPartStats = ['Name', 'Kind', 'RightArm', 'LeftArm', 'RightShoulder', 
+const hidddenPartStats = ['Kind', 'RightArm', 'LeftArm', 'RightShoulder', 
 	'LeftShoulder','ID'];
 
 function filterPartStats(entries) {
