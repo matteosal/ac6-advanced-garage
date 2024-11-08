@@ -4062,7 +4062,7 @@
 		"ENLoad": 270
 	},
 	{
-		"Name": "IA-CO1A: EPHEMERA",
+		"Name": "IA-C01A: EPHEMERA",
 		"Kind": "Arms",
 		"Manufacturer": "RRI",
 		"AP": 2380,
@@ -5036,7 +5036,7 @@
 		"ENOutput": 3500
 	},
 	{
-		"Name": "IB-C03B: NGI 000",
+		"Name": "IB-C03G: NGI 000",
 		"Kind": "Generator",
 		"GeneratorType": "Coral",
 		"Manufacturer": "RRI",
