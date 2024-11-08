@@ -159,7 +159,7 @@
 	{
 		"Name": "BML-G1/P01VTC-04",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Vertical Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -194,7 +194,7 @@
 	{
 		"Name": "BML-G1/P03VTC-08",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Vertical Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -230,7 +230,7 @@
 	{
 		"Name": "BML-G1/P07VTC-12",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Vertical Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -265,7 +265,7 @@
 	{
 		"Name": "BML-G1/P20MLT-04",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -301,7 +301,7 @@
 	{
 		"Name": "BML-G1/P29CNT",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Container Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -325,7 +325,7 @@
 	{
 		"Name": "BML-G1/P31DUO-02",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Dual Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -360,7 +360,7 @@
 	{
 		"Name": "BML-G1/P32DUO-03",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Dual Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -395,7 +395,7 @@
 	{
 		"Name": "BML-G2/P03MLT-06",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -431,7 +431,7 @@
 	{
 		"Name": "BML-G2/P05MLT-10",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -467,7 +467,7 @@
 	{
 		"Name": "BML-G2/P08DUO-03",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Dual Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -502,7 +502,7 @@
 	{
 		"Name": "BML-G2/P16SPL-08",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Split Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -528,7 +528,7 @@
 	{
 		"Name": "BML-G2/P17SPL-16",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Split Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -563,7 +563,7 @@
 	{
 		"Name": "BML-G2/P19SPL-12",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Split Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -599,7 +599,7 @@
 	{
 		"Name": "BML-G3/P04ACT-01",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Active Homing Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -626,7 +626,7 @@
 	{
 		"Name": "BML-G3/P05ACT-02",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Active Homing Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -696,7 +696,7 @@
 	{
 		"Name": "DF-BA-06 XUAN-GE",
 		"Kind": "Unit",
-		"Manufacturer": "Dafeng Core Industry",
+		"Manufacturer": "DAFENG",
 		"Description": "Bazooka",
 		"AttackType": "Explosive",
 		"WeaponType": "Semi-Auto",
@@ -749,7 +749,7 @@
 	{
 		"Name": "DF-GA-08 HU-BEN",
 		"Kind": "Unit",
-		"Manufacturer": "Dafeng Core Industry",
+		"Manufacturer": "DAFENG",
 		"Description": "Gatling Gun",
 		"AttackType": "Kinetic",
 		"WeaponType": "Full-Auto",
@@ -775,7 +775,7 @@
 	{
 		"Name": "DF-GA-09 SHAO-WEI",
 		"Kind": "Unit",
-		"Manufacturer": "Dafeng Core Industry",
+		"Manufacturer": "DAFENG",
 		"Description": "Gatling Cannon",
 		"AttackType": "Kinetic",
 		"WeaponType": "Full-Auto",
@@ -802,7 +802,7 @@
 	{
 		"Name": "DF-GR-07 GOU-CHEN",
 		"Kind": "Unit",
-		"Manufacturer": "Dafeng Core Industry",
+		"Manufacturer": "DAFENG",
 		"Description": "Grenade Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Burst",
@@ -827,7 +827,7 @@
 	{
 		"Name": "DF-MG-02 CHANG-CHEN",
 		"Kind": "Unit",
-		"Manufacturer": "Dafeng Core Industry",
+		"Manufacturer": "DAFENG",
 		"Description": "Machine Gun",
 		"AttackType": "Kinetic",
 		"WeaponType": "Full-Auto",
@@ -854,7 +854,7 @@
 	{
 		"Name": "DIZZY",
 		"Kind": "Unit",
-		"Manufacturer": "Melinite",
+		"Manufacturer": "MELINITE",
 		"Description": "Grenade Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Semi-Auto",
@@ -904,7 +904,7 @@
 	{
 		"Name": "EL-PW-00 VIENTO",
 		"Kind": "Unit",
-		"Manufacturer": "Elcano Foundry",
+		"Manufacturer": "ELCANO",
 		"Description": "Needle Gun",
 		"AttackType": "Kinetic",
 		"WeaponType": "Semi-Auto",
@@ -931,7 +931,7 @@
 	{
 		"Name": "EL-PW-01 TRUENO",
 		"Kind": "Unit",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"Description": "Needle Missile Launcher",
 		"AttackType": "Kinetic",
 		"WeaponType": "Homing",
@@ -1057,7 +1057,7 @@
 	{
 		"Name": "HG-004 DUCKETT",
 		"Kind": "Unit",
-		"Manufacturer": "Balam Industries",
+		"Manufacturer": "BALAM",
 		"Description": "Handgun",
 		"AttackType": "Kinetic",
 		"WeaponType": "Semi-Auto",
@@ -1163,7 +1163,7 @@
 	{
 		"Name": "HML-G2/P19MLT-04",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -1198,7 +1198,7 @@
 	{
 		"Name": "HML-G3/P08SPL-06",
 		"Kind": "Unit",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Description": "Split Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -1224,7 +1224,7 @@
 	{
 		"Name": "IA-C01W1: NEBULA",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Plasma Rifle",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -1259,7 +1259,7 @@
 	{
 		"Name": "IA-C01W2: MOONLIGHT",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Light Wave Blade",
 		"AttackType": "Energy",
 		"WeaponType": "Melee",
@@ -1285,7 +1285,7 @@
 	{
 		"Name": "IA-C01W3: AURORA",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Light Wave Cannon",
 		"AttackType": "Energy",
 		"WeaponType": "Homing",
@@ -1322,7 +1322,7 @@
 	{
 		"Name": "IA-C01W6: NB-REDSHIFT",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Coral Rifle",
 		"AttackType": "Coral",
 		"WeaponType": "Charge",
@@ -1358,7 +1358,7 @@
 	{
 		"Name": "IA-C01W7: ML-REDSHIFT",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Coral Oscillator",
 		"AttackType": "Coral",
 		"WeaponType": "Melee",
@@ -1384,7 +1384,7 @@
 	{
 		"Name": "IB-C03W1: WLT 011",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Coral Rifle",
 		"AttackType": "Coral",
 		"WeaponType": "Charge",
@@ -1419,7 +1419,7 @@
 	{
 		"Name": "IB-C03W2: WLT 101",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Coral Oscillator",
 		"AttackType": "Coral",
 		"WeaponType": "Melee",
@@ -1444,7 +1444,7 @@
 	{
 		"Name": "IB-C03W3: NGI 006",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Coral Missile Launcher",
 		"AttackType": "Coral",
 		"WeaponType": "Homing",
@@ -1477,7 +1477,7 @@
 	{
 		"Name": "IB-C03W4: NGI 028",
 		"Kind": "Unit",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Description": "Coral Shield",
 		"WeaponType": "Shield",
 		"ReloadType": "Overheat",
@@ -1499,7 +1499,7 @@
 	{
 		"Name": "IRIDIUM",
 		"Kind": "Unit",
-		"Manufacturer": "Melinite",
+		"Manufacturer": "MELINITE",
 		"Description": "Grenade Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Burst",
@@ -1551,7 +1551,7 @@
 	{
 		"Name": "LITTLE GEM",
 		"Kind": "Unit",
-		"Manufacturer": "Melinite",
+		"Manufacturer": "MELINITE",
 		"Description": "Bazooka",
 		"AttackType": "Explosive",
 		"WeaponType": "Burst",
@@ -1791,7 +1791,7 @@
 	{
 		"Name": "MAJESTIC",
 		"Kind": "Unit",
-		"Manufacturer": "Melinite",
+		"Manufacturer": "MELINITE",
 		"Description": "Bazooka",
 		"AttackType": "Explosive",
 		"WeaponType": "Burst",
@@ -2083,7 +2083,7 @@
 	{
 		"Name": "SG-027 ZIMMERMAN",
 		"Kind": "Unit",
-		"Manufacturer": "Balam Industries",
+		"Manufacturer": "BALAM",
 		"Description": "Shotgun",
 		"AttackType": "Kinetic",
 		"WeaponType": "Semi-Auto",
@@ -2200,7 +2200,7 @@
 	{
 		"Name": "VE-60LCA",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Cannon",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2244,7 +2244,7 @@
 	{
 		"Name": "VE-60LCB",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Cannon",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2278,7 +2278,7 @@
 	{
 		"Name": "VE-60SNA",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Stun Needle Launcher",
 		"AttackType": "Kinetic",
 		"WeaponType": "Semi-Auto",
@@ -2305,7 +2305,7 @@
 	{
 		"Name": "VE-61PSA",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Pulse Scutum",
 		"WeaponType": "Shield",
 		"ReloadType": "Overheat",
@@ -2327,7 +2327,7 @@
 	{
 		"Name": "VE-66LRA",
 		"Kind": "Unit",
-		"Manufacturer": "Arquebus Advanced Development Division",
+		"Manufacturer": "ARQUEBUS ADD",
 		"Description": "Laser Rifle",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2361,7 +2361,7 @@
 	{
 		"Name": "VE-66LRB",
 		"Kind": "Unit",
-		"Manufacturer": "Arquebus Advanced Development Division",
+		"Manufacturer": "ARQUEBUS ADD",
 		"Description": "Laser Rifle",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2395,7 +2395,7 @@
 	{
 		"Name": "VE-67LLA",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Lance",
 		"AttackType": "Energy",
 		"WeaponType": "Melee",
@@ -2420,7 +2420,7 @@
 	{
 		"Name": "VP-60LCD",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Diffuse Laser Cannon",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2455,7 +2455,7 @@
 	{
 		"Name": "VP-60LCS",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Cannon",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2489,7 +2489,7 @@
 	{
 		"Name": "VP-60LT",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Turret",
 		"AttackType": "Energy",
 		"WeaponType": "Semi-Auto",
@@ -2524,7 +2524,7 @@
 	{
 		"Name": "VP-61PB",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Pulse Buckler",
 		"WeaponType": "Shield",
 		"ReloadType": "Overheat",
@@ -2546,7 +2546,7 @@
 	{
 		"Name": "VP-61PS",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Pulse Shield",
 		"WeaponType": "Shield",
 		"ReloadType": "Overheat",
@@ -2568,7 +2568,7 @@
 	{
 		"Name": "VP-66EG",
 		"Kind": "Unit",
-		"Manufacturer": "Arquebus Corporation",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Stun Gun",
 		"AttackType": "Kinetic",
 		"WeaponType": "Semi-Auto",
@@ -2596,7 +2596,7 @@
 	{
 		"Name": "VP-66LH",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Handgun",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2638,7 +2638,7 @@
 	{
 		"Name": "VP-66LR",
 		"Kind": "Unit",
-		"Manufacturer": "Arquebus",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Rifle",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2672,7 +2672,7 @@
 	{
 		"Name": "VP-66LS",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Shotgun",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -2707,7 +2707,7 @@
 	{
 		"Name": "VP-67EB",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Stun Baton",
 		"AttackType": "Kinetic",
 		"WeaponType": "Melee",
@@ -2732,7 +2732,7 @@
 	{
 		"Name": "VP-67LD",
 		"Kind": "Unit",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"Description": "Laser Dagger",
 		"AttackType": "Energy",
 		"WeaponType": "Melee",
@@ -2980,7 +2980,7 @@
 	{
 		"Name": "WB-0000 BAD COOK",
 		"Kind": "Unit",
-		"Manufacturer": "RaD",
+		"Manufacturer": "RAD",
 		"Description": "Flamethrower",
 		"AttackType": "Explosive",
 		"WeaponType": "Full-Auto",
@@ -3032,7 +3032,7 @@
 	{
 		"Name": "WR-0555 ATTACHE",
 		"Kind": "Unit",
-		"Manufacturer": "RaD",
+		"Manufacturer": "RAD",
 		"Description": "HEAVY MACHINE GUN",
 		"AttackType": "Kinetic",
 		"WeaponType": "Full-Auto",
@@ -3059,7 +3059,7 @@
 	{
 		"Name": "WR-0777 SWEET SIXTEEN",
 		"Kind": "Unit",
-		"Manufacturer": "RaD",
+		"Manufacturer": "RAD",
 		"Description": "Shotgun",
 		"AttackType": "Kinetic",
 		"WeaponType": "Semi-Auto",
@@ -3120,7 +3120,7 @@
 	{
 		"Name": "WS-1200 THERAPIST",
 		"Kind": "Unit",
-		"Manufacturer": "RaD",
+		"Manufacturer": "RAD",
 		"Description": "Stun Bomb Launcher",
 		"AttackType": "Energy",
 		"WeaponType": "Burst",
@@ -3156,7 +3156,7 @@
 	{
 		"Name": "WS-5000 APERITIF",
 		"Kind": "Unit",
-		"Manufacturer": "RaD",
+		"Manufacturer": "RAD",
 		"Description": "Siege Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
@@ -3227,7 +3227,7 @@
 	{
 		"Name": "WUERGER/66E",
 		"Kind": "Unit",
-		"Manufacturer": "Schneider",
+		"Manufacturer": "SCHNEIDER",
 		"Description": "Laser Shotgun",
 		"AttackType": "Energy",
 		"WeaponType": "Charge",
@@ -3341,7 +3341,7 @@
 	{
 		"Name": "EL-PH-00 ALBA",
 		"Kind": "Head",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"AP": 600.0,
 		"AntiKineticDefense": 171.0,
 		"AntiEnergyDefense": 171.0,
@@ -3357,7 +3357,7 @@
 	{
 		"Name": "EL-TH-10 FIRMEZA",
 		"Kind": "Head",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"AP": 620.0,
 		"AntiKineticDefense": 156.0,
 		"AntiEnergyDefense": 158.0,
@@ -3485,7 +3485,7 @@
 	{
 		"Name": "IA-C01H: EPHEMERA",
 		"Kind": "Head",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"AP": 990.0,
 		"AntiKineticDefense": 160.0,
 		"AntiEnergyDefense": 189.0,
@@ -3501,7 +3501,7 @@
 	{
 		"Name": "IB-C03H: HAL 826",
 		"Kind": "Head",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"AP": 930.0,
 		"AntiKineticDefense": 169.0,
 		"AntiEnergyDefense": 182.0,
@@ -3565,7 +3565,7 @@
 	{
 		"Name": "VE-44A",
 		"Kind": "Head",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 1060.0,
 		"AntiKineticDefense": 179.0,
 		"AntiEnergyDefense": 188.0,
@@ -3581,7 +3581,7 @@
 	{
 		"Name": "VE-44B",
 		"Kind": "Head",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 1040.0,
 		"AntiKineticDefense": 167.0,
 		"AntiEnergyDefense": 181.0,
@@ -3597,7 +3597,7 @@
 	{
 		"Name": "VP-44D",
 		"Kind": "Head",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 880.0,
 		"AntiKineticDefense": 150.0,
 		"AntiEnergyDefense": 183.0,
@@ -3613,7 +3613,7 @@
 	{
 		"Name": "VP-44S",
 		"Kind": "Head",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 850.0,
 		"AntiKineticDefense": 170.0,
 		"AntiEnergyDefense": 172.0,
@@ -3764,7 +3764,7 @@
 	{
 		"Name": "EL-PC-00 ALBA",
 		"Kind": "Core",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"AP": 2850,
 		"AntiKineticDefense": 370,
 		"AntiEnergyDefense": 370,
@@ -3779,7 +3779,7 @@
 	{
 		"Name": "EL-TC-10 FIRMEZA",
 		"Kind": "Core",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"AP": 2650,
 		"AntiKineticDefense": 384,
 		"AntiEnergyDefense": 360,
@@ -3794,7 +3794,7 @@
 	{
 		"Name": "IA-C01C: EPHEMERA",
 		"Kind": "Core",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"AP": 3110,
 		"AntiKineticDefense": 335,
 		"AntiEnergyDefense": 382,
@@ -3809,7 +3809,7 @@
 	{
 		"Name": "IB-C03C: HAL 826",
 		"Kind": "Core",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"AP": 3670,
 		"AntiKineticDefense": 451,
 		"AntiEnergyDefense": 469,
@@ -3854,7 +3854,7 @@
 	{
 		"Name": "VE-40A",
 		"Kind": "Core",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 4320,
 		"AntiKineticDefense": 447,
 		"AntiEnergyDefense": 495,
@@ -3869,7 +3869,7 @@
 	{
 		"Name": "VP-40S",
 		"Kind": "Core",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 3160,
 		"AntiKineticDefense": 427,
 		"AntiEnergyDefense": 436,
@@ -4034,7 +4034,7 @@
 	{
 		"Name": "EL-PA-00 ALBA",
 		"Kind": "Arms",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"AP": 1750,
 		"AntiKineticDefense": 205,
 		"AntiEnergyDefense": 205,
@@ -4049,7 +4049,7 @@
 	{
 		"Name": "EL-TA-10 FIRMEZA",
 		"Kind": "Arms",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"AP": 1900,
 		"AntiKineticDefense": 210,
 		"AntiEnergyDefense": 214,
@@ -4064,7 +4064,7 @@
 	{
 		"Name": "IA-CO1A: EPHEMERA",
 		"Kind": "Arms",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"AP": 2380,
 		"AntiKineticDefense": 219,
 		"AntiEnergyDefense": 263,
@@ -4079,7 +4079,7 @@
 	{
 		"Name": "IB-C03A: HAL 826",
 		"Kind": "Arms",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"AP": 2210,
 		"AntiKineticDefense": 225,
 		"AntiEnergyDefense": 248,
@@ -4124,7 +4124,7 @@
 	{
 		"Name": "VE-46A",
 		"Kind": "Arms",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 2660,
 		"AntiKineticDefense": 262,
 		"AntiEnergyDefense": 270,
@@ -4139,7 +4139,7 @@
 	{
 		"Name": "VP-46D",
 		"Kind": "Arms",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 1620,
 		"AntiKineticDefense": 196,
 		"AntiEnergyDefense": 230,
@@ -4154,7 +4154,7 @@
 	{
 		"Name": "VP-46S",
 		"Kind": "Arms",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 2240,
 		"AntiKineticDefense": 231,
 		"AntiEnergyDefense": 252,
@@ -4298,7 +4298,7 @@
 		"Name": "EL-PL-00 ALBA",
 		"Kind": "Legs",
 		"LegType": "Bipedal",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"AP": 3850,
 		"AntiKineticDefense": 316,
 		"AntiEnergyDefense": 316,
@@ -4314,7 +4314,7 @@
 		"Name": "EL-TL-10 FIRMEZA",
 		"Kind": "Legs",
 		"LegType": "Bipedal",
-		"Manufacturer": "FIRMEZA",
+		"Manufacturer": "ELCANO",
 		"AP": 3600,
 		"AntiKineticDefense": 328,
 		"AntiEnergyDefense": 266,
@@ -4330,7 +4330,7 @@
 		"Name": "EL-TL-11 FORTALEZA",
 		"Kind": "Legs",
 		"LegType": "Tank",
-		"Manufacturer": "ELCANO FOUNDRY",
+		"Manufacturer": "ELCANO",
 		"AP": 5100,
 		"AntiKineticDefense": 345,
 		"AntiEnergyDefense": 311,
@@ -4356,7 +4356,7 @@
 		"Name": "IA-C01L: EPHEMERA",
 		"Kind": "Legs",
 		"LegType": "Bipedal",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"AP": 3800,
 		"AntiKineticDefense": 297,
 		"AntiEnergyDefense": 352,
@@ -4372,7 +4372,7 @@
 		"Name": "IB-C03L: HAL 826",
 		"Kind": "Legs",
 		"LegType": "Bipedal",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"AP": 4120,
 		"AntiKineticDefense": 359,
 		"AntiEnergyDefense": 380,
@@ -4526,7 +4526,7 @@
 		"Name": "VE-42A",
 		"Kind": "Legs",
 		"LegType": "Bipedal",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 5700,
 		"AntiKineticDefense": 380,
 		"AntiEnergyDefense": 421,
@@ -4542,7 +4542,7 @@
 		"Name": "VE-42B",
 		"Kind": "Legs",
 		"LegType": "Tank",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 8600,
 		"AntiKineticDefense": 379,
 		"AntiEnergyDefense": 460,
@@ -4568,7 +4568,7 @@
 		"Name": "VP-422",
 		"Kind": "Legs",
 		"LegType": "Bipedal",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 4090,
 		"AntiKineticDefense": 352,
 		"AntiEnergyDefense": 379,
@@ -4584,7 +4584,7 @@
 		"Name": "VP-424",
 		"Kind": "Legs",
 		"LegType": "Tetrapod",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"AP": 4100,
 		"AntiKineticDefense": 366,
 		"AntiEnergyDefense": 384,
@@ -4694,7 +4694,7 @@
 	{
 		"Name": "BST-G1/P10",
 		"Kind": "Booster",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Thrust": 5734,
 		"UpwardThrust": 5084,
 		"UpwardENConsumption": 630,
@@ -4713,7 +4713,7 @@
 	{
 		"Name": "BST-G2/P04",
 		"Kind": "Booster",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Thrust": 6001,
 		"UpwardThrust": 5400,
 		"UpwardENConsumption": 650,
@@ -4732,7 +4732,7 @@
 	{
 		"Name": "BST-G2/P06SPD",
 		"Kind": "Booster",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"Thrust": 6801,
 		"UpwardThrust": 5217,
 		"UpwardENConsumption": 672,
@@ -4789,7 +4789,7 @@
 	{
 		"Name": "IA-C01B: GILLS",
 		"Kind": "Booster",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Thrust": 6534,
 		"UpwardThrust": 5334,
 		"UpwardENConsumption": 580,
@@ -4808,7 +4808,7 @@
 	{
 		"Name": "IB-C03B: NGI 001",
 		"Kind": "Booster",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"Thrust": 6467,
 		"UpwardThrust": 6001,
 		"UpwardENConsumption": 750,
@@ -4851,7 +4851,7 @@
 	{
 		"Name": "FCS-G1/P01",
 		"Kind": "FCS",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"CloseRangeAssist": 38,
 		"MediumRangeAssist": 27,
 		"LongRangeAssist": 20,
@@ -4863,7 +4863,7 @@
 	{
 		"Name": "FCS-G2/P05",
 		"Kind": "FCS",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"CloseRangeAssist": 43,
 		"MediumRangeAssist": 80,
 		"LongRangeAssist": 26,
@@ -4875,7 +4875,7 @@
 	{
 		"Name": "FCS-G2/P10SLT",
 		"Kind": "FCS",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"CloseRangeAssist": 31,
 		"MediumRangeAssist": 41,
 		"LongRangeAssist": 29,
@@ -4887,7 +4887,7 @@
 	{
 		"Name": "FCS-G2/P12SML",
 		"Kind": "FCS",
-		"Manufacturer": "FURLONG DYNAMICS",
+		"Manufacturer": "FURLONG",
 		"CloseRangeAssist": 28,
 		"MediumRangeAssist": 52,
 		"LongRangeAssist": 30,
@@ -4899,7 +4899,7 @@
 	{
 		"Name": "IA-C01F: OCELLUS",
 		"Kind": "FCS",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"CloseRangeAssist": 81,
 		"MediumRangeAssist": 12,
 		"LongRangeAssist": 3,
@@ -4911,7 +4911,7 @@
 	{
 		"Name": "IB-C03F: WLT 001",
 		"Kind": "FCS",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"CloseRangeAssist": 58,
 		"MediumRangeAssist": 77,
 		"LongRangeAssist": 54,
@@ -4923,7 +4923,7 @@
 	{
 		"Name": "VE-21A",
 		"Kind": "FCS",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"CloseRangeAssist": 45,
 		"MediumRangeAssist": 72,
 		"LongRangeAssist": 92,
@@ -4935,7 +4935,7 @@
 	{
 		"Name": "VE-21B",
 		"Kind": "FCS",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"CloseRangeAssist": 15,
 		"MediumRangeAssist": 85,
 		"LongRangeAssist": 90,
@@ -5026,7 +5026,7 @@
 		"Name": "IA-C01G: AORTA",
 		"Kind": "Generator",
 		"GeneratorType": "Coral",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"ENCapacity": 3000,
 		"ENRecharge": 238,
 		"SupplyRecovery": 333,
@@ -5039,7 +5039,7 @@
 		"Name": "IB-C03B: NGI 000",
 		"Kind": "Generator",
 		"GeneratorType": "Coral",
-		"Manufacturer": "RUBICON RESEARCH INSTITUTE",
+		"Manufacturer": "RRI",
 		"ENCapacity": 4400,
 		"ENRecharge": 250,
 		"SupplyRecovery": 312,
@@ -5052,7 +5052,7 @@
 		"Name": "VE-20A",
 		"Kind": "Generator",
 		"GeneratorType": "Circulating-current",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"ENCapacity": 2560,
 		"ENRecharge": 787,
 		"SupplyRecovery": 416,
@@ -5065,7 +5065,7 @@
 		"Name": "VE-20B",
 		"Kind": "Generator",
 		"GeneratorType": "Circulating-current",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"ENCapacity": 3300,
 		"ENRecharge": 763,
 		"SupplyRecovery": 392,
@@ -5078,7 +5078,7 @@
 		"Name": "VE-20C",
 		"Kind": "Generator",
 		"GeneratorType": "Circulating-current",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"ENCapacity": 3690,
 		"ENRecharge": 555,
 		"SupplyRecovery": 377,
@@ -5091,7 +5091,7 @@
 		"Name": "VP-20C",
 		"Kind": "Generator",
 		"GeneratorType": "Circulating-current",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"ENCapacity": 2870,
 		"ENRecharge": 980,
 		"SupplyRecovery": 454,
@@ -5104,7 +5104,7 @@
 		"Name": "VP-20D",
 		"Kind": "Generator",
 		"GeneratorType": "Circulating-current",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"ENCapacity": 3720,
 		"ENRecharge": 714,
 		"SupplyRecovery": 384,
@@ -5117,7 +5117,7 @@
 		"Name": "VP-20S",
 		"Kind": "Generator",
 		"GeneratorType": "Circulating-current",
-		"Manufacturer": "ARQUEBUS CORP",
+		"Manufacturer": "ARQUEBUS",
 		"ENCapacity": 2620,
 		"ENRecharge": 892,
 		"SupplyRecovery": 434,
