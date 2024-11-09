@@ -1,6 +1,6 @@
 import StatsRow from './StatsRow.jsx';
 
-import {globUnitIcons, globNoneUnit} from '../Misc/Globals.js';
+import {globUnitIcons, globManufacturerLogos, globNoneUnit} from '../Misc/Globals.js';
 
 const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
 	'WeaponType', 'ReloadType', 'AdditionalEffect', 'RightArm', 'LeftArm', 'RightBack', 'LeftBack','ID'];
@@ -35,21 +35,27 @@ const PartStatsHeader = ({part}) => {
 	else
 		desc = part['Kind']
 
+	const manufacturerLogo = globManufacturerLogos[part['Manufacturer'] + '.png']
+
 	return(
 		<>
-			<div>{desc}</div>
-			<div>{part['Name']}</div>
-			<div>{part['Manufacturer']}</div>
-			{
-				isUnit ? 
-					<div>
-						<img src={atkTypeImg} />
-						<img src={wpnTypeImg} />
-						<img src={rldTypeImg} />
-						<img src={addEffImg} />
-					</div> :
-				<div></div>
-			}
+			<div style={{display: 'inline-block'}}>
+				<div>{desc}</div>
+				<div>{part['Name']}</div>
+				{
+					isUnit ? 
+						<div>
+							<img src={atkTypeImg} />
+							<img src={wpnTypeImg} />
+							<img src={rldTypeImg} />
+							<img src={addEffImg} />
+						</div> :
+					<div></div>
+				}
+			</div>
+			<div style={{display: 'inline-block'}}>
+				<img src={manufacturerLogo} width='100px' />
+			</div>
 		</>
 	)
 }
