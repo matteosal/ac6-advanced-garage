@@ -24,7 +24,7 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 				}
 			}}
 		>
-		{toDisplayString(slot)}
+		{toDisplayString(slot).toUpperCase()}
 		</div>
 	)
 }
@@ -64,7 +64,7 @@ function getDisplayedParts(slot, searchString) {
 	let slotFilterFunc;
 	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot);
 
-	if(['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder'].includes(slot)) {
+	if(['rightArm', 'leftArm', 'rightBack', 'leftBack'].includes(slot)) {
 		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
 	} else if(slot === 'booster') {
 		// The None booster exists because of the tank legs but the user should not be allowed

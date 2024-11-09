@@ -93,7 +93,7 @@ function getENSupplyEfficiency(enOutput, enLoad) {
 
 /**********************************************************************************/
 
-const unitSlots = ['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder'];
+const unitSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack'];
 const frameSlots = ['head', 'core', 'arms', 'legs'];
 const allSlots = unitSlots.concat(frameSlots, ['booster', 'fcs', 'generator']);
 

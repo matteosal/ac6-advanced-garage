@@ -39,7 +39,7 @@ globPartsData = globPartsData.map((part, idx) => Object.assign(part, {ID: idx}))
 const globNoneUnit = globPartsData[globPartsData.length - 3];
 const globNoneBooster = globPartsData[globPartsData.length - 2];
 
-const globPartSlots = ['rightArm', 'leftArm', 'rightShoulder', 'leftShoulder', 'head', 'core', 
+const globPartSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
 	'arms', 'legs','booster', 'fcs', 'generator', 'expansion'];
 
 /***************************************************************************************/
@@ -52,8 +52,9 @@ function insertCharacter(str, char, pos) {
 	return str.substr(0, pos) + char + str.substr(pos);
 }
 
-const displayStringTable = {'fcs': 'FCS', 'QBENConsumption': 'QB EN Consumption',
-	'ABENConsumption': 'AB EN Consumption'};
+const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT', 
+	'rightBack': 'R-BACK UNIT', 'leftBack': 'L-BACK UNIT', 'fcs': 'FCS', 
+	'QBENConsumption': 'QB EN Consumption', 'ABENConsumption': 'AB EN Consumption'};
 
 function toDisplayString(str) {
 	const fromTable = displayStringTable[str];

@@ -39,8 +39,8 @@ const starterACParts = Object.fromEntries(
 
 /*************************************************************************************/
 
-const checkedUnitSlots = [['rightArm', 'rightShoulder'], ['rightShoulder', 'rightArm'], 
-	['leftArm', 'leftShoulder'], ['leftShoulder', 'leftArm']];
+const checkedUnitSlots = [['rightArm', 'rightBack'], ['rightBack', 'rightArm'], 
+	['leftArm', 'leftBack'], ['leftBack', 'leftArm']];
 
 const assemblyPartsReducer = (parts, action) => {
 	const output = {...parts};
