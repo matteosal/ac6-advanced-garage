@@ -18,7 +18,7 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 	if(inactive)
 		style['color'] = 'gray';
 
-	const img = globSlotImages[toImageFileName(slot)]
+	const img = globSlotImages[toImageFileName(slot)];
 
 	return (
 		<div 

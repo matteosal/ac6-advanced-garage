@@ -8,6 +8,7 @@ function importAll(r) {
 
 const globPartImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
 const globSlotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
+const globUnitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
 
 /***************************************************************************************/
 
@@ -97,6 +98,7 @@ export {
 	globPartsData,
 	globPartImages,
 	globSlotImages,
+	globUnitIcons,
 	globNoneUnit,
 	globNoneBooster,
 	globPartSlots,

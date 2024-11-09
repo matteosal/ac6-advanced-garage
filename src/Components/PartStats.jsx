@@ -1,5 +1,7 @@
 import StatsRow from './StatsRow.jsx';
 
+import {globUnitIcons, globNoneUnit} from '../Misc/Globals.js';
+
 const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
 	'WeaponType', 'ReloadType', 'AdditionalEffect', 'RightArm', 'LeftArm', 'RightBack', 'LeftBack','ID'];
 
@@ -18,19 +20,36 @@ function toNullStats(part) {
 const PartStatsHeader = ({part}) => {
 	let desc;
 
-	if(part['Kind'] === 'Unit') 
+	const isUnit = part['Kind'] === 'Unit' && part['ID'] !== globNoneUnit['ID']
+	if(isUnit) {
 		desc = part['Description']
+		var atkTypeImg = globUnitIcons[part['AttackType'] + '.png'];
+		var wpnTypeImg = globUnitIcons[part['WeaponType'] + '.png'];
+		var rldTypeImg = globUnitIcons[part['ReloadType'] + '.png'];
+		var addEffImg;
+		if(part['AdditionalEffect'] === undefined)
+			addEffImg = globUnitIcons['NoEffect.png']
+		else
+			addEffImg = globUnitIcons[part['AdditionalEffect'] + '.png'];		
+	}
 	else
 		desc = part['Kind']
+
 	return(
 		<>
 			<div>{desc}</div>
 			<div>{part['Name']}</div>
 			<div>{part['Manufacturer']}</div>
-			<div>{part['AttackType']}</div>
-			<div>{part['WeaponType']}</div>
-			<div>{part['ReloadType']}</div>
-			<div>{part['AdditionalEffect']}</div>
+			{
+				isUnit ? 
+					<div>
+						<img src={atkTypeImg} />
+						<img src={wpnTypeImg} />
+						<img src={rldTypeImg} />
+						<img src={addEffImg} />
+					</div> :
+				<div></div>
+			}
 		</>
 	)
 }
