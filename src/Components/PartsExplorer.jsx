@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 import {globPartsData, globPartImages, globPartSlots, capitalizeFirstLetter, toDisplayString, globNoneBooster}
 	from '../Misc/Globals.js';
@@ -8,7 +8,7 @@ import StatsRow from './StatsRow.jsx';
 /*****************************************************************************/
 
 const SlotSelector = ({slot, inactive, border, updateSlot}) => {
-	let style = {display : 'inline-block', margin: '0px 10px 0px 0px'};
+	let style = {display: 'inline'};
 	if(border)
 		style['border'] = 'solid';
 	if(inactive)
@@ -52,7 +52,7 @@ const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly
 		{
 			img === undefined ?
 				<div>{part.Name}</div> :
-				<img style={{width: '200px', heigth: 'auto'}} src={img} />
+				<img src={img} />
 		}
 		</div>
 	)
@@ -95,15 +95,8 @@ function getDisplayedParts(slot, searchString) {
 }
 
 const PartList = (params) => {
-	const {slot, setSlot, curPart, acPartsDispatch, previewPart, setPreviewPart,
+	const {slot, setPartsExplore, curPart, acPartsDispatch, previewPart, setPreviewPart,
 		searchString, setSearchString} = params;
-
-	const style = {
-		display: 'inline-block',
-		verticalAlign: 'top',
-		height: '500px',
-		overflowY: 'auto'
-	}
 
 	const displayedParts = getDisplayedParts(slot, searchString);
 
@@ -126,13 +119,12 @@ const PartList = (params) => {
 	const updateAssembly = part => {
 		acPartsDispatch({target: 'current', slot: slot, id: part['ID']})
 		clearPreview()
-		// setting the slot to null closes the explorer and shows the assembly
-		setSlot(null)							
+		setPartsExplore(false)							
 	}
 
 	return(
 		<>
-		<div style = {style}>
+		<div style={{height: '700px', overflowY: 'auto'}}>
 		<input value={searchString} onChange={event => setSearchString(event.target.value)}/>
 		{
 			displayedParts.map(
@@ -153,100 +145,39 @@ const PartList = (params) => {
 
 /*****************************************************************************/
 
-const hidddenPartStats = ['Kind', 'RightArm', 'LeftArm', 'RightShoulder', 
-	'LeftShoulder','ID'];
-
-function filterPartStats(entries) {
-	return entries.filter(([prop, val]) => !hidddenPartStats.includes(prop));
-}
-
-const PartStats = ({previewPart, curPart}) => {
-	const curPartStats = Object.fromEntries(
-		filterPartStats(Object.entries(curPart))
-	);
-	if(previewPart === null) {
-		let nullStats = Object.fromEntries(
-			Object.entries(curPartStats).map(([k, v]) => [k, null])
-		);
-		var [leftStats, rightStats] = [nullStats, curPartStats];
-	}
-	else {
-		var previewStats = Object.fromEntries(
-			filterPartStats(Object.entries(previewPart))
-		);
-		var [leftStats, rightStats] = [curPartStats, previewStats];
-	}
-
-	return (
-		<>
-		<div style = {{display: 'inline-block', verticalAlign: 'top'}}>
-		<table>
-		<tbody>
-		{
-			Object.keys(rightStats).map(
-				name => <StatsRow 
-					name = {name}
-					left = {leftStats[name]}
-					right = {rightStats[name]} 
-					key = {name}
-				/>
-			)
-		}
-		</tbody>
-		</table>
-		</div>
-		</>
-	);
-}
-
-/*****************************************************************************/
-
-const PartsExplorer = ({slot, setSlot, acParts, acPartsDispatch}) => {
-	const [previewPart, setPreviewPart] = useState(null);
+const PartsExplorer = ({slot, setSlot, setPartsExplore, previewPart, setPreviewPart, acParts, acPartsDispatch}) => {
 	const [searchString, setSearchString] = useState('');
 
-	const handleKeyDown = (event) => {
-		if(event.key == 'Escape')
-			setSlot(null)
-	}
-
-	useEffect(() => {
-			document.addEventListener('keydown', handleKeyDown);
-			return () => document.removeEventListener('keydown', handleKeyDown);
-		},
-		[]
-	)
-
 	return (
-		<>
-		{
-			globPartSlots.map(
-				(s) => <SlotSelector 
-					slot = {s}
-					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
-					border = {s === slot}
-					updateSlot = {() => {
-						setSlot(s)
-						setPreviewPart(null)
-						setSearchString('')
-					}}
-					key = {s}
-				/>
-			)
-		}
-		<br/>
-		<PartList
-			slot = {slot}
-			setSlot = {setSlot}
-			curPart = {acParts[slot]}
-			acPartsDispatch = {acPartsDispatch}
-			previewPart = {previewPart}
-			setPreviewPart = {setPreviewPart}
-			searchString = {searchString}
-			setSearchString = {setSearchString}
-		/>
-		<PartStats previewPart={previewPart} curPart={acParts[slot]} />
-		</>
+		<div style={{flex: '0 1 347px'}}>
+			<div style={{width: '347px', overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
+			{
+				globPartSlots.map(
+					(s) => <SlotSelector 
+						slot = {s}
+						inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
+						border = {s === slot}
+						updateSlot = {() => {
+							setSlot(s)
+							setPreviewPart(null)
+							setSearchString('')
+						}}
+						key = {s}
+					/>
+				)
+			}
+			</div>
+			<PartList
+				slot = {slot}
+				setPartsExplore={setPartsExplore}
+				curPart = {acParts[slot]}
+				acPartsDispatch = {acPartsDispatch}
+				previewPart = {previewPart}
+				setPreviewPart = {setPreviewPart}
+				searchString = {searchString}
+				setSearchString = {setSearchString}
+			/>
+		</div>
 	)
 }
 

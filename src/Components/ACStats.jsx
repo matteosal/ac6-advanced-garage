@@ -154,7 +154,7 @@ function computeAllStats(parts) {
 
 /**********************************************************************************/
 
-const StatsDisplay = ({acParts}) => {
+const ACStats = ({acParts}) => {
 	const stats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
 		let nullStats = Object.fromEntries(Object.entries(stats).map(([k, v]) => [k, null]));
@@ -166,6 +166,7 @@ const StatsDisplay = ({acParts}) => {
 	}
 
 	return (
+		<div style={{flex: '0 1 300px'}}>
 		<table>
 		<tbody>
 		{
@@ -180,7 +181,8 @@ const StatsDisplay = ({acParts}) => {
 		}
 		</tbody>
 		</table>
+		</div>
 	);
 }
 
-export default StatsDisplay;
+export default ACStats;

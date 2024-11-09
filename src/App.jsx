@@ -1,9 +1,10 @@
-import { useState, useReducer } from 'react';
+import { useState, useReducer, useEffect } from 'react';
 
 import {globPartsData, globNoneUnit, globNoneBooster, globPartSlots} from './Misc/Globals.js';
-import AssemblyDisplay from "./Components/AssemblyDisplay.jsx";
+import ACAssembly from "./Components/ACAssembly.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
-import StatsDisplay from "./Components/StatsDisplay.jsx";
+import PartStats from "./Components/PartStats.jsx";
+import ACStats from "./Components/ACStats.jsx";
 
 import './reset.css'
 
@@ -83,7 +84,21 @@ function App() {
 		assemblyPartsReducer,
 		{current: starterACParts, preview: null}
 	);
-	const [explorerSlot, setExplorerSlot] = useState(null);
+	const [explorerSlot, setExplorerSlot] = useState('rightArm');
+	const [previewPart, setPreviewPart] = useState(null);
+	const [partsExplore, setPartsExplore] = useState(false);
+
+	const handleKeyDown = (event) => {
+		if(event.key == 'Escape')
+			setPartsExplore(false)
+	}
+
+	useEffect(() => {
+			document.addEventListener('keydown', handleKeyDown);
+			return () => document.removeEventListener('keydown', handleKeyDown);
+		},
+		[]
+	)
 
 	const backgroundStyle = {
 		height: '100vh',
@@ -92,34 +107,36 @@ function App() {
 	}
 	const containerStyle = {
 		display : 'flex',
+		flexWrap: 'wrap',
 		justifyContent: 'center'
 	}
-	const leftDivStyle = {display : 'inline-block', verticalAlign: 'top', 
-		margin: '20px 0px 0px 0px', width: '800px'}
-	const rightDivStyle = {display: 'inline-block', verticalAlign: 'top', 
-		margin: '30px 0px 0px 0px'}
 
 	return (
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
-			<div style={leftDivStyle}>
 			{
-				explorerSlot === null ? 
-					<AssemblyDisplay 
-						currentParts={acParts.current}
-						setExplorerSlot={setExplorerSlot} 
-					/> : 
+				partsExplore ? 
 					<PartsExplorer 
 						slot={explorerSlot}
 						setSlot={setExplorerSlot}
+						setPartsExplore={setPartsExplore}
+						previewPart={previewPart}
+						setPreviewPart={setPreviewPart}
 						acParts={acParts.current}
 						acPartsDispatch={acPartsDispatch}
+					/> :
+					<ACAssembly 
+						currentParts={acParts.current}
+						setExplorerSlot={setExplorerSlot}
+						setPartsExplore={setPartsExplore}
 					/>
 			}
-			</div>
-			<div style={rightDivStyle}>
-			<StatsDisplay acParts={acParts}/>
-			</div>
+			<PartStats 
+				previewPart={previewPart}
+				curPart={acParts.current[explorerSlot]}
+				visible={partsExplore} 
+			/>			
+			<ACStats acParts={acParts}/>
 		</div>
 		</div>
 	)

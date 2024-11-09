@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import {globPartsData, globPartSlots} from '../Misc/Globals.js';
 
-const PartBox = ({name, inactive, border, slot, setSelectedSlot, setExplorerSlot}) => {
+const PartBox = ({name, inactive, border, slot, setSelectedSlot, setter}) => {
 	let style = {};
 	if(border)
 		style['border'] = 'solid';
@@ -21,18 +21,23 @@ const PartBox = ({name, inactive, border, slot, setSelectedSlot, setExplorerSlot
 				}
 			}
 			onMouseLeave = {() => setSelectedSlot(null)}
-			onClick = {() => setExplorerSlot(slot)}
+			onClick = {() => setter(slot)}
 		>
 		{name}
 		</div>
 	);
 }
 
-const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
+const ACAssembly = ({setExplorerSlot, setPartsExplore, currentParts}) => {
 	const [selectedSlot, setSelectedSlot] = useState(null);
 
+	const openPartExplorer = slot => {
+		setPartsExplore(true)
+		setExplorerSlot(slot)
+	}
+
 	return(
-		<div style={{width: '30%', margin: '50px 0px 0px 0px'}}>
+		<div>
 		{
 			globPartSlots.map(
 				slot => {
@@ -41,7 +46,7 @@ const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 					if(slot === 'booster' && currentParts.legs['LegType'] === 'Tank') {
 						setter = () => {};
 					} else {
-						setter = setExplorerSlot;
+						setter = openPartExplorer;
 					}
 					return <PartBox 
 						name = {currentParts[slot]['Name']}
@@ -49,7 +54,7 @@ const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 						border = {slot === selectedSlot}
 						slot = {slot}
 						setSelectedSlot = {setSelectedSlot}
-						setExplorerSlot = {setter}
+						setter = {setter}
 						key = {slot}
 					/>
 				}
@@ -59,4 +64,4 @@ const AssemblyDisplay = ({setExplorerSlot, currentParts}) => {
 	)
 }
 
-export default AssemblyDisplay;
+export default ACAssembly;
