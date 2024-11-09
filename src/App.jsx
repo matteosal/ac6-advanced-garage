@@ -91,8 +91,8 @@ function App() {
 		background: 'radial-gradient(circle at center, #0064e1 , #003232)'
 	}
 	const containerStyle = {
-		maxWidth : 'fit-content',
-		margin: '0px auto 0px auto'
+		display : 'flex',
+		justifyContent: 'center'
 	}
 	const leftDivStyle = {display : 'inline-block', verticalAlign: 'top', 
 		margin: '20px 0px 0px 0px', width: '800px'}
