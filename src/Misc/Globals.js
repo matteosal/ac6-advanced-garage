@@ -1,4 +1,12 @@
-import globPartsData from './PartsData.json';
+import globPartsData from '../Assets/PartsData.json';
+
+function importAll(r) {
+    let images = {};
+    r.keys().map(item => { images[item.replace('./', '')] = r(item); });
+    return images;
+}
+
+const globPartImages = importAll(require.context('../Assets/PartsImages/', false, /\.png/));
 
 /***************************************************************************************/
 
@@ -85,6 +93,7 @@ function round(val, roundTarget = 1) {
 
 export {
 	globPartsData,
+	globPartImages,
 	globNoneUnit,
 	globNoneBooster,
 	globPartSlots,

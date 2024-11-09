@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import {globPartsData, globPartSlots, capitalizeFirstLetter, toDisplayString, globNoneBooster}
+import {globPartsData, globPartImages, globPartSlots, capitalizeFirstLetter, toDisplayString, globNoneBooster}
 	from '../Misc/Globals.js';
 
 import StatsRow from './StatsRow.jsx';
