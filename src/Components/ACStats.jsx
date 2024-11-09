@@ -1,4 +1,4 @@
-import {globPartsData, globPartSlots} from '../Misc/Globals.js';
+import {globPartsData} from '../Misc/Globals.js';
 
 import StatsRow from './StatsRow.jsx';
 

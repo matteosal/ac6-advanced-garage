@@ -1,18 +1,25 @@
 import { useState } from 'react';
 
-import {globPartsData, globPartImages, globPartSlots, capitalizeFirstLetter, toDisplayString, globNoneBooster}
-	from '../Misc/Globals.js';
+import {globPartsData, globPartImages, globSlotImages, globPartSlots, capitalizeFirstLetter, 
+	toDisplayString, globNoneBooster} from '../Misc/Globals.js';
 
 import StatsRow from './StatsRow.jsx';
 
 /*****************************************************************************/
 
+function toImageFileName(name) {
+	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
+}
+
 const SlotSelector = ({slot, inactive, border, updateSlot}) => {
-	let style = {display: 'inline'};
+	let style = {display: 'inline-block'};
 	if(border)
 		style['border'] = 'solid';
 	if(inactive)
 		style['color'] = 'gray';
+
+	const img = globSlotImages[toImageFileName(slot)]
+
 	return (
 		<div 
 			style = {style}
@@ -24,16 +31,13 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 				}
 			}}
 		>
-		{toDisplayString(slot).toUpperCase()}
+			<div>{toDisplayString(slot).toUpperCase()}</div>
+			<img src={img} />
 		</div>
 	)
 }
 
 /*****************************************************************************/
-
-function toImageFileName(name) {
-	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
-}
 
 const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly}) => {
 	let style = {};

@@ -7,6 +7,7 @@ function importAll(r) {
 }
 
 const globPartImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
+const globSlotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
 
 /***************************************************************************************/
 
@@ -95,6 +96,7 @@ function round(val, roundTarget = 1) {
 export {
 	globPartsData,
 	globPartImages,
+	globSlotImages,
 	globNoneUnit,
 	globNoneBooster,
 	globPartSlots,
