@@ -17,8 +17,8 @@ const noneUnit = {
 	"Kind": "Unit",
 	"RightArm": true,
 	"LeftArm": true,
-	"RightShoulder": true,
-	"LeftShoulder": true,
+	"RightBack": true,
+	"LeftBack": true,
 	"Weight": 0,
 	"ENLoad": 0
 };
