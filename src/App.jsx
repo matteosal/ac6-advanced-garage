@@ -85,10 +85,14 @@ function App() {
 	);
 	const [explorerSlot, setExplorerSlot] = useState(null);
 
+	const backgroundStyle = {
+		height: '100vh',
+		width: '100vw',		
+		background: 'radial-gradient(circle at center, #0064e1 , #003232)'
+	}
 	const containerStyle = {
 		maxWidth : 'fit-content',
-		margin: '0px auto 0px auto',
-		background: 'radial-gradient(circle at center, #0064e1 , #003232)'
+		margin: '0px auto 0px auto'
 	}
 	const leftDivStyle = {display : 'inline-block', verticalAlign: 'top', 
 		margin: '20px 0px 0px 0px', width: '800px'}
@@ -96,6 +100,7 @@ function App() {
 		margin: '30px 0px 0px 0px'}
 
 	return (
+		<div style={backgroundStyle}>
 		<div style={containerStyle}>
 			<div style={leftDivStyle}>
 			{
@@ -115,6 +120,7 @@ function App() {
 			<div style={rightDivStyle}>
 			<StatsDisplay acParts={acParts}/>
 			</div>
+		</div>
 		</div>
 	)
 }
