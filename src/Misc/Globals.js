@@ -6,7 +6,7 @@ function importAll(r) {
     return images;
 }
 
-const globPartImages = importAll(require.context('../Assets/PartsImages/', false, /\.png/));
+const globPartImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
 
 /***************************************************************************************/
 
