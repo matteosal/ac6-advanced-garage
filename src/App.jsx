@@ -137,7 +137,7 @@ function App() {
 				preview.slot === null ?
 					<ACAssembly 
 						currentParts={acParts.current}
-						previewDispatch={previewDispatch}
+						previewSetter={slot => previewDispatch({slot: slot})}
 					/> :
 					<PartsExplorer 
 						preview={preview}

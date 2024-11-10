@@ -13,27 +13,24 @@ function toImageFileName(name) {
 
 const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 	let style = {display: 'inline-block'};
+	let imgStyle = {};
 	if(border)
 		style['border'] = 'solid';
 	if(inactive)
-		style['color'] = 'gray';
+		imgStyle['filter'] = 'brightness(0.5)';
 
 	const img = globSlotImages[toImageFileName(slot)];
 
-	toDisplayString(slot).toUpperCase();
+	let mouseEnter;
+	if(inactive)
+		mouseEnter = () => {}
+	else
+		mouseEnter = () => updateSlot()
 
+	// toDisplayString(slot).toUpperCase();
 	return (
-		<div 
-			style = {style}
-			onMouseEnter = {() => {
-				if(inactive) {
-					return
-				} else {
-					updateSlot()
-				}
-			}}
-		>
-			<img src={img} width='60px' />
+		<div style={style} onMouseEnter={mouseEnter}>
+			<img style={imgStyle} src={img} width='60px' />
 		</div>
 	)
 }
@@ -100,14 +97,14 @@ function getDisplayedParts(slot, searchString) {
 }
 
 const PartList = (params) => {
-	const {slot, previewDispatch, curPart, acPartsDispatch, previewPart,
-		searchString, setSearchString} = params;
+	const {preview, previewDispatch, curPart, acPartsDispatch,
+		searchString, onSearch} = params;
 
-	const displayedParts = getDisplayedParts(slot, searchString);
+	const displayedParts = getDisplayedParts(preview.slot, searchString);
 
 	const drawBorder = part => 
-		part['ID'] === curPart['ID'] ||
-		(previewPart != null && part['ID'] === previewPart['ID']);
+		part['ID'] === curPart['ID'] || // part is equipped
+		(preview.part != null && part['ID'] === preview.part['ID']); // part is in preview
 
 	const clearPreview = () => {
 		previewDispatch({part: null})
@@ -116,13 +113,13 @@ const PartList = (params) => {
 	const updatePreview = part => {
 		if(part['ID'] != curPart['ID']) {
 			previewDispatch({part: part})
-			acPartsDispatch({target: 'preview', slot: slot, id: part['ID']})
+			acPartsDispatch({target: 'preview', slot: preview.slot, id: part['ID']})
 		} else {
 			clearPreview()
 		}
 	}
 	const updateAssembly = part => {
-		acPartsDispatch({target: 'current', slot: slot, id: part['ID']})
+		acPartsDispatch({target: 'current', slot: preview.slot, id: part['ID']})
 		clearPreview()
 		previewDispatch({slot: null})							
 	}
@@ -130,7 +127,7 @@ const PartList = (params) => {
 	return(
 		<>
 		<div style={{height: '700px', overflowY: 'auto'}}>
-		<input value={searchString} onChange={event => setSearchString(event.target.value)}/>
+		<input value={searchString} onChange={onSearch}/>
 		{
 			displayedParts.map(
 				(part) => <PartSelector
@@ -164,7 +161,6 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 						border = {s === preview.slot}
 						updateSlot = {() => {
 							previewDispatch({slot: s})
-							previewDispatch({part: null})
 							setSearchString('')
 						}}
 						key = {s}
@@ -173,13 +169,12 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 			}
 			</div>
 			<PartList
-				slot = {preview.slot}
+				preview = {preview}
 				previewDispatch={previewDispatch}
 				curPart = {acParts[preview.slot]}
 				acPartsDispatch = {acPartsDispatch}
-				previewPart = {preview.part}
 				searchString = {searchString}
-				setSearchString = {setSearchString}
+				onSearch = {event => setSearchString(event.target.value)}
 			/>
 		</div>
 	)
