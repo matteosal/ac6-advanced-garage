@@ -97,6 +97,8 @@ function App() {
 	)
 
 	const handleKeyDown = (event) => {
+		if(event.target.matches('input'))
+			return
 		if(event.key === 'Escape')
 			previewDispatch({slot: null})
 		else if((event.key === 'e' || event.key === 'q') && preview.slot !== null) {
