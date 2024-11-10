@@ -60,7 +60,13 @@ const PartStatsHeader = ({part}) => {
 	)
 }
 
-const PartStats = ({previewPart, curPart, visible}) => {
+const PartStats = ({previewPart, curPart}) => {
+
+	let style = {flex: '0 1 600px'}
+
+	if(curPart === undefined) {
+		return <div style = {style}></div>
+	}
 
 	if(previewPart === null) {
 		let nullPart = toNullStats(curPart);
@@ -71,11 +77,7 @@ const PartStats = ({previewPart, curPart, visible}) => {
 	}
 
 	const leftFiltered = filterPartStats(leftPart)
-	const rightFiltered = filterPartStats(rightPart)	
-
-	let style = {flex: '0 1 600px'}
-	if(!visible)
-		style['visibility'] = 'hidden'
+	const rightFiltered = filterPartStats(rightPart)
 
 	return (
 		<>

@@ -100,7 +100,7 @@ function getDisplayedParts(slot, searchString) {
 }
 
 const PartList = (params) => {
-	const {slot, setPartsExplore, curPart, acPartsDispatch, previewPart, setPreviewPart,
+	const {slot, previewDispatch, curPart, acPartsDispatch, previewPart,
 		searchString, setSearchString} = params;
 
 	const displayedParts = getDisplayedParts(slot, searchString);
@@ -110,12 +110,12 @@ const PartList = (params) => {
 		(previewPart != null && part['ID'] === previewPart['ID']);
 
 	const clearPreview = () => {
-		setPreviewPart(null)
+		previewDispatch({part: null})
 		acPartsDispatch({target: 'preview', setNull: true})		
 	}
 	const updatePreview = part => {
 		if(part['ID'] != curPart['ID']) {
-			setPreviewPart(part)
+			previewDispatch({part: part})
 			acPartsDispatch({target: 'preview', slot: slot, id: part['ID']})
 		} else {
 			clearPreview()
@@ -124,7 +124,7 @@ const PartList = (params) => {
 	const updateAssembly = part => {
 		acPartsDispatch({target: 'current', slot: slot, id: part['ID']})
 		clearPreview()
-		setPartsExplore(false)							
+		previewDispatch({slot: null})							
 	}
 
 	return(
@@ -150,7 +150,7 @@ const PartList = (params) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({slot, setSlot, setPartsExplore, previewPart, setPreviewPart, acParts, acPartsDispatch}) => {
+const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => {
 	const [searchString, setSearchString] = useState('');
 
 	return (
@@ -161,10 +161,10 @@ const PartsExplorer = ({slot, setSlot, setPartsExplore, previewPart, setPreviewP
 					(s) => <SlotSelector 
 						slot = {s}
 						inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
-						border = {s === slot}
+						border = {s === preview.slot}
 						updateSlot = {() => {
-							setSlot(s)
-							setPreviewPart(null)
+							previewDispatch({slot: s})
+							previewDispatch({part: null})
 							setSearchString('')
 						}}
 						key = {s}
@@ -173,12 +173,11 @@ const PartsExplorer = ({slot, setSlot, setPartsExplore, previewPart, setPreviewP
 			}
 			</div>
 			<PartList
-				slot = {slot}
-				setPartsExplore={setPartsExplore}
-				curPart = {acParts[slot]}
+				slot = {preview.slot}
+				previewDispatch={previewDispatch}
+				curPart = {acParts[preview.slot]}
 				acPartsDispatch = {acPartsDispatch}
-				previewPart = {previewPart}
-				setPreviewPart = {setPreviewPart}
+				previewPart = {preview.part}
 				searchString = {searchString}
 				setSearchString = {setSearchString}
 			/>

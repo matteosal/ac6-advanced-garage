@@ -79,18 +79,26 @@ const assemblyPartsReducer = (parts, action) => {
 	return output
 }
 
+const previewReducer = (preview, action) => {
+	if(action.slot !== undefined)
+		return {slot: action.slot, part: null}
+	else // set part
+		return {slot: preview.slot, part: action.part}
+}
+
 function App() {
 	const [acParts, acPartsDispatch] = useReducer(
 		assemblyPartsReducer,
 		{current: starterACParts, preview: null}
 	);
-	const [explorerSlot, setExplorerSlot] = useState('rightArm');
-	const [previewPart, setPreviewPart] = useState(null);
-	const [partsExplore, setPartsExplore] = useState(false);
+	const [preview, previewDispatch] = useReducer(
+		previewReducer,
+		{slot: null, part: null}
+	)
 
 	const handleKeyDown = (event) => {
 		if(event.key == 'Escape')
-			setPartsExplore(false)
+			previewDispatch({slot: null})
 	}
 
 	useEffect(() => {
@@ -103,7 +111,18 @@ function App() {
 	const backgroundStyle = {
 		height: '100vh',
 		width: '100vw',		
-		background: 'repeating-linear-gradient(rgb(0, 0, 0, 0) 0px, rgb(0, 0, 0, 0) 3px, rgb(127, 127, 127, 0.05) 3px, rgb(127, 127, 127, 0.05) 6px), radial-gradient(circle at center, rgb(36, 53, 73), rgb(13, 20, 30))'
+		background: 
+			'repeating-linear-gradient(\
+				rgb(0, 0, 0, 0) 0px,\
+				rgb(0, 0, 0, 0) 3px,\
+				rgb(127, 127, 127, 0.05) 3px,\
+				rgb(127, 127, 127, 0.05) 6px\
+			), \
+			radial-gradient(\
+				circle at center,\
+				rgb(36, 53, 73),\
+				rgb(13, 20, 30)\
+			)'
 	}
 	const containerStyle = {
 		display : 'flex',
@@ -115,26 +134,21 @@ function App() {
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
 			{
-				partsExplore ? 
-					<PartsExplorer 
-						slot={explorerSlot}
-						setSlot={setExplorerSlot}
-						setPartsExplore={setPartsExplore}
-						previewPart={previewPart}
-						setPreviewPart={setPreviewPart}
-						acParts={acParts.current}
-						acPartsDispatch={acPartsDispatch}
-					/> :
+				preview.slot === null ?
 					<ACAssembly 
 						currentParts={acParts.current}
-						setExplorerSlot={setExplorerSlot}
-						setPartsExplore={setPartsExplore}
+						previewDispatch={previewDispatch}
+					/> :
+					<PartsExplorer 
+						preview={preview}
+						previewDispatch={previewDispatch}
+						acParts={acParts.current}
+						acPartsDispatch={acPartsDispatch}
 					/>
 			}
 			<PartStats 
-				previewPart={previewPart}
-				curPart={acParts.current[explorerSlot]}
-				visible={partsExplore} 
+				previewPart={preview.part}
+				curPart={acParts.current[preview.slot]}
 			/>			
 			<ACStats acParts={acParts}/>
 		</div>

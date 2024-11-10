@@ -28,12 +28,11 @@ const PartBox = ({name, inactive, border, slot, setSelectedSlot, setter}) => {
 	);
 }
 
-const ACAssembly = ({setExplorerSlot, setPartsExplore, currentParts}) => {
+const ACAssembly = ({previewDispatch, currentParts}) => {
 	const [selectedSlot, setSelectedSlot] = useState(null);
 
 	const openPartExplorer = slot => {
-		setPartsExplore(true)
-		setExplorerSlot(slot)
+		previewDispatch({slot: slot})
 	}
 
 	return(
