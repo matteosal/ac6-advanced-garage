@@ -72,11 +72,15 @@ const PartBox = ({part, border, updatePreview, clearPreview, updateAssembly}) =>
 			onMouseLeave = {clearPreview}
 			onClick = {updateAssembly}
 		>
-		{
-			img === undefined ?
-				<div>{part.Name}</div> :
-				<img src={img} width='220px' />
-		}
+			<div style={{maxWidth: 'fit-content', margin: '0px auto 0px auto'}}>
+				{
+					img === undefined ?
+						<div style={{height: 144}}>
+							{part.Name}
+						</div> :
+						<img src={img} width='280px' />
+				}
+			</div>
 		</div>
 	)
 }
