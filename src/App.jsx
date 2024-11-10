@@ -80,10 +80,46 @@ const assemblyPartsReducer = (parts, action) => {
 }
 
 const previewReducer = (preview, action) => {
-	if(action.slot !== undefined)
-		return {slot: action.slot, part: null}
-	else // set part
-		return {slot: preview.slot, part: action.part}
+	if(action.slot === null) {
+		// Set slot to null means close the part explorer. Reached by either keydown handler 
+		// (ESC) or PartBox updating assembly
+		return {slot: null, slotRange: null, part: null}
+	} else if(action.slot !== undefined) { 
+		// Set slot without shifting slotRange
+		if(preview.slotRange === null) { 
+			// PartsExplorer is closed, reached by ACAssembly. We have to calculate slotRange
+			const pos = globPartSlots.indexOf(action.slot);
+			const start = Math.min(Math.max(pos - 1, 0), globPartSlots.length - 5);
+			return {slot: action.slot, slotRange: [start, start + 4], part: null}
+		} else{
+			// PartsExplorer is open, reached by SlotBox. Keep slot range and just change slot
+			return {slot: action.slot, slotRange: preview.slotRange, part: null}
+		}
+	} else if(action.moveSlot !== undefined) { 
+		// Set slot shifting slotRange if possible. Reached by keydown handler (Q|E) when 
+		// PartsExplorer is open
+		const currentPos = globPartSlots.indexOf(preview.slot);
+		const maxPos = globPartSlots.length - 1;
+		let newRange = preview.slotRange;
+		if(action.moveSlot === 1 && currentPos < maxPos) { 
+			// Increase slot id, shift right if possible
+			const newSlot = globPartSlots[currentPos + 1];
+			if(currentPos > preview.slotRange[1] - 2 && preview.slotRange[1] < maxPos)
+				newRange = newRange.map(i => i+1);
+			return {slot: newSlot, slotRange: newRange, part: null}
+		} else if(action.moveSlot === -1 && currentPos > 0) { 
+			// Decrease slot id, shift left if possible
+			const newSlot = globPartSlots[currentPos - 1];
+			if(currentPos < preview.slotRange[0] + 2 && preview.slotRange[0] > 0)
+				newRange = newRange.map(i => i-1);
+			return {slot: newSlot, slotRange: newRange, part: null}
+		} else { 
+			// Already at limit, cannot increase|decrease
+			return preview
+		}
+	}
+	else // Set part without changing slot
+		return {slot: preview.slot, slotRange: preview.slotRange, part: action.part}
 }
 
 function App() {
@@ -93,7 +129,7 @@ function App() {
 	);
 	const [preview, previewDispatch] = useReducer(
 		previewReducer,
-		{slot: null, part: null}
+		{slot: null, slotRange: null, part: null}
 	)
 
 	const handleKeyDown = (event) => {
@@ -101,14 +137,10 @@ function App() {
 			return
 		if(event.key === 'Escape')
 			previewDispatch({slot: null})
-		else if((event.key === 'e' || event.key === 'q') && preview.slot !== null) {
-			// This is stupid, we should probably use the slot position as a state
-			const currentPos = globPartSlots.indexOf(preview.slot);
-			if(event.key === 'e' && currentPos < globPartSlots.length - 1)
-				previewDispatch({slot: globPartSlots[currentPos + 1]})
-			else if(event.key === 'q' && currentPos > 0)
-				previewDispatch({slot: globPartSlots[currentPos - 1]})
-		}
+		else if(preview.slot !== null && event.key === 'e')
+			previewDispatch({moveSlot: 1})
+		else if(preview.slot !== null && event.key === 'q')
+			previewDispatch({moveSlot: -1})
 	}
 
 	useEffect(() => {

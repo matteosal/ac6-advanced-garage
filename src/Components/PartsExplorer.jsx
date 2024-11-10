@@ -30,22 +30,29 @@ const SlotBox = ({slot, inactive, border, updateSlot}) => {
 	// ;
 	return (
 		<div style={style} onMouseEnter={mouseEnter}>
-			<img style={imgStyle} src={img} width='60px' />
+			<img style={imgStyle} src={img} width='58px' />
 		</div>
 	)
 }
 
-const SlotSelector = ({previewSlot, updateSlot, acParts}) => {
+const SlotSelector = ({preview, updateSlot, acParts}) => {
+
+	const displayedPartSlots = globPartSlots.filter(
+		(s, pos) => pos >= preview.slotRange[0] && pos <= preview.slotRange[1]
+	);
+
 	return (
 		<>
-		<div style={{maxWidth: 'fit-content', margin: '0px auto 0px auto'}}>{toDisplayString(previewSlot).toUpperCase()}</div>
-		<div style={{overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
+		<div style={{maxWidth: 'fit-content', margin: '0px auto 0px auto'}}>
+			{toDisplayString(preview.slot).toUpperCase()}
+		</div>
+		<div>
 		{
-				globPartSlots.map(
+				displayedPartSlots.map(
 				(s) => <SlotBox 
 					slot = {s}
 					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
-					border = {s === previewSlot}
+					border = {s === preview.slot}
 					updateSlot = {() => updateSlot(s)}
 					key = {s}
 				/>
@@ -178,7 +185,7 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 	return (
 		<div style={{flex: '0 1 300px', minWidth: 0}}>
 			<SlotSelector
-				previewSlot={preview.slot}
+				preview={preview}
 				updateSlot = {(s) => {
 						previewDispatch({slot: s})
 						setSearchString('')
