@@ -11,7 +11,7 @@ function toImageFileName(name) {
 	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
 }
 
-const SlotSelector = ({slot, inactive, border, updateSlot}) => {
+const SlotBox = ({slot, inactive, border, updateSlot}) => {
 	let style = {display: 'inline-block'};
 	let imgStyle = {};
 	if(border)
@@ -27,7 +27,7 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 	else
 		mouseEnter = () => updateSlot()
 
-	// toDisplayString(slot).toUpperCase();
+	// ;
 	return (
 		<div style={style} onMouseEnter={mouseEnter}>
 			<img style={imgStyle} src={img} width='60px' />
@@ -35,9 +35,30 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 	)
 }
 
+const SlotSelector = ({previewSlot, updateSlot, acParts}) => {
+	return (
+		<>
+		<div style={{maxWidth: 'fit-content', margin: '0px auto 0px auto'}}>{toDisplayString(previewSlot).toUpperCase()}</div>
+		<div style={{overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
+		{
+				globPartSlots.map(
+				(s) => <SlotBox 
+					slot = {s}
+					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
+					border = {s === previewSlot}
+					updateSlot = {() => updateSlot(s)}
+					key = {s}
+				/>
+			)
+		}
+		</div>
+		</>
+	)
+}
+
 /*****************************************************************************/
 
-const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly}) => {
+const PartBox = ({part, border, updatePreview, clearPreview, updateAssembly}) => {
 	let style = {};
 	if(border)
 		style['border'] = 'solid';
@@ -96,7 +117,7 @@ function getDisplayedParts(slot, searchString) {
 	return output;
 }
 
-const PartList = (params) => {
+const PartSelector = (params) => {
 	const {preview, previewDispatch, curPart, acPartsDispatch,
 		searchString, onSearch} = params;
 
@@ -130,7 +151,7 @@ const PartList = (params) => {
 		<input value={searchString} onChange={onSearch}/>
 		{
 			displayedParts.map(
-				(part) => <PartSelector
+				(part) => <PartBox
 					part = {part}
 					border = {drawBorder(part)}
 					updatePreview = {() => updatePreview(part)}
@@ -152,23 +173,16 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 
 	return (
 		<div style={{flex: '0 1 300px', minWidth: 0}}>
-			<div style={{overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
-			{
-				globPartSlots.map(
-					(s) => <SlotSelector 
-						slot = {s}
-						inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
-						border = {s === preview.slot}
-						updateSlot = {() => {
-							previewDispatch({slot: s})
-							setSearchString('')
-						}}
-						key = {s}
-					/>
-				)
-			}
-			</div>
-			<PartList
+			<SlotSelector
+				previewSlot={preview.slot}
+				updateSlot = {(s) => {
+						previewDispatch({slot: s})
+						setSearchString('')
+					}
+				}
+				acParts={acParts}
+			/>
+			<PartSelector
 				preview = {preview}
 				previewDispatch={previewDispatch}
 				curPart = {acParts[preview.slot]}
