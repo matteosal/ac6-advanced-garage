@@ -42,6 +42,38 @@ globPartsData = globPartsData.map((part, idx) => Object.assign(part, {ID: idx}))
 const globNoneUnit = globPartsData[globPartsData.length - 3];
 const globNoneBooster = globPartsData[globPartsData.length - 2];
 
+/***************************************************************************************/
+
+// Stores min and max val for every stat, broken down by kinds
+let globPartStatsRanges = {'Unit': {}, 'Head': {}, 'Core': {}, 'Arms': {}, 'Legs': {},
+	'Booster': {}, 'FCS': {}, 'Generator': {}, 'Expansion': {}};
+
+function scanStatsForRanges(kind, partEntry) {
+	const [name, val] = partEntry;
+	if(typeof val === 'number') {
+		if(globPartStatsRanges[kind][name] === undefined) {
+			globPartStatsRanges[kind][name] = [val, val];
+			return;
+		}
+
+		if(val > globPartStatsRanges[kind][name][1])
+			globPartStatsRanges[kind][name][1] = val;
+		else if(val < globPartStatsRanges[kind][name][0])
+			globPartStatsRanges[kind][name][0] = val;
+	}
+	return;
+}
+
+// Fills globPartStatsRanges
+globPartsData.map(
+	part => {
+		if(part['Name'] !== '(NOTHING)')
+		Object.entries(part).map(entry => scanStatsForRanges(part['Kind'], entry))
+	}
+);
+
+/***************************************************************************************/
+
 const globPartSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
 	'arms', 'legs','booster', 'fcs', 'generator', 'expansion'];
 
@@ -96,13 +128,14 @@ function round(val, roundTarget = 1) {
 /***************************************************************************************/
 
 export {
-	globPartsData,
 	globPartImages,
 	globSlotImages,
 	globUnitIcons,
 	globManufacturerLogos,
+	globPartsData,
 	globNoneUnit,
 	globNoneBooster,
+	globPartStatsRanges,
 	globPartSlots,
 	capitalizeFirstLetter,
 	toDisplayString,
