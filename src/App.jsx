@@ -97,15 +97,23 @@ function App() {
 	)
 
 	const handleKeyDown = (event) => {
-		if(event.key == 'Escape')
+		if(event.key === 'Escape')
 			previewDispatch({slot: null})
+		else if((event.key === 'e' || event.key === 'q') && preview.slot !== null) {
+			// This is stupid, we should probably use the slot position as a state
+			const currentPos = globPartSlots.indexOf(preview.slot);
+			if(event.key === 'e' && currentPos < globPartSlots.length - 1)
+				previewDispatch({slot: globPartSlots[currentPos + 1]})
+			else if(event.key === 'q' && currentPos > 0)
+				previewDispatch({slot: globPartSlots[currentPos - 1]})
+		}
 	}
 
 	useEffect(() => {
 			document.addEventListener('keydown', handleKeyDown);
 			return () => document.removeEventListener('keydown', handleKeyDown);
 		},
-		[]
+		[handleKeyDown]
 	)
 
 	const backgroundStyle = {
