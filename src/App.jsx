@@ -103,7 +103,7 @@ function App() {
 	const backgroundStyle = {
 		height: '100vh',
 		width: '100vw',		
-		background: 'radial-gradient(circle at center, #0064e1 , #003232)'
+		background: 'repeating-linear-gradient(rgb(0, 0, 0, 0) 0px, rgb(0, 0, 0, 0) 3px, rgb(127, 127, 127, 0.05) 3px, rgb(127, 127, 127, 0.05) 6px), radial-gradient(circle at center, rgb(36, 53, 73), rgb(13, 20, 30))'
 	}
 	const containerStyle = {
 		display : 'flex',
