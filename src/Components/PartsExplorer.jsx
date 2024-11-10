@@ -20,6 +20,8 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 
 	const img = globSlotImages[toImageFileName(slot)];
 
+	toDisplayString(slot).toUpperCase();
+
 	return (
 		<div 
 			style = {style}
@@ -31,8 +33,7 @@ const SlotSelector = ({slot, inactive, border, updateSlot}) => {
 				}
 			}}
 		>
-			<div>{toDisplayString(slot).toUpperCase()}</div>
-			<img src={img} />
+			<img src={img} width='60px' />
 		</div>
 	)
 }
@@ -56,7 +57,7 @@ const PartSelector = ({part, border, updatePreview, clearPreview, updateAssembly
 		{
 			img === undefined ?
 				<div>{part.Name}</div> :
-				<img src={img} />
+				<img src={img} width='220px' />
 		}
 		</div>
 	)
@@ -153,8 +154,8 @@ const PartsExplorer = ({slot, setSlot, setPartsExplore, previewPart, setPreviewP
 	const [searchString, setSearchString] = useState('');
 
 	return (
-		<div style={{flex: '0 1 347px'}}>
-			<div style={{width: '347px', overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
+		<div style={{flex: '0 1 300px', minWidth: 0}}>
+			<div style={{overflowX: 'auto', overflowY: 'hidden', whiteSpace: 'nowrap'}}>
 			{
 				globPartSlots.map(
 					(s) => <SlotSelector 
