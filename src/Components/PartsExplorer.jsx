@@ -183,7 +183,7 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 	const [searchString, setSearchString] = useState('');
 
 	return (
-		<div style={{flex: '0 1 300px', minWidth: 0}}>
+		<>
 			<SlotSelector
 				preview={preview}
 				updateSlot = {(s) => {
@@ -201,7 +201,7 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 				searchString = {searchString}
 				onSearch = {event => setSearchString(event.target.value)}
 			/>
-		</div>
+		</>
 	)
 }
 

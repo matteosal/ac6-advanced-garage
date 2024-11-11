@@ -62,10 +62,8 @@ const PartStatsHeader = ({part}) => {
 
 const PartStats = ({previewPart, curPart}) => {
 
-	let style = {flex: '0 1 600px'}
-
 	if(curPart === undefined) {
-		return <div style = {style}></div>
+		return <div></div>
 	}
 
 	if(previewPart === null) {
@@ -81,7 +79,6 @@ const PartStats = ({previewPart, curPart}) => {
 
 	return (
 		<>
-		<div style = {style}>
 			<PartStatsHeader part={rightPart} />
 			<table>
 			<tbody>
@@ -98,7 +95,6 @@ const PartStats = ({previewPart, curPart}) => {
 				}
 			</tbody>
 			</table>
-		</div>
 		</>
 	);
 }

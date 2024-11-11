@@ -166,8 +166,7 @@ const ACStats = ({acParts}) => {
 	}
 
 	return (
-		<div style={{flex: '0 1 300px'}}>
-		<table>
+		<table style={{marginLeft: 'auto', marginRight: '0'}}>
 		<tbody>
 		{
 			Object.keys(stats).map(
@@ -181,7 +180,6 @@ const ACStats = ({acParts}) => {
 		}
 		</tbody>
 		</table>
-		</div>
 	);
 }
 

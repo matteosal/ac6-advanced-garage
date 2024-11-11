@@ -35,8 +35,12 @@ const PartBox = ({partName, slot, previewSetter, inactive}) => {
 }
 
 const ACAssembly = ({previewSetter, currentParts}) => {
+	const style = {
+		marginLeft: '0',
+		marginRight: 'auto'
+	}
 	return(
-		<div>
+		<div style={style}>
 		{
 			globPartSlots.map(
 				slot => <PartBox 

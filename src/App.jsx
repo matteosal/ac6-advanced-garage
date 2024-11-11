@@ -148,7 +148,7 @@ function App() {
 			return () => document.removeEventListener('keydown', handleKeyDown);
 		},
 		[handleKeyDown]
-	)
+	);
 
 	const backgroundStyle = {
 		height: '100vh',
@@ -165,34 +165,44 @@ function App() {
 				rgb(36, 53, 73),\
 				rgb(13, 20, 30)\
 			)'
-	}
+	};
 	const containerStyle = {
-		display : 'flex',
-		flexWrap: 'wrap',
-		justifyContent: 'center'
-	}
+		height: '100%',
+		width: '1500px',
+		margin: 'auto'
+	};
+	const inlineBlockStyle = {
+		display: 'inline-block',
+		width: '500px'
+	};
 
 	return (
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
-			{
-				preview.slot === null ?
-					<ACAssembly 
-						currentParts={acParts.current}
-						previewSetter={slot => previewDispatch({slot: slot})}
-					/> :
-					<PartsExplorer 
-						preview={preview}
-						previewDispatch={previewDispatch}
-						acParts={acParts.current}
-						acPartsDispatch={acPartsDispatch}
-					/>
-			}
-			<PartStats 
-				previewPart={preview.part}
-				curPart={acParts.current[preview.slot]}
-			/>			
-			<ACStats acParts={acParts}/>
+			<div style={inlineBlockStyle}>
+				{
+					preview.slot === null ?
+						<ACAssembly 
+							currentParts={acParts.current}
+							previewSetter={slot => previewDispatch({slot: slot})}
+						/> :
+						<PartsExplorer 
+							preview={preview}
+							previewDispatch={previewDispatch}
+							acParts={acParts.current}
+							acPartsDispatch={acPartsDispatch}
+						/>
+				}
+			</div>
+			<div style={inlineBlockStyle}>
+				<PartStats 
+					previewPart={preview.part}
+					curPart={acParts.current[preview.slot]}
+				/>
+			</div>
+			<div style={inlineBlockStyle}>
+				<ACStats acParts={acParts}/>
+			</div>
 		</div>
 		</div>
 	)

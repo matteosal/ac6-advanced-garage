@@ -48,22 +48,20 @@ table {
 	border-spacing: 5px;
 }
 
+/* SCROLLBAR  */
 /* width */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-
 /* Track */
 ::-webkit-scrollbar-track {
   background: #435468;
 }
-
 /* Handle */
 ::-webkit-scrollbar-thumb {
   background: #abc1cc;
 }
-
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
