@@ -11,6 +11,10 @@ const globSlotImages = importAll(require.context('../Assets/Images/Slots', false
 const globUnitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
 const globManufacturerLogos = importAll(require.context('../Assets/Images/Manufacturers', false, /\.png/));
 
+function toImageFileName(name) {
+	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
+}
+
 /***************************************************************************************/
 
 const noneUnit = {
@@ -128,6 +132,7 @@ function round(val, roundTarget = 1) {
 /***************************************************************************************/
 
 export {
+	toImageFileName,
 	globPartImages,
 	globSlotImages,
 	globUnitIcons,

@@ -1,15 +1,11 @@
 import { useState } from 'react';
 
 import {globPartsData, globPartImages, globSlotImages, globPartSlots, capitalizeFirstLetter, 
-	toDisplayString, globNoneBooster} from '../Misc/Globals.js';
+	toDisplayString, globNoneBooster, toImageFileName} from '../Misc/Globals.js';
 
 import StatsRow from './StatsRow.jsx';
 
 /*****************************************************************************/
-
-function toImageFileName(name) {
-	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
-}
 
 const SlotBox = ({slot, inactive, border, updateSlot}) => {
 	let style = {display: 'inline-block'};

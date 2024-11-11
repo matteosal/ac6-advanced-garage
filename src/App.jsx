@@ -173,7 +173,8 @@ function App() {
 	};
 	const inlineBlockStyle = {
 		display: 'inline-block',
-		width: '500px'
+		width: '500px',
+		marginTop: '100px'
 	};
 
 	return (
