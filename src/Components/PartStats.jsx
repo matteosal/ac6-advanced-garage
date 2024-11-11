@@ -3,7 +3,7 @@ import StatsRow from './StatsRow.jsx';
 import {globUnitIcons, globManufacturerLogos, globNoneUnit} from '../Misc/Globals.js';
 
 const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
-	'WeaponType', 'ReloadType', 'AdditionalEffect', 'RightArm', 'LeftArm', 'RightBack', 'LeftBack','ID'];
+	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 'LeftArm', 'RightBack', 'LeftBack','ID'];
 
 function filterPartStats(stats) {
 	let entries = Object.entries(stats);
@@ -90,7 +90,8 @@ const PartStats = ({previewPart, curPart}) => {
 						name => <StatsRow 
 							name = {name}
 							left = {leftFiltered[name]}
-							right = {rightFiltered[name]} 
+							right = {rightFiltered[name]}
+							kind = {rightPart['Kind']} 
 							key = {name}
 						/>
 					)

@@ -1,4 +1,4 @@
-import {round, toDisplayString} from '../Misc/Globals.js';
+import {globPartStatsRanges, round, toDisplayString} from '../Misc/Globals.js';
 
 const roundTargets = {'AttitudeRecovery': 1, 'BoostSpeed': 1, 'QBSpeed': 1, 
 	'QBENConsumption': 1, 'QBReloadTime': 0.01, 'ENSupplyEfficiency': 1, 
@@ -17,12 +17,25 @@ function isBetter(name, a, b) {
 		return a > b
 }
 
+const StatBar = ({kind, name, val}) => {
+	const [min, max] = globPartStatsRanges[kind][name];
+	const score = (val - min) / (max - min) * 100;
+
+	return (
+		<td>
+			<div style={{width: '150px', backgroundColor: 'black'}}>
+				<div style={{width: score + '%', height: '5px', backgroundColor: 'white'}}>{''}</div>
+			</div>
+		</td>
+	)
+}
+
 const doubleArrowChar = '\u00bb';
 const upwardsTriangleChar = '\u23f6';
 const downwardsTriangleChar = '\u23f7';
 const longDashCharacter = '\u2012';
 
-const StatsRow = ({name, left, right}) => {
+const StatsRow = ({name, left, right, kind}) => {
 
 	const roundTarget = roundTargets[name];
 
@@ -68,6 +81,11 @@ const StatsRow = ({name, left, right}) => {
 	return (
 	<tr>
 		<td>{toDisplayString(name)}</td>
+		{
+			kind != null ?
+				<StatBar kind={kind} name={name} val={rightDisplay}/> :
+				<td>{''}</td>
+		}
 		<td style={leftStyle}>{leftDisplay}</td>
 		<td>{doubleArrowChar}</td>
 		<td style={rightStyle}>{rightDisplay}</td>
