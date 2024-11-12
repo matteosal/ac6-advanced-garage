@@ -6,6 +6,7 @@
 	* Add empty lines
 	* Add advanced AC stats
 * Add advanced reapon stats
+* Button prompts and implementation of other button-related stuff (sort parts, etc)
 * Emit messages when units are moved from a slot to another and for the tank/booster stuff
 * Add build link generation and load
 	* Make sure build is validated

@@ -144,6 +144,17 @@ function round(val, roundTarget = 1) {
 	return Math.round(val * roundFactor) / roundFactor;
 }
 
+function total(list) {
+	return list.reduce((val, acc) => val + acc);
+}
+
+function mean(list) {
+	if(list.length === 0)
+		return undefined;
+	return total(list) / list.length
+}
+
+
 /***************************************************************************************/
 
 export {
@@ -164,8 +175,10 @@ export {
 	noneBooster,
 	partStatsRanges,
 	partSlots,
-	/* DISPLAY UTILS */
+	/* UTILS */
 	capitalizeFirstLetter,
 	toDisplayString,
-	round
+	round,
+	total,
+	mean
 };

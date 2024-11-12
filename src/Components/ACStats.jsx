@@ -91,64 +91,150 @@ function getENSupplyEfficiency(enOutput, enLoad) {
 	return res;
 }
 
+function getRechargeDelays(generator, core) {
+	const factor = (2 - core['GeneratorSupplyAdj']/100.);
+	return Object.fromEntries(
+		[['normal', 'ENRecharge'], ['redline', 'SupplyRecovery']].map(
+			([key, prop]) => [key, 1000 / generator[prop] * factor]
+		)
+	)
+}
+
+function timeToRecoverEnergy(energy, supplyEff, delay) {
+  return energy / supplyEff + delay;
+}
+
+function energyRecoveryFunc(delay, postRecoveryEn, supplyEff, enCapacity) {
+  return time => {
+    if (time < delay) {
+      return 0;
+    } else {
+      return Math.min(supplyEff * (time - delay) + postRecoveryEn, enCapacity);
+    }
+  }
+}
+
 /**********************************************************************************/
 
 const unitSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack'];
 const frameSlots = ['head', 'core', 'arms', 'legs'];
-const allSlots = unitSlots.concat(frameSlots, ['booster', 'fcs', 'generator']);
+const innerSlots = ['booster', 'fcs', 'generator'];
+const allSlots = unitSlots.concat(frameSlots, innerSlots);
 
 function computeAllStats(parts) {
 
 	const {core, arms, legs, booster, generator} = parts;
 
-	const totWeight = sumKeyOver(parts, 'Weight', allSlots);
-	const enLoad = sumKeyOver(parts, 'ENLoad', complement(allSlots, 'generator'));
+	const ap = sumKeyOver(parts, 'AP', frameSlots);
+	const defense = {
+		kinetic: sumKeyOver(parts, 'AntiKineticDefense', frameSlots),
+		energy: sumKeyOver(parts, 'AntiEnergyDefense', frameSlots),
+		explosive: sumKeyOver(parts, 'AntiExplosiveDefense', frameSlots)
+	}
+	const effectiveAP = Object.fromEntries(
+		['kinetic', 'energy', 'explosive'].map(t => [t, ap * defense[t] / 1000])
+	);
 
-	let baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption;
+	let baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption,
+		qbJetDuration;
 	if(legs['LegType'] === 'Tank')
-		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption] = [
+		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption,
+			qbJetDuration] = [
 			legs['TravelSpeed'],
 			legs['HighSpeedPerf'],
 			legs['QBReloadTime'],
 			legs['QBReloadIdealWeight'],
-			legs['QBENConsumption']
+			legs['QBENConsumption'],
+			legs['QBJetDuration']
 		];
 	else
-		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption] = [
+		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption,
+			qbJetDuration] = [
 			booster['Thrust'] * 6 / 100.,
 			booster['QBThrust'] / 50.,
 			booster['QBReloadTime'],
 			booster['QBReloadIdealWeight'],
-			booster['QBENConsumption']
+			booster['QBENConsumption'],
+			booster['QBJetDuration']
 		];
 
+	const qbENConsumption = baseQBENConsumption * (2 - core['BoosterEfficiencyAdj'] / 100.);
+
+	const weightPerGroup = [unitSlots, frameSlots, innerSlots].map(
+		slots => sumKeyOver(parts, 'Weight', slots)
+	); // [units, slots, inner parts]
+	const enLoadPerGroup = [unitSlots, frameSlots, complement(innerSlots, 'generator')].map(
+		slots => sumKeyOver(parts, 'ENLoad', slots)
+	); // [units, slots, inner parts]
+
 	const enOutput = Math.floor(generator['ENOutput'] * 0.01 * core['GeneratorOutputAdj']);
+	const enLoad = glob.total(enLoadPerGroup);
+	const enSupplyEfficiency = getENSupplyEfficiency(enOutput, enLoad);
+	const enRechargeDelay = getRechargeDelays(generator, core);
+
+	const qbENRechargeTime = qbJetDuration + timeToRecoverEnergy(
+		qbENConsumption,
+		enSupplyEfficiency,
+		enRechargeDelay.normal
+	);
+
+	const weight = glob.total(weightPerGroup);
 
 	const res = {
-		'AP': sumKeyOver(parts, 'AP', frameSlots),
-		'AntiKineticDefense': sumKeyOver(parts, 'AntiKineticDefense', frameSlots),
-		'AntiEnergyDefense': sumKeyOver(parts, 'AntiEnergyDefense', frameSlots),
-		'AntiExplosiveDefense': sumKeyOver(parts, 'AntiExplosiveDefense', frameSlots),
+		'AP': ap,
+		'AntiKineticDefense': defense.kinetic,
+		'AntiEnergyDefense': defense.energy,
+		'AntiExplosiveDefense': defense.explosive,
 		'AttitudeStability': sumKeyOver(parts, 'AttitudeStability', ['head', 'core', 'legs']),
-		'AttitudeRecovery': getAttitudeRecovery(totWeight),
+		'AttitudeRecovery': getAttitudeRecovery(weight),
 		'TargetTracking': getTargetTracking(parts.arms.FirearmSpecialization),
-		'BoostSpeed': getBoostSpeed(baseSpeed, totWeight),
-		'QBSpeed': getQBSpeed(baseQBSpeed, totWeight),
-		'QBENConsumption': 
-			baseQBENConsumption * (2 - core['BoosterEfficiencyAdj']/100.),
-		'QBReloadTime': getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, totWeight),
+		'BoostSpeed': getBoostSpeed(baseSpeed, weight),
+		'QBSpeed': getQBSpeed(baseQBSpeed, weight),
+		'QBENConsumption': qbENConsumption,
+		'QBReloadTime': getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, weight),
 		'ENCapacity': generator['ENCapacity'],
-		'ENSupplyEfficiency': getENSupplyEfficiency(enOutput, enLoad),
-		'ENRechargeDelay': 
-			1000. / generator['ENRecharge'] * (2 - core['GeneratorSupplyAdj']/100.),
-		'TotalWeight': totWeight,
+		'ENSupplyEfficiency': enSupplyEfficiency,
+		'ENRechargeDelay': enRechargeDelay.normal,
+		'TotalWeight': weight,
 		'TotalArmsLoad': sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']),
 		'ArmsLoadLimit': arms['ArmsLoadLimit'],
 		'TotalLoad': sumKeyOver(parts, 'Weight', complement(allSlots, 'legs')),
 		'LoadLimit': legs['LoadLimit'],
 		'TotalENLoad': enLoad,
-		'ENOutput': enOutput
-		}
+		'ENOutput': enOutput,
+		/* ADVANCED */
+		'EffectiveAPKinetic': effectiveAP.kinetic,
+		'EffectiveAPEnergy': effectiveAP.energy,
+		'EffectiveAPExplosive': effectiveAP.explosive,
+		'EffectiveAPAvg': glob.mean(Object.values(effectiveAP)),
+		'MaxConsecutiveQB': Math.ceil(generator['ENCapacity'] / qbENConsumption),
+		'QBENRechargeTime': qbENRechargeTime,
+		'ENRechargeDelayRedline': enRechargeDelay.redline,
+		'FullRechargeTime': timeToRecoverEnergy(
+			generator['ENCapacity'],
+			enSupplyEfficiency,
+			enRechargeDelay.normal
+		),
+		'FullRechargeTimeRedline': timeToRecoverEnergy(
+			generator['ENCapacity'] - generator['PostRecoveryENSupply'],
+			enSupplyEfficiency,
+			enRechargeDelay.redline
+		)/*,
+      'GroupWeightPerc': weightPerGroup.map(x => 100. * x / weight),
+      'GroupENLoacPerc': enLoadPerGroup.map(x => 100. * x / enLoad)
+      'ENRecoveryFunc': energyRecoveryFunc(
+        enRechargeDelay.normal,
+        0,
+        enSupplyEfficiency,
+        enCapacity
+      ),
+      'ENRecoveryFuncRedline': energyRecoveryFunc(
+        enRechargeDelay.redline,
+        generator['PostRecoveryENSupply'],
+        enSupplyEfficiency,
+        enCapacity
+      )*/
+	}
 	return res;
 }
 
