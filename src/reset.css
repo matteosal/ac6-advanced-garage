@@ -45,7 +45,7 @@ q:before, q:after {
 }
 table {
 	border-collapse: separate;
-	border-spacing: 5px;
+	border-spacing: 0px;
 }
 
 /* SCROLLBAR  */

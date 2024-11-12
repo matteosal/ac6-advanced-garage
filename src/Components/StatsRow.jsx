@@ -35,7 +35,7 @@ const upwardsTriangleChar = '\u23f6';
 const downwardsTriangleChar = '\u23f7';
 const longDashCharacter = '\u2012';
 
-const StatsRow = ({name, left, right, kind}) => {
+const StatsRow = ({name, left, right, kind, background}) => {
 
 	const roundTarget = roundTargets[name];
 
@@ -79,15 +79,15 @@ const StatsRow = ({name, left, right, kind}) => {
 	triangleStyle['lineHeight'] = '1';
 
 	return (
-	<tr>
-		<td>{toDisplayString(name)}</td>
+	<tr style={{background: background}}>
+		<td style={{padding: '5px 150px 5px 25px'}}>{toDisplayString(name)}</td>
 		{
 			kind != null ?
 				<StatBar kind={kind} name={name} val={rightDisplay}/> :
 				<td>{''}</td>
 		}
 		<td style={leftStyle}>{leftDisplay}</td>
-		<td>{doubleArrowChar}</td>
+		<td style={{padding: '0px 25px 0px 5px'}}>{doubleArrowChar}</td>
 		<td style={rightStyle}>{rightDisplay}</td>
 		<td style={triangleStyle}>{triangle}</td>
 	</tr>

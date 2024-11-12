@@ -1,4 +1,5 @@
-import {globPartsData} from '../Misc/Globals.js';
+import {globPartsData, globComponentBackgroundStyle, globColor1, globColor2, addAlpha} from 
+	'../Misc/Globals.js';
 
 import StatsRow from './StatsRow.jsx';
 
@@ -154,6 +155,8 @@ function computeAllStats(parts) {
 
 /**********************************************************************************/
 
+const boxCharacter = '\u25a0';
+
 const ACStats = ({acParts}) => {
 	const stats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
@@ -166,14 +169,20 @@ const ACStats = ({acParts}) => {
 	}
 
 	return (
-		<table style={{marginLeft: 'auto', marginRight: '0'}}>
+		<table style={
+			{...globComponentBackgroundStyle, ...{marginLeft: 'auto', marginRight: '0'}}
+		}>
 		<tbody>
+		<tr><th style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
+			{boxCharacter + ' AC SPECS'}
+		</th></tr>
 		{
 			Object.keys(stats).map(
-				name => <StatsRow 
+				(name, pos) => <StatsRow 
 					name = {name}
 					left = {leftStats[name]}
-					right = {rightStats[name]} 
+					right = {rightStats[name]}
+					background = {pos % 2 ? addAlpha(globColor2, 0.5) : addAlpha(globColor1, 0.5)}
 					key = {name}
 				/>
 			)

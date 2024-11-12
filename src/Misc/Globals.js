@@ -17,6 +17,35 @@ function toImageFileName(name) {
 
 /***************************************************************************************/
 
+const globComponentBackgroundStyle = {
+	padding: '15px',
+	background: 'rgb(36, 47, 69, 1)',
+	backgroundImage: 'radial-gradient(rgb(80, 80, 80, 0.5) 1px, transparent 0)',
+	backgroundSize: '3px 3px',
+	backgroundPosition: '-1px -1px'
+}
+
+const globColor1 = 'rgb(51, 62, 84)';
+const globColor2 = 'rgb(61, 72, 94)';
+
+function stringInsert(str, insert, pos) {
+	return str.substr(0, pos) + insert + str.substr(pos);
+}
+
+function addAlpha(color, alpha) {
+ return stringInsert(color, ', ' + alpha, color.length - 1)
+}
+
+window.addAlpha = function(color, alpha) {
+	return addAlpha(color, alpha)
+}
+
+window.stringInsert = function(str, insert, pos) {
+	return stringInsert(str, insert, pos)
+}
+
+/***************************************************************************************/
+
 const noneUnit = {
 	"Name": "(NOTHING)",
 	"Kind": "Unit",
@@ -39,7 +68,7 @@ const noneExpansion = {
 };
 
 globPartsData = globPartsData.concat([noneUnit, noneBooster, noneExpansion]);
-globPartsData = globPartsData.map((part, idx) => Object.assign(part, {ID: idx}));
+globPartsData = globPartsData.map((part, idx) => {return {...part, ...{ID: idx}}});
 
 // We do this so that these have the ID field. If the ordering of globPartsData changes
 // these statements must be changed too
@@ -87,10 +116,6 @@ function capitalizeFirstLetter(str) {
 	return String(str).charAt(0).toUpperCase() + String(str).slice(1);
 }
 
-function insertCharacter(str, char, pos) {
-	return str.substr(0, pos) + char + str.substr(pos);
-}
-
 const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT', 
 	'rightBack': 'R-BACK UNIT', 'leftBack': 'L-BACK UNIT', 'fcs': 'FCS', 
 	'QBENConsumption': 'QB EN Consumption', 'ABENConsumption': 'AB EN Consumption'};
@@ -114,7 +139,7 @@ function toDisplayString(str) {
 	let counter = 0;
 	upperCasePos.forEach(
 		pos => {
-			res = insertCharacter(res, " ", pos + counter);
+			res = stringInsert(res, " ", pos + counter);
 			counter++;
 		}
 	)
@@ -137,6 +162,10 @@ export {
 	globSlotImages,
 	globUnitIcons,
 	globManufacturerLogos,
+	globComponentBackgroundStyle,
+	globColor1,
+	globColor2,
+	addAlpha,
 	globPartsData,
 	globNoneUnit,
 	globNoneBooster,

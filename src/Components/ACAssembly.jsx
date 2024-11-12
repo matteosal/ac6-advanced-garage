@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import {globPartsData, globPartSlots, toDisplayString, globSlotImages,
-	toImageFileName} from '../Misc/Globals.js';
+import {globColor1, globColor2, addAlpha, globPartsData, globPartSlots, toDisplayString, 
+	globSlotImages, toImageFileName} from '../Misc/Globals.js';
 
 const highlightColor = 'rgb(151, 173, 184)';
 
@@ -21,7 +21,7 @@ const PartBox = ({partName, slot, previewSetter, inactive}) => {
 
 	const img = globSlotImages[toImageFileName(slot)];
 
-	const background = highlighted ? highlightColor : 'rgb(0, 0, 0, 0)';
+	const background = highlighted ? highlightColor : addAlpha(globColor1, 0.5);
 	const color = inactive ? 'gray' : 'inherit';
 
 	return (
@@ -48,7 +48,10 @@ const PartGroup = ({header, slotIds, parts, previewSetter}) => {
 	const slotNames = slotIds.map(id => globPartSlots[id]);
 	return(
 		<div style={{marginBottom: '20px'}}>
-			<div style={{fontSize: '10px', padding: '5px', border: 'solid 1px gray'}}>
+			<div style={
+				{fontSize: '10px', padding: '5px', border: 'solid 1px gray', 
+					background: addAlpha(globColor2, 0.8)}
+			}>
 				{header}
 			</div>
 			{
@@ -66,18 +69,15 @@ const PartGroup = ({header, slotIds, parts, previewSetter}) => {
 	)
 }
 
+
+
 const ACAssembly = ({currentParts, previewSetter}) => {
-	const style = {
-		width: '270px',
-		marginLeft: '0',
-		marginRight: 'auto'
-	}
 
 	const headers = ['UNIT', 'FRAME', 'INNER', 'EXPANSION'];
 	const ids = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10], [11]];
 
 	return(
-		<div style={style}>
+		<div style={{width: '270px'}}>
 		{
 			[0, 1, 2, 3].map(
 				i => <PartGroup 
