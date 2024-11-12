@@ -56,7 +56,6 @@ const assemblyPartsReducer = (parts, action) => {
 	checkedUnitSlots.forEach(([slot1, slot2]) => {
 		if(action.slot === slot1 && parts.current[slot2]['ID'] === newPart)
 			newPartList[slot2] = glob.noneUnit;
-		// TODO: emit a message here and for the tank/booster business
 	})
 	// Manage tank legs and boosters
 	if(action.slot === 'legs') {
@@ -210,5 +209,3 @@ function App() {
 }
 
 export default App;
-
-// <a href="https://www.flaticon.com/free-icons/mechanic" title="mechanic icons">Mechanic icons created by Good Ware - Flaticon</a>
