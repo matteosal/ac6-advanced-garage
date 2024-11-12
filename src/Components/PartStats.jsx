@@ -1,6 +1,6 @@
 import StatsRow from './StatsRow.jsx';
 
-import {globUnitIcons, globManufacturerLogos, globNoneUnit} from '../Misc/Globals.js';
+import * as glob from '../Misc/Globals.js';
 
 const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
 	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 'LeftArm', 'RightBack', 'LeftBack','ID'];
@@ -20,22 +20,22 @@ function toNullStats(part) {
 const PartStatsHeader = ({part}) => {
 	let desc;
 
-	const isUnit = part['Kind'] === 'Unit' && part['ID'] !== globNoneUnit['ID']
+	const isUnit = part['Kind'] === 'Unit' && part['ID'] !== glob.noneUnit['ID']
 	if(isUnit) {
 		desc = part['Description']
-		var atkTypeImg = globUnitIcons[part['AttackType'] + '.png'];
-		var wpnTypeImg = globUnitIcons[part['WeaponType'] + '.png'];
-		var rldTypeImg = globUnitIcons[part['ReloadType'] + '.png'];
+		var atkTypeImg = glob.unitIcons[part['AttackType'] + '.png'];
+		var wpnTypeImg = glob.unitIcons[part['WeaponType'] + '.png'];
+		var rldTypeImg = glob.unitIcons[part['ReloadType'] + '.png'];
 		var addEffImg;
 		if(part['AdditionalEffect'] === undefined)
-			addEffImg = globUnitIcons['NoEffect.png']
+			addEffImg = glob.unitIcons['NoEffect.png']
 		else
-			addEffImg = globUnitIcons[part['AdditionalEffect'] + '.png'];		
+			addEffImg = glob.unitIcons[part['AdditionalEffect'] + '.png'];		
 	}
 	else
 		desc = part['Kind']
 
-	const manufacturerLogo = globManufacturerLogos[part['Manufacturer'] + '.png']
+	const manufacturerLogo = glob.manufacturerLogos[part['Manufacturer'] + '.png']
 
 	return(
 		<>

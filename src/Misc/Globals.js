@@ -1,4 +1,4 @@
-import globPartsData from '../Assets/PartsData.json';
+import partsData from '../Assets/PartsData.json';
 
 function importAll(r) {
     let images = {};
@@ -6,10 +6,10 @@ function importAll(r) {
     return images;
 }
 
-const globPartImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
-const globSlotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
-const globUnitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
-const globManufacturerLogos = importAll(require.context('../Assets/Images/Manufacturers', false, /\.png/));
+const partImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
+const slotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
+const unitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
+const manufacturerLogos = importAll(require.context('../Assets/Images/Manufacturers', false, /\.png/));
 
 function toImageFileName(name) {
 	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
@@ -17,7 +17,7 @@ function toImageFileName(name) {
 
 /***************************************************************************************/
 
-const globComponentBackgroundStyle = {
+const componentBackgroundStyle = {
 	padding: '15px',
 	background: 'rgb(36, 47, 69, 1)',
 	backgroundImage: 'radial-gradient(rgb(80, 80, 80, 0.5) 1px, transparent 0)',
@@ -25,8 +25,8 @@ const globComponentBackgroundStyle = {
 	backgroundPosition: '-1px -1px'
 }
 
-const globColor1 = 'rgb(51, 62, 84)';
-const globColor2 = 'rgb(61, 72, 94)';
+const color1 = 'rgb(51, 62, 84)';
+const color2 = 'rgb(61, 72, 94)';
 
 function stringInsert(str, insert, pos) {
 	return str.substr(0, pos) + insert + str.substr(pos);
@@ -36,17 +36,9 @@ function addAlpha(color, alpha) {
  return stringInsert(color, ', ' + alpha, color.length - 1)
 }
 
-window.addAlpha = function(color, alpha) {
-	return addAlpha(color, alpha)
-}
-
-window.stringInsert = function(str, insert, pos) {
-	return stringInsert(str, insert, pos)
-}
-
 /***************************************************************************************/
 
-const noneUnit = {
+const noneUnitPre = {
 	"Name": "(NOTHING)",
 	"Kind": "Unit",
 	"RightArm": true,
@@ -56,58 +48,56 @@ const noneUnit = {
 	"Weight": 0,
 	"ENLoad": 0
 };
-const noneBooster = {
+const noneBoosterPre = {
 	"Name": "(NOTHING)",
 	"Kind": "Booster",
 	"Weight": 0,
 	"ENLoad": 0
 };
-const noneExpansion = {
+const noneExpansionPre = {
 	"Name": "(NOTHING)",
 	"Kind": "Expansion"
 };
 
-globPartsData = globPartsData.concat([noneUnit, noneBooster, noneExpansion]);
-globPartsData = globPartsData.map((part, idx) => {return {...part, ...{ID: idx}}});
+partsData = partsData.concat([noneUnitPre, noneBoosterPre, noneExpansionPre]);
+partsData = partsData.map((part, idx) => {return {...part, ...{ID: idx}}});
 
-// We do this so that these have the ID field. If the ordering of globPartsData changes
+// We do this so that these have the ID field. If the ordering of partsData changes
 // these statements must be changed too
-const globNoneUnit = globPartsData[globPartsData.length - 3];
-const globNoneBooster = globPartsData[globPartsData.length - 2];
+const noneUnit = partsData[partsData.length - 3];
+const noneBooster = partsData[partsData.length - 2];
 
 /***************************************************************************************/
 
 // Stores min and max val for every stat, broken down by kinds
-let globPartStatsRanges = {'Unit': {}, 'Head': {}, 'Core': {}, 'Arms': {}, 'Legs': {},
+let partStatsRanges = {'Unit': {}, 'Head': {}, 'Core': {}, 'Arms': {}, 'Legs': {},
 	'Booster': {}, 'FCS': {}, 'Generator': {}, 'Expansion': {}};
 
 function scanStatsForRanges(kind, partEntry) {
 	const [name, val] = partEntry;
 	if(typeof val === 'number') {
-		if(globPartStatsRanges[kind][name] === undefined) {
-			globPartStatsRanges[kind][name] = [val, val];
+		if(partStatsRanges[kind][name] === undefined) {
+			partStatsRanges[kind][name] = [val, val];
 			return;
 		}
 
-		if(val > globPartStatsRanges[kind][name][1])
-			globPartStatsRanges[kind][name][1] = val;
-		else if(val < globPartStatsRanges[kind][name][0])
-			globPartStatsRanges[kind][name][0] = val;
+		if(val > partStatsRanges[kind][name][1])
+			partStatsRanges[kind][name][1] = val;
+		else if(val < partStatsRanges[kind][name][0])
+			partStatsRanges[kind][name][0] = val;
 	}
 	return;
 }
 
-// Fills globPartStatsRanges
-globPartsData.map(
+// Fills partStatsRanges
+partsData.map(
 	part => {
 		if(part['Name'] !== '(NOTHING)')
 		Object.entries(part).map(entry => scanStatsForRanges(part['Kind'], entry))
 	}
 );
 
-/***************************************************************************************/
-
-const globPartSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
+const partSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
 	'arms', 'legs','booster', 'fcs', 'generator', 'expansion'];
 
 /***************************************************************************************/
@@ -157,20 +147,24 @@ function round(val, roundTarget = 1) {
 /***************************************************************************************/
 
 export {
+	/* IMAGES */
 	toImageFileName,
-	globPartImages,
-	globSlotImages,
-	globUnitIcons,
-	globManufacturerLogos,
-	globComponentBackgroundStyle,
-	globColor1,
-	globColor2,
+	partImages,
+	slotImages,
+	unitIcons,
+	manufacturerLogos,
+	/* STYLES */
+	componentBackgroundStyle,
+	color1,
+	color2,
 	addAlpha,
-	globPartsData,
-	globNoneUnit,
-	globNoneBooster,
-	globPartStatsRanges,
-	globPartSlots,
+	/* PARTS */
+	partsData,
+	noneUnit,
+	noneBooster,
+	partStatsRanges,
+	partSlots,
+	/* DISPLAY UTILS */
 	capitalizeFirstLetter,
 	toDisplayString,
 	round

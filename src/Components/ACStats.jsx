@@ -1,5 +1,4 @@
-import {globPartsData, globComponentBackgroundStyle, globColor1, globColor2, addAlpha} from 
-	'../Misc/Globals.js';
+import * as glob from '../Misc/Globals.js';
 
 import StatsRow from './StatsRow.jsx';
 
@@ -170,7 +169,7 @@ const ACStats = ({acParts}) => {
 
 	return (
 		<table style={
-			{...globComponentBackgroundStyle, ...{marginLeft: 'auto', marginRight: '0'}}
+			{...glob.componentBackgroundStyle, ...{marginLeft: 'auto', marginRight: '0'}}
 		}>
 		<tbody>
 		<tr><th style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
@@ -182,7 +181,7 @@ const ACStats = ({acParts}) => {
 					name = {name}
 					left = {leftStats[name]}
 					right = {rightStats[name]}
-					background = {pos % 2 ? addAlpha(globColor2, 0.5) : addAlpha(globColor1, 0.5)}
+					background = {pos % 2 ? glob.addAlpha(glob.color2, 0.5) : glob.addAlpha(glob.color1, 0.5)}
 					key = {name}
 				/>
 			)

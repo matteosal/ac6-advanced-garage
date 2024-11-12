@@ -1,6 +1,6 @@
 import { useState, useReducer, useEffect } from 'react';
 
-import {globPartsData, globNoneUnit, globNoneBooster, globPartSlots} from './Misc/Globals.js';
+import * as glob from './Misc/Globals.js';
 import ACAssembly from "./Components/ACAssembly.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 import PartStats from "./Components/PartStats.jsx";
@@ -29,8 +29,8 @@ const assemblyKinds = ['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', '
 const starterACParts = Object.fromEntries(
 	starterACPartNames.map(
 		(name, pos) => [
-			globPartSlots[pos],
-			globPartsData.find(
+			glob.partSlots[pos],
+			glob.partsData.find(
 				part => part.Kind === assemblyKinds[pos] && part.Name === name
 			)
 		]
@@ -50,26 +50,26 @@ const assemblyPartsReducer = (parts, action) => {
 	}
 
 	let newPartList = {...parts.current};
-	const newPart = globPartsData[action.id];
+	const newPart = glob.partsData[action.id];
 	// Check if e.g. right arm unit is already placed in right shoulder slot and remove it
 	// from old slot
 	checkedUnitSlots.forEach(([slot1, slot2]) => {
 		if(action.slot === slot1 && parts.current[slot2]['ID'] === newPart)
-			newPartList[slot2] = globNoneUnit;
+			newPartList[slot2] = glob.noneUnit;
 		// TODO: emit a message here and for the tank/booster business
 	})
 	// Manage tank legs and boosters
 	if(action.slot === 'legs') {
 		if(
 			newPart['LegType'] === 'Tank' &&
-			parts.current.booster['ID'] != globNoneBooster['ID']
+			parts.current.booster['ID'] != glob.noneBooster['ID']
 		) {
-			newPartList.booster = globNoneBooster;
+			newPartList.booster = glob.noneBooster;
 		} else if(
 			newPart['LegType'] != 'Tank' && 
-			parts.current.booster['ID'] === globNoneBooster['ID']
+			parts.current.booster['ID'] === glob.noneBooster['ID']
 		) {
-			newPartList.booster = globPartsData.find((part) => part['Kind'] === 'Booster');
+			newPartList.booster = glob.partsData.find((part) => part['Kind'] === 'Booster');
 		}
 	}
 	newPartList[action.slot] = newPart;
@@ -88,8 +88,8 @@ const previewReducer = (preview, action) => {
 		// Set slot without shifting slotRange
 		if(preview.slotRange === null) { 
 			// PartsExplorer is closed, reached by ACAssembly. We have to calculate slotRange
-			const pos = globPartSlots.indexOf(action.slot);
-			const start = Math.min(Math.max(pos - 1, 0), globPartSlots.length - 5);
+			const pos = glob.partSlots.indexOf(action.slot);
+			const start = Math.min(Math.max(pos - 1, 0), glob.partSlots.length - 5);
 			return {slot: action.slot, slotRange: [start, start + 4], part: null}
 		} else{
 			// PartsExplorer is open, reached by SlotBox. Keep slot range and just change slot
@@ -98,18 +98,18 @@ const previewReducer = (preview, action) => {
 	} else if(action.moveSlot !== undefined) { 
 		// Set slot shifting slotRange if possible. Reached by keydown handler (Q|E) when 
 		// PartsExplorer is open
-		const currentPos = globPartSlots.indexOf(preview.slot);
-		const maxPos = globPartSlots.length - 1;
+		const currentPos = glob.partSlots.indexOf(preview.slot);
+		const maxPos = glob.partSlots.length - 1;
 		let newRange = preview.slotRange;
 		if(action.moveSlot === 1 && currentPos < maxPos) { 
 			// Increase slot id, shift right if possible
-			const newSlot = globPartSlots[currentPos + 1];
+			const newSlot = glob.partSlots[currentPos + 1];
 			if(currentPos > preview.slotRange[1] - 2 && preview.slotRange[1] < maxPos)
 				newRange = newRange.map(i => i+1);
 			return {slot: newSlot, slotRange: newRange, part: null}
 		} else if(action.moveSlot === -1 && currentPos > 0) { 
 			// Decrease slot id, shift left if possible
-			const newSlot = globPartSlots[currentPos - 1];
+			const newSlot = glob.partSlots[currentPos - 1];
 			if(currentPos < preview.slotRange[0] + 2 && preview.slotRange[0] > 0)
 				newRange = newRange.map(i => i-1);
 			return {slot: newSlot, slotRange: newRange, part: null}

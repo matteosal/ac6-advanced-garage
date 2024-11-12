@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import {globPartsData, globPartImages, globSlotImages, globPartSlots, capitalizeFirstLetter, 
-	toDisplayString, globNoneBooster, toImageFileName} from '../Misc/Globals.js';
+import * as glob from '../Misc/Globals.js';
 
 import StatsRow from './StatsRow.jsx';
 
@@ -15,7 +14,7 @@ const SlotBox = ({slot, inactive, border, updateSlot}) => {
 	if(inactive)
 		imgStyle['filter'] = 'brightness(0.5)';
 
-	const img = globSlotImages[toImageFileName(slot)];
+	const img = glob.slotImages[glob.toImageFileName(slot)];
 
 	let mouseEnter;
 	if(inactive)
@@ -33,14 +32,14 @@ const SlotBox = ({slot, inactive, border, updateSlot}) => {
 
 const SlotSelector = ({preview, updateSlot, acParts}) => {
 
-	const displayedPartSlots = globPartSlots.filter(
+	const displayedPartSlots = glob.partSlots.filter(
 		(s, pos) => pos >= preview.slotRange[0] && pos <= preview.slotRange[1]
 	);
 
 	return (
 		<>
 		<div style={{maxWidth: 'fit-content', margin: '0px auto 0px auto'}}>
-			{toDisplayString(preview.slot).toUpperCase()}
+			{glob.toDisplayString(preview.slot).toUpperCase()}
 		</div>
 		<div>
 		{
@@ -66,7 +65,7 @@ const PartBox = ({part, border, updatePreview, clearPreview, updateAssembly}) =>
 	if(border)
 		style['border'] = 'solid';
 
-	const img = globPartImages[toImageFileName(part.Name)];
+	const img = glob.partImages[glob.toImageFileName(part.Name)];
 
 	return (
 		<div 
@@ -92,7 +91,7 @@ function getDisplayedParts(slot, searchString) {
 	// Get all parts for the slot. This is not smart because it could be precomputed for 
 	// every slot
 	let slotFilterFunc;
-	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot);
+	const slotCapitalized = slot == 'fcs' ? 'FCS' : glob.capitalizeFirstLetter(slot);
 
 	if(['rightArm', 'leftArm', 'rightBack', 'leftBack'].includes(slot)) {
 		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
@@ -100,11 +99,11 @@ function getDisplayedParts(slot, searchString) {
 		// The None booster exists because of the tank legs but the user should not be allowed
 		// to set it manually
 		slotFilterFunc = part => 
-			(part.Kind === slotCapitalized && part['ID'] != globNoneBooster['ID']);
+			(part.Kind === slotCapitalized && part['ID'] != glob.noneBooster['ID']);
 	} else {
 		slotFilterFunc = part => (part.Kind === slotCapitalized);
 	}
-	let output = globPartsData.filter(slotFilterFunc);
+	let output = glob.partsData.filter(slotFilterFunc);
 
 	const nonePart = output.find(part => part['Name'] === '(NOTHING)');
 

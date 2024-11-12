@@ -1,4 +1,4 @@
-import {globPartStatsRanges, round, toDisplayString} from '../Misc/Globals.js';
+import * as glob from '../Misc/Globals.js';
 
 const roundTargets = {'AttitudeRecovery': 1, 'BoostSpeed': 1, 'QBSpeed': 1, 
 	'QBENConsumption': 1, 'QBReloadTime': 0.01, 'ENSupplyEfficiency': 1, 
@@ -18,7 +18,7 @@ function isBetter(name, a, b) {
 }
 
 const StatBar = ({kind, name, val}) => {
-	const [min, max] = globPartStatsRanges[kind][name];
+	const [min, max] = glob.partStatsRanges[kind][name];
 	const score = (val - min) / (max - min) * 100;
 
 	return (
@@ -45,8 +45,8 @@ const StatsRow = ({name, left, right, kind, background}) => {
 	if(left !== null && left !== undefined) { // Comparison with left field present
 		// Round if needed
 		if(roundTarget !== undefined) {
-			leftDisplay = round(leftDisplay, roundTarget);
-			rightDisplay = round(rightDisplay, roundTarget);
+			leftDisplay = glob.round(leftDisplay, roundTarget);
+			rightDisplay = glob.round(rightDisplay, roundTarget);
 		}
 		// Set colors and triangle if needed
 		if(typeof left === 'number') {
@@ -63,13 +63,13 @@ const StatsRow = ({name, left, right, kind, background}) => {
 	} else if(left !== null && left === undefined) { // Comparison with missing left field
 		// Round if needed
 		if(roundTarget !== undefined) {
-			rightDisplay = round(rightDisplay, roundTarget);
+			rightDisplay = glob.round(rightDisplay, roundTarget);
 		}		
 		leftDisplay = longDashCharacter;
 	} else { // Not a comparison
 		// Round if needed
 		if(roundTarget !== undefined) {
-			rightDisplay = round(rightDisplay, roundTarget);
+			rightDisplay = glob.round(rightDisplay, roundTarget);
 		}		
 		leftDisplay = '';
 	}
@@ -80,7 +80,7 @@ const StatsRow = ({name, left, right, kind, background}) => {
 
 	return (
 	<tr style={{background: background}}>
-		<td style={{padding: '5px 150px 5px 25px'}}>{toDisplayString(name)}</td>
+		<td style={{padding: '5px 150px 5px 25px'}}>{glob.toDisplayString(name)}</td>
 		{
 			kind != null ?
 				<StatBar kind={kind} name={name} val={rightDisplay}/> :

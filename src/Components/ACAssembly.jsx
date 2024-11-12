@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
-import {globColor1, globColor2, addAlpha, globPartsData, globPartSlots, toDisplayString, 
-	globSlotImages, toImageFileName} from '../Misc/Globals.js';
+import * as glob from '../Misc/Globals.js';
 
 const highlightColor = 'rgb(151, 173, 184)';
 
@@ -19,9 +18,9 @@ const PartBox = ({partName, slot, previewSetter, inactive}) => {
 		mouseClick = () => previewSetter(slot);		
 	}
 
-	const img = globSlotImages[toImageFileName(slot)];
+	const img = glob.slotImages[glob.toImageFileName(slot)];
 
-	const background = highlighted ? highlightColor : addAlpha(globColor1, 0.5);
+	const background = highlighted ? highlightColor : glob.addAlpha(glob.color1, 0.5);
 	const color = inactive ? 'gray' : 'inherit';
 
 	return (
@@ -36,7 +35,7 @@ const PartBox = ({partName, slot, previewSetter, inactive}) => {
 			</div>
 			<div style={{display: 'inline-block', marginLeft: '5px'}}>
 				<div style={{fontSize: '10px', color: color}}>
-					{toDisplayString(slot).toUpperCase()}
+					{glob.toDisplayString(slot).toUpperCase()}
 				</div>
 				<div style={{color: color}}>{partName}</div>
 			</div>
@@ -45,12 +44,12 @@ const PartBox = ({partName, slot, previewSetter, inactive}) => {
 }
 
 const PartGroup = ({header, slotIds, parts, previewSetter}) => {
-	const slotNames = slotIds.map(id => globPartSlots[id]);
+	const slotNames = slotIds.map(id => glob.partSlots[id]);
 	return(
 		<div style={{marginBottom: '20px'}}>
 			<div style={
 				{fontSize: '10px', padding: '5px', border: 'solid 1px gray', 
-					background: addAlpha(globColor2, 0.8)}
+					background: glob.addAlpha(glob.color2, 0.8)}
 			}>
 				{header}
 			</div>
