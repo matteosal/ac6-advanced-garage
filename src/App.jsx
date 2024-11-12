@@ -134,8 +134,10 @@ function App() {
 	const handleKeyDown = (event) => {
 		if(event.target.matches('input'))
 			return
-		if(event.key === 'Escape')
+		if(event.key === 'Escape') {
 			previewDispatch({slot: null})
+			acPartsDispatch({target: 'preview', setNull: true})
+		}
 		else if(preview.slot !== null && event.key === 'e')
 			previewDispatch({moveSlot: 1})
 		else if(preview.slot !== null && event.key === 'q')
