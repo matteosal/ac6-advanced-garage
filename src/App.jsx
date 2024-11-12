@@ -175,13 +175,13 @@ function App() {
 	const inlineBlockStyle = {
 		display: 'inline-block',
 		width: '500px',
-		marginTop: '100px'
+		marginTop: '50px'
 	};
 
 	return (
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
-			<div style={inlineBlockStyle}>
+			<div style={{display: 'inline-block', width: '400px', marginTop: '100px'}}>
 				{
 					preview.slot === null ?
 						<ACAssembly 
@@ -196,13 +196,13 @@ function App() {
 						/>
 				}
 			</div>
-			<div style={inlineBlockStyle}>
+			<div style={{display: 'inline-block', width: '500px', marginTop: '100px'}}>
 				<PartStats 
 					previewPart={preview.part}
 					curPart={acParts.current[preview.slot]}
 				/>
 			</div>
-			<div style={inlineBlockStyle}>
+			<div style={{display: 'inline-block', width: '600px', marginTop: '100px'}}>
 				<ACStats acParts={acParts}/>
 			</div>
 		</div>

@@ -37,7 +37,14 @@ const upwardsTriangleChar = '\u23f6';
 const downwardsTriangleChar = '\u23f7';
 const longDashCharacter = '\u2012';
 
-const StatsRow = ({name, left, right, kind, background}) => {
+const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
+
+	if(isEmpty)
+		return (
+			<tr style={{background: background}}>
+				<td colSpan={6}>&nbsp;</td>
+			</tr>
+		)
 
 	const roundTarget = roundTargets[name];
 
@@ -77,8 +84,7 @@ const StatsRow = ({name, left, right, kind, background}) => {
 	}
 
 	// For some reason the triangle makes the line taller
-	let triangleStyle = {...rightStyle};
-	triangleStyle['lineHeight'] = '1';
+	let triangleStyle = {...rightStyle, ...{lineHeight: '1', width: '10px'}};
 
 	return (
 	<tr style={{background: background}}>
@@ -86,7 +92,7 @@ const StatsRow = ({name, left, right, kind, background}) => {
 		{
 			kind != null ?
 				<StatBar kind={kind} name={name} val={rightDisplay}/> :
-				<td>{''}</td>
+				<></>
 		}
 		<td style={leftStyle}>{leftDisplay}</td>
 		<td style={{padding: '0px 25px 0px 5px'}}>{doubleArrowChar}</td>

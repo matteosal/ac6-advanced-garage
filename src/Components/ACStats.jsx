@@ -106,11 +106,11 @@ function timeToRecoverEnergy(energy, supplyEff, delay) {
 
 function energyRecoveryFunc(delay, postRecoveryEn, supplyEff, enCapacity) {
   return time => {
-    if (time < delay) {
-      return 0;
-    } else {
-      return Math.min(supplyEff * (time - delay) + postRecoveryEn, enCapacity);
-    }
+	 if (time < delay) {
+		return 0;
+	 } else {
+		return Math.min(supplyEff * (time - delay) + postRecoveryEn, enCapacity);
+	 }
   }
 }
 
@@ -124,6 +124,14 @@ const allSlots = unitSlots.concat(frameSlots, innerSlots);
 function computeAllStats(parts) {
 
 	const {core, arms, legs, booster, generator} = parts;
+
+	const weightPerGroup = [unitSlots, frameSlots, innerSlots].map(
+		slots => sumKeyOver(parts, 'Weight', slots)
+	); // [units, slots, inner parts]
+	const enLoadPerGroup = [unitSlots, frameSlots, complement(innerSlots, 'generator')].map(
+		slots => sumKeyOver(parts, 'ENLoad', slots)
+	); // [units, slots, inner parts]
+	const weight = glob.total(weightPerGroup);
 
 	const ap = sumKeyOver(parts, 'AP', frameSlots);
 	const defense = {
@@ -157,95 +165,94 @@ function computeAllStats(parts) {
 			booster['QBENConsumption'],
 			booster['QBJetDuration']
 		];
-
+	const qbReloadTime = getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, weight);
 	const qbENConsumption = baseQBENConsumption * (2 - core['BoosterEfficiencyAdj'] / 100.);
-
-	const weightPerGroup = [unitSlots, frameSlots, innerSlots].map(
-		slots => sumKeyOver(parts, 'Weight', slots)
-	); // [units, slots, inner parts]
-	const enLoadPerGroup = [unitSlots, frameSlots, complement(innerSlots, 'generator')].map(
-		slots => sumKeyOver(parts, 'ENLoad', slots)
-	); // [units, slots, inner parts]
 
 	const enOutput = Math.floor(generator['ENOutput'] * 0.01 * core['GeneratorOutputAdj']);
 	const enLoad = glob.total(enLoadPerGroup);
 	const enSupplyEfficiency = getENSupplyEfficiency(enOutput, enLoad);
 	const enRechargeDelay = getRechargeDelays(generator, core);
 
+	const fullRechargeTime = timeToRecoverEnergy(generator['ENCapacity'], enSupplyEfficiency,
+		enRechargeDelay.normal);
+	const fullRechargeTimeRedline = timeToRecoverEnergy(
+		generator['ENCapacity'] - generator['PostRecoveryENSupply'],
+		enSupplyEfficiency,
+		enRechargeDelay.redline
+	);
 	const qbENRechargeTime = qbJetDuration + timeToRecoverEnergy(
 		qbENConsumption,
 		enSupplyEfficiency,
 		enRechargeDelay.normal
 	);
 
-	const weight = glob.total(weightPerGroup);
+	const enRecoveryFunc = energyRecoveryFunc(enRechargeDelay.normal, 0, enSupplyEfficiency,
+		generator['ENCapacity']);
+	const enRecoveryFuncRedline = energyRecoveryFunc(
+	enRechargeDelay.redline,
+		generator['PostRecoveryENSupply'],
+		enSupplyEfficiency,
+		generator['ENCapacity']
+	);
 
-	const res = {
-		'AP': ap,
-		'AntiKineticDefense': defense.kinetic,
-		'AntiEnergyDefense': defense.energy,
-		'AntiExplosiveDefense': defense.explosive,
-		'AttitudeStability': sumKeyOver(parts, 'AttitudeStability', ['head', 'core', 'legs']),
-		'AttitudeRecovery': getAttitudeRecovery(weight),
-		'TargetTracking': getTargetTracking(parts.arms.FirearmSpecialization),
-		'BoostSpeed': getBoostSpeed(baseSpeed, weight),
-		'QBSpeed': getQBSpeed(baseQBSpeed, weight),
-		'QBENConsumption': qbENConsumption,
-		'QBReloadTime': getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, weight),
-		'ENCapacity': generator['ENCapacity'],
-		'ENSupplyEfficiency': enSupplyEfficiency,
-		'ENRechargeDelay': enRechargeDelay.normal,
-		'TotalWeight': weight,
-		'TotalArmsLoad': sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']),
-		'ArmsLoadLimit': arms['ArmsLoadLimit'],
-		'TotalLoad': sumKeyOver(parts, 'Weight', complement(allSlots, 'legs')),
-		'LoadLimit': legs['LoadLimit'],
-		'TotalENLoad': enLoad,
-		'ENOutput': enOutput,
+	return [
+		{name: 'AP', value: ap},
+		{name: 'AntiKineticDefense', value: defense.kinetic},
+		{name: 'AntiEnergyDefense', value: defense.energy},
+		{name: 'AntiExplosiveDefense', value: defense.explosive},
+		{name: 'AttitudeStability', value: sumKeyOver(parts, 'AttitudeStability', ['head', 'core', 'legs'])},
+		{name: 'AttitudeRecovery', value: getAttitudeRecovery(weight)},
+		{name: 'EffectiveAPKinetic', value: effectiveAP.kinetic},
+		{name: 'EffectiveAPEnergy', value: effectiveAP.energy},
+		{name: 'EffectiveAPExplosive', value: effectiveAP.explosive},
+		{name: 'EffectiveAPAvg', value: glob.mean(Object.values(effectiveAP))},
+		{emptyLine: true},
+		{name: 'TargetTracking', value: getTargetTracking(parts.arms.FirearmSpecialization)},
+		{emptyLine: true},
+		{name: 'BoostSpeed', value: getBoostSpeed(baseSpeed, weight)},
+		{name: 'QBSpeed', value: getQBSpeed(baseQBSpeed, weight)},
+		{name: 'QBENConsumption', value: qbENConsumption},
+		{name: 'QBReloadTime', value: qbReloadTime},
+		{name: 'MaxConsecutiveQB', value: Math.ceil(generator['ENCapacity'] / qbENConsumption)},
+		{emptyLine: true},
+		{name: 'ENCapacity', value: generator['ENCapacity']},
+		{name: 'ENSupplyEfficiency', value: enSupplyEfficiency},
+		{name: 'ENRechargeDelay', value: enRechargeDelay.normal},
+		{name: 'QBENRechargeTime', value: qbENRechargeTime},
+		{name: 'ENRechargeDelayRedline', value: enRechargeDelay.redline},
+		{name: 'FullRechargeTime', value: fullRechargeTime},
+		{name: 'FullRechargeTimeRedline', value: fullRechargeTimeRedline},
+		{emptyLine: true},
+		{name: 'TotalWeight', value: weight},
+		{name: 'TotalArmsLoad', value: sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm'])},
+		{name: 'ArmsLoadLimit', value: arms['ArmsLoadLimit']},
+		{name: 'TotalLoad', value: sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'))},
+		{name: 'LoadLimit', value: legs['LoadLimit']},
+		{name: 'TotalENLoad', value: enLoad},
+		{name: 'ENOutput', value: enOutput},
 		/* ADVANCED */
-		'EffectiveAPKinetic': effectiveAP.kinetic,
-		'EffectiveAPEnergy': effectiveAP.energy,
-		'EffectiveAPExplosive': effectiveAP.explosive,
-		'EffectiveAPAvg': glob.mean(Object.values(effectiveAP)),
-		'MaxConsecutiveQB': Math.ceil(generator['ENCapacity'] / qbENConsumption),
-		'QBENRechargeTime': qbENRechargeTime,
-		'ENRechargeDelayRedline': enRechargeDelay.redline,
-		'FullRechargeTime': timeToRecoverEnergy(
-			generator['ENCapacity'],
-			enSupplyEfficiency,
-			enRechargeDelay.normal
-		),
-		'FullRechargeTimeRedline': timeToRecoverEnergy(
-			generator['ENCapacity'] - generator['PostRecoveryENSupply'],
-			enSupplyEfficiency,
-			enRechargeDelay.redline
-		)/*,
-      'GroupWeightPerc': weightPerGroup.map(x => 100. * x / weight),
-      'GroupENLoacPerc': enLoadPerGroup.map(x => 100. * x / enLoad)
-      'ENRecoveryFunc': energyRecoveryFunc(
-        enRechargeDelay.normal,
-        0,
-        enSupplyEfficiency,
-        enCapacity
-      ),
-      'ENRecoveryFuncRedline': energyRecoveryFunc(
-        enRechargeDelay.redline,
-        generator['PostRecoveryENSupply'],
-        enSupplyEfficiency,
-        enCapacity
-      )*/
-	}
-	return res;
+		// {name: 'GroupWeightPerc', value: weightPerGroup.map(x => 100. * x / weight)},
+		// {name: 'GroupENLoacPerc', value: enLoadPerGroup.map(x => 100. * x / enLoad)},
+		// {name: 'ENRecoveryFunc', value: enRecoveryFunc},
+		// {name: 'ENRecoveryFuncRedline', value: enRecoveryFuncRedline}
+	]
 }
 
 /**********************************************************************************/
 
 const boxCharacter = '\u25a0';
 
+function toNullStat(stat) {
+	if(stat.emptyLine !== undefined)
+		return {emptyLine: true}
+	else
+		return {name: stat.name, value: null}
+}
+
 const ACStats = ({acParts}) => {
 	const stats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
-		let nullStats = Object.fromEntries(Object.entries(stats).map(([k, v]) => [k, null]));
+		let nullStats = stats.map(stat => toNullStat(stat));
 		var [leftStats, rightStats] = [nullStats, stats];
 	}
 	else {
@@ -254,26 +261,32 @@ const ACStats = ({acParts}) => {
 	}
 
 	return (
+		<div style={{height: '750px', overflowY: 'auto'}}>
 		<table style={
-			{...glob.componentBackgroundStyle, ...{marginLeft: 'auto', marginRight: '0'}}
+			{
+				...glob.componentBackgroundStyle, 
+				...{marginLeft: 'auto', marginRight: '0'}
+			}
 		}>
 		<tbody>
-		<tr><th style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
-			{boxCharacter + ' AC SPECS'}
-		</th></tr>
-		{
-			Object.keys(stats).map(
-				(name, pos) => <StatsRow 
-					name = {name}
-					left = {leftStats[name]}
-					right = {rightStats[name]}
-					background = {pos % 2 ? glob.addAlpha(glob.color2, 0.5) : glob.addAlpha(glob.color1, 0.5)}
-					key = {name}
-				/>
-			)
-		}
+			<tr><th style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
+				{boxCharacter + ' AC SPECS'}
+			</th></tr>
+			{
+				stats.map(
+					(stat, pos) => <StatsRow
+						isEmpty = {stat.emptyLine || false}
+						name = {stat.name}
+						left = {leftStats[pos].value}
+						right = {rightStats[pos].value}
+						background = {pos % 2 ? glob.addAlpha(glob.color2, 0.5) : glob.addAlpha(glob.color1, 0.5)}
+						key = {pos}
+					/>
+				)
+			}
 		</tbody>
 		</table>
+		</div>
 	);
 }
 
