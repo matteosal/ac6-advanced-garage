@@ -76,7 +76,7 @@ const ACAssembly = ({currentParts, previewSetter}) => {
 	const ids = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10], [11]];
 
 	return(
-		<div style={{width: '270px'}}>
+		<div>
 		{
 			[0, 1, 2, 3].map(
 				i => <PartGroup 

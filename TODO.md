@@ -3,8 +3,8 @@
 	* Add red background for overload/arms overload/EN overload
 	* Set speed to 0 for overload
 	* What happens for arm overload? Target tracking goes down?
-	* Add empty lines
-	* Add advanced AC stats
+	* Add Load bars, advanced stats bars, advanced stats plots
+	* Add expandable sections
 * Add advanced reapon stats
 * Button prompts and implementation of other button-related stuff (sort parts, etc)
 * Emit messages when units are moved from a slot to another and for the tank/booster stuff

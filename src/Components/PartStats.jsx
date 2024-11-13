@@ -62,10 +62,6 @@ const PartStatsHeader = ({part}) => {
 
 const PartStats = ({previewPart, curPart}) => {
 
-	if(curPart === undefined) {
-		return <div></div>
-	}
-
 	if(previewPart === null) {
 		let nullPart = toNullStats(curPart);
 		var [leftPart, rightPart] = [nullPart, curPart];
