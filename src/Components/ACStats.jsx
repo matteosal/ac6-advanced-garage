@@ -263,14 +263,14 @@ const ACStats = ({acParts}) => {
 	return (
 		<div style={
 			{
-				...glob.componentBackgroundStyle, 
-				...{height: '750px'}
+				...glob.dottedBackgroundStyle, 
+				...{height: '750px', padding: '15px'}
 			}
 		}>
 			<div style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
 				{boxCharacter + ' AC SPECS'}
 			</div>
-		<div style={{height: '715px', overflowY: 'auto'}}>
+		<div className="my-scrollbar" style={{height: '715px', overflowY: 'auto'}}>
 		<table style={{width: '100%'}}>
 		<tbody>
 			{
@@ -280,7 +280,7 @@ const ACStats = ({acParts}) => {
 						name = {stat.name}
 						left = {leftStats[pos].value}
 						right = {rightStats[pos].value}
-						background = {pos % 2 ? glob.addAlpha(glob.color2, 0.5) : glob.addAlpha(glob.color1, 0.5)}
+						background = {pos % 2 ? glob.paletteColor(3, 0.5) : glob.paletteColor(2, 0.5)}
 						key = {pos}
 					/>
 				)

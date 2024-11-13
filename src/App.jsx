@@ -162,10 +162,10 @@ function App() {
 				rgb(127, 127, 127, 0.05) 6px\
 			), \
 			radial-gradient(\
-				circle at center,\
-				rgb(36, 53, 73),\
-				rgb(13, 20, 30)\
-			)'
+				circle at center,'
+				+ glob.paletteColor(1) + ','
+				+ glob.paletteColor(0) + 
+			')'
 	};
 	const containerStyle = {
 		height: '100%',

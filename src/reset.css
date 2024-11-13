@@ -49,20 +49,16 @@ table {
 }
 
 /* SCROLLBAR  */
-/* width */
-::-webkit-scrollbar {
+.my-scrollbar::-webkit-scrollbar {
   width: 6px;
   height: 6px;
 }
-/* Track */
-::-webkit-scrollbar-track {
+.my-scrollbar::-webkit-scrollbar-track {
   background: rgb(67, 84, 104);
 }
-/* Handle */
-::-webkit-scrollbar-thumb {
+.my-scrollbar::-webkit-scrollbar-thumb {
   background: rgb(151, 173, 184);
 }
-/* Handle on hover */
-::-webkit-scrollbar-thumb:hover {
+.my-scrollbar::-webkit-scrollbar-thumb:hover {
   background: rgb(204, 234, 248);
 }

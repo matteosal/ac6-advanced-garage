@@ -8,10 +8,10 @@ import StatsRow from './StatsRow.jsx';
 
 const SlotBox = ({slot, inactive, selected, updateSlot}) => {
 	let imgStyle = {};
-	let borderColor = glob.color1;
+	let borderColor = glob.paletteColor(2);
 	if(selected) {
 		imgStyle['filter'] = 'brightness(1.5)';
-		borderColor = 'rgb(171, 193, 204)';
+		borderColor = glob.paletteColor(4);
 	}
 	else if(inactive)
 		imgStyle['filter'] = 'brightness(0.5)';
@@ -163,7 +163,7 @@ const PartSelector = (params) => {
 
 	return(
 		<>
-		<div style={{height: '700px', overflowY: 'auto'}}>
+		<div className="my-scrollbar" style={{height: '700px', overflowY: 'auto'}}>
 		<input value={searchString} onChange={onSearch}/>
 		{
 			displayedParts.map(

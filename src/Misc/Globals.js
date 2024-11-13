@@ -17,23 +17,27 @@ function toImageFileName(name) {
 
 /***************************************************************************************/
 
-const componentBackgroundStyle = {
-	padding: '15px',
-	background: 'rgb(36, 47, 69)',
+// Sorted by brightness
+const palette = [
+	[13, 20, 30], [36, 53, 73], [51, 62, 84], [61, 72, 94], [151, 173, 184]
+];
+
+function paletteColor(id, alpha = 1, brightnessAdj = 1) {
+	const stringVals = palette[id].map(val => (val * brightnessAdj).toString());
+	const substr = stringVals.reduce(
+		(acc, val) => {
+			return acc.concat(val, ', ')
+		}, 
+		''
+	);
+	return 'rgb(' + substr + alpha.toString() + ')'
+}
+
+const dottedBackgroundStyle = {
+	background: paletteColor(1),
 	backgroundImage: 'radial-gradient(rgb(80, 80, 80, 0.5) 1px, transparent 0)',
 	backgroundSize: '3px 3px',
 	backgroundPosition: '-1px -1px'
-}
-
-const color1 = 'rgb(51, 62, 84)';
-const color2 = 'rgb(61, 72, 94)';
-
-function stringInsert(str, insert, pos) {
-	return str.substr(0, pos) + insert + str.substr(pos);
-}
-
-function addAlpha(color, alpha) {
- return stringInsert(color, ', ' + alpha, color.length - 1)
 }
 
 /***************************************************************************************/
@@ -116,6 +120,10 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'ENRechargeDelayRedline': 'EN Recharge Delay (Redline)',
 	'FullRechargeTimeRedline': 'Full Recharge Time (Redline)'};
 
+function stringInsert(str, insert, pos) {
+	return str.substr(0, pos) + insert + str.substr(pos);
+}
+
 function toDisplayString(str) {
 	const fromTable = displayStringTable[str];
 	if(fromTable != undefined)
@@ -171,10 +179,8 @@ export {
 	unitIcons,
 	manufacturerLogos,
 	/* STYLES */
-	componentBackgroundStyle,
-	color1,
-	color2,
-	addAlpha,
+	paletteColor,
+	dottedBackgroundStyle,
 	/* PARTS */
 	partsData,
 	noneUnit,

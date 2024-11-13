@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
-const highlightColor = 'rgb(151, 173, 184)';
-
 const PartBox = ({partName, slot, previewSetter, inactive}) => {
 	const [highlighted, setHighlighted] = useState(false)
 
@@ -20,7 +18,7 @@ const PartBox = ({partName, slot, previewSetter, inactive}) => {
 
 	const img = glob.slotImages[glob.toImageFileName(slot)];
 
-	const background = highlighted ? highlightColor : glob.addAlpha(glob.color1, 0.5);
+	const background = highlighted ? glob.paletteColor(4) : glob.paletteColor(2, 0.5);
 	const color = inactive ? 'gray' : 'inherit';
 
 	return (
@@ -49,7 +47,7 @@ const PartGroup = ({header, slotIds, parts, previewSetter}) => {
 		<div style={{marginBottom: '20px'}}>
 			<div style={
 				{fontSize: '10px', padding: '5px', border: 'solid 1px gray', 
-					background: glob.addAlpha(glob.color2, 0.8)}
+					background: glob.paletteColor(3, 0.8)}
 			}>
 				{header}
 			</div>
