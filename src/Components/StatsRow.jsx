@@ -86,18 +86,22 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 	// For some reason the triangle makes the line taller
 	let triangleStyle = {...rightStyle, ...{lineHeight: '1', width: '10px'}};
 
+	const colW = ['70%', '10%', '5%', '10%', '5%'];
+
 	return (
 	<tr style={{background: background}}>
-		<td style={{padding: '5px 0px 5px 25px'}}>{glob.toDisplayString(name)}</td>
+		<td style={{padding: '5px 0px 5px 25px', width: colW[0]}}>
+			{glob.toDisplayString(name)}
+		</td>
 		{
 			kind != null ?
 				<StatBar kind={kind} name={name} val={rightDisplay}/> :
 				<></>
 		}
-		<td style={leftStyle}>{leftDisplay}</td>
-		<td style={{padding: '0px 25px 0px 5px'}}>{doubleArrowChar}</td>
-		<td style={rightStyle}>{rightDisplay}</td>
-		<td style={triangleStyle}>{triangle}</td>
+		<td style={{...leftStyle, width: colW[1]}}>{leftDisplay}</td>
+		<td style={{width: colW[2]}}>{doubleArrowChar}</td>
+		<td style={{...rightStyle, width: colW[3]}}>{rightDisplay}</td>
+		<td style={{...triangleStyle, width: colW[4]}}>{triangle}</td>
 	</tr>
 	);
 }

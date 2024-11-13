@@ -108,7 +108,13 @@ function capitalizeFirstLetter(str) {
 
 const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT', 
 	'rightBack': 'R-BACK UNIT', 'leftBack': 'L-BACK UNIT', 'fcs': 'FCS', 
-	'QBENConsumption': 'QB EN Consumption', 'ABENConsumption': 'AB EN Consumption'};
+	'QBENConsumption': 'QB EN Consumption', 'ABENConsumption': 'AB EN Consumption',
+	'EffectiveAPKinetic': 'Effective AP (Kinetic)', 
+	'EffectiveAPEnergy': 'Effective AP (Energy)',
+	'EffectiveAPExplosive': 'Effective AP (Explosive)',
+	'EffectiveAPAvg': 'Effective AP (Avg.)', 'QBENRechargeTime': 'QB EN Recharge Time',
+	'ENRechargeDelayRedline': 'EN Recharge Delay (Redline)',
+	'FullRechargeTimeRedline': 'Full Recharge Time (Redline)'};
 
 function toDisplayString(str) {
 	const fromTable = displayStringTable[str];

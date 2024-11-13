@@ -181,7 +181,7 @@ function App() {
 	return (
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
-			<div style={{display: 'inline-block', width: '400px', marginTop: '100px'}}>
+			<div style={{display: 'inline-block', width: '500px', marginTop: '100px'}}>
 				{
 					preview.slot === null ?
 						<ACAssembly 
@@ -203,7 +203,7 @@ function App() {
 				/>
 			</div>
 			<div style={
-				{display: 'inline-block', width: '600px', marginTop: '100px',
+				{display: 'inline-block', width: '500px', marginTop: '100px',
 					verticalAlign: 'top'}
 			}>
 				<ACStats acParts={acParts}/>
