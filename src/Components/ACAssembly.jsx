@@ -44,9 +44,9 @@ const PartBox = ({partName, slot, previewSetter, inactive}) => {
 const PartGroup = ({header, slotIds, parts, previewSetter}) => {
 	const slotNames = slotIds.map(id => glob.partSlots[id]);
 	return(
-		<div style={{marginBottom: '20px'}}>
+		<div style={{marginBottom: '10px'}}>
 			<div style={
-				{fontSize: '10px', padding: '5px', border: 'solid 1px gray', 
+				{fontSize: '10px', padding: '4px', border: 'solid 1px gray', 
 					background: glob.paletteColor(3, 0.8)}
 			}>
 				{header}

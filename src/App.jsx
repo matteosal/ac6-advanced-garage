@@ -181,20 +181,21 @@ function App() {
 	return (
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
-			<div style={{display: 'inline-block', width: '66%', marginTop: '100px'}}>
+			<div style={
+				{display: 'inline-block', width: '66%', marginTop: '50px', verticalAlign: 'top'}
+			}>
 			{
 				preview.slot === null ?
 					<>
-					<div style={{width: '27%'}}>
+					<div style={{width: '30%', marginTop: '80px'}}>
 						<ACAssembly 
 							currentParts={acParts.current}
 							previewSetter={slot => previewDispatch({slot: slot})}
 						/>
 					</div>
-					<div style={{width: '73%'}}></div> 
 					</>:
 					<>
-					<div style={{width: '30%'}}>
+					<div style={{display: 'inline-block', width: '35%', verticalAlign: 'top'}}>
 						<PartsExplorer 
 							preview={preview}
 							previewDispatch={previewDispatch}
@@ -202,7 +203,7 @@ function App() {
 							acPartsDispatch={acPartsDispatch}
 						/>
 					</div>
-					<div style={{width: '70%'}}>
+					<div style={{display: 'inline-block', width: '65%', verticalAlign: 'top'}}>
 						<PartStats 
 							previewPart={preview.part}
 							curPart={acParts.current[preview.slot]}
@@ -212,8 +213,7 @@ function App() {
 			}
 			</div>
 			<div style={
-				{display: 'inline-block', width: '33%', marginTop: '100px',
-					verticalAlign: 'top'}
+				{display: 'inline-block', width: '33%', marginTop: '100px', verticalAlign: 'top'}
 			}>
 				<ACStats acParts={acParts}/>
 			</div>

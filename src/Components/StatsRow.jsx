@@ -59,7 +59,7 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 		}
 		// Set colors and triangle if needed
 		if(typeof left === 'number') {
-			const [blue, red] = ['#00ffff', 'red'];
+			const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
 			if(isBetter(name, left, right)) {
 				triangle = downwardsTriangleChar;
 				[leftColor, rightColor] = [blue, red];
@@ -95,9 +95,13 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 				<StatBar kind={kind} name={name} val={rightDisplay}/> :
 				<></>
 		}
-		<td style={{color: leftColor, textAlign: 'right', width: colW[1]}}>{leftDisplay}</td>
+		<td style={{color: leftColor, textAlign: 'right', width: colW[1], fontWeight: 'bold'}}>
+			{leftDisplay}
+		</td>
 		<td style={{textAlign: 'center', width: colW[2]}}>{doubleArrowChar}</td>
-		<td style={{color: rightColor, textAlign: 'right', width: colW[3]}}>{rightDisplay}</td>
+		<td style={{color: rightColor, textAlign: 'right', width: colW[3], fontWeight: 'bold'}}>
+			{rightDisplay}
+		</td>
 		<td style={{color: rightColor, textAlign: 'center', width: colW[4]}}>{triangle}</td>
 	</tr>
 	);

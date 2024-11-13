@@ -74,7 +74,12 @@ const PartStats = ({previewPart, curPart}) => {
 	const rightFiltered = filterPartStats(rightPart)
 
 	return (
-		<>
+		<div style={
+			{
+				...{height: '750px'},
+				...glob.dottedBackgroundStyle
+			}
+		}>
 			<PartStatsHeader part={rightPart} />
 			<table>
 			<tbody>
@@ -91,7 +96,7 @@ const PartStats = ({previewPart, curPart}) => {
 				}
 			</tbody>
 			</table>
-		</>
+		</div>
 	);
 }
 

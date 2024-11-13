@@ -1,4 +1,6 @@
+* Look for monospaced font for numbers
 * AC stats panel
+	* for Left column color (part stats too)
 	* Add bars for load and EN load
 	* Add red background for overload/arms overload/EN overload
 	* Set speed to 0 for overload

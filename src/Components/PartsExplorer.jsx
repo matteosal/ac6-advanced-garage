@@ -163,18 +163,20 @@ const PartSelector = (params) => {
 
 	return(
 		<>
-		<div style={{display: 'inline-block', marginLeft: '18px'}}>SEARCH:</div>
-		<input
-			className="my-input"
-			style={{
-				height: '30px',
-				width: '180px',
-				margin: '10px 0px 10px 10px',
-				textTransform: 'uppercase'
-			}}
-			value={searchString}
-			onChange={onSearch}
-		/>
+		<div style={{width: '90%', margin: 'auto'}}>
+			<div style={{display: 'inline-block', width: '30%'}}>SEARCH:</div>
+			<input
+				className="my-input"
+				style={{
+					height: '30px',
+					width: '70%',
+					margin: '5px 0px 10px 0px',
+					textTransform: 'uppercase'
+				}}
+				value={searchString}
+				onChange={onSearch}
+			/>
+		</div>
 		<div className="my-scrollbar" style={{height: '700px', overflowY: 'auto'}}>
 		{
 			displayedParts.map(
@@ -199,7 +201,12 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 	const [searchString, setSearchString] = useState('');
 
 	return (
-		<>
+		<div style={
+			{
+				...{height: '750px', padding: '15px'},
+				...glob.dottedBackgroundStyle
+			}
+		}>
 			<SlotSelector
 				preview={preview}
 				updateSlot = {(s) => {
@@ -217,7 +224,7 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 				searchString = {searchString}
 				onSearch = {event => setSearchString(event.target.value)}
 			/>
-		</>
+		</div>
 	)
 }
 
