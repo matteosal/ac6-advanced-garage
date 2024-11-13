@@ -49,7 +49,7 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 	const roundTarget = roundTargets[name];
 
 	let [leftDisplay, rightDisplay] = [left, right];
-	let [leftStyle, rightStyle] = [{}, {}];
+	let [leftColor, rightColor] = ['inherit', 'inherit'];
 	let triangle = '';
 	if(left !== null && left !== undefined) { // Comparison with left field present
 		// Round if needed
@@ -59,14 +59,14 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 		}
 		// Set colors and triangle if needed
 		if(typeof left === 'number') {
-			const [blueStyle, redStyle] = [{'color': '#00ffff'}, {'color': 'red'}];
+			const [blue, red] = ['#00ffff', 'red'];
 			if(isBetter(name, left, right)) {
 				triangle = downwardsTriangleChar;
-				[leftStyle, rightStyle] = [blueStyle, redStyle];
+				[leftColor, rightColor] = [blue, red];
 			}
 			else if(isBetter(name, right, left)) {
 				triangle = upwardsTriangleChar;
-				[leftStyle, rightStyle] = [redStyle, blueStyle];
+				[leftColor, rightColor] = [red, blue];
 			}
 		}
 	} else if(left !== null && left === undefined) { // Comparison with missing left field
@@ -83,10 +83,7 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 		leftDisplay = '';
 	}
 
-	// For some reason the triangle makes the line taller
-	let triangleStyle = {...rightStyle, ...{lineHeight: '1', width: '10px'}};
-
-	const colW = ['70%', '10%', '5%', '10%', '5%'];
+	const colW = ['64%', '12%', '5%', '12%', '5%'];
 
 	return (
 	<tr style={{background: background}}>
@@ -98,10 +95,10 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 				<StatBar kind={kind} name={name} val={rightDisplay}/> :
 				<></>
 		}
-		<td style={{...leftStyle, width: colW[1]}}>{leftDisplay}</td>
-		<td style={{width: colW[2]}}>{doubleArrowChar}</td>
-		<td style={{...rightStyle, width: colW[3]}}>{rightDisplay}</td>
-		<td style={{...triangleStyle, width: colW[4]}}>{triangle}</td>
+		<td style={{color: leftColor, textAlign: 'right', width: colW[1]}}>{leftDisplay}</td>
+		<td style={{textAlign: 'center', width: colW[2]}}>{doubleArrowChar}</td>
+		<td style={{color: rightColor, textAlign: 'right', width: colW[3]}}>{rightDisplay}</td>
+		<td style={{color: rightColor, textAlign: 'center', width: colW[4]}}>{triangle}</td>
 	</tr>
 	);
 }
