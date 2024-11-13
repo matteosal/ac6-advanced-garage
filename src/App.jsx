@@ -194,7 +194,7 @@ function App() {
 					<div style={{width: '73%'}}></div> 
 					</>:
 					<>
-					<div style={{width: '27%'}}>
+					<div style={{width: '30%'}}>
 						<PartsExplorer 
 							preview={preview}
 							previewDispatch={previewDispatch}
@@ -202,7 +202,7 @@ function App() {
 							acPartsDispatch={acPartsDispatch}
 						/>
 					</div>
-					<div style={{width: '73%'}}>
+					<div style={{width: '70%'}}>
 						<PartStats 
 							previewPart={preview.part}
 							curPart={acParts.current[preview.slot]}

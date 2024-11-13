@@ -56,13 +56,13 @@ table {
 }
 /* Track */
 ::-webkit-scrollbar-track {
-  background: #435468;
+  background: rgb(67, 84, 104);
 }
 /* Handle */
 ::-webkit-scrollbar-thumb {
-  background: #abc1cc;
+  background: rgb(151, 173, 184);
 }
 /* Handle on hover */
 ::-webkit-scrollbar-thumb:hover {
-  background: #555;
+  background: rgb(204, 234, 248);
 }

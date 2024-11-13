@@ -19,7 +19,7 @@ function toImageFileName(name) {
 
 const componentBackgroundStyle = {
 	padding: '15px',
-	background: 'rgb(36, 47, 69, 1)',
+	background: 'rgb(36, 47, 69)',
 	backgroundImage: 'radial-gradient(rgb(80, 80, 80, 0.5) 1px, transparent 0)',
 	backgroundSize: '3px 3px',
 	backgroundPosition: '-1px -1px'

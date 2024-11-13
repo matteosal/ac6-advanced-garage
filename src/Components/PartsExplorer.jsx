@@ -6,12 +6,14 @@ import StatsRow from './StatsRow.jsx';
 
 /*****************************************************************************/
 
-const SlotBox = ({slot, inactive, border, updateSlot}) => {
-	let style = {display: 'inline-block'};
+const SlotBox = ({slot, inactive, selected, updateSlot}) => {
 	let imgStyle = {};
-	if(border)
-		style['border'] = 'solid';
-	if(inactive)
+	let borderColor = glob.color1;
+	if(selected) {
+		imgStyle['filter'] = 'brightness(1.5)';
+		borderColor = 'rgb(171, 193, 204)';
+	}
+	else if(inactive)
 		imgStyle['filter'] = 'brightness(0.5)';
 
 	const img = glob.slotImages[glob.toImageFileName(slot)];
@@ -22,10 +24,18 @@ const SlotBox = ({slot, inactive, border, updateSlot}) => {
 	else
 		mouseEnter = () => updateSlot()
 
-	// ;
 	return (
-		<div style={style} onMouseEnter={mouseEnter}>
-			<img style={imgStyle} src={img} width='58px' />
+		<div 
+			style={{
+				display: 'inline-block',
+				width: '20%',
+				borderTopStyle: 'solid',
+				borderTopWidth: '2px',
+				borderTopColor: borderColor
+			}}
+			onMouseEnter={mouseEnter}
+		>
+			<img style={imgStyle} src={img} width='100%' />
 		</div>
 	)
 }
@@ -38,7 +48,7 @@ const SlotSelector = ({preview, updateSlot, acParts}) => {
 
 	return (
 		<>
-		<div style={{maxWidth: 'fit-content', margin: '0px auto 0px auto'}}>
+		<div style={{width: 'fit-content', margin: '0px auto 10px auto'}}>
 			{glob.toDisplayString(preview.slot).toUpperCase()}
 		</div>
 		<div>
@@ -47,7 +57,7 @@ const SlotSelector = ({preview, updateSlot, acParts}) => {
 				(s) => <SlotBox 
 					slot = {s}
 					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
-					border = {s === preview.slot}
+					selected = {s === preview.slot}
 					updateSlot = {() => updateSlot(s)}
 					key = {s}
 				/>
