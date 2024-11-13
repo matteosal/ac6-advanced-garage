@@ -202,7 +202,10 @@ function App() {
 					curPart={acParts.current[preview.slot]}
 				/>
 			</div>
-			<div style={{display: 'inline-block', width: '600px', marginTop: '100px'}}>
+			<div style={
+				{display: 'inline-block', width: '600px', marginTop: '100px',
+					verticalAlign: 'top'}
+			}>
 				<ACStats acParts={acParts}/>
 			</div>
 		</div>

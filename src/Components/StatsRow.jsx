@@ -88,7 +88,7 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 
 	return (
 	<tr style={{background: background}}>
-		<td style={{padding: '5px 150px 5px 25px'}}>{glob.toDisplayString(name)}</td>
+		<td style={{padding: '5px 0px 5px 25px'}}>{glob.toDisplayString(name)}</td>
 		{
 			kind != null ?
 				<StatBar kind={kind} name={name} val={rightDisplay}/> :

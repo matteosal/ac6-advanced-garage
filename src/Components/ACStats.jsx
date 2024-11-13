@@ -261,17 +261,18 @@ const ACStats = ({acParts}) => {
 	}
 
 	return (
-		<div style={{height: '750px', overflowY: 'auto'}}>
-		<table style={
+		<div style={
 			{
 				...glob.componentBackgroundStyle, 
-				...{marginLeft: 'auto', marginRight: '0'}
+				...{height: '750px'}
 			}
 		}>
-		<tbody>
-			<tr><th style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
+			<div style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
 				{boxCharacter + ' AC SPECS'}
-			</th></tr>
+			</div>
+		<div style={{height: '715px', overflowY: 'auto'}}>
+		<table style={{width: '100%'}}>
+		<tbody>
 			{
 				stats.map(
 					(stat, pos) => <StatsRow
@@ -286,6 +287,7 @@ const ACStats = ({acParts}) => {
 			}
 		</tbody>
 		</table>
+		</div>
 		</div>
 	);
 }
