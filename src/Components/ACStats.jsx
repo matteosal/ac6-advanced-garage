@@ -101,17 +101,17 @@ function getRechargeDelays(generator, core) {
 }
 
 function timeToRecoverEnergy(energy, supplyEff, delay) {
-  return energy / supplyEff + delay;
+	return energy / supplyEff + delay;
 }
 
 function energyRecoveryFunc(delay, postRecoveryEn, supplyEff, enCapacity) {
-  return time => {
+	return time => {
 	 if (time < delay) {
 		return 0;
 	 } else {
 		return Math.min(supplyEff * (time - delay) + postRecoveryEn, enCapacity);
 	 }
-  }
+	}
 }
 
 /**********************************************************************************/
