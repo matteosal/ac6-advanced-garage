@@ -5,13 +5,13 @@
 	* What happens for arm overload? Target tracking goes down?
 	* Add Load bars, advanced stats bars, advanced stats plots
 	* Add expandable sections
-* Add advanced weapon stats
 * Parts explorer
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
 	* Fix inactive booster slot being selectable with Q/B
 	* Emit messages when units are moved from a slot to another and for the tank/booster stuff
 * Add build link generation and load
 	* Make sure build is validated
+* Add advanced weapon stats
 * Add build global scores to center
 * Add about section
 	* Basic info and github link

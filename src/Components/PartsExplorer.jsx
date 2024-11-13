@@ -163,8 +163,19 @@ const PartSelector = (params) => {
 
 	return(
 		<>
+		<div style={{display: 'inline-block', marginLeft: '18px'}}>SEARCH:</div>
+		<input
+			className="my-input"
+			style={{
+				height: '30px',
+				width: '180px',
+				margin: '10px 0px 10px 10px',
+				textTransform: 'uppercase'
+			}}
+			value={searchString}
+			onChange={onSearch}
+		/>
 		<div className="my-scrollbar" style={{height: '700px', overflowY: 'auto'}}>
-		<input value={searchString} onChange={onSearch}/>
 		{
 			displayedParts.map(
 				(part) => <PartBox
