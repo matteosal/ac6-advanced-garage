@@ -19,7 +19,7 @@ function toNullStats(part) {
 
 const UnitIcon = ({img}) => {
 	return <img src={img} width='20px' 
-		style={{margin: '0px 2px', border: 'solid 1px rgb(127, 127, 127)'}} />
+		style={{margin: '0px 2px', border: 'solid 1px gray'}} />
 }
 
 const PartStatsHeader = ({part}) => {

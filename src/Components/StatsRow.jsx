@@ -47,7 +47,7 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 	const roundTarget = roundTargets[name];
 
 	let [leftDisplay, rightDisplay] = [left, right];
-	let [leftColor, rightColor] = ['inherit', 'inherit'];
+	let rightColor = ['inherit', 'inherit'];
 	let triangle = '';
 	if(left !== null && left !== undefined) { // Comparison with left field present
 		// Round if needed
@@ -60,11 +60,11 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 			const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
 			if(isBetter(name, left, right)) {
 				triangle = downwardsTriangleChar;
-				[leftColor, rightColor] = [blue, red];
+				rightColor = red;
 			}
 			else if(isBetter(name, right, left)) {
 				triangle = upwardsTriangleChar;
-				[leftColor, rightColor] = [red, blue];
+				rightColor = blue;
 			}
 		}
 	} else if(left !== null && left === undefined) { // Comparison with missing left field
@@ -100,11 +100,11 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 				<></>
 		}
 		<td style={
-			{color: leftColor, textAlign: 'right', width: colW.value, fontWeight: 'bold'}
+			{color: 'gray', textAlign: 'right', width: colW.value, fontWeight: 'bold'}
 		}>
 			{leftDisplay}
 		</td>
-		<td style={{textAlign: 'center', width: colW.symbol}}>{doubleArrowChar}</td>
+		<td style={{textAlign: 'center', color: 'gray', width: colW.symbol}}>{doubleArrowChar}</td>
 		<td style={
 			{color: rightColor, textAlign: 'right', width: colW.value, fontWeight: 'bold'}
 		}>
