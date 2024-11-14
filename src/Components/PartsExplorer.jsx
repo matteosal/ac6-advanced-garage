@@ -11,7 +11,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot}) => {
 	let borderColor = glob.paletteColor(2);
 	if(selected) {
 		imgStyle['filter'] = 'brightness(1.5)';
-		borderColor = glob.paletteColor(4);
+		borderColor = glob.paletteColor(5);
 	}
 	else if(inactive)
 		imgStyle['filter'] = 'brightness(0.5)';
@@ -122,7 +122,7 @@ const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot}) => {
 						position: 'absolute', bottom: '73px', left: '33px',
 						backgroundImage: '-webkit-linear-gradient(\
 							-45deg,' +
-							glob.paletteColor(4) + '50%,\
+							glob.paletteColor(5) + '50%,\
 							transparent 50%\
 						)'
 					}

@@ -18,7 +18,7 @@ const AssemblyBox = ({partName, slot, previewSetter, inactive}) => {
 
 	const img = glob.slotImages[glob.toImageFileName(slot)];
 
-	const background = highlighted ? glob.paletteColor(4) : glob.paletteColor(2, 0.5);
+	const background = highlighted ? glob.paletteColor(5) : glob.paletteColor(2, 0.5);
 	const color = inactive ? 'gray' : 'inherit';
 
 	return (

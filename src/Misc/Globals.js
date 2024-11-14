@@ -19,7 +19,7 @@ function toImageFileName(name) {
 
 // Sorted by brightness
 const palette = [
-	[13, 20, 30], [36, 53, 73], [51, 62, 84], [61, 72, 94], [151, 173, 184]
+	[13, 20, 30], [36, 53, 73], [51, 62, 84], [61, 72, 94], [67, 84, 104], [151, 173, 184]
 ];
 
 function paletteColor(id, alpha = 1, brightnessAdj = 1) {
