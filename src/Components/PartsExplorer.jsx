@@ -70,6 +70,35 @@ const SlotSelector = ({preview, updateSlot, acParts}) => {
 
 /*****************************************************************************/
 
+const PartNameDisplay = ({name, imgSize}) => {
+	return <div 
+		style={{
+			display: 'flex',
+			height: '100%', width: '100%'
+		}}>
+			<div style={{margin: 'auto'}}>{name}</div>
+	</div>
+}
+
+const EquippedTag = ({imgH}) => {
+	const size = 40;
+	const shift = imgH - size;
+	return <div 
+		style={{
+			display: 'block',
+			height: size, width: size,
+			position: 'absolute', bottom: shift,
+			backgroundImage: '-webkit-linear-gradient(\
+				-45deg,' +
+				glob.paletteColor(5) + '50%,\
+				transparent 50%\
+			)'
+		}}
+	>
+		EQ
+	</div>
+}
+
 const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot}) => {
 
 	const [highlighted, setHighlighted] = useState(false)
@@ -96,41 +125,22 @@ const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot}) => {
 		previewDispatch({slot: null})							
 	}
 
+	const [imgW, imgAspectRatio] = [220, 0.51];
+	const imgH = Math.round(imgW * imgAspectRatio);
+
 	return (
 		<div 
-			style = {{position: 'relative'}}
+			style = {{margin: '5px auto', position: 'relative', filter: filter, height: imgH, width: imgW, background: glob.paletteColor(4)}}
 			onMouseEnter = {() => {setHighlighted(true); updatePreview();}}
 			onMouseLeave = {() => {setHighlighted(false); clearPreview();}}
 			onClick = {updateAssembly}
 		>
-			<div style={
-				{maxWidth: 'fit-content', margin: '5px auto', filter: filter}
-			}>
-				{
-					img === undefined ?
-						<div style={{height: 140}}>
-							{part.Name}
-						</div> :
-						<img src={img} width='220px' style={{display: 'block'}} />
-				}
-			</div>
 			{
-				part['ID'] === curPart['ID'] ? 
-				<div style={
-					{
-						height: '40px', width: '40px',
-						position: 'absolute', bottom: '73px', left: '33px',
-						backgroundImage: '-webkit-linear-gradient(\
-							-45deg,' +
-							glob.paletteColor(5) + '50%,\
-							transparent 50%\
-						)'
-					}
-				}>
-					EQ
-				</div> : 
-				<></>
+				img === undefined ?
+					<PartNameDisplay name={part['Name']} imgSize={[imgW, imgH]} /> :
+					<img src={img} width={imgW} style={{display: 'block'}} />
 			}
+			{part['ID'] === curPart['ID'] ? <EquippedTag imgH={imgH}/> : <></>}
 		</div>
 	)
 }
