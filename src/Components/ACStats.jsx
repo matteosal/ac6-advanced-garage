@@ -263,8 +263,8 @@ const ACStats = ({acParts}) => {
 	return (
 		<div style={
 			{
-				...glob.dottedBackgroundStyle, 
-				...{height: '750px', padding: '15px'}
+				...{height: '750px', padding: '15px'},				
+				...glob.dottedBackgroundStyle
 			}
 		}>
 			<div style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
@@ -280,7 +280,10 @@ const ACStats = ({acParts}) => {
 						name = {stat.name}
 						left = {leftStats[pos].value}
 						right = {rightStats[pos].value}
-						background = {pos % 2 ? glob.paletteColor(3, 0.5) : glob.paletteColor(2, 0.5)}
+						background = {pos % 2 ? 
+							glob.paletteColor(3, 0.5) :
+							glob.paletteColor(2, 0.5)
+						}
 						key = {pos}
 					/>
 				)

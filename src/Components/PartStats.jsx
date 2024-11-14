@@ -76,19 +76,23 @@ const PartStats = ({previewPart, curPart}) => {
 	return (
 		<div style={
 			{
-				...{height: '750px'},
+				...{height: '750px'}, 'padding': '15px',
 				...glob.dottedBackgroundStyle
 			}
 		}>
 			<PartStatsHeader part={rightPart} />
-			<table>
+			<table style={{width: '100%'}}>
 			<tbody>
 				{
 					Object.keys(rightFiltered).map(
-						name => <StatsRow 
+						(name, pos) => <StatsRow 
 							name = {name}
 							left = {leftFiltered[name]}
 							right = {rightFiltered[name]}
+							background = {pos % 2 ? 
+								glob.paletteColor(3, 0.5) :
+								glob.paletteColor(2, 0.5)
+							}
 							kind = {rightPart['Kind']} 
 							key = {name}
 						/>

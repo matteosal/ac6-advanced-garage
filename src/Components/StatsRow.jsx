@@ -21,14 +21,12 @@ function isBetter(name, a, b) {
 
 const StatBar = ({kind, name, val}) => {
 	const [min, max] = glob.partStatsRanges[kind][name];
-	const score = (val - min) / (max - min) * 100;
+	const score = Math.max((val - min) / (max - min) * 100, 1);
 
 	return (
-		<td>
-			<div style={{width: '150px', backgroundColor: 'black'}}>
-				<div style={{width: score + '%', height: '5px', backgroundColor: 'white'}}>{''}</div>
-			</div>
-		</td>
+		<div style={{backgroundColor: 'black'}}>
+			<div style={{width: score + '%', height: '5px', backgroundColor: 'white'}}></div>
+		</div>
 	)
 }
 
@@ -83,26 +81,36 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 		leftDisplay = '';
 	}
 
-	const colW = ['64%', '12%', '5%', '12%', '5%'];
+	const colW = {name: '64%', value: '12%', symbol: '5%'};
+	if(kind !== null) {
+		colW.name = '42%';
+		colW.bar = '22%';
+	}
 
 	return (
 	<tr style={{background: background}}>
-		<td style={{padding: '5px 0px 5px 25px', width: colW[0]}}>
+		<td style={{padding: '5px 0px 5px 25px', width: colW.name}}>
 			{glob.toDisplayString(name)}
 		</td>
 		{
 			kind != null ?
-				<StatBar kind={kind} name={name} val={rightDisplay}/> :
+				<><td style={{width: colW.bar}}>
+					<StatBar kind={kind} name={name} val={rightDisplay}/>
+				</td></> :
 				<></>
 		}
-		<td style={{color: leftColor, textAlign: 'right', width: colW[1], fontWeight: 'bold'}}>
+		<td style={
+			{color: leftColor, textAlign: 'right', width: colW.value, fontWeight: 'bold'}
+		}>
 			{leftDisplay}
 		</td>
-		<td style={{textAlign: 'center', width: colW[2]}}>{doubleArrowChar}</td>
-		<td style={{color: rightColor, textAlign: 'right', width: colW[3], fontWeight: 'bold'}}>
+		<td style={{textAlign: 'center', width: colW.symbol}}>{doubleArrowChar}</td>
+		<td style={
+			{color: rightColor, textAlign: 'right', width: colW.value, fontWeight: 'bold'}
+		}>
 			{rightDisplay}
 		</td>
-		<td style={{color: rightColor, textAlign: 'center', width: colW[4]}}>{triangle}</td>
+		<td style={{color: rightColor, textAlign: 'center', width: colW.symbol}}>{triangle}</td>
 	</tr>
 	);
 }

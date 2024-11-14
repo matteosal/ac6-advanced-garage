@@ -203,7 +203,10 @@ function App() {
 							acPartsDispatch={acPartsDispatch}
 						/>
 					</div>
-					<div style={{display: 'inline-block', width: '65%', verticalAlign: 'top'}}>
+					<div style={
+						{display: 'inline-block', width: '60%', verticalAlign: 'top', 
+							marginLeft: '2.5%', marginRight: '2.5%'}
+					}>
 						<PartStats 
 							previewPart={preview.part}
 							curPart={acParts.current[preview.slot]}
