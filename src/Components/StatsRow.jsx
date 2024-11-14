@@ -47,14 +47,13 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 	const roundTarget = roundTargets[name];
 
 	let [leftDisplay, rightDisplay] = [left, right];
+	if(roundTarget !== undefined) {
+		leftDisplay = glob.round(leftDisplay, roundTarget);
+		rightDisplay = glob.round(rightDisplay, roundTarget);
+	}
 	let rightColor = ['inherit', 'inherit'];
 	let triangle = '';
 	if(left !== null && left !== undefined) { // Comparison with left field present
-		// Round if needed
-		if(roundTarget !== undefined) {
-			leftDisplay = glob.round(leftDisplay, roundTarget);
-			rightDisplay = glob.round(rightDisplay, roundTarget);
-		}
 		// Set colors and triangle if needed
 		if(typeof left === 'number') {
 			const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
@@ -68,16 +67,8 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 			}
 		}
 	} else if(left !== null && left === undefined) { // Comparison with missing left field
-		// Round if needed
-		if(roundTarget !== undefined) {
-			rightDisplay = glob.round(rightDisplay, roundTarget);
-		}		
 		leftDisplay = longDashCharacter;
-	} else { // Not a comparison
-		// Round if needed
-		if(roundTarget !== undefined) {
-			rightDisplay = glob.round(rightDisplay, roundTarget);
-		}		
+	} else { // Not a comparison	
 		leftDisplay = '';
 	}
 

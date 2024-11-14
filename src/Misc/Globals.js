@@ -156,6 +156,8 @@ const boxCharacter = '\u25a0';
 /***************************************************************************************/
 
 function round(val, roundTarget = 1) {
+	if(val === null)
+		return val;
 	const roundFactor = 1 / roundTarget;
 	return Math.round(val * roundFactor) / roundFactor;
 }
