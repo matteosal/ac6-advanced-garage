@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
-const PartBox = ({partName, slot, previewSetter, inactive}) => {
+const AssemblyBox = ({partName, slot, previewSetter, inactive}) => {
 	const [highlighted, setHighlighted] = useState(false)
 
 	let mouseEnter, mouseLeave, mouseClick;
@@ -41,7 +41,7 @@ const PartBox = ({partName, slot, previewSetter, inactive}) => {
 	);
 }
 
-const PartGroup = ({header, slotIds, parts, previewSetter}) => {
+const AssemblyGroup = ({header, slotIds, parts, previewSetter}) => {
 	const slotNames = slotIds.map(id => glob.partSlots[id]);
 	return(
 		<div style={{marginBottom: '10px'}}>
@@ -53,7 +53,7 @@ const PartGroup = ({header, slotIds, parts, previewSetter}) => {
 			</div>
 			{
 				slotNames.map(
-					slot => <PartBox 
+					slot => <AssemblyBox 
 						partName = {parts[slot]['Name']}
 						slot = {slot}
 						previewSetter = {previewSetter}
@@ -77,7 +77,7 @@ const ACAssembly = ({currentParts, previewSetter}) => {
 		<div>
 		{
 			[0, 1, 2, 3].map(
-				i => <PartGroup 
+				i => <AssemblyGroup 
 					header={headers[i]}
 					slotIds={ids[i]}
 					parts={currentParts}
