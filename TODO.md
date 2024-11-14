@@ -1,6 +1,7 @@
 * Look for monospaced font for numbers
 * AC stats panel
-	* for Left column color (part stats too)
+	* Grey Left column color (part stats too)
+	* Colored comparison bars
 	* Add bars for load and EN load
 	* Add red background for overload/arms overload/EN overload
 	* Set speed to 0 for overload
@@ -11,6 +12,7 @@
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
 	* Fix inactive booster slot being selectable with Q/B
 	* Emit messages when units are moved from a slot to another and for the tank/booster stuff
+	* Separate sub-slots for back units
 * Add build link generation and load
 	* Make sure build is validated
 * Add advanced weapon stats

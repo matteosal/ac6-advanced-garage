@@ -151,6 +151,8 @@ function toDisplayString(str) {
 	return capitalizeFirstLetter(res);
 }
 
+const boxCharacter = '\u25a0';
+
 /***************************************************************************************/
 
 function round(val, roundTarget = 1) {
@@ -188,6 +190,7 @@ export {
 	partStatsRanges,
 	partSlots,
 	/* UTILS */
+	boxCharacter,
 	capitalizeFirstLetter,
 	toDisplayString,
 	round,

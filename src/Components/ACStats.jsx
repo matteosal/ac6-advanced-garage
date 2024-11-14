@@ -240,8 +240,6 @@ function computeAllStats(parts) {
 
 /**********************************************************************************/
 
-const boxCharacter = '\u25a0';
-
 function toNullStat(stat) {
 	if(stat.emptyLine !== undefined)
 		return {emptyLine: true}
@@ -267,8 +265,8 @@ const ACStats = ({acParts}) => {
 				...glob.dottedBackgroundStyle
 			}
 		}>
-			<div style={{fontSize: '12px', textAlign: 'left', padding: '0px 0px 10px 10px'}}>
-				{boxCharacter + ' AC SPECS'}
+			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>
+				{glob.boxCharacter + ' AC SPECS'}
 			</div>
 		<div className="my-scrollbar" style={{height: '715px', overflowY: 'auto'}}>
 		<table style={{width: '100%'}}>
