@@ -5,9 +5,10 @@
 	* Add red background for overload/arms overload/EN overload
 	* Set speed to 0 for overload
 	* What happens for arm overload? Target tracking goes down?
-	* Add Load bars, advanced stats bars, advanced stats plots
+	* Add advanced stats bars, advanced stats plots
 	* Add expandable sections
 * Parts explorer
+	* Part stats spacing in table
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
 	* Fix inactive booster slot being selectable with Q/B
 	* Emit messages when units are moved from a slot to another and for the tank/booster stuff

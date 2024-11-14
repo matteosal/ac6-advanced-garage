@@ -19,13 +19,43 @@ function isBetter(name, a, b) {
 		return a > b
 }
 
-const StatBar = ({kind, name, val}) => {
-	const [min, max] = glob.partStatsRanges[kind][name];
-	const score = Math.max((val - min) / (max - min) * 100, 1);
+const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
+
+function toScore(val, min, max) {
+	return Math.max((val - min) / (max - min) * 100, 2);
+}
+
+const StatBar = ({kind, name, left, right, color}) => {
+	let [min, max] = glob.partStatsRanges[kind][name];
+	if(isBetter(name, min, max))
+		[min, max] = [max, min]
+	const rightWidth = toScore(right, min, max);
+	const leftWidth = Math.max(toScore(left, min, max) / rightWidth * 100, 2);	
 
 	return (
-		<div style={{backgroundColor: 'black'}}>
-			<div style={{width: score + '%', height: '5px', backgroundColor: 'white'}}></div>
+		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px'}}>
+		<div style={{backgroundColor: 'black', width: '96%', margin: '0px auto'}}>
+			<div style={{
+				width: rightWidth + '%',
+				height: '5px',
+				backgroundColor: color,
+				position: 'relative'
+			}}>
+				{
+					left != null ?
+					<div style={{
+						width: leftWidth + '%',
+						height: '9px',
+						borderRight: 'solid 1px',
+						backgroundColor: 'transparent',
+						position: 'absolute',
+						bottom: '-2px'
+					}}>
+					</div> : 
+					<></>
+				}
+			</div>
+		</div>
 		</div>
 	)
 }
@@ -51,12 +81,11 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 		leftDisplay = glob.round(leftDisplay, roundTarget);
 		rightDisplay = glob.round(rightDisplay, roundTarget);
 	}
-	let rightColor = ['inherit', 'inherit'];
+	let rightColor = 'white';
 	let triangle = '';
 	if(left !== null && left !== undefined) { // Comparison with left field present
 		// Set colors and triangle if needed
 		if(typeof left === 'number') {
-			const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
 			if(isBetter(name, left, right)) {
 				triangle = downwardsTriangleChar;
 				rightColor = red;
@@ -68,8 +97,6 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 		}
 	} else if(left !== null && left === undefined) { // Comparison with missing left field
 		leftDisplay = longDashCharacter;
-	} else { // Not a comparison	
-		leftDisplay = '';
 	}
 
 	const colW = {name: '64%', value: '12%', symbol: '5%'};
@@ -86,7 +113,7 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 		{
 			kind != null ?
 				<><td style={{width: colW.bar}}>
-					<StatBar kind={kind} name={name} val={rightDisplay}/>
+					<StatBar kind={kind} name={name} left={left} right={right} color={rightColor}/>
 				</td></> :
 				<></>
 		}
@@ -95,7 +122,9 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 		}>
 			{leftDisplay}
 		</td>
-		<td style={{textAlign: 'center', color: 'gray', width: colW.symbol}}>{doubleArrowChar}</td>
+		<td style={{textAlign: 'center', color: 'gray', width: colW.symbol}}>
+			{doubleArrowChar}
+		</td>
 		<td style={
 			{color: rightColor, textAlign: 'right', width: colW.value, fontWeight: 'bold'}
 		}>
