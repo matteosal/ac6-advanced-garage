@@ -28,8 +28,8 @@ const AssemblyBox = ({partName, slot, previewSetter, inactive}) => {
 			onMouseLeave = {mouseLeave}
 			onClick = {mouseClick}
 		>
-			<div style={{display: 'inline-block'}}>
-				<img src={img} width='45px' />
+			<div style={{display: 'inline-block', verticalAlign: 'bottom'}}>
+				<img src={img} width='45px' style={{display: 'block'}} />
 			</div>
 			<div style={{display: 'inline-block', marginLeft: '5px'}}>
 				<div style={{fontSize: '10px', color: color}}>

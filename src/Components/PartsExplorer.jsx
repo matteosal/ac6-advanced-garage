@@ -84,22 +84,22 @@ const PartBox = ({part, isSelected, isEquipped, updatePreview, clearPreview, upd
 			onClick = {updateAssembly}
 		>
 			<div style={
-				{maxWidth: 'fit-content', margin: '0px auto 0px auto', filter: filter}
+				{maxWidth: 'fit-content', margin: '5px auto', filter: filter}
 			}>
 				{
 					img === undefined ?
-						<div style={{height: 144}}>
+						<div style={{height: 140}}>
 							{part.Name}
 						</div> :
-						<img src={img} width='280px' />
+						<img src={img} width='220px' style={{display: 'block'}} />
 				}
 			</div>
 			{
 				isEquipped ? 
 				<div style={
 					{
-						height: '45px', width: '45px',
-						position: 'absolute', bottom: '105px', left: '17px',
+						height: '40px', width: '40px',
+						position: 'absolute', bottom: '73px', left: '33px',
 						backgroundImage: '-webkit-linear-gradient(\
 							-45deg,' +
 							glob.paletteColor(4) + '50%,\
@@ -224,7 +224,7 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 	return (
 		<div style={
 			{
-				...{height: '750px', padding: '15px'},
+				...{height: '750px', padding: '15px 5px'},
 				...glob.dottedBackgroundStyle
 			}
 		}>

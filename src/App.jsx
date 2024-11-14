@@ -169,7 +169,7 @@ function App() {
 	};
 	const containerStyle = {
 		height: '100%',
-		width: '1500px',
+		width: '1550px',
 		margin: 'auto'
 	};
 	const inlineBlockStyle = {
@@ -182,12 +182,12 @@ function App() {
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
 			<div style={
-				{display: 'inline-block', width: '66%', marginTop: '50px', verticalAlign: 'top'}
+				{display: 'inline-block', width: '65%', marginTop: '50px', verticalAlign: 'top'}
 			}>
 			{
 				preview.slot === null ?
 					<>
-					<div style={{width: '30%', marginTop: '80px'}}>
+					<div style={{width: '30%', marginTop: '125px'}}>
 						<ACAssembly 
 							currentParts={acParts.current}
 							previewSetter={slot => previewDispatch({slot: slot})}
@@ -195,7 +195,9 @@ function App() {
 					</div>
 					</>:
 					<>
-					<div style={{display: 'inline-block', width: '35%', verticalAlign: 'top'}}>
+					<div style={
+						{display: 'inline-block', width: '30%', verticalAlign: 'top', marginTop: '50px'}
+					}>
 						<PartsExplorer 
 							preview={preview}
 							previewDispatch={previewDispatch}
@@ -204,8 +206,8 @@ function App() {
 						/>
 					</div>
 					<div style={
-						{display: 'inline-block', width: '60%', verticalAlign: 'top', 
-							marginLeft: '2.5%', marginRight: '2.5%'}
+						{display: 'inline-block', width: '65%', verticalAlign: 'top', 
+							marginLeft: '2.5%', marginRight: '2.5%', marginTop: '50px'}
 					}>
 						<PartStats 
 							previewPart={preview.part}
@@ -216,7 +218,7 @@ function App() {
 			}
 			</div>
 			<div style={
-				{display: 'inline-block', width: '33%', marginTop: '100px', verticalAlign: 'top'}
+				{display: 'inline-block', width: '35%', marginTop: '100px', verticalAlign: 'top'}
 			}>
 				<ACStats acParts={acParts}/>
 			</div>
