@@ -70,17 +70,37 @@ const SlotSelector = ({preview, updateSlot, acParts}) => {
 
 /*****************************************************************************/
 
-const PartBox = ({part, isSelected, isEquipped, updatePreview, clearPreview, updateAssembly}) => {
+const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot}) => {
 
-	const filter = isSelected ? 'brightness(1.3)' : 'none'
+	const [highlighted, setHighlighted] = useState(false)
+
+	const filter = highlighted ? 'brightness(1.3)' : 'none'
 
 	const img = glob.partImages[glob.toImageFileName(part.Name)];
+
+	const clearPreview = () => {
+		previewDispatch({part: null})
+		acPartsDispatch({target: 'preview', setNull: true})		
+	}
+	const updatePreview = () => {
+		if(part['ID'] != curPart['ID']) {
+			previewDispatch({part: part})
+			acPartsDispatch({target: 'preview', slot: slot, id: part['ID']})
+		} else {
+			clearPreview()
+		}
+	}
+	const updateAssembly = () => {
+		acPartsDispatch({target: 'current', slot: slot, id: part['ID']})
+		acPartsDispatch({target: 'preview', setNull: true})
+		previewDispatch({slot: null})							
+	}
 
 	return (
 		<div 
 			style = {{position: 'relative'}}
-			onMouseEnter = {updatePreview}
-			onMouseLeave = {clearPreview}
+			onMouseEnter = {() => {setHighlighted(true); updatePreview();}}
+			onMouseLeave = {() => {setHighlighted(false); clearPreview();}}
 			onClick = {updateAssembly}
 		>
 			<div style={
@@ -95,7 +115,7 @@ const PartBox = ({part, isSelected, isEquipped, updatePreview, clearPreview, upd
 				}
 			</div>
 			{
-				isEquipped ? 
+				part['ID'] === curPart['ID'] ? 
 				<div style={
 					{
 						height: '40px', width: '40px',
@@ -157,30 +177,6 @@ const PartSelector = (params) => {
 
 	const displayedParts = getDisplayedParts(preview.slot, searchString);
 
-	const isSelected = part => 
-		preview.part != null && part['ID'] === preview.part['ID'];
-
-	const isEquipped = part => 
-		part['ID'] === curPart['ID']
-
-	const clearPreview = () => {
-		previewDispatch({part: null})
-		acPartsDispatch({target: 'preview', setNull: true})		
-	}
-	const updatePreview = part => {
-		if(part['ID'] != curPart['ID']) {
-			previewDispatch({part: part})
-			acPartsDispatch({target: 'preview', slot: preview.slot, id: part['ID']})
-		} else {
-			clearPreview()
-		}
-	}
-	const updateAssembly = part => {
-		acPartsDispatch({target: 'current', slot: preview.slot, id: part['ID']})
-		clearPreview()
-		previewDispatch({slot: null})							
-	}
-
 	return(
 		<>
 		<div style={{width: '90%', margin: 'auto'}}>
@@ -202,11 +198,10 @@ const PartSelector = (params) => {
 			displayedParts.map(
 				(part) => <PartBox
 					part = {part}
-					isSelected = {isSelected(part)}
-					isEquipped = {isEquipped(part)}
-					updatePreview = {() => updatePreview(part)}
-					clearPreview = {clearPreview}
-					updateAssembly = {() => updateAssembly(part)}					
+					previewDispatch = {previewDispatch}
+					acPartsDispatch = {acPartsDispatch}
+					curPart = {curPart}
+					slot = {preview.slot}
 					key = {part['ID']}
 				/>
 			)
