@@ -70,21 +70,22 @@ const SlotSelector = ({preview, updateSlot, acParts}) => {
 
 /*****************************************************************************/
 
-const PartBox = ({part, border, updatePreview, clearPreview, updateAssembly}) => {
-	let style = {};
-	if(border)
-		style['border'] = 'solid';
+const PartBox = ({part, isSelected, isEquipped, updatePreview, clearPreview, updateAssembly}) => {
+
+	const filter = isSelected ? 'brightness(1.3)' : 'none'
 
 	const img = glob.partImages[glob.toImageFileName(part.Name)];
 
 	return (
 		<div 
-			style = {style}
+			style = {{position: 'relative'}}
 			onMouseEnter = {updatePreview}
 			onMouseLeave = {clearPreview}
 			onClick = {updateAssembly}
 		>
-			<div style={{maxWidth: 'fit-content', margin: '0px auto 0px auto'}}>
+			<div style={
+				{maxWidth: 'fit-content', margin: '0px auto 0px auto', filter: filter}
+			}>
 				{
 					img === undefined ?
 						<div style={{height: 144}}>
@@ -93,6 +94,23 @@ const PartBox = ({part, border, updatePreview, clearPreview, updateAssembly}) =>
 						<img src={img} width='280px' />
 				}
 			</div>
+			{
+				isEquipped ? 
+				<div style={
+					{
+						height: '45px', width: '45px',
+						position: 'absolute', bottom: '105px', left: '17px',
+						backgroundImage: '-webkit-linear-gradient(\
+							-45deg,' +
+							glob.paletteColor(4) + '50%,\
+							transparent 50%\
+						)'
+					}
+				}>
+					EQ
+				</div> : 
+				<></>
+			}
 		</div>
 	)
 }
@@ -139,9 +157,11 @@ const PartSelector = (params) => {
 
 	const displayedParts = getDisplayedParts(preview.slot, searchString);
 
-	const drawBorder = part => 
-		part['ID'] === curPart['ID'] || // part is equipped
-		(preview.part != null && part['ID'] === preview.part['ID']); // part is in preview
+	const isSelected = part => 
+		preview.part != null && part['ID'] === preview.part['ID'];
+
+	const isEquipped = part => 
+		part['ID'] === curPart['ID']
 
 	const clearPreview = () => {
 		previewDispatch({part: null})
@@ -177,12 +197,13 @@ const PartSelector = (params) => {
 				onChange={onSearch}
 			/>
 		</div>
-		<div className="my-scrollbar" style={{height: '700px', overflowY: 'auto'}}>
+		<div className="my-scrollbar" style={{height: '600px', overflowY: 'auto'}}>
 		{
 			displayedParts.map(
 				(part) => <PartBox
 					part = {part}
-					border = {drawBorder(part)}
+					isSelected = {isSelected(part)}
+					isEquipped = {isEquipped(part)}
 					updatePreview = {() => updatePreview(part)}
 					clearPreview = {clearPreview}
 					updateAssembly = {() => updateAssembly(part)}					
