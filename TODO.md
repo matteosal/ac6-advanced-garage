@@ -11,7 +11,7 @@
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
 	* Fix inactive booster slot being selectable with Q/B
 	* Emit messages when units are moved from a slot to another and for the tank/booster stuff
-	* Parts default ordering
+	* Parts default ordering and sorting
 	* Separate sub-slots for back units
 * Add build link generation and load
 	* Make sure build is validated

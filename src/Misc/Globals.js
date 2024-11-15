@@ -40,6 +40,13 @@ const dottedBackgroundStyle = {
 	backgroundPosition: '-1px -1px'
 }
 
+function tableRowBackground(pos) {
+	if(pos % 2)
+		return paletteColor(3, 0.5);
+	else
+		return paletteColor(2, 0.5);
+}
+
 /***************************************************************************************/
 
 const noneUnitPre = {
@@ -207,6 +214,7 @@ export {
 	/* STYLES */
 	paletteColor,
 	dottedBackgroundStyle,
+	tableRowBackground,
 	/* PARTS */
 	partsData,
 	noneUnit,

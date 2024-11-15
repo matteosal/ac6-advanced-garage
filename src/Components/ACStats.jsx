@@ -1,6 +1,6 @@
 import * as glob from '../Misc/Globals.js';
 
-import StatsRow from './StatsRow.jsx';
+import * as statRows from './StatRows.jsx';
 
 /**********************************************************************************/
 
@@ -255,6 +255,32 @@ function toNullStat(stat) {
 		return {name: stat.name, value: null}
 }
 
+function switchComponent(leftStat, rightStat, pos) {
+
+	if(rightStat.emptyLine)
+		return (
+				<td colSpan={6}>&nbsp;</td>
+		)
+	else if(rightStat.barOnly)
+		return (
+			<statRows.BarOnlyRow
+				name = {rightStat.name}
+				left = {leftStat.value}
+				right = {rightStat.value}
+				limit = {rightStat.limit}
+				key = {pos}				
+			/>
+		)
+		return (
+			<statRows.NumericRow
+				name = {rightStat.name}
+				leftRaw = {leftStat.value}
+				rightRaw = {rightStat.value}
+				key = {pos}
+			/>
+		)
+}
+
 const ACStats = ({acParts}) => {
 	const currentStats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
@@ -265,6 +291,8 @@ const ACStats = ({acParts}) => {
 		var previewStats = computeAllStats(acParts.preview);
 		var [leftStats, rightStats] = [currentStats, previewStats];
 	}
+
+	const range = [...Array(currentStats.length).keys()];
 
 	return (
 		<div style={
@@ -280,20 +308,14 @@ const ACStats = ({acParts}) => {
 		<table style={{width: '100%'}}>
 		<tbody>
 			{
-				currentStats.map(
-					(stat, pos) => <StatsRow
-						isEmpty = {stat.emptyLine || false}
-						name = {stat.name}
-						leftRaw = {leftStats[pos].value}
-						rightRaw = {rightStats[pos].value}
-						background = {pos % 2 ? 
-							glob.paletteColor(3, 0.5) :
-							glob.paletteColor(2, 0.5)
-						}
-						barOnly = {stat.barOnly}
-						barOnlyLimit = {rightStats[pos].limit}
-						key = {pos}
-					/>
+				range.map(
+					(pos) => {
+						return(
+							<tr style={{background: glob.tableRowBackground(pos)}} key={pos}>
+								{switchComponent(leftStats[pos], rightStats[pos], pos)}
+							</tr>
+						)
+					}
 				)
 			}
 		</tbody>

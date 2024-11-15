@@ -1,4 +1,4 @@
-import StatsRow from './StatsRow.jsx';
+import {NumericRow} from './StatRows.jsx';
 
 import * as glob from '../Misc/Globals.js';
 
@@ -82,18 +82,20 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 		<tbody>
 			{
 				Object.keys(rightFiltered).map(
-					(name, pos) => <StatsRow 
-						name = {name}
-						leftRaw = {leftFiltered[name]}
-						rightRaw = {rightFiltered[name]}
-						background = {pos % 2 ? 
-							glob.paletteColor(3, 0.5) :
-							glob.paletteColor(2, 0.5)
-						}
-						kind = {rightPart['Kind']}
-						barOnly = {false}
-						key = {name}
-					/>
+					(name, pos) => {		
+						return(
+							<tr style={{background: glob.tableRowBackground(pos)}} key={pos}>
+								<NumericRow 
+									name = {name}
+									leftRaw = {leftFiltered[name]}
+									rightRaw = {rightFiltered[name]}
+									kind = {rightPart['Kind']}
+									barOnly = {false}
+									key = {name}
+								/>
+							</tr>
+						)
+					}
 				)
 			}
 		</tbody>

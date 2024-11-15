@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
-import StatsRow from './StatsRow.jsx';
-
 /*****************************************************************************/
 
 const SlotBox = ({slot, inactive, selected, updateSlot}) => {

@@ -108,91 +108,99 @@ function toValueAndDisplay(name, raw) {
 	return [value, display]
 }
 
-const StatsRow = ({isEmpty, name, leftRaw, rightRaw, kind, background, barOnly, barOnlyLimit}) => {
+const defaultColumnWidths = {name: '64%', value: '12%', symbol: '5%'};
 
-	if(isEmpty)
-		return (
-			<tr style={{background: background}}>
-				<td colSpan={6}>&nbsp;</td>
-			</tr>
-		)
+const NumericRow = ({name, leftRaw, rightRaw, kind}) => {
 
+	// This row is also used for unit stats such as attack power that can have
+	// form e.g. 100x3 ([100, 3] in data) so we have to account for that
 	let [left, leftDisplay] = toValueAndDisplay(name, leftRaw);
 	let [right, rightDisplay] = toValueAndDisplay(name, rightRaw);
 
 	let rightColor = 'white';
 	let triangle = '';
 	if(left !== null && left !== undefined) { // Comparison with left field present
-		// Set colors and triangle if needed
-		if(typeof left === 'number') {
-			if(isBetter(name, left, right)) {
-				triangle = downwardsTriangleChar;
-				rightColor = red;
-			}
-			else if(isBetter(name, right, left)) {
-				triangle = upwardsTriangleChar;
-				rightColor = blue;
-			}
+	// Set colors and triangle if needed
+		if(isBetter(name, left, right)) {
+			triangle = downwardsTriangleChar;
+			rightColor = red;
+		}
+		else if(isBetter(name, right, left)) {
+			triangle = upwardsTriangleChar;
+			rightColor = blue;
 		}
 	} else if(left !== null && left === undefined) { // Comparison with missing left field
 		leftDisplay = longDashCharacter;
 	}
 
-	const colW = {name: '64%', value: '12%', symbol: '5%'};
-	// kind !== undefined indicates we are creating a row for the part stats panel
-	if(kind !== undefined) {
-		colW.name = '42%';
-		colW.bar = '22%';
-	}
-
-	if(barOnly)
-		return (
-			<tr style={{background: background}}>
-				<td style={{padding: '5px 0px 5px 25px', width: colW.name}}>
-					{glob.toDisplayString(name)}
-				</td>
-				<td colSpan={3}>
-					<StatBar 
-						kind={kind}
-						name={name}
-						left={left}
-						right={right}
-						limit={barOnlyLimit}
-						color={rightColor}
-					/>
-				</td>
-				<td style={{width: colW.symbol}}></td>
-			</tr>
-	)
+	// kind !== undefined indicates we are creating a row for the part stats panel and there
+	// will be a bar as well, so nameW has to shrink. barW is only used in this case
+	const nameW = kind === undefined ? defaultColumnWidths.name : '42%';
+	const barW = '22%';
 
 	return (
-	<tr style={{background: background}}>
-		<td style={{padding: '5px 0px 5px 25px', width: colW.name}}>
+		<>
+		<td style={{padding: '5px 0px 5px 25px', width: nameW}}>
 			{glob.toDisplayString(name)}
 		</td>
 		{
 			kind != undefined ?
-				<><td style={{width: colW.bar}}>
+				<><td style={{width: barW}}>
 					<StatBar kind={kind} name={name} left={left} right={right} color={rightColor}/>
 				</td></> :
 				<></>
 		}
 		<td style={
-			{color: 'gray', textAlign: 'right', width: colW.value, fontWeight: 'bold'}
+			{color: 'gray', textAlign: 'right', width: defaultColumnWidths.value, 
+				fontWeight: 'bold'}
 		}>
 			{leftDisplay}
 		</td>
-		<td style={{textAlign: 'center', color: 'gray', width: colW.symbol}}>
+		<td style={{textAlign: 'center', color: 'gray', width: defaultColumnWidths.symbol}}>
 			{doubleArrowChar}
 		</td>
 		<td style={
-			{color: rightColor, textAlign: 'right', width: colW.value, fontWeight: 'bold'}
+			{color: rightColor, textAlign: 'right', width: defaultColumnWidths.value, 
+				fontWeight: 'bold'}
 		}>
 			{rightDisplay}
 		</td>
-		<td style={{color: rightColor, textAlign: 'center', width: colW.symbol}}>{triangle}</td>
-	</tr>
+		<td style={{color: rightColor, textAlign: 'center', width: defaultColumnWidths.symbol}}>
+			{triangle}
+		</td>
+	</>
 	);
 }
 
-export default StatsRow;
+const BarOnlyRow = ({name, left, right, limit}) => {
+
+	let barColor = 'white';
+	if(left !== null) { // Comparison
+		if(isBetter(name, left, right)) {
+			barColor = red;
+		}
+		else if(isBetter(name, right, left)) {
+			barColor = blue;
+		}
+	}
+
+	return (
+		<>
+			<td style={{padding: '5px 0px 5px 25px', width: defaultColumnWidths.name}}>
+				{glob.toDisplayString(name)}
+			</td>
+			<td colSpan={3}>
+				<StatBar 
+					name={name}
+					left={left}
+					right={right}
+					limit={limit}
+					color={barColor}
+				/>
+			</td>
+			<td style={{width: defaultColumnWidths.symbol}}></td>
+		</>
+)
+}
+
+export {NumericRow, BarOnlyRow};
