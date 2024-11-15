@@ -253,9 +253,9 @@ function computeAllStats(parts) {
 		{name: "CurrentLoad", value: legsLoad, barOnly: true, limit: legs['LoadLimit']},
 		{name: "CurrentArmsLoad", value: armsLoad, barOnly: true, limit: arms['ArmsLoadLimit']},
 		{name: "CurrentENLoad", value: enLoad, barOnly: true, limit: enOutput},
-		/* ADVANCED */
-		// {name: 'GroupWeightPerc', value: weightPerGroup.map(x => 100. * x / weight)},
-		// {name: 'GroupENLoacPerc', value: enLoadPerGroup.map(x => 100. * x / enLoad)},
+		{name: 'LoadByGroup', value: weightPerGroup.map(x => 100. * x / weight), 
+			proportionBar: true},
+		{name: 'ENLoadByGroup', value: enLoadPerGroup.map(x => 100. * x / enLoad), proportionBar: true},
 		// {name: 'ENRecoveryFunc', value: enRecoveryFunc},
 		// {name: 'ENRecoveryFuncRedline', value: enRecoveryFuncRedline}
 	]
@@ -286,7 +286,16 @@ function switchComponent(leftStat, rightStat, pos) {
 				key = {pos}				
 			/>
 		)
-		return (
+	else if(rightStat.proportionBar)
+		return(
+			<statRows.ProportionBarRow
+				name = {rightStat.name}
+				left = {leftStat.value}
+				right = {rightStat.value}
+				key = {pos}				
+			/>		
+		)
+	else	return (
 			<statRows.NumericRow
 				name = {rightStat.name}
 				leftRaw = {leftStat.value}

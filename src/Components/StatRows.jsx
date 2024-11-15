@@ -29,6 +29,8 @@ function toScore(val, min, max) {
 	return Math.max((val - min) / (max - min) * 100, 2);
 }
 
+const barDivShrink = '96%';
+
 const StatBar = ({kind, name, left, right, limit, color}) => {
 	let min, max;
 	if(kind !== undefined)
@@ -44,13 +46,11 @@ const StatBar = ({kind, name, left, right, limit, color}) => {
 	// to account for that
 	const leftWidth = Math.max(toScore(left, min, max) / rightWidth * 100, 2);	
 
-	const shrink = '96%';
-
 	return (
 		<>
 		{
 			limit !== undefined ?
-			<div style={{width: shrink, margin: '0px auto'}}>
+			<div style={{width: barDivShrink, margin: '0px auto'}}>
 				<div style={{lineHeight: '50%', marginLeft: '-3px', paddingLeft: limitPos + '%'}}>
 					{downwardsTriangleChar}
 				</div>
@@ -58,7 +58,7 @@ const StatBar = ({kind, name, left, right, limit, color}) => {
 			<></>
 		}
 		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px'}}>
-		<div style={{backgroundColor: 'black', width: shrink, margin: '0px auto'}}>
+		<div style={{backgroundColor: 'black', width: barDivShrink, margin: '0px auto'}}>
 			<div style={{
 				width: rightWidth + '%',
 				height: '5px',
@@ -82,6 +82,34 @@ const StatBar = ({kind, name, left, right, limit, color}) => {
 		</div>
 		</div>
 		</>
+	)
+}
+
+function proportionStyle(val, color) {
+	return(
+		{display: 'inline-block', verticalAlign: 'middle', width: val + '%', height: '20px',
+			textAlign: 'center', fontSize: '70%', background: color}
+	)
+}
+
+const ProportionBar = ({values}) => {
+	const [round0, round1] = [glob.round(values[0]), glob.round(values[1])];
+	const round = [round0, round1, 100 - round0 - round1];
+	const displayed = round.map(val => val > 15 ? val + '%' : null)
+	return(
+		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px', lineHeight: '20px'}}>
+			<div style={{width: barDivShrink, margin: '0px auto'}}>
+				<div style={proportionStyle(values[0], 'rgb(255, 132, 0)')}>
+					{displayed[0]}
+				</div>
+				<div style={proportionStyle(values[1], 'rgb(139, 69, 19)')}>
+					{displayed[1]}
+				</div>
+				<div style={proportionStyle(values[2], 'rgb(204, 174, 49)')}>
+					{displayed[2]}
+				</div>
+			</div>
+		</div>
 	)
 }
 
@@ -200,7 +228,23 @@ const BarOnlyRow = ({name, left, right, limit}) => {
 			</td>
 			<td style={{width: defaultColumnWidths.symbol}}></td>
 		</>
-)
+	)
 }
 
-export {NumericRow, BarOnlyRow};
+const ProportionBarRow = ({name, left, right}) => {
+	return (
+		<>
+			<td style={{padding: '5px 0px 5px 25px', width: defaultColumnWidths.name}}>
+				{glob.toDisplayString(name)}
+			</td>
+			<td colSpan={3}>
+				<ProportionBar 
+					values={right}
+				/>
+			</td>
+			<td style={{width: defaultColumnWidths.symbol}}></td>
+		</>
+	)
+}
+
+export {NumericRow, BarOnlyRow, ProportionBarRow};
