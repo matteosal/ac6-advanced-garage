@@ -276,8 +276,8 @@ const ACStats = ({acParts}) => {
 					(stat, pos) => <StatsRow
 						isEmpty = {stat.emptyLine || false}
 						name = {stat.name}
-						left = {leftStats[pos].value}
-						right = {rightStats[pos].value}
+						leftRaw = {leftStats[pos].value}
+						rightRaw = {rightStats[pos].value}
 						background = {pos % 2 ? 
 							glob.paletteColor(3, 0.5) :
 							glob.paletteColor(2, 0.5)

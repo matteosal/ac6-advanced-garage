@@ -60,12 +60,30 @@ const StatBar = ({kind, name, left, right, color}) => {
 	)
 }
 
+const multChar = '\u00d7'
 const doubleArrowChar = '\u00bb';
 const upwardsTriangleChar = '\u23f6';
 const downwardsTriangleChar = '\u23f7';
 const longDashCharacter = '\u2012';
 
-const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
+function toValueAndDisplay(name, raw) {
+	let value;
+	let display;
+	if(raw !== null && raw !== undefined && raw.constructor === Array) {
+		value = raw[0] * raw[1];
+		display = raw[0].toString() + multChar + raw[1].toString()
+	} else {
+		value = raw;
+		const roundTarget = roundTargets[name];
+		if(roundTarget !== undefined)
+			display = glob.round(raw, roundTarget)
+		else
+			display = raw
+	}
+	return [value, display]
+}
+
+const StatsRow = ({isEmpty, name, leftRaw, rightRaw, kind, background}) => {
 
 	if(isEmpty)
 		return (
@@ -74,13 +92,9 @@ const StatsRow = ({isEmpty, name, left, right, kind, background}) => {
 			</tr>
 		)
 
-	const roundTarget = roundTargets[name];
+	let [left, leftDisplay] = toValueAndDisplay(name, leftRaw);
+	let [right, rightDisplay] = toValueAndDisplay(name, rightRaw);
 
-	let [leftDisplay, rightDisplay] = [left, right];
-	if(roundTarget !== undefined) {
-		leftDisplay = glob.round(leftDisplay, roundTarget);
-		rightDisplay = glob.round(rightDisplay, roundTarget);
-	}
 	let rightColor = 'white';
 	let triangle = '';
 	if(left !== null && left !== undefined) { // Comparison with left field present
