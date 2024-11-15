@@ -187,7 +187,7 @@ function App() {
 			{
 				preview.slot === null ?
 					<>
-					<div style={{width: '30%', marginTop: '125px'}}>
+					<div style={{width: '35%', marginTop: '125px'}}>
 						<ACAssembly 
 							currentParts={acParts.current}
 							previewSetter={slot => previewDispatch({slot: slot})}

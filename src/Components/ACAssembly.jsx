@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
-const AssemblyBox = ({partName, slot, previewSetter, inactive}) => {
+const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) => {
 	const [highlighted, setHighlighted] = useState(false)
 
 	let mouseEnter, mouseLeave, mouseClick;
@@ -16,7 +16,12 @@ const AssemblyBox = ({partName, slot, previewSetter, inactive}) => {
 		mouseClick = () => previewSetter(slot);		
 	}
 
-	const img = glob.slotImages[glob.toImageFileName(slot)];
+	const slotImg = glob.slotImages[glob.toImageFileName(slot)];
+	let manImg;
+	if(manufacturer != undefined)
+		manImg = glob.manufacturerLogos[glob.toImageFileName(manufacturer)];
+	else
+		manImg = null;
 
 	const background = highlighted ? glob.paletteColor(5) : glob.paletteColor(2, 0.5);
 	const color = inactive ? 'gray' : 'inherit';
@@ -29,13 +34,16 @@ const AssemblyBox = ({partName, slot, previewSetter, inactive}) => {
 			onClick = {mouseClick}
 		>
 			<div style={{display: 'inline-block', verticalAlign: 'bottom'}}>
-				<img src={img} width='45px' style={{display: 'block'}} />
+				<img src={slotImg} width='45px' style={{display: 'block'}} />
 			</div>
 			<div style={{display: 'inline-block', marginLeft: '5px'}}>
 				<div style={{fontSize: '10px', color: color}}>
 					{glob.toDisplayString(slot).toUpperCase()}
 				</div>
 				<div style={{color: color}}>{partName}</div>
+			</div>
+			<div style={{display: 'inline-block', float: 'right'}}>
+				<img src={manImg} width='35px' style={{display: 'block', opacity: '0.5'}} />
 			</div>
 		</div>
 	);
@@ -55,6 +63,7 @@ const AssemblyGroup = ({header, slotIds, parts, previewSetter}) => {
 				slotNames.map(
 					slot => <AssemblyBox 
 						partName = {parts[slot]['Name']}
+						manufacturer = {parts[slot]['Manufacturer']}
 						slot = {slot}
 						previewSetter = {previewSetter}
 						inactive = {slot === 'booster' && parts.legs['LegType'] === 'Tank'}
