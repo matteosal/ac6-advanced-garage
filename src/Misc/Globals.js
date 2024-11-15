@@ -77,7 +77,7 @@ const noneBooster = partsData[partsData.length - 2];
 let partStatsRanges = {'Unit': {}, 'Head': {}, 'Core': {}, 'Arms': {}, 'Legs': {},
 	'Booster': {}, 'FCS': {}, 'Generator': {}, 'Expansion': {}};
 
-function scanStatsForRanges(kind, partEntry) {
+function updateRange(kind, partEntry) {
 	const [name, val] = partEntry;
 	if(typeof val === 'number') {
 		if(partStatsRanges[kind][name] === undefined) {
@@ -96,9 +96,31 @@ function scanStatsForRanges(kind, partEntry) {
 // Fills partStatsRanges
 partsData.map(
 	part => {
-		if(part['Name'] !== '(NOTHING)')
-		Object.entries(part).map(entry => scanStatsForRanges(part['Kind'], entry))
+		Object.entries(part).map(entry => updateRange(part['Kind'], entry))
 	}
+);
+
+function minMaxAcross(kinds, prop) {
+	return kinds.reduce(
+			(acc, kind) => {
+				const minMax = partStatsRanges[kind][prop];
+				return [acc[0] + minMax[0], acc[1] + minMax[1]]	
+			},
+			[0, 0]
+		)	
+}
+
+let acStatsRanges = {};
+// This is not 100% correct because we are taking the MinMax across all units for all
+// unit slots, but every slot has its own set of allowed units
+acStatsRanges['CurrentLoad'] = minMaxAcross(
+	['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Booster', 'FCS', 'Generator'],
+	'Weight'
+);
+acStatsRanges['CurrentArmsLoad'] = minMaxAcross(['Unit', 'Unit'], 'Weight');
+acStatsRanges['CurrentENLoad'] = minMaxAcross(
+	['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs', 'Booster', 'FCS'],
+	'ENLoad'
 );
 
 const partSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
@@ -190,6 +212,7 @@ export {
 	noneUnit,
 	noneBooster,
 	partStatsRanges,
+	acStatsRanges,
 	partSlots,
 	/* UTILS */
 	boxCharacter,

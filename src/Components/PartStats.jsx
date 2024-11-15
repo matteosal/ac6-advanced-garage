@@ -90,7 +90,8 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 							glob.paletteColor(3, 0.5) :
 							glob.paletteColor(2, 0.5)
 						}
-						kind = {rightPart['Kind']} 
+						kind = {rightPart['Kind']}
+						barOnly = {false}
 						key = {name}
 					/>
 				)

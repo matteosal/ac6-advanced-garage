@@ -10,7 +10,11 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'TotalArmsLoad', 'TotalLoad', 'TotalENLoad', 'ATKHeatBuildup', 'FullChgHeatBuildup', 
 	'Recoil', 'ChgENLoad', 'FullChgTime', 'FullChgAmmoConsump', 'HomingLockTime', 'ReloadTime', 
 	'AmmunitionCost', 'ScanStandbyTime', 'QBReloadTime', 'ABENConsumption', 
-	'MeleeAtkENConsumption', 'Weight', 'ENLoad'];
+	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
+	'CurrentENLoad'];
+
+// AC bar-only stats. For these lower is better but the stats should not be inverted
+const avoidInvertingBar = ['CurrentLoad', 'CurrentArmsLoad', 'CurrentENLoad']
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
@@ -25,16 +29,36 @@ function toScore(val, min, max) {
 	return Math.max((val - min) / (max - min) * 100, 2);
 }
 
-const StatBar = ({kind, name, left, right, color}) => {
-	let [min, max] = glob.partStatsRanges[kind][name];
-	if(isBetter(name, min, max))
+const StatBar = ({kind, name, left, right, limit, color}) => {
+	let min, max;
+	if(kind !== undefined)
+		[min, max] = glob.partStatsRanges[kind][name];
+	else
+		[min, max] = glob.acStatsRanges[name];
+
+	if(isBetter(name, min, max) && !avoidInvertingBar.includes(name))
 		[min, max] = [max, min]
+	const limitPos = toScore(limit, min, max);
 	const rightWidth = toScore(right, min, max);
+	// leftWidth is the width of the div nested into the "right" width so we have
+	// to account for that
 	const leftWidth = Math.max(toScore(left, min, max) / rightWidth * 100, 2);	
 
+	const shrink = '96%';
+
 	return (
+		<>
+		{
+			limit !== undefined ?
+			<div style={{width: shrink, margin: '0px auto'}}>
+				<div style={{lineHeight: '50%', marginLeft: '-3px', paddingLeft: limitPos + '%'}}>
+					{downwardsTriangleChar}
+				</div>
+			</div> : 
+			<></>
+		}
 		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px'}}>
-		<div style={{backgroundColor: 'black', width: '96%', margin: '0px auto'}}>
+		<div style={{backgroundColor: 'black', width: shrink, margin: '0px auto'}}>
 			<div style={{
 				width: rightWidth + '%',
 				height: '5px',
@@ -57,6 +81,7 @@ const StatBar = ({kind, name, left, right, color}) => {
 			</div>
 		</div>
 		</div>
+		</>
 	)
 }
 
@@ -83,7 +108,7 @@ function toValueAndDisplay(name, raw) {
 	return [value, display]
 }
 
-const StatsRow = ({isEmpty, name, leftRaw, rightRaw, kind, background}) => {
+const StatsRow = ({isEmpty, name, leftRaw, rightRaw, kind, background, barOnly, barOnlyLimit}) => {
 
 	if(isEmpty)
 		return (
@@ -114,10 +139,31 @@ const StatsRow = ({isEmpty, name, leftRaw, rightRaw, kind, background}) => {
 	}
 
 	const colW = {name: '64%', value: '12%', symbol: '5%'};
-	if(kind !== null) {
+	// kind !== undefined indicates we are creating a row for the part stats panel
+	if(kind !== undefined) {
 		colW.name = '42%';
 		colW.bar = '22%';
 	}
+
+	if(barOnly)
+		return (
+			<tr style={{background: background}}>
+				<td style={{padding: '5px 0px 5px 25px', width: colW.name}}>
+					{glob.toDisplayString(name)}
+				</td>
+				<td colSpan={3}>
+					<StatBar 
+						kind={kind}
+						name={name}
+						left={left}
+						right={right}
+						limit={barOnlyLimit}
+						color={rightColor}
+					/>
+				</td>
+				<td style={{width: colW.symbol}}></td>
+			</tr>
+	)
 
 	return (
 	<tr style={{background: background}}>
@@ -125,7 +171,7 @@ const StatsRow = ({isEmpty, name, leftRaw, rightRaw, kind, background}) => {
 			{glob.toDisplayString(name)}
 		</td>
 		{
-			kind != null ?
+			kind != undefined ?
 				<><td style={{width: colW.bar}}>
 					<StatBar kind={kind} name={name} left={left} right={right} color={rightColor}/>
 				</td></> :

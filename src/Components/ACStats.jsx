@@ -195,6 +195,9 @@ function computeAllStats(parts) {
 		generator['ENCapacity']
 	);
 
+	const armsLoad = sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']);
+	const legsLoad = sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'));
+
 	return [
 		{name: 'AP', value: ap},
 		{name: 'AntiKineticDefense', value: defense.kinetic},
@@ -224,12 +227,17 @@ function computeAllStats(parts) {
 		{name: 'FullRechargeTimeRedline', value: fullRechargeTimeRedline},
 		{emptyLine: true},
 		{name: 'TotalWeight', value: weight},
-		{name: 'TotalArmsLoad', value: sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm'])},
+		{emptyLine: true},
+		{name: 'TotalArmsLoad', value: armsLoad},
 		{name: 'ArmsLoadLimit', value: arms['ArmsLoadLimit']},
-		{name: 'TotalLoad', value: sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'))},
+		{name: 'TotalLoad', value: legsLoad},
 		{name: 'LoadLimit', value: legs['LoadLimit']},
 		{name: 'TotalENLoad', value: enLoad},
 		{name: 'ENOutput', value: enOutput},
+		{emptyLine: true},
+		{name: "CurrentLoad", value: legsLoad, barOnly: true, limit: legs['LoadLimit']},
+		{name: "CurrentArmsLoad", value: armsLoad, barOnly: true, limit: arms['ArmsLoadLimit']},
+		{name: "CurrentENLoad", value: enLoad, barOnly: true, limit: enOutput},
 		/* ADVANCED */
 		// {name: 'GroupWeightPerc', value: weightPerGroup.map(x => 100. * x / weight)},
 		// {name: 'GroupENLoacPerc', value: enLoadPerGroup.map(x => 100. * x / enLoad)},
@@ -248,14 +256,14 @@ function toNullStat(stat) {
 }
 
 const ACStats = ({acParts}) => {
-	const stats = computeAllStats(acParts.current);
+	const currentStats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
-		let nullStats = stats.map(stat => toNullStat(stat));
-		var [leftStats, rightStats] = [nullStats, stats];
+		let nullStats = currentStats.map(stat => toNullStat(stat));
+		var [leftStats, rightStats] = [nullStats, currentStats];
 	}
 	else {
 		var previewStats = computeAllStats(acParts.preview);
-		var [leftStats, rightStats] = [stats, previewStats];
+		var [leftStats, rightStats] = [currentStats, previewStats];
 	}
 
 	return (
@@ -272,7 +280,7 @@ const ACStats = ({acParts}) => {
 		<table style={{width: '100%'}}>
 		<tbody>
 			{
-				stats.map(
+				currentStats.map(
 					(stat, pos) => <StatsRow
 						isEmpty = {stat.emptyLine || false}
 						name = {stat.name}
@@ -282,6 +290,8 @@ const ACStats = ({acParts}) => {
 							glob.paletteColor(3, 0.5) :
 							glob.paletteColor(2, 0.5)
 						}
+						barOnly = {stat.barOnly}
+						barOnlyLimit = {rightStats[pos].limit}
 						key = {pos}
 					/>
 				)

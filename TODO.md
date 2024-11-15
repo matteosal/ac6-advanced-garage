@@ -1,12 +1,12 @@
 * Look for monospaced font for numbers
 * AC stats panel
-	* Add bars for load and EN load
 	* Add red background for overload/arms overload/EN overload
 	* Set speed to 0 for overload
 	* What happens for arm overload? Target tracking goes down?
 	* Add advanced stats bars, advanced stats plots
 	* Add expandable sections
 * Parts explorer
+	* Equipping part should not close explorer
 	* Part stats spacing in table
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
 	* Fix inactive booster slot being selectable with Q/B
