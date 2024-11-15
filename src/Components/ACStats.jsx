@@ -281,6 +281,35 @@ function switchComponent(leftStat, rightStat, pos) {
 		)
 }
 
+const redRowBackground = 'rgb(255, 0, 0, 0.5)'
+
+function findStatValue(stats, statName) {
+	return stats.find(stat => stat.name === statName).value
+}
+
+function getOverloadTable(stats) {
+	// Not optimal, we are searching these fields in the list but we could just return
+	// them directly from computeAllStats
+	const load = findStatValue(stats, 'TotalLoad');
+	const loadLimit = findStatValue(stats, 'LoadLimit');
+	const armsLoad = findStatValue(stats, 'TotalArmsLoad');
+	const armsLoadLimit = findStatValue(stats, 'ArmsLoadLimit');
+	const enLoad = findStatValue(stats, 'TotalENLoad');
+	const enLoadLimit = findStatValue(stats, 'ENOutput');
+
+	const isAboveLoad = load > loadLimit;
+	const isAboveArmsLoad = armsLoad > armsLoadLimit;
+	const isAboveENLoad = enLoad > enLoadLimit;
+
+	return (
+		{'TotalLoad': isAboveLoad, 'LoadLimit': isAboveLoad, 
+			'CurrentLoad': isAboveLoad, 'TotalArmsLoad': isAboveArmsLoad, 
+			'ArmsLoadLimit': isAboveArmsLoad, 'CurrentArmsLoad': isAboveArmsLoad, 
+			'TotalENLoad': isAboveENLoad, 'ENOutput': isAboveENLoad, 'CurrentENLoad': isAboveENLoad
+		}
+	)	
+}
+
 const ACStats = ({acParts}) => {
 	const currentStats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
@@ -294,6 +323,8 @@ const ACStats = ({acParts}) => {
 
 	const range = [...Array(currentStats.length).keys()];
 
+	const overloadTable = getOverloadTable(rightStats);
+
 	return (
 		<div style={
 			{
@@ -304,23 +335,27 @@ const ACStats = ({acParts}) => {
 			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>
 				{glob.boxCharacter + ' AC SPECS'}
 			</div>
-		<div className="my-scrollbar" style={{height: '715px', overflowY: 'auto'}}>
-		<table style={{width: '100%'}}>
-		<tbody>
-			{
-				range.map(
-					(pos) => {
-						return(
-							<tr style={{background: glob.tableRowBackground(pos)}} key={pos}>
-								{switchComponent(leftStats[pos], rightStats[pos], pos)}
-							</tr>
-						)
-					}
-				)
-			}
-		</tbody>
-		</table>
-		</div>
+
+			<div className="my-scrollbar" style={{height: '715px', overflowY: 'auto'}}>
+			<table style={{width: '100%'}}>
+			<tbody>
+				{
+					range.map(
+						(pos) => {
+							let background = overloadTable[rightStats[pos].name] ? 
+								redRowBackground : 
+								glob.tableRowBackground(pos);
+							return(
+								<tr style={{background: background}} key={pos}>
+									{switchComponent(leftStats[pos], rightStats[pos], pos)}
+								</tr>
+							)
+						}
+					)
+				}
+			</tbody>
+			</table>
+			</div>
 		</div>
 	);
 }

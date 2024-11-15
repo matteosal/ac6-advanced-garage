@@ -1,6 +1,5 @@
 * Look for monospaced font for numbers
 * AC stats panel
-	* Add red background for overload/arms overload/EN overload
 	* Set speed to 0 for overload
 	* What happens for arm overload? Target tracking goes down?
 	* Add advanced stats bars, advanced stats plots
