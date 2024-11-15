@@ -1,7 +1,5 @@
 * Look for monospaced font for numbers
 * AC stats panel
-	* Set speed to 0 for overload
-	* What happens for arm overload? Target tracking goes down?
 	* Add advanced stats bars, advanced stats plots
 	* Add expandable sections
 * Parts explorer

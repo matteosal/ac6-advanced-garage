@@ -56,11 +56,18 @@ const firearmSpecMapping = {26:41, 45:72, 53:80, 76:85, 80:86, 87:87, 88:87, 92:
 	96:89, 100:90, 102:90, 103:90, 104:90, 122:94, 123:94, 128:95, 133:96, 135:97, 136:97, 
 	140:98, 160:104};
 
-function getTargetTracking(firearmSpec) {
-	return firearmSpecMapping[firearmSpec];
+function getTargetTracking(firearmSpec, load, limit) {
+	if(load > limit)
+		// Still need to figure out what's the penalty in this case
+		return 0;
+	else
+		return firearmSpecMapping[firearmSpec];
 }
 
-function getBoostSpeed(baseSpeed, weight) {
+function getBoostSpeed(baseSpeed, weight, limit) {
+	if(weight > limit) 
+		// Still need to figure out what's the penalty in this case
+		return 0.
 	const multiplier = piecewiseLinear(
 		weight / 10000., 
 		[[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.6]]
@@ -68,7 +75,10 @@ function getBoostSpeed(baseSpeed, weight) {
 	return baseSpeed * multiplier;
 }
 
-function getQBSpeed(baseQBSpeed, weight) {
+function getQBSpeed(baseQBSpeed, weight, limit) {
+	if(weight > limit) 
+		// Still need to figure out what's the penalty in this case
+		return 0.
 	const multiplier = piecewiseLinear(
 		weight / 10000., 
 		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]]
@@ -85,6 +95,8 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 }
 
 function getENSupplyEfficiency(enOutput, enLoad) {
+	if(enLoad > enOutput)
+		return 100;
 	const res = piecewiseLinear(enOutput - enLoad,
 		[[0., 1500.], [1800., 9000.], [3500., 16500.]]
 	);
@@ -210,10 +222,13 @@ function computeAllStats(parts) {
 		{name: 'EffectiveAPExplosive', value: effectiveAP.explosive},
 		{name: 'EffectiveAPAvg', value: glob.mean(Object.values(effectiveAP))},
 		{emptyLine: true},
-		{name: 'TargetTracking', value: getTargetTracking(parts.arms.FirearmSpecialization)},
+		{name: 'TargetTracking', value: 
+			getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])},
 		{emptyLine: true},
-		{name: 'BoostSpeed', value: getBoostSpeed(baseSpeed, weight)},
-		{name: 'QBSpeed', value: getQBSpeed(baseQBSpeed, weight)},
+		{name: 'BoostSpeed', value: 
+			getBoostSpeed(baseSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
+		{name: 'QBSpeed', value: 
+			getQBSpeed(baseQBSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
 		{name: 'QBENConsumption', value: qbENConsumption},
 		{name: 'QBReloadTime', value: qbReloadTime},
 		{name: 'MaxConsecutiveQB', value: Math.ceil(generator['ENCapacity'] / qbENConsumption)},
