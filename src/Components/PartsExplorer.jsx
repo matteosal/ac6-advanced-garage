@@ -121,8 +121,7 @@ const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot}) => {
 	}
 	const updateAssembly = () => {
 		acPartsDispatch({target: 'current', slot: slot, id: part['ID']})
-		acPartsDispatch({target: 'preview', setNull: true})
-		previewDispatch({slot: null})							
+		acPartsDispatch({target: 'preview', setNull: true})						
 	}
 
 	const [imgW, imgAspectRatio] = [220, 0.51];

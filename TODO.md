@@ -6,7 +6,7 @@
 	* Add advanced stats bars, advanced stats plots
 	* Add expandable sections
 * Parts explorer
-	* Equipping part should not close explorer
+	* Avoid mouseLeave event triggering when hovering between part boxes
 	* Part stats spacing in table
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
 	* Fix inactive booster slot being selectable with Q/B
