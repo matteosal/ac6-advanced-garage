@@ -1,15 +1,18 @@
 import partsData from '../Assets/PartsData.json';
 
 function importAll(r) {
-    let images = {};
-    r.keys().map(item => { images[item.replace('./', '')] = r(item); });
-    return images;
+	let images = {};
+	r.keys().map(item => { images[item.replace('./', '')] = r(item); });
+	return images;
 }
 
 const partImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
 const slotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
 const unitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
-const manufacturerLogos = importAll(require.context('../Assets/Images/Manufacturers', false, /\.png/));
+const manufacturerLogos = importAll(
+	require.context('../Assets/Images/Manufacturers', false, /\.png/)
+);
+const infoIcon = require("../Assets/Images/info_icon.png");
 
 function toImageFileName(name) {
 	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
@@ -212,6 +215,7 @@ export {
 	slotImages,
 	unitIcons,
 	manufacturerLogos,
+	infoIcon,
 	/* STYLES */
 	paletteColor,
 	dottedBackgroundStyle,

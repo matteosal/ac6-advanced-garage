@@ -221,7 +221,7 @@ function computeAllStats(parts) {
 		{name: 'QBENRechargeTime', value: qbENRechargeTime},
 		{name: 'FullRechargeTime', value: fullRechargeTime},
 		{name: 'FullRechargeTimeRedline', value: fullRechargeTimeRedline},
-		{name: 'ENRecoveryPlot', 
+		{name: 'ENRecoveryProfiles', 
 			value: {
 				normal: [enRechargeDelay.normal, 0, enSupplyEfficiency, generator['ENCapacity']],
 				redline: [enRechargeDelay.redline, generator['PostRecoveryENSupply'], 
@@ -243,12 +243,45 @@ function computeAllStats(parts) {
 		{name: "CurrentArmsLoad", value: armsLoad, type: 'BarOnly', 
 			limit: arms['ArmsLoadLimit']},
 		{name: "CurrentENLoad", value: enLoad, type: 'BarOnly', limit: enOutput},
-		{name: 'LoadByGroup', value: weightPerGroup.map(x => 100. * x / weight), 
+		{name: 'WeightByGroup', value: weightPerGroup.map(x => 100. * x / weight), 
 			type: 'ProportionBar'},
 		{name: 'ENLoadByGroup', value: enLoadPerGroup.map(x => 100. * x / enLoad), 
 			type: 'ProportionBar'}
 	]
 }
+
+/**********************************************************************************/
+
+const statTooltips = {
+	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
+	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
+	'EffectiveAPExplosive': 'Amount of raw explosive damage that can be sustained.',
+	'EffectiveAPAvg': 'Average of all effective AP values.',
+	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of \
+\	\	energy (assuming no energy is recovered in between quick boosts).',
+	'ENRechargeDelayRedline': 'Time before energy starts recovering when the generator is \
+\	\	fully depleted.',
+	'QBENRechargeTime': 'Time to recovery energy consumed by one quick boost when the \
+\	\	generator is not fully depleted.\nNOTE: despite the energy bar depleting immediately \
+\	\	when a quick boost is performed, the energy is actually gradually depleted throughout \
+\	\	entire quick boost animation. This means that the value of the QB Jet Duration stat is \
+\	\	added to the recovery time to compute this value.',
+	'FullRechargeTime': 'Time to recover an amount of energy equal to the energy capacity \
+\	\	when the generator is not fully depleted.\nNOTE: this is a limit value because if the \
+\	\	generator is not fully depleted energy recovery will recover less than the full energy \
+\	\	capacity.',
+	'FullRechargeTimeRedline': 'Time to fully recover energy when the generator is fully \
+\	\	depleted',
+	'ENRecoveryProfiles': 'Shows the energy recovered over time in the normal (cyan) and \
+\	\	redlining (red) cases. When a part is in preview, the current profiles are shown with \
+\	\	dotted lines and the new ones with solid ones.\nNOTE: the cyan profile is a limit \
+\	\	case because if the generator is not fully depleted energy recovery will not start \
+\	\	from zero energy.',
+	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
+\	\	(right) to the total weight.',
+	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
+\	\	(right) to the total energy load.'
+};
 
 /**********************************************************************************/
 
@@ -281,6 +314,7 @@ function switchComponent(leftStat, rightStat, pos) {
 				name = {rightStat.name}
 				left = {leftStat.value}
 				right = {rightStat.value}
+				tooltip = {statTooltips[rightStat.name]}
 				key = {pos}				
 			/>		
 		)
@@ -290,6 +324,7 @@ function switchComponent(leftStat, rightStat, pos) {
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}
+				tooltip={statTooltips[rightStat.name]}
 			/>		
 		)		
 	}
@@ -298,6 +333,7 @@ function switchComponent(leftStat, rightStat, pos) {
 				name = {rightStat.name}
 				leftRaw = {leftStat.value}
 				rightRaw = {rightStat.value}
+				tooltip = {statTooltips[rightStat.name]}
 				key = {pos}
 			/>
 		)

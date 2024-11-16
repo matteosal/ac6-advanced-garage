@@ -6,8 +6,6 @@ import PartsExplorer from "./Components/PartsExplorer.jsx";
 import PartStats from "./Components/PartStats.jsx";
 import ACStats from "./Components/ACStats.jsx";
 
-import './reset.css'
-
 /*************************************************************************************/
 
 const starterACPartNames = [

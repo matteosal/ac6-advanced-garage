@@ -1,3 +1,4 @@
+import { Tooltip } from 'react-tooltip'
 import PlotlyPlot from 'react-plotly.js';
 
 import * as glob from '../Misc/Globals.js';
@@ -25,6 +26,23 @@ function isBetter(name, a, b) {
 }
 
 const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
+
+const Paragraphs = ({text}) => {
+	return (text.split('\n').map((str, i) => <p key={i}>{str}</p>));
+}
+
+const InfoBox = ({name, tooltip}) => {
+	return(
+		<>
+		<div style={{margin: '2px 1px 0px 2px'}}>
+			<img src={glob.infoIcon} width='100%'/>
+		</div>
+		<Tooltip style={{maxWidth: '15%'}} anchorSelect={'.' + name} place="left" >
+			<Paragraphs text={tooltip} />
+		</Tooltip>
+		</>
+	)
+}
 
 /***************************************************************************************/
 
@@ -114,9 +132,9 @@ function toValueAndDisplay(name, raw) {
 	return [value, display]
 }
 
-const namePadding = '5px 0px 5px 3%';
+const namePadding = '5px 0px 5px 0px';
 
-const NumericRow = ({name, leftRaw, rightRaw, kind}) => {
+const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 
 	// This row is also used for unit stats such as attack power that can have
 	// form e.g. 100x3 ([100, 3] in data) so we have to account for that
@@ -146,7 +164,13 @@ const NumericRow = ({name, leftRaw, rightRaw, kind}) => {
 
 	return (
 		<>
-		<div style={{display: 'inline-block', padding: namePadding, width: nameW}}>
+		<div 
+			style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+			className={name}
+		>
+			{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
+		</div>
+		<div style={{display: 'inline-block', padding: '5px 0px 5px 0px', width: nameW}}>
 			{glob.toDisplayString(name)}
 		</div>
 		{
@@ -184,7 +208,7 @@ const NumericRow = ({name, leftRaw, rightRaw, kind}) => {
 
 /***************************************************************************************/
 
-const BarOnlyRow = ({name, left, right, limit}) => {
+const BarOnlyRow = ({name, left, right, limit, tooltip}) => {
 
 	let barColor = 'white';
 	if(left !== null) { // Comparison
@@ -198,6 +222,12 @@ const BarOnlyRow = ({name, left, right, limit}) => {
 
 	return (
 		<>
+			<div 
+				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				className={name}
+			>
+				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
+			</div>			
 			<div style={{display: 'inline-block', padding: namePadding, 
 				width: '65%'}}>
 				{glob.toDisplayString(name)}
@@ -247,9 +277,15 @@ const ProportionBar = ({values}) => {
 	)
 }
 
-const ProportionBarRow = ({name, left, right}) => {
+const ProportionBarRow = ({name, left, right, tooltip}) => {
 	return (
 		<>
+			<div 
+				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				className={name}
+			>
+				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
+			</div>			
 			<div style={{display: 'inline-block', padding: namePadding, 
 				width: '30%'}
 			}>
@@ -375,10 +411,16 @@ const Plot = ({left, right}) => {
 	)
 }
 
-const PlotRow = ({name, left, right}) => {
+const PlotRow = ({name, left, right, tooltip}) => {
 	return(
 		<>
-			<div style={{padding: namePadding, width: '40%'}
+			<div 
+				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				className={name}
+			>
+				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
+			</div>		
+			<div style={{display: 'inline-block', padding: namePadding, width: '40%'}
 			}>
 				{glob.toDisplayString(name)}
 			</div>

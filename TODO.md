@@ -1,6 +1,5 @@
 * Look for monospaced font for numbers (remember plot text also)
 * AC stats panel
-	* Tooltips for advanced stats, to the left of the name
 	* Add expandable sections
 * Parts explorer
 	* Avoid mouseLeave event triggering when hovering between part boxes
@@ -18,5 +17,6 @@
 	* Basic info and github link
 	* Icon credit if eventually used
 		* <a href="https://www.flaticon.com/free-icons/mechanic" title="mechanic icons">Mechanic icons created by Good Ware - Flaticon</a>
+	* Link to icons8.com for info icon
 * Fix warnings given by npm start
 * Run linter / code checking tool
