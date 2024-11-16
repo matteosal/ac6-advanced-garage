@@ -1,11 +1,11 @@
 * Look for monospaced font for numbers (remember plot text also)
+* USe react context for assembly parts (and get rid of hasTankLegs)
 * AC stats panel
 	* Add expandable sections
 * Parts explorer
 	* Avoid mouseLeave event triggering when hovering between part boxes
 	* Part stats spacing in table
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
-	* Fix inactive booster slot being selectable with Q/B
 	* Emit messages when units are moved from a slot to another and for the tank/booster stuff
 	* Parts default ordering and sorting
 	* Separate sub-slots for back units

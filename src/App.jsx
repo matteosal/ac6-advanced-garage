@@ -40,6 +40,8 @@ const starterACParts = Object.fromEntries(
 const checkedUnitSlots = [['rightArm', 'rightBack'], ['rightBack', 'rightArm'], 
 	['leftArm', 'leftBack'], ['leftBack', 'leftArm']];
 
+let hasTankLegs = false;
+
 const assemblyPartsReducer = (parts, action) => {
 	const output = {...parts};
 	if(action.setNull) {
@@ -57,16 +59,18 @@ const assemblyPartsReducer = (parts, action) => {
 	})
 	// Manage tank legs and boosters
 	if(action.slot === 'legs') {
-		if(
-			newPart['LegType'] === 'Tank' &&
-			parts.current.booster['ID'] != glob.noneBooster['ID']
-		) {
-			newPartList.booster = glob.noneBooster;
-		} else if(
-			newPart['LegType'] != 'Tank' && 
-			parts.current.booster['ID'] === glob.noneBooster['ID']
-		) {
-			newPartList.booster = glob.partsData.find((part) => part['Kind'] === 'Booster');
+		if(newPart['LegType'] === 'Tank') {
+			if(parts.current.booster['ID'] != glob.noneBooster['ID'])
+				newPartList.booster = glob.noneBooster;
+			if(action.target === 'current'){
+				hasTankLegs = true;
+			}
+		} else if(newPart['LegType'] != 'Tank') {
+			if(parts.current.booster['ID'] === glob.noneBooster['ID'])
+				newPartList.booster = glob.partsData.find((part) => part['Kind'] === 'Booster');
+			if(action.target === 'current'){
+				hasTankLegs = false;
+			}
 		}
 	}
 	newPartList[action.slot] = newPart;
@@ -78,8 +82,7 @@ const assemblyPartsReducer = (parts, action) => {
 
 const previewReducer = (preview, action) => {
 	if(action.slot === null) {
-		// Set slot to null means close the part explorer. Reached by either keydown handler 
-		// (ESC) or PartBox updating assembly
+		// Set slot to null means close the part explorer. Reached by keydown handler (ESC)
 		return {slot: null, slotRange: null, part: null}
 	} else if(action.slot !== undefined) { 
 		// Set slot without shifting slotRange
@@ -98,16 +101,23 @@ const previewReducer = (preview, action) => {
 		const currentPos = glob.partSlots.indexOf(preview.slot);
 		const maxPos = glob.partSlots.length - 1;
 		let newRange = preview.slotRange;
+		let newPos;
 		if(action.moveSlot === 1 && currentPos < maxPos) { 
 			// Increase slot id, shift right if possible
-			const newSlot = glob.partSlots[currentPos + 1];
-			if(currentPos > preview.slotRange[1] - 2 && preview.slotRange[1] < maxPos)
+			newPos = currentPos + 1;
+			if(newPos === 8 && hasTankLegs)
+				newPos = 9;
+			const newSlot = glob.partSlots[newPos];
+			if(newPos > preview.slotRange[1] - 1 && preview.slotRange[1] < maxPos)
 				newRange = newRange.map(i => i+1);
 			return {slot: newSlot, slotRange: newRange, part: null}
 		} else if(action.moveSlot === -1 && currentPos > 0) { 
 			// Decrease slot id, shift left if possible
-			const newSlot = glob.partSlots[currentPos - 1];
-			if(currentPos < preview.slotRange[0] + 2 && preview.slotRange[0] > 0)
+			newPos = currentPos - 1;
+			if(newPos === 8 && hasTankLegs)
+				newPos = 7;
+			const newSlot = glob.partSlots[newPos];
+			if(newPos < preview.slotRange[0] + 1 && preview.slotRange[0] > 0)
 				newRange = newRange.map(i => i-1);
 			return {slot: newSlot, slotRange: newRange, part: null}
 		} else { 
