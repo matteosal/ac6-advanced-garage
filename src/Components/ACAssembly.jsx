@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
+import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
 
 const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) => {
 	const [highlighted, setHighlighted] = useState(false)
@@ -49,7 +50,9 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 	);
 }
 
-const AssemblyGroup = ({header, slotIds, parts, previewSetter}) => {
+const AssemblyGroup = ({header, slotIds, previewSetter}) => {
+	const parts = useContext(ACPartsContext).current;
+
 	const slotNames = slotIds.map(id => glob.partSlots[id]);
 	return(
 		<div style={{marginBottom: '10px'}}>
@@ -77,7 +80,7 @@ const AssemblyGroup = ({header, slotIds, parts, previewSetter}) => {
 
 
 
-const ACAssembly = ({currentParts, previewSetter}) => {
+const ACAssembly = ({previewSetter}) => {
 
 	const headers = ['UNIT', 'FRAME', 'INNER', 'EXPANSION'];
 	const ids = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10], [11]];
@@ -89,7 +92,6 @@ const ACAssembly = ({currentParts, previewSetter}) => {
 				i => <AssemblyGroup 
 					header={headers[i]}
 					slotIds={ids[i]}
-					parts={currentParts}
 					previewSetter={previewSetter}
 					key={i}
 				/>

@@ -1,4 +1,6 @@
-import { useState } from 'react';
+import { useState, useContext, useEffect } from 'react';
+
+import {ACPartsContext, ACPartsDispatchContext} from "../Contexts/ACPartsContext.jsx";
 
 import * as glob from '../Misc/Globals.js';
 
@@ -38,7 +40,8 @@ const SlotBox = ({slot, inactive, selected, updateSlot}) => {
 	)
 }
 
-const SlotSelector = ({preview, updateSlot, acParts}) => {
+const SlotSelector = ({preview, updateSlot}) => {
+	const acParts = useContext(ACPartsContext).current;	
 
 	const displayedPartSlots = glob.partSlots.filter(
 		(s, pos) => pos >= preview.slotRange[0] && pos <= preview.slotRange[1]
@@ -97,7 +100,11 @@ const EquippedTag = ({imgH}) => {
 	</div>
 }
 
-const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot, highlighted, setHighlightedId}) => {
+const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) => {
+
+	const acPartsDispatch = useContext(ACPartsDispatchContext);
+	const acParts = useContext(ACPartsContext).current;		
+	const curPart = acParts[slot]
 
 	const filter = highlighted ? 'brightness(1.3)' : 'none'
 
@@ -175,9 +182,7 @@ function getDisplayedParts(slot, searchString) {
 	return output;
 }
 
-const PartSelector = (params) => {
-	const {preview, previewDispatch, curPart, acPartsDispatch,
-		searchString, onSearch} = params;
+const PartSelector = ({preview, previewDispatch, searchString, onSearch}) => {
 
 	const [highlightedId, setHighlightedId] = useState(-1);
 
@@ -205,8 +210,6 @@ const PartSelector = (params) => {
 				(part) => <PartBox
 					part = {part}
 					previewDispatch = {previewDispatch}
-					acPartsDispatch = {acPartsDispatch}
-					curPart = {curPart}
 					slot = {preview.slot}
 					highlighted = {part['ID'] == highlightedId}
 					setHighlightedId = {setHighlightedId}
@@ -221,8 +224,38 @@ const PartSelector = (params) => {
 
 /*****************************************************************************/
 
-const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => {
+function hasTankLegs(parts) {
+	return parts.legs['LegType'] === 'Tank'
+}
+
+const PartsExplorer = ({preview, previewDispatch}) => {
+
+	const acParts = useContext(ACPartsContext).current;	
+	const acPartsDispatch = useContext(ACPartsDispatchContext);
+
 	const [searchString, setSearchString] = useState('');
+
+	const handleKeyDown = (event) => {
+		if(event.target.matches('input'))
+			return
+		if(event.key === 'Escape') {
+			previewDispatch({slot: null})
+			acPartsDispatch({target: 'preview', setNull: true})
+		}
+		// We pass hasTankLegs so that the preview reducer knows if it has to skip the booster
+		// slot
+		else if(event.key === 'e')
+			previewDispatch({moveSlot: 1, hasTankLegs: hasTankLegs(acParts)})
+		else if(event.key === 'q')
+			previewDispatch({moveSlot: -1, hasTankLegs: hasTankLegs(acParts)})
+	}
+
+	useEffect(() => {
+			document.addEventListener('keydown', handleKeyDown);
+			return () => document.removeEventListener('keydown', handleKeyDown);
+		},
+		[handleKeyDown]
+	);
 
 	return (
 		<div style={
@@ -238,13 +271,10 @@ const PartsExplorer = ({preview, previewDispatch, acParts, acPartsDispatch}) => 
 						setSearchString('')
 					}
 				}
-				acParts={acParts}
 			/>
 			<PartSelector
 				preview = {preview}
 				previewDispatch={previewDispatch}
-				curPart = {acParts[preview.slot]}
-				acPartsDispatch = {acPartsDispatch}
 				searchString = {searchString}
 				onSearch = {event => setSearchString(event.target.value)}
 			/>

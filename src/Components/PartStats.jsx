@@ -1,5 +1,7 @@
-import {NumericRow} from './StatRows.jsx';
+import { useContext } from 'react';
 
+import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
+import {NumericRow} from './StatRows.jsx';
 import * as glob from '../Misc/Globals.js';
 
 const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
@@ -101,7 +103,10 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	)
 }
 
-const PartStats = ({previewPart, curPart}) => {
+const PartStats = ({preview}) => {
+
+	const previewPart = preview.part;
+	const curPart = useContext(ACPartsContext).current[preview.slot];
 
 	if(previewPart === null) {
 		let nullPart = toNullStats(curPart);

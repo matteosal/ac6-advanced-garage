@@ -1,5 +1,7 @@
-import * as glob from '../Misc/Globals.js';
+import { useContext } from 'react';
 
+import * as glob from '../Misc/Globals.js';
+import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
 import * as statRows from './StatRows.jsx';
 
 /**********************************************************************************/
@@ -368,7 +370,9 @@ function getOverloadTable(stats) {
 	)	
 }
 
-const ACStats = ({acParts}) => {
+const ACStats = () => {
+	const acParts = useContext(ACPartsContext);
+
 	const currentStats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
 		let nullStats = currentStats.map(stat => toNullStat(stat));

@@ -1,5 +1,4 @@
 * Look for monospaced font for numbers (remember plot text also)
-* Use react context for assembly parts (and get rid of hasTankLegs)
 * AC stats panel
 	* Add expandable sections
 * Parts explorer
@@ -7,9 +6,15 @@
 	* Clear search string when Q|E (use context for global state, get rid of hasTankLegs and move keydown handler to parts explorer so that it has access to search string)
 	* Part stats spacing in table
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
-	* Manage case when units are moved bertween arm/back, emit messages
+	* Manage case when units are moved between arm/back, emit messages
 	* Parts default ordering and sorting
 	* Separate sub-slots for back units
+* Refactoring
+	* Look into removing slot range from preview state, bringing it into SlotSelector. 
+	useState can set its initial state by looking at the preview slot. The keydown handler for
+	Q|E can also be put in SlotSelector (it can coexist with the one looking for ESC) and can 
+	set the local slot range state + call the dispatch to set the slot
+	* Look into putting acParts.preview in the actual preview
 * Add build link generation and load, make sure build is validated
 	* Existing parts
 	* Tank legs vs booster
