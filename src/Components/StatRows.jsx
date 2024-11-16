@@ -136,7 +136,7 @@ function toValueAndDisplay(name, raw) {
 	return [value, display]
 }
 
-const defaultColumnWidths = {name: '64%', value: '12%', symbol: '5%'};
+const namePadding = '5px 0px 5px 3%';
 
 const NumericRow = ({name, leftRaw, rightRaw, kind}) => {
 
@@ -163,39 +163,43 @@ const NumericRow = ({name, leftRaw, rightRaw, kind}) => {
 
 	// kind !== undefined indicates we are creating a row for the part stats panel and there
 	// will be a bar as well, so nameW has to shrink. barW is only used in this case
-	const nameW = kind === undefined ? defaultColumnWidths.name : '42%';
-	const barW = '22%';
+	const nameW = kind === undefined ? '63%' : '43%';
+	const barW = '20%';
 
 	return (
 		<>
-		<td style={{padding: '5px 0px 5px 25px', width: nameW}}>
+		<div style={{display: 'inline-block', padding: namePadding, width: nameW}}>
 			{glob.toDisplayString(name)}
-		</td>
+		</div>
 		{
 			kind != undefined ?
-				<><td style={{width: barW}}>
+				<div style={{display: 'inline-block', width: barW}}>
 					<StatBar kind={kind} name={name} left={left} right={right} color={rightColor}/>
-				</td></> :
+				</div> :
 				<></>
 		}
-		<td style={
-			{color: 'gray', textAlign: 'right', width: defaultColumnWidths.value, 
-				fontWeight: 'bold'}
+		<div style={
+			{display: 'inline-block', color: 'gray', textAlign: 'right', 
+				width: '12%', fontWeight: 'bold'}
 		}>
 			{leftDisplay}
-		</td>
-		<td style={{textAlign: 'center', color: 'gray', width: defaultColumnWidths.symbol}}>
+		</div>
+		<div style={{display: 'inline-block', textAlign: 'center', color: 'gray', 
+			width: '5%'}
+		}>
 			{doubleArrowChar}
-		</td>
-		<td style={
-			{color: rightColor, textAlign: 'right', width: defaultColumnWidths.value, 
-				fontWeight: 'bold'}
+		</div>
+		<div style={
+			{display: 'inline-block', color: rightColor, textAlign: 'right', 
+				width: '12%', fontWeight: 'bold'}
 		}>
 			{rightDisplay}
-		</td>
-		<td style={{color: rightColor, textAlign: 'center', width: defaultColumnWidths.symbol}}>
+		</div>
+		<div style={{display: 'inline-block', color: rightColor, textAlign: 'center', 
+			width: '5%'}
+		}>
 			{triangle}
-		</td>
+		</div>
 	</>
 	);
 }
@@ -214,10 +218,11 @@ const BarOnlyRow = ({name, left, right, limit}) => {
 
 	return (
 		<>
-			<td style={{padding: '5px 0px 5px 25px', width: defaultColumnWidths.name}}>
+			<div style={{display: 'inline-block', padding: namePadding, 
+				width: '65%'}}>
 				{glob.toDisplayString(name)}
-			</td>
-			<td colSpan={3}>
+			</div>
+			<div style={{display: 'inline-block', width: '30%'}}>
 				<StatBar 
 					name={name}
 					left={left}
@@ -225,8 +230,7 @@ const BarOnlyRow = ({name, left, right, limit}) => {
 					limit={limit}
 					color={barColor}
 				/>
-			</td>
-			<td style={{width: defaultColumnWidths.symbol}}></td>
+			</div>
 		</>
 	)
 }
@@ -234,15 +238,23 @@ const BarOnlyRow = ({name, left, right, limit}) => {
 const ProportionBarRow = ({name, left, right}) => {
 	return (
 		<>
-			<td style={{padding: '5px 0px 5px 25px', width: defaultColumnWidths.name}}>
+			<div style={{display: 'inline-block', padding: namePadding, 
+				width: '30%'}
+			}>
 				{glob.toDisplayString(name)}
-			</td>
-			<td colSpan={3}>
+			</div>
+			<div style={{display: 'inline-block', width: '30%', padding: '0px 1% 0px 4%'}}>
+				{
+					left === null ? 
+						<></> :
+						<ProportionBar values={left}/>
+				}
+			</div>
+			<div style={{display: 'inline-block', width: '30%'}}>
 				<ProportionBar 
 					values={right}
 				/>
-			</td>
-			<td style={{width: defaultColumnWidths.symbol}}></td>
+			</div>
 		</>
 	)
 }

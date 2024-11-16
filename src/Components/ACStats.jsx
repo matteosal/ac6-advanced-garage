@@ -274,7 +274,7 @@ function switchComponent(leftStat, rightStat, pos) {
 
 	if(rightStat.emptyLine)
 		return (
-				<td colSpan={6}>&nbsp;</td>
+				<div style={{padding: '5px 0'}}>&nbsp;</div>
 		)
 	else if(rightStat.barOnly)
 		return (
@@ -361,8 +361,6 @@ const ACStats = ({acParts}) => {
 			</div>
 
 			<div className="my-scrollbar" style={{height: '715px', overflowY: 'auto'}}>
-			<table style={{width: '100%'}}>
-			<tbody>
 				{
 					range.map(
 						(pos) => {
@@ -370,15 +368,13 @@ const ACStats = ({acParts}) => {
 								redRowBackground : 
 								glob.tableRowBackground(pos);
 							return(
-								<tr style={{background: background}} key={pos}>
+								<div style={{background: background}} key={pos}>
 									{switchComponent(leftStats[pos], rightStats[pos], pos)}
-								</tr>
+								</div>
 							)
 						}
 					)
 				}
-			</tbody>
-			</table>
 			</div>
 		</div>
 	);
