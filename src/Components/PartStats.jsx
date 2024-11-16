@@ -78,28 +78,25 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 					</div> :
 				<></>
 			}		
-		<table style={{width: '100%'}}>
-		<tbody>
+		<div style={{width: '100%'}}>
 			{
 				Object.keys(rightFiltered).map(
 					(name, pos) => {		
 						return(
-							<tr style={{background: glob.tableRowBackground(pos)}} key={pos}>
+							<div style={{background: glob.tableRowBackground(pos)}} key={pos}>
 								<NumericRow 
 									name = {name}
 									leftRaw = {leftFiltered[name]}
 									rightRaw = {rightFiltered[name]}
 									kind = {rightPart['Kind']}
-									barOnly = {false}
 									key = {name}
 								/>
-							</tr>
+							</div>
 						)
 					}
 				)
 			}
-		</tbody>
-		</table>
+		</div>
 		</div>
 	)
 }
