@@ -97,9 +97,7 @@ const EquippedTag = ({imgH}) => {
 	</div>
 }
 
-const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot}) => {
-
-	const [highlighted, setHighlighted] = useState(false)
+const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot, highlighted, setHighlightedId}) => {
 
 	const filter = highlighted ? 'brightness(1.3)' : 'none'
 
@@ -128,8 +126,7 @@ const PartBox = ({part, previewDispatch, acPartsDispatch, curPart, slot}) => {
 	return (
 		<div 
 			style = {{margin: '5px auto', position: 'relative', filter: filter, height: imgH, width: imgW, background: glob.paletteColor(4)}}
-			onMouseEnter = {() => {setHighlighted(true); updatePreview();}}
-			onMouseLeave = {() => {setHighlighted(false); clearPreview();}}
+			onMouseEnter = {() => {setHighlightedId(part['ID']); updatePreview();}}
 			onClick = {updateAssembly}
 		>
 			{
@@ -182,6 +179,8 @@ const PartSelector = (params) => {
 	const {preview, previewDispatch, curPart, acPartsDispatch,
 		searchString, onSearch} = params;
 
+	const [highlightedId, setHighlightedId] = useState(-1);
+
 	const displayedParts = getDisplayedParts(preview.slot, searchString);
 
 	return(
@@ -209,6 +208,8 @@ const PartSelector = (params) => {
 					acPartsDispatch = {acPartsDispatch}
 					curPart = {curPart}
 					slot = {preview.slot}
+					highlighted = {part['ID'] == highlightedId}
+					setHighlightedId = {setHighlightedId}
 					key = {part['ID']}
 				/>
 			)
