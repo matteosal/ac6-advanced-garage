@@ -72,14 +72,14 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 			</div>
 			{
 				isUnit ? 
-					<div style={{float: 'right', paddingRight: 10}}>
+					<div style={{display: 'inline-block', marginLeft: 410}}>
 						<UnitIcon img={atkTypeImg} />
 						<UnitIcon img={wpnTypeImg} />
 						<UnitIcon img={rldTypeImg} />
 						<UnitIcon img={addEffImg} />
 					</div> :
 				<></>
-			}		
+			}
 		<div style={{width: '100%'}}>
 			{
 				Object.keys(rightFiltered).map(
