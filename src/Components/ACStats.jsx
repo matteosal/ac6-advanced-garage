@@ -202,10 +202,10 @@ function computeAllStats(parts) {
 		{name: 'EffectiveAPEnergy', value: effectiveAP.energy},
 		{name: 'EffectiveAPExplosive', value: effectiveAP.explosive},
 		{name: 'EffectiveAPAvg', value: glob.mean(Object.values(effectiveAP))},
-		{emptyLine: true},
+		{type: 'EmptyLine'},
 		{name: 'TargetTracking', value: 
 			getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])},
-		{emptyLine: true},
+		{type: 'EmptyLine'},
 		{name: 'BoostSpeed', value: 
 			getBoostSpeed(baseSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
 		{name: 'QBSpeed', value: 
@@ -213,7 +213,7 @@ function computeAllStats(parts) {
 		{name: 'QBENConsumption', value: qbENConsumption},
 		{name: 'QBReloadTime', value: qbReloadTime},
 		{name: 'MaxConsecutiveQB', value: Math.ceil(generator['ENCapacity'] / qbENConsumption)},
-		{emptyLine: true},
+		{type: 'EmptyLine'},
 		{name: 'ENCapacity', value: generator['ENCapacity']},
 		{name: 'ENSupplyEfficiency', value: enSupplyEfficiency},
 		{name: 'ENRechargeDelay', value: enRechargeDelay.normal},
@@ -227,42 +227,45 @@ function computeAllStats(parts) {
 				redline: [enRechargeDelay.redline, generator['PostRecoveryENSupply'], 
 					enSupplyEfficiency, generator['ENCapacity']]
 			},
-			plot: true},
-		{emptyLine: true},
+			type: 'Plot'
+		},
+		{type: 'EmptyLine'},
 		{name: 'TotalWeight', value: weight},
-		{emptyLine: true},
+		{type: 'EmptyLine'},
 		{name: 'TotalArmsLoad', value: armsLoad},
 		{name: 'ArmsLoadLimit', value: arms['ArmsLoadLimit']},
 		{name: 'TotalLoad', value: legsLoad},
 		{name: 'LoadLimit', value: legs['LoadLimit']},
 		{name: 'TotalENLoad', value: enLoad},
 		{name: 'ENOutput', value: enOutput},
-		{emptyLine: true},
-		{name: "CurrentLoad", value: legsLoad, barOnly: true, limit: legs['LoadLimit']},
-		{name: "CurrentArmsLoad", value: armsLoad, barOnly: true, limit: arms['ArmsLoadLimit']},
-		{name: "CurrentENLoad", value: enLoad, barOnly: true, limit: enOutput},
+		{type: 'EmptyLine'},
+		{name: "CurrentLoad", value: legsLoad, type: 'BarOnly', limit: legs['LoadLimit']},
+		{name: "CurrentArmsLoad", value: armsLoad, type: 'BarOnly', 
+			limit: arms['ArmsLoadLimit']},
+		{name: "CurrentENLoad", value: enLoad, type: 'BarOnly', limit: enOutput},
 		{name: 'LoadByGroup', value: weightPerGroup.map(x => 100. * x / weight), 
-			proportionBar: true},
-		{name: 'ENLoadByGroup', value: enLoadPerGroup.map(x => 100. * x / enLoad), proportionBar: true}
+			type: 'ProportionBar'},
+		{name: 'ENLoadByGroup', value: enLoadPerGroup.map(x => 100. * x / enLoad), 
+			type: 'ProportionBar'}
 	]
 }
 
 /**********************************************************************************/
 
 function toNullStat(stat) {
-	if(stat.emptyLine !== undefined)
-		return {emptyLine: true}
+	if(stat.type === 'EmptyLine')
+		return {type: 'EmptyLine'}
 	else
 		return {name: stat.name, value: null}
 }
 
 function switchComponent(leftStat, rightStat, pos) {
 
-	if(rightStat.emptyLine)
+	if(rightStat.type === 'EmptyLine')
 		return (
 				<div style={{padding: '5px 0'}}>&nbsp;</div>
 		)
-	else if(rightStat.barOnly)
+	else if(rightStat.type === 'BarOnly')
 		return (
 			<statRows.BarOnlyRow
 				name = {rightStat.name}
@@ -272,7 +275,7 @@ function switchComponent(leftStat, rightStat, pos) {
 				key = {pos}				
 			/>
 		)
-	else if(rightStat.proportionBar)
+	else if(rightStat.type === 'ProportionBar')
 		return(
 			<statRows.ProportionBarRow
 				name = {rightStat.name}
@@ -281,12 +284,12 @@ function switchComponent(leftStat, rightStat, pos) {
 				key = {pos}				
 			/>		
 		)
-	else if(rightStat.plot) {
+	else if(rightStat.type === 'Plot') {
 		return(
 			<statRows.PlotRow
 				name={rightStat.name}
-				right={rightStat.value}
 				left={leftStat.value}	
+				right={rightStat.value}
 			/>		
 		)		
 	}

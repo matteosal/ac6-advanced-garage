@@ -298,7 +298,7 @@ function pushPoint(points, t, en) {
 	points.redline.en.push(en);	
 }
 
-const Plot = ({right, left}) => {
+const Plot = ({left, right}) => {
 	let rightPoints = getPlotPoints(right);
 	let leftPoints = getPlotPoints(left);
 
@@ -375,7 +375,7 @@ const Plot = ({right, left}) => {
 	)
 }
 
-const PlotRow = ({name, right, left}) => {
+const PlotRow = ({name, left, right}) => {
 	return(
 		<>
 			<div style={{padding: namePadding, width: '40%'}
@@ -383,7 +383,7 @@ const PlotRow = ({name, right, left}) => {
 				{glob.toDisplayString(name)}
 			</div>
 			<div style={{width: '60%', height: '200px', margin: '0px auto'}}>
-				<Plot right={right} left={left} />
+				<Plot left={left} right={right} />
 			</div>
 		</>
 	)
