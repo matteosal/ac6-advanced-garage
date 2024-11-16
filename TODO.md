@@ -1,6 +1,7 @@
 * Look for monospaced font for numbers
 * AC stats panel
 	* Add advanced stats bars, advanced stats plots
+	* Tooltips for advanced stats, to the left of the name
 	* Add expandable sections
 * Parts explorer
 	* Avoid mouseLeave event triggering when hovering between part boxes

@@ -99,13 +99,13 @@ const ProportionBar = ({values}) => {
 	return(
 		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px', lineHeight: '20px'}}>
 			<div style={{width: barDivShrink, margin: '0px auto'}}>
-				<div style={proportionStyle(values[0], 'rgb(255, 132, 0)')}>
+				<div style={proportionStyle(values[0], 'rgb(72, 202, 228)')}>
 					{displayed[0]}
 				</div>
-				<div style={proportionStyle(values[1], 'rgb(139, 69, 19)')}>
+				<div style={proportionStyle(values[1], 'rgb(0, 150, 199)')}>
 					{displayed[1]}
 				</div>
-				<div style={proportionStyle(values[2], 'rgb(204, 174, 49)')}>
+				<div style={proportionStyle(values[2], 'rgb(20, 156, 255)')}>
 					{displayed[2]}
 				</div>
 			</div>
@@ -243,7 +243,7 @@ const ProportionBarRow = ({name, left, right}) => {
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{display: 'inline-block', width: '30%', padding: '0px 1% 0px 4%'}}>
+			<div style={{display: 'inline-block', width: '30%', padding: '0px 2% 0px 3%'}}>
 				{
 					left === null ? 
 						<></> :
