@@ -1,5 +1,9 @@
 import { useState, useReducer, useEffect } from 'react';
 
+import { toast, Slide } from 'react-toastify';
+
+
+
 import * as glob from './Misc/Globals.js';
 import ACAssembly from "./Components/ACAssembly.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
@@ -42,6 +46,13 @@ const checkedUnitSlots = [['rightArm', 'rightBack'], ['rightBack', 'rightArm'],
 
 let hasTankLegs = false;
 
+function notify(msg) {
+	return toast(msg, 
+		{style: {background: glob.paletteColor(0)}, type:'info', position: "top-right", 
+			autoClose: 3000, transition: Slide}
+	)
+}
+
 const assemblyPartsReducer = (parts, action) => {
 	const output = {...parts};
 	if(action.setNull) {
@@ -63,12 +74,14 @@ const assemblyPartsReducer = (parts, action) => {
 			if(parts.current.booster['ID'] != glob.noneBooster['ID'])
 				newPartList.booster = glob.noneBooster;
 			if(action.target === 'current'){
+				notify('Booster removed');
 				hasTankLegs = true;
 			}
 		} else if(newPart['LegType'] != 'Tank') {
 			if(parts.current.booster['ID'] === glob.noneBooster['ID'])
 				newPartList.booster = glob.partsData.find((part) => part['Kind'] === 'Booster');
 			if(action.target === 'current'){
+				notify('Random booster added');
 				hasTankLegs = false;
 			}
 		}
@@ -232,7 +245,7 @@ function App() {
 			</div>
 		</div>
 		</div>
-	)
+	);
 }
 
 export default App;

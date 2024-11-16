@@ -1,16 +1,19 @@
 * Look for monospaced font for numbers (remember plot text also)
-* USe react context for assembly parts (and get rid of hasTankLegs)
+* Use react context for assembly parts (and get rid of hasTankLegs)
 * AC stats panel
 	* Add expandable sections
 * Parts explorer
 	* Avoid mouseLeave event triggering when hovering between part boxes
 	* Part stats spacing in table
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
-	* Emit messages when units are moved from a slot to another and for the tank/booster stuff
+	* anage case when units are moved bertween arm/back, emit messages
 	* Parts default ordering and sorting
 	* Separate sub-slots for back units
-* Add build link generation and load
-	* Make sure build is validated
+* Add build link generation and load, make sure build is validated
+	* Existing parts
+	* Tank legs vs booster
+	* Units in wrong slots
+	* Duplicated units
 * Add advanced weapon stats
 * Add build global scores to center
 * Add about section
