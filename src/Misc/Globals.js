@@ -17,7 +17,8 @@ function toImageFileName(name) {
 
 /***************************************************************************************/
 
-// Sorted by brightness
+// Sorted by brightness. This is only used for larger UI elements, smaller things can define
+// their colors locally
 const palette = [
 	[13, 20, 30], [36, 53, 73], [51, 62, 84], [61, 72, 94], [67, 84, 104], [151, 173, 184]
 ];

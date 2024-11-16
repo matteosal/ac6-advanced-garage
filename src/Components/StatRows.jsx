@@ -1,4 +1,8 @@
+import PlotlyPlot from 'react-plotly.js';
+
 import * as glob from '../Misc/Globals.js';
+
+/***************************************************************************************/
 
 const roundTargets = {'AttitudeRecovery': 1, 'BoostSpeed': 1, 'QBSpeed': 1, 
 	'QBENConsumption': 1, 'EffectiveAPKinetic': 1, 'EffectiveAPEnergy': 1, 
@@ -13,9 +17,6 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
 	'CurrentENLoad'];
 
-// AC bar-only stats. For these lower is better but the stats should not be inverted
-const avoidInvertingBar = ['CurrentLoad', 'CurrentArmsLoad', 'CurrentENLoad']
-
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
 		return a < b
@@ -25,11 +26,16 @@ function isBetter(name, a, b) {
 
 const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
 
+/***************************************************************************************/
+
 function toScore(val, min, max) {
 	return Math.max((val - min) / (max - min) * 100, 2);
 }
 
 const barDivShrink = '96%';
+
+// AC bar-only stats. For these lower is better but the stats should not be inverted
+const avoidInvertingBar = ['CurrentLoad', 'CurrentArmsLoad', 'CurrentENLoad']
 
 const StatBar = ({kind, name, left, right, limit, color}) => {
 	let min, max;
@@ -44,7 +50,7 @@ const StatBar = ({kind, name, left, right, limit, color}) => {
 	const rightWidth = toScore(right, min, max);
 	// leftWidth is the width of the div nested into the "right" width so we have
 	// to account for that
-	const leftWidth = Math.max(toScore(left, min, max) / rightWidth * 100, 2);	
+	const leftWidth = Math.max(toScore(left, min, max) / rightWidth * 100, 2); 
 
 	return (
 		<>
@@ -82,34 +88,6 @@ const StatBar = ({kind, name, left, right, limit, color}) => {
 		</div>
 		</div>
 		</>
-	)
-}
-
-function proportionStyle(val, color) {
-	return(
-		{display: 'inline-block', verticalAlign: 'middle', width: val + '%', height: '20px',
-			textAlign: 'center', fontSize: '70%', background: color}
-	)
-}
-
-const ProportionBar = ({values}) => {
-	const [round0, round1] = [glob.round(values[0]), glob.round(values[1])];
-	const round = [round0, round1, 100 - round0 - round1];
-	const displayed = round.map(val => val > 15 ? val + '%' : null)
-	return(
-		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px', lineHeight: '20px'}}>
-			<div style={{width: barDivShrink, margin: '0px auto'}}>
-				<div style={proportionStyle(values[0], 'rgb(72, 202, 228)')}>
-					{displayed[0]}
-				</div>
-				<div style={proportionStyle(values[1], 'rgb(0, 150, 199)')}>
-					{displayed[1]}
-				</div>
-				<div style={proportionStyle(values[2], 'rgb(20, 156, 255)')}>
-					{displayed[2]}
-				</div>
-			</div>
-		</div>
 	)
 }
 
@@ -204,6 +182,8 @@ const NumericRow = ({name, leftRaw, rightRaw, kind}) => {
 	);
 }
 
+/***************************************************************************************/
+
 const BarOnlyRow = ({name, left, right, limit}) => {
 
 	let barColor = 'white';
@@ -235,6 +215,38 @@ const BarOnlyRow = ({name, left, right, limit}) => {
 	)
 }
 
+/***************************************************************************************/
+
+function proportionStyle(val, color) {
+	return(
+		{display: 'inline-block', verticalAlign: 'middle', width: val + '%', height: '20px',
+			textAlign: 'center', fontSize: '70%', background: color}
+	)
+}
+
+const cyan = 'rgb(72, 202, 228)';
+
+const ProportionBar = ({values}) => {
+	const [round0, round1] = [glob.round(values[0]), glob.round(values[1])];
+	const round = [round0, round1, 100 - round0 - round1];
+	const displayed = round.map(val => val > 15 ? val + '%' : null)
+	return(
+		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px', lineHeight: '20px'}}>
+			<div style={{width: barDivShrink, margin: '0px auto'}}>
+				<div style={proportionStyle(values[0], cyan)}>
+					{displayed[0]}
+				</div>
+				<div style={proportionStyle(values[1], 'rgb(0, 150, 199)')}>
+					{displayed[1]}
+				</div>
+				<div style={proportionStyle(values[2], 'rgb(20, 156, 255)')}>
+					{displayed[2]}
+				</div>
+			</div>
+		</div>
+	)
+}
+
 const ProportionBarRow = ({name, left, right}) => {
 	return (
 		<>
@@ -259,4 +271,122 @@ const ProportionBarRow = ({name, left, right}) => {
 	)
 }
 
-export {NumericRow, BarOnlyRow, ProportionBarRow};
+/***************************************************************************************/
+
+function getLinePoints(delay, gap, rate, enMax) {
+	const tMax = delay + (enMax - gap) / rate;
+	return (
+		{t: [delay, delay, tMax], en: [0, gap, enMax]}
+	)
+}
+
+function getPlotPoints(set) {
+	if(set === null)
+		return null;
+	return (
+		{
+			normal: getLinePoints(...set.normal),
+			redline: getLinePoints(...set.redline)
+		}
+	)
+}
+
+function pushPoint(points, t, en) {
+	points.normal.t.push(t);
+	points.normal.en.push(en);
+	points.redline.t.push(t);
+	points.redline.en.push(en);	
+}
+
+const Plot = ({right, left}) => {
+	let rightPoints = getPlotPoints(right);
+	let leftPoints = getPlotPoints(left);
+
+	let tMax = Math.max(rightPoints.normal.t[2], rightPoints.redline.t[2]);
+	if(leftPoints !== null)
+		tMax = Math.max(tMax, leftPoints.normal.t[2], leftPoints.redline.t[2]);
+	let enMax = rightPoints.normal.en[2];
+	if(leftPoints !== null)
+		enMax = Math.max(enMax, leftPoints.normal.en[2]);
+
+	const [plotW, plotH] = [1.4 * tMax, 1.2 * enMax];
+	pushPoint(rightPoints, plotW, rightPoints.normal.en[2]);
+	if(leftPoints !== null)
+		pushPoint(leftPoints, plotW, leftPoints.normal.en[2]);
+
+	let data = [
+		{
+			x: rightPoints.normal.t,
+			y: rightPoints.normal.en,
+			mode: 'lines',
+			line: {color: cyan},
+		},
+		{
+			x: rightPoints.redline.t,
+			y: rightPoints.redline.en,
+			mode: 'lines',
+			line: {color: red},
+		}
+	];
+
+	if(leftPoints !== null) {
+		data.push(
+			{
+				x: leftPoints.normal.t,
+				y: leftPoints.normal.en,
+				mode: 'lines',
+				line: {dash: 'dash', color: cyan}
+			}
+		);
+		data.push(
+			{
+				x: leftPoints.redline.t,
+				y: leftPoints.redline.en,
+				mode: 'lines',
+				line: {dash: 'dash', color: red}
+			}
+		);
+	}
+
+	return (
+		<PlotlyPlot
+			style={{width: '100%', height: '100%'}}
+			data={data}
+			layout={{
+				margin: {l: 30, r: 25, t: 25, b: 45},
+				xaxis: {
+					range: [0, plotW],
+					title: {text: 'Time', font: {family: 'Aldrich, sans-serif'}, standoff: 5},
+					tickfont: {family: 'Aldrich, sans-serif'},
+					color: 'white'
+				},
+				yaxis: {
+					range: [0, plotH],
+					title: {text: 'EN', font: {family: 'Aldrich, sans-serif'}, standoff: 1},
+					color: 'white',
+					showticklabels: false
+				},
+				showlegend: false,
+				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
+				paper_bgcolor: 'rgb(255, 255, 255, 0.1)'
+			}}
+			config={{displayModeBar: false, staticPlot: true}}
+		/>
+	)
+}
+
+const PlotRow = ({name, right, left}) => {
+	return(
+		<>
+			<div style={{padding: namePadding, width: '40%'}
+			}>
+				{glob.toDisplayString(name)}
+			</div>
+			<div style={{width: '60%', height: '200px', margin: '0px auto'}}>
+				<Plot right={right} left={left} />
+			</div>
+		</>
+	)
+}
+
+export {NumericRow, BarOnlyRow, ProportionBarRow, PlotRow};

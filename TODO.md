@@ -1,6 +1,5 @@
-* Look for monospaced font for numbers
+* Look for monospaced font for numbers (remember plot text also)
 * AC stats panel
-	* Add advanced stats bars, advanced stats plots
 	* Tooltips for advanced stats, to the left of the name
 	* Add expandable sections
 * Parts explorer

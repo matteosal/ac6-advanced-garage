@@ -116,16 +116,6 @@ function timeToRecoverEnergy(energy, supplyEff, delay) {
 	return energy / supplyEff + delay;
 }
 
-function energyRecoveryFunc(delay, postRecoveryEn, supplyEff, enCapacity) {
-	return time => {
-	 if (time < delay) {
-		return 0;
-	 } else {
-		return Math.min(supplyEff * (time - delay) + postRecoveryEn, enCapacity);
-	 }
-	}
-}
-
 /**********************************************************************************/
 
 const unitSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack'];
@@ -198,15 +188,6 @@ function computeAllStats(parts) {
 		enRechargeDelay.normal
 	);
 
-	const enRecoveryFunc = energyRecoveryFunc(enRechargeDelay.normal, 0, enSupplyEfficiency,
-		generator['ENCapacity']);
-	const enRecoveryFuncRedline = energyRecoveryFunc(
-	enRechargeDelay.redline,
-		generator['PostRecoveryENSupply'],
-		enSupplyEfficiency,
-		generator['ENCapacity']
-	);
-
 	const armsLoad = sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']);
 	const legsLoad = sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'));
 
@@ -240,6 +221,13 @@ function computeAllStats(parts) {
 		{name: 'QBENRechargeTime', value: qbENRechargeTime},
 		{name: 'FullRechargeTime', value: fullRechargeTime},
 		{name: 'FullRechargeTimeRedline', value: fullRechargeTimeRedline},
+		{name: 'ENRecoveryPlot', 
+			value: {
+				normal: [enRechargeDelay.normal, 0, enSupplyEfficiency, generator['ENCapacity']],
+				redline: [enRechargeDelay.redline, generator['PostRecoveryENSupply'], 
+					enSupplyEfficiency, generator['ENCapacity']]
+			},
+			plot: true},
 		{emptyLine: true},
 		{name: 'TotalWeight', value: weight},
 		{emptyLine: true},
@@ -255,9 +243,7 @@ function computeAllStats(parts) {
 		{name: "CurrentENLoad", value: enLoad, barOnly: true, limit: enOutput},
 		{name: 'LoadByGroup', value: weightPerGroup.map(x => 100. * x / weight), 
 			proportionBar: true},
-		{name: 'ENLoadByGroup', value: enLoadPerGroup.map(x => 100. * x / enLoad), proportionBar: true},
-		// {name: 'ENRecoveryFunc', value: enRecoveryFunc},
-		// {name: 'ENRecoveryFuncRedline', value: enRecoveryFuncRedline}
+		{name: 'ENLoadByGroup', value: enLoadPerGroup.map(x => 100. * x / enLoad), proportionBar: true}
 	]
 }
 
@@ -295,7 +281,16 @@ function switchComponent(leftStat, rightStat, pos) {
 				key = {pos}				
 			/>		
 		)
-	else	return (
+	else if(rightStat.plot) {
+		return(
+			<statRows.PlotRow
+				name={rightStat.name}
+				right={rightStat.value}
+				left={leftStat.value}	
+			/>		
+		)		
+	}
+	else return (
 			<statRows.NumericRow
 				name = {rightStat.name}
 				leftRaw = {leftStat.value}
