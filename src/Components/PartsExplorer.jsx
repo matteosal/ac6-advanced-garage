@@ -244,10 +244,14 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 		}
 		// We pass hasTankLegs so that the preview reducer knows if it has to skip the booster
 		// slot
-		else if(event.key === 'e')
+		else if(event.key === 'e') {
+			setSearchString('')
 			previewDispatch({moveSlot: 1, hasTankLegs: hasTankLegs(acParts)})
-		else if(event.key === 'q')
+		}
+		else if(event.key === 'q') {
+			setSearchString('')
 			previewDispatch({moveSlot: -1, hasTankLegs: hasTankLegs(acParts)})
+		}
 	}
 
 	useEffect(() => {
