@@ -102,7 +102,8 @@ function moveSlot(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksu
 }
 
 const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, setSearchString}) => {
-	const acParts = useContext(ACPartsContext).current;	
+	const acParts = useContext(ACPartsContext).current;
+	const acPartsDispatch = useContext(ACPartsDispatchContext);
 
 	const [slotRange, setSlotRange] = useState(getInitialSlotRange(preview.slot));
 
@@ -122,7 +123,8 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 			const [newPos, newRange] = 
 				moveSlot(currentPos, slotRange, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot);
 			setSlotRange(newRange);
-			previewDispatch({slot: glob.partSlots[newPos]})
+			previewDispatch({slot: glob.partSlots[newPos]});
+			acPartsDispatch({target: 'preview', setNull: true});
 		}
 	}
 
@@ -135,6 +137,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 
 	const updateSlot = (s) => {
 		previewDispatch({slot: s});
+		acPartsDispatch({target: 'preview', setNull: true});
 		setSearchString('');
 		if(['leftBack', 'rightBack'].includes(s)) {
 			if(backSubslot === null)
@@ -210,7 +213,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 
 	const clearPreview = () => {
 		previewDispatch({part: null})
-		acPartsDispatch({target: 'preview', setNull: true})		
+		acPartsDispatch({target: 'preview', setNull: true})
 	}
 	const updatePreview = () => {
 		if(part['ID'] !== curPart['ID']) {
