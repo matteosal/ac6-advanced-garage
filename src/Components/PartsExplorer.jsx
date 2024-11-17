@@ -386,7 +386,7 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 
 	const [searchString, setSearchString] = useState('');
 	const [backSubslot, setBacksubslot] = useState(
-		[2, 3].includes(preview.slot) ? 0 : null
+		['leftBack', 'rightBack'].includes(preview.slot) ? 0 : null
 	);
 
 	const handleKeyDown = (event) => {
