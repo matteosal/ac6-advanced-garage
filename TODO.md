@@ -4,7 +4,6 @@
 * Parts explorer
 	* Part stats spacing in table
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
-	* Manage case when units are moved between arm/back, emit messages
 	* Parts default ordering and sorting
 	* Separate sub-slots for back units
 * Refactoring

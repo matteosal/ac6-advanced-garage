@@ -81,7 +81,7 @@ const PartNameDisplay = ({name, imgSize}) => {
 	</div>
 }
 
-const EquippedTag = ({imgH}) => {
+const EquippedTag = ({imgH, background}) => {
 	const size = 40;
 	const shift = imgH - size;
 	return <div 
@@ -91,7 +91,7 @@ const EquippedTag = ({imgH}) => {
 			position: 'absolute', bottom: shift,
 			backgroundImage: '-webkit-linear-gradient(\
 				-45deg,' +
-				glob.paletteColor(5) + '50%,\
+				background + '50%,\
 				transparent 50%\
 			)'
 		}}
@@ -99,6 +99,9 @@ const EquippedTag = ({imgH}) => {
 		EQ
 	</div>
 }
+
+const pairedSlots = {'rightArm': 'rightBack', 'rightBack': 'rightArm', 
+	'leftArm': 'leftBack', 'leftBack': 'leftArm'}
 
 const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) => {
 
@@ -130,6 +133,9 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	const [imgW, imgAspectRatio] = [220, 0.51];
 	const imgH = Math.round(imgW * imgAspectRatio);
 
+	const pairedSlot = pairedSlots[slot];
+	const pairedPart = acParts[pairedSlot];
+
 	return (
 		<div 
 			style = {{margin: '5px auto', position: 'relative', filter: filter, height: imgH, width: imgW, background: glob.paletteColor(4)}}
@@ -141,7 +147,15 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 					<PartNameDisplay name={part['Name']} imgSize={[imgW, imgH]} /> :
 					<img src={img} width={imgW} style={{display: 'block'}} />
 			}
-			{part['ID'] === curPart['ID'] ? <EquippedTag imgH={imgH}/> : <></>}
+			{
+				part['ID'] === curPart['ID'] ?
+					<EquippedTag background={glob.paletteColor(5)} imgH={imgH}/> :
+					<></>}
+			{
+				part['ID'] === pairedPart['ID'] && part['ID'] !== glob.noneUnit['ID'] ?
+					<EquippedTag background='rgb(220, 52, 45)' imgH={imgH}/> : 
+					<></>
+			}
 		</div>
 	)
 }

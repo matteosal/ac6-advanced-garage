@@ -157,11 +157,7 @@ function stringInsert(str, insert, pos) {
 	return str.substr(0, pos) + insert + str.substr(pos);
 }
 
-function toDisplayString(str) {
-	const fromTable = displayStringTable[str];
-	if(fromTable != undefined)
-		return fromTable;
-
+function splitCamelCase(str) {
 	let upperCasePos = [];
 	for(var i = 1; i < str.length - 1; i++) {
 		if(
@@ -180,6 +176,16 @@ function toDisplayString(str) {
 			counter++;
 		}
 	)
+
+	return res;
+}
+
+function toDisplayString(str) {
+	const fromTable = displayStringTable[str];
+	if(fromTable != undefined)
+		return fromTable;
+
+	const res = splitCamelCase(str);
 
 	return capitalizeFirstLetter(res);
 }
@@ -229,6 +235,7 @@ export {
 	partSlots,
 	/* UTILS */
 	boxCharacter,
+	splitCamelCase,
 	capitalizeFirstLetter,
 	toDisplayString,
 	round,

@@ -58,10 +58,17 @@ const assemblyPartsReducer = (parts, action) => {
 	const newPart = glob.partsData[action.id];
 	// Check if e.g. right arm unit is already placed in right shoulder slot and remove it
 	// from old slot
-	checkedUnitSlots.forEach(([slot1, slot2]) => {
-		if(action.slot === slot1 && parts.current[slot2]['ID'] === newPart)
-			newPartList[slot2] = glob.noneUnit;
-	})
+	if(newPart['ID'] !== glob.noneUnit['ID']) {
+		checkedUnitSlots.forEach(([slot1, slot2]) => {
+			if(action.slot === slot1 && parts.current[slot2]['ID'] === newPart['ID']) {
+				if(action.target === 'current') {
+					const slotDisplayString = glob.splitCamelCase(slot2).toLowerCase();
+					notify('Unit removed from ' + slotDisplayString + ' slot');
+				}
+				newPartList[slot2] = glob.noneUnit;
+			}
+		})
+	}
 	// Manage tank legs and boosters
 	if(action.slot === 'legs') {
 		if(newPart['LegType'] === 'Tank') {
