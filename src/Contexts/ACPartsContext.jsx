@@ -44,9 +44,6 @@ const starterACParts = Object.fromEntries(
 
 /***************************************************************************************/
 
-const checkedUnitSlots = [['rightArm', 'rightBack'], ['rightBack', 'rightArm'], 
-	['leftArm', 'leftBack'], ['leftBack', 'leftArm']];
-
 const assemblyPartsReducer = (parts, action) => {
 	const output = {...parts};
 	if(action.setNull) {
@@ -59,7 +56,7 @@ const assemblyPartsReducer = (parts, action) => {
 	// Check if e.g. right arm unit is already placed in right shoulder slot and remove it
 	// from old slot
 	if(newPart['ID'] !== glob.noneUnit['ID']) {
-		checkedUnitSlots.forEach(([slot1, slot2]) => {
+		Object.entries(glob.pairedUnitSlots).forEach(([slot1, slot2]) => {
 			if(action.slot === slot1 && parts.current[slot2]['ID'] === newPart['ID']) {
 				if(action.target === 'current') {
 					const slotDisplayString = glob.splitCamelCase(slot2).toLowerCase();

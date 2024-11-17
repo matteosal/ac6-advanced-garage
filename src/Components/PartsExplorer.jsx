@@ -6,7 +6,7 @@ import * as glob from '../Misc/Globals.js';
 
 /*****************************************************************************/
 
-const SlotBox = ({slot, inactive, selected, updateSlot}) => {
+const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubslot}) => {
 	let imgStyle = {};
 	let borderColor = glob.paletteColor(2);
 	if(selected) {
@@ -18,24 +18,46 @@ const SlotBox = ({slot, inactive, selected, updateSlot}) => {
 
 	const img = glob.slotImages[glob.toImageFileName(slot)];
 
-	let mouseEnter;
-	if(inactive)
-		mouseEnter = () => {}
-	else
-		mouseEnter = () => updateSlot()
-
 	return (
-		<div 
-			style={{
+		<div style={{
 				display: 'inline-block',
 				width: '20%',
 				borderTopStyle: 'solid',
 				borderTopWidth: '2px',
-				borderTopColor: borderColor
-			}}
-			onMouseEnter={mouseEnter}
-		>
-			<img style={imgStyle} src={img} width='100%' />
+				borderTopColor: borderColor,
+				position: 'relative'
+			}}>
+			<div onMouseEnter={() => {if(!inactive) updateSlot()}}>
+				<img style={imgStyle} src={img} width='100%' />
+			</div>
+			{
+				['leftBack', 'rightBack'].includes(slot) ? 
+					<>
+					<div 
+						style = {{
+							position: 'absolute',
+							height: '6px', width: '6px',
+							background: selected && backSubslot === 0 ? 
+								glob.paletteColor(5, 1, 1.5) : 
+								'gray',
+							bottom: '40px', left: '3px'
+						}}
+						onMouseEnter = {() => setBacksubslot(0)}
+					></div>
+					<div 
+						style = {{
+							position: 'absolute',
+							height: '6px', width: '6px',
+							background: selected && backSubslot === 1 ? 
+								glob.paletteColor(5, 1, 1.5) : 
+								'gray',
+							bottom: '40px', left: '12px'
+						}}
+						onMouseEnter = {() => setBacksubslot(1)}
+					></div>
+					</> :
+					<></>
+			}
 		</div>
 	)
 }
@@ -46,10 +68,26 @@ function getInitialSlotRange(slot) {
 	return [start, start + 4]
 }
 
-function moveSlot(pos, range, delta, maxPos, hasTankLegs) {
+function moveSlot(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot) {
 	if ((delta === 1 && pos === maxPos) || (delta === -1 && pos === 0))
 		return [pos, range];
-	// Compute new pos ID
+	// Compute new pos ID, managing back subslots
+	if(pos === 1 && delta === 1)
+		setBacksubslot(0);
+	else if(pos === 4 && delta === -1)
+		setBacksubslot(1);
+	else if(pos === 2 || pos === 3) {
+		// Here we basically move by half a step and check where we land
+		const subpos = backSubslot === 0 ? pos : pos + 0.5;
+		const newSubPos = subpos + delta / 2;
+		const floor = Math.floor(newSubPos);
+		if(floor === 1 || floor === 4)
+			setBacksubslot(null);
+		else {
+			delta = floor - pos; // This might be 0 if we are only switching subslot
+			setBacksubslot(Math.round(2 * (newSubPos - floor)))
+		}
+	}
 	let newPos = pos + delta;
 	if(newPos === 8 && hasTankLegs)
 		newPos += delta;
@@ -63,7 +101,7 @@ function moveSlot(pos, range, delta, maxPos, hasTankLegs) {
 	return [newPos, newRange];
 }
 
-const SlotSelector = ({preview, previewDispatch, setSearchString}) => {
+const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, setSearchString}) => {
 	const acParts = useContext(ACPartsContext).current;	
 
 	const [slotRange, setSlotRange] = useState(getInitialSlotRange(preview.slot));
@@ -82,7 +120,7 @@ const SlotSelector = ({preview, previewDispatch, setSearchString}) => {
 			const maxPos = glob.partSlots.length - 1;			
 			const hasTankLegs = acParts.legs['LegType'] === 'Tank';
 			const [newPos, newRange] = 
-				moveSlot(currentPos, slotRange, delta, maxPos, hasTankLegs);
+				moveSlot(currentPos, slotRange, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot);
 			setSlotRange(newRange);
 			previewDispatch({slot: glob.partSlots[newPos]})
 		}
@@ -94,6 +132,16 @@ const SlotSelector = ({preview, previewDispatch, setSearchString}) => {
 		},
 		[handleKeyDown]
 	);
+
+	const updateSlot = (s) => {
+		previewDispatch({slot: s});
+		setSearchString('');
+		if(['leftBack', 'rightBack'].includes(s)) {
+			if(backSubslot === null)
+				setBacksubslot(0)
+		} else
+			setBacksubslot(null)
+	}
 
 	return (
 		<>
@@ -107,7 +155,9 @@ const SlotSelector = ({preview, previewDispatch, setSearchString}) => {
 					slot = {s}
 					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
 					selected = {s === preview.slot}
-					updateSlot = {() => {previewDispatch({slot: s}); setSearchString('');}}
+					updateSlot = {() => updateSlot(s)}
+					backSubslot = {backSubslot}
+					setBacksubslot = {setBacksubslot}
 					key = {s}
 				/>
 			)
@@ -148,9 +198,6 @@ const EquippedTag = ({imgH, background}) => {
 	</div>
 }
 
-const pairedSlots = {'rightArm': 'rightBack', 'rightBack': 'rightArm', 
-	'leftArm': 'leftBack', 'leftBack': 'leftArm'}
-
 const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) => {
 
 	const acPartsDispatch = useContext(ACPartsDispatchContext);
@@ -181,7 +228,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	const [imgW, imgAspectRatio] = [220, 0.51];
 	const imgH = Math.round(imgW * imgAspectRatio);
 
-	const pairedPart = acParts[pairedSlots[slot]];
+	const pairedPart = acParts[glob.pairedUnitSlots[slot]];
 
 	return (
 		<div 
@@ -211,14 +258,32 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	)
 }
 
-function getDisplayedParts(slot, searchString) {
+function getDisplayedParts(slot, backSubslot, searchString) {
 	// Get all parts for the slot. This is not smart because it could be precomputed for 
-	// every slot
+	// every slot (save for search filtering and sorting)
 	let slotFilterFunc;
 	const slotCapitalized = slot == 'fcs' ? 'FCS' : glob.capitalizeFirstLetter(slot);
 
-	if(['rightArm', 'leftArm', 'rightBack', 'leftBack'].includes(slot)) {
+	if(['rightArm', 'leftArm'].includes(slot)) {
 		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
+	} else 
+	if(['rightBack', 'leftBack'].includes(slot)) {
+		const pairedSlotCapitalized = glob.capitalizeFirstLetter(glob.pairedUnitSlots[slot]);
+		if(backSubslot === 0)
+			// Actual back units. The convoluted filter indicates something should be refactored,
+			// maybe the parts data
+			slotFilterFunc = part => (
+				part.Kind === 'Unit' && 
+				(
+					(part[slotCapitalized] && !part[pairedSlotCapitalized]) || 
+					part['ID'] === glob.noneUnit['ID']
+				)
+			);
+		else
+			// Arm units for back slot
+			slotFilterFunc = part => (
+				part.Kind === 'Unit' && part[slotCapitalized] && part[pairedSlotCapitalized]
+			);
 	} else if(slot === 'booster') {
 		// The None booster exists because of the tank legs but the user should not be allowed
 		// to set it manually
@@ -247,11 +312,11 @@ function getDisplayedParts(slot, searchString) {
 	return output;
 }
 
-const PartSelector = ({preview, previewDispatch, searchString, onSearch}) => {
+const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSubslot}) => {
 
 	const [highlightedId, setHighlightedId] = useState(-1);
 
-	const displayedParts = getDisplayedParts(preview.slot, searchString);
+	const displayedParts = getDisplayedParts(preview.slot, backSubslot, searchString);
 
 	return(
 		<>
@@ -295,6 +360,9 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 	const acPartsDispatch = useContext(ACPartsDispatchContext);
 
 	const [searchString, setSearchString] = useState('');
+	const [backSubslot, setBacksubslot] = useState(
+		[2, 3].includes(preview.slot) ? 0 : null
+	);
 
 	const handleKeyDown = (event) => {
 		if(event.target.matches('input'))
@@ -321,6 +389,8 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 		}>
 			<SlotSelector
 				preview={preview}
+				backSubslot={backSubslot}
+				setBacksubslot={setBacksubslot}
 				previewDispatch={previewDispatch}
 				setSearchString={setSearchString}
 			/>
@@ -328,6 +398,7 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 				preview = {preview}
 				previewDispatch={previewDispatch}
 				searchString = {searchString}
+				backSubslot = {backSubslot}
 				onSearch = {event => setSearchString(event.target.value)}
 			/>
 		</div>

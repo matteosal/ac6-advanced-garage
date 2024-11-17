@@ -5,7 +5,6 @@
 	force Weight/EN load at the bottom
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
 	* Parts default ordering and sorting
-	* Separate sub-slots for back units
 * Refactoring
 	* Look into putting acParts.preview in the actual preview
 * Add build link generation and load, make sure build is validated

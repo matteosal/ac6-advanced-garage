@@ -137,6 +137,9 @@ acStatsRanges['CurrentENLoad'] = minMaxAcross(
 const partSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
 	'arms', 'legs','booster', 'fcs', 'generator', 'expansion'];
 
+const pairedUnitSlots = {'rightArm': 'rightBack', 'rightBack': 'rightArm', 
+	'leftArm': 'leftBack', 'leftBack': 'leftArm'};
+
 /***************************************************************************************/
 
 function capitalizeFirstLetter(str) {
@@ -233,6 +236,7 @@ export {
 	partStatsRanges,
 	acStatsRanges,
 	partSlots,
+	pairedUnitSlots,
 	/* UTILS */
 	boxCharacter,
 	splitCamelCase,
