@@ -7,10 +7,6 @@
 	* Parts default ordering and sorting
 	* Separate sub-slots for back units
 * Refactoring
-	* Look into removing slot range from preview state, bringing it into SlotSelector. 
-	useState can set its initial state by looking at the preview slot. The keydown handler for
-	Q|E can also be put in SlotSelector (it can coexist with the one looking for ESC) and can 
-	set the local slot range state + call the dispatch to set the slot
 	* Look into putting acParts.preview in the actual preview
 * Add build link generation and load, make sure build is validated
 	* Existing parts

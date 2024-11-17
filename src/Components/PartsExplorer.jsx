@@ -40,11 +40,59 @@ const SlotBox = ({slot, inactive, selected, updateSlot}) => {
 	)
 }
 
-const SlotSelector = ({preview, updateSlot}) => {
+function getInitialSlotRange(slot) {
+	const pos = glob.partSlots.indexOf(slot);
+	const start = Math.min(Math.max(pos - 1, 0), glob.partSlots.length - 5);
+	return [start, start + 4]
+}
+
+function moveSlot(pos, range, delta, maxPos, hasTankLegs) {
+	if ((delta === 1 && pos === maxPos) || (delta === -1 && pos === 0))
+		return [pos, range];
+	// Compute new pos ID
+	let newPos = pos + delta;
+	if(newPos === 8 && hasTankLegs)
+		newPos += delta;
+	// Update slot range
+	let newRange = range;
+	if(
+		(delta === 1 && newPos > range[1] - 1 && range[1] < maxPos) ||
+		(delta === -1 && newPos < range[0] + 1 && range[0] > 0)
+	)
+		newRange = newRange.map(i => i + delta);
+	return [newPos, newRange];
+}
+
+const SlotSelector = ({preview, previewDispatch, setSearchString}) => {
 	const acParts = useContext(ACPartsContext).current;	
 
+	const [slotRange, setSlotRange] = useState(getInitialSlotRange(preview.slot));
+
 	const displayedPartSlots = glob.partSlots.filter(
-		(s, pos) => pos >= preview.slotRange[0] && pos <= preview.slotRange[1]
+		(s, pos) => pos >= slotRange[0] && pos <= slotRange[1]
+	);
+
+	const handleKeyDown = (event) => {
+		if(event.target.matches('input'))
+			return
+		if(['q', 'e'].includes(event.key)) {
+			setSearchString('');	
+			const delta = event.key === 'q' ? -1 : 1;
+			const currentPos = glob.partSlots.indexOf(preview.slot);
+			const maxPos = glob.partSlots.length - 1;			
+			const hasTankLegs = acParts.legs['LegType'] === 'Tank';
+			const [newPos, newRange] = 
+				moveSlot(currentPos, slotRange, delta, maxPos, hasTankLegs);
+			setSlotRange(newRange);
+			previewDispatch({slot: glob.partSlots[newPos]})
+		}
+	}
+
+	useEffect(() => {
+			document.addEventListener('keydown', handleKeyDown);
+			return () => document.removeEventListener('keydown', handleKeyDown);
+		},
+		[handleKeyDown]
 	);
 
 	return (
@@ -59,7 +107,7 @@ const SlotSelector = ({preview, updateSlot}) => {
 					slot = {s}
 					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
 					selected = {s === preview.slot}
-					updateSlot = {() => updateSlot(s)}
+					updateSlot = {() => {previewDispatch({slot: s}); setSearchString('');}}
 					key = {s}
 				/>
 			)
@@ -241,10 +289,6 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch}) => {
 
 /*****************************************************************************/
 
-function hasTankLegs(parts) {
-	return parts.legs['LegType'] === 'Tank'
-}
-
 const PartsExplorer = ({preview, previewDispatch}) => {
 
 	const acParts = useContext(ACPartsContext).current;	
@@ -258,16 +302,6 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 		if(event.key === 'Escape') {
 			previewDispatch({slot: null})
 			acPartsDispatch({target: 'preview', setNull: true})
-		}
-		// We pass hasTankLegs so that the preview reducer knows if it has to skip the booster
-		// slot
-		else if(event.key === 'e') {
-			setSearchString('')
-			previewDispatch({moveSlot: 1, hasTankLegs: hasTankLegs(acParts)})
-		}
-		else if(event.key === 'q') {
-			setSearchString('')
-			previewDispatch({moveSlot: -1, hasTankLegs: hasTankLegs(acParts)})
 		}
 	}
 
@@ -287,11 +321,8 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 		}>
 			<SlotSelector
 				preview={preview}
-				updateSlot = {(s) => {
-						previewDispatch({slot: s})
-						setSearchString('')
-					}
-				}
+				previewDispatch={previewDispatch}
+				setSearchString={setSearchString}
 			/>
 			<PartSelector
 				preview = {preview}

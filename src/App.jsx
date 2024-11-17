@@ -12,57 +12,17 @@ import ACStats from "./Components/ACStats.jsx";
 const previewReducer = (preview, action) => {
 	if(action.slot === null) {
 		// Set slot to null means close the part explorer. Reached by keydown handler (ESC)
-		return {slot: null, slotRange: null, part: null}
+		return {slot: null, part: null}
 	} else if(action.slot !== undefined) { 
-		// Set slot without shifting slotRange
-		if(preview.slotRange === null) { 
-			// PartsExplorer is closed, reached by ACAssembly. We have to calculate slotRange
-			const pos = glob.partSlots.indexOf(action.slot);
-			const start = Math.min(Math.max(pos - 1, 0), glob.partSlots.length - 5);
-			return {slot: action.slot, slotRange: [start, start + 4], part: null}
-		} else{
-			// PartsExplorer is open, reached by SlotBox. Keep slot range and just change slot
-			return {slot: action.slot, slotRange: preview.slotRange, part: null}
-		}
-	} else if(action.moveSlot !== undefined) { 
-		// Set slot shifting slotRange if possible. Reached by keydown handler (Q|E) when 
-		// PartsExplorer is open
-		const hasTankLegs = action.hasTankLegs || false;
-		const currentPos = glob.partSlots.indexOf(preview.slot);
-		const maxPos = glob.partSlots.length - 1;
-		let newRange = preview.slotRange;
-		let newPos;
-		if(action.moveSlot === 1 && currentPos < maxPos) { 
-			// Increase slot id, shift right if possible
-			newPos = currentPos + 1;
-			if(newPos === 8 && hasTankLegs)
-				newPos = 9;
-			const newSlot = glob.partSlots[newPos];
-			if(newPos > preview.slotRange[1] - 1 && preview.slotRange[1] < maxPos)
-				newRange = newRange.map(i => i+1);
-			return {slot: newSlot, slotRange: newRange, part: null}
-		} else if(action.moveSlot === -1 && currentPos > 0) { 
-			// Decrease slot id, shift left if possible
-			newPos = currentPos - 1;
-			if(newPos === 8 && hasTankLegs)
-				newPos = 7;
-			const newSlot = glob.partSlots[newPos];
-			if(newPos < preview.slotRange[0] + 1 && preview.slotRange[0] > 0)
-				newRange = newRange.map(i => i-1);
-			return {slot: newSlot, slotRange: newRange, part: null}
-		} else { 
-			// Already at limit, cannot increase|decrease
-			return preview
-		}
-	}
-	else // Set part without changing slot
-		return {slot: preview.slot, slotRange: preview.slotRange, part: action.part}
+		return {slot: action.slot, part: null}
+	} else // Set part without changing slot
+		return {slot: preview.slot, part: action.part}
 }
 
 function App() {
 	const [preview, previewDispatch] = useReducer(
 		previewReducer,
-		{slot: null, slotRange: null, part: null}
+		{slot: null, part: null}
 	)
 
 	const backgroundStyle = {
