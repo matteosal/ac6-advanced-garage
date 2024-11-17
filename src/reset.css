@@ -82,6 +82,7 @@ input:focus {
 /* BUTTON  */
 button {
   font-family: inherit;
+  font-size: inherit;
   color: inherit;
   background-color: rgb(67, 84, 104); /* cannot be inline because of hover background spec  */
   border: none;

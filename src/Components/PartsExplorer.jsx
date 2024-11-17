@@ -163,7 +163,8 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 			>
 				{'< (E)'}
 			</button>
-			<div style={{display: 'inline-block', width: '40%', marginBottom: '10px'}}>
+			<div style={{display: 'inline-block', textAlign: 'center', width: '40%', 
+				marginBottom: '10px'}}>
 				{glob.toDisplayString(preview.slot).toUpperCase()}
 			</div>
 			<button 
