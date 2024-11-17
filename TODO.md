@@ -1,4 +1,3 @@
-* Look for monospaced font for numbers (remember plot text also)
 * AC stats panel
 	* Add expandable sections
 * Parts explorer

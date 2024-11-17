@@ -392,13 +392,13 @@ const Plot = ({left, right}) => {
 				margin: {l: 30, r: 25, t: 25, b: 45},
 				xaxis: {
 					range: [0, plotW],
-					title: {text: 'Time', font: {family: 'Aldrich, sans-serif'}, standoff: 5},
-					tickfont: {family: 'Aldrich, sans-serif'},
+					title: {text: 'Time', font: {family: 'Aldrich-Custom, sans-serif'}, standoff: 5},
+					tickfont: {family: 'Aldrich-Custom, sans-serif'},
 					color: 'white'
 				},
 				yaxis: {
 					range: [0, plotH],
-					title: {text: 'EN', font: {family: 'Aldrich, sans-serif'}, standoff: 1},
+					title: {text: 'EN', font: {family: 'Aldrich-Custom, sans-serif'}, standoff: 1},
 					color: 'white',
 					showticklabels: false
 				},
