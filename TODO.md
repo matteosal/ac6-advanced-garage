@@ -1,7 +1,8 @@
 * AC stats panel
 	* Add expandable sections
 * Parts explorer
-	* Part stats spacing in table
+	* Part stats spacing in table. Define stat groups and add empty lines between groups. Don't
+	force Weight/EN load at the bottom
 	* Button prompts and implementation of other button-related stuff (sort parts, etc)
 	* Parts default ordering and sorting
 	* Separate sub-slots for back units

@@ -107,7 +107,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 
 	const acPartsDispatch = useContext(ACPartsDispatchContext);
 	const acParts = useContext(ACPartsContext).current;		
-	const curPart = acParts[slot]
+	const curPart = acParts[slot];
 
 	const filter = highlighted ? 'brightness(1.3)' : 'none'
 
@@ -118,7 +118,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 		acPartsDispatch({target: 'preview', setNull: true})		
 	}
 	const updatePreview = () => {
-		if(part['ID'] != curPart['ID']) {
+		if(part['ID'] !== curPart['ID']) {
 			previewDispatch({part: part})
 			acPartsDispatch({target: 'preview', slot: slot, id: part['ID']})
 		} else {
@@ -133,8 +133,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	const [imgW, imgAspectRatio] = [220, 0.51];
 	const imgH = Math.round(imgW * imgAspectRatio);
 
-	const pairedSlot = pairedSlots[slot];
-	const pairedPart = acParts[pairedSlot];
+	const pairedPart = acParts[pairedSlots[slot]];
 
 	return (
 		<div 
@@ -152,7 +151,11 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 					<EquippedTag background={glob.paletteColor(5)} imgH={imgH}/> :
 					<></>}
 			{
-				part['ID'] === pairedPart['ID'] && part['ID'] !== glob.noneUnit['ID'] ?
+				(
+					pairedPart !== undefined && 
+					part['ID'] === pairedPart['ID'] &&
+					part['ID'] !== glob.noneUnit['ID']
+				) ?
 					<EquippedTag background='rgb(220, 52, 45)' imgH={imgH}/> : 
 					<></>
 			}
