@@ -68,7 +68,7 @@ function getInitialSlotRange(slot) {
 	return [start, start + 4]
 }
 
-function moveSlot(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot) {
+function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot) {
 	if ((delta === 1 && pos === maxPos) || (delta === -1 && pos === 0))
 		return [pos, range];
 	// Compute new pos ID, managing back subslots
@@ -111,20 +111,28 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 		(s, pos) => pos >= slotRange[0] && pos <= slotRange[1]
 	);
 
+	const moveSlot = delta => {
+		setSearchString('');	
+		const currentPos = glob.partSlots.indexOf(preview.slot);
+		const maxPos = glob.partSlots.length - 1;			
+		const hasTankLegs = acParts.legs['LegType'] === 'Tank';
+		const [newPos, newRange] = 
+			shiftPos(currentPos, slotRange, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot);
+		setSlotRange(newRange);
+		previewDispatch({slot: glob.partSlots[newPos]});
+		acPartsDispatch({target: 'preview', setNull: true});		
+	}
+
 	const handleKeyDown = (event) => {
 		if(event.target.matches('input'))
 			return
-		if(['q', 'e'].includes(event.key)) {
-			setSearchString('');	
-			const delta = event.key === 'q' ? -1 : 1;
-			const currentPos = glob.partSlots.indexOf(preview.slot);
-			const maxPos = glob.partSlots.length - 1;			
-			const hasTankLegs = acParts.legs['LegType'] === 'Tank';
-			const [newPos, newRange] = 
-				moveSlot(currentPos, slotRange, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot);
-			setSlotRange(newRange);
-			previewDispatch({slot: glob.partSlots[newPos]});
-			acPartsDispatch({target: 'preview', setNull: true});
+		switch (event.key) {
+			case 'q':
+				moveSlot(-1);
+				break;
+			case 'e':
+				moveSlot(1);
+				break;
 		}
 	}
 
@@ -148,8 +156,22 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 
 	return (
 		<>
-		<div style={{width: 'fit-content', margin: '0px auto 10px auto'}}>
-			{glob.toDisplayString(preview.slot).toUpperCase()}
+		<div style={{width: '100%'}}>
+			<button 
+				style={{display: 'inline-block', width: '20%', marginRight: '10%'}}
+				onClick={() => moveSlot(-1)}
+			>
+				{'< (E)'}
+			</button>
+			<div style={{display: 'inline-block', width: '40%', marginBottom: '10px'}}>
+				{glob.toDisplayString(preview.slot).toUpperCase()}
+			</div>
+			<button 
+				style={{display: 'inline-block', width: '20%', marginLeft: '10%'}}
+				onClick={() => moveSlot(1)}
+			>
+				{'(Q) >'}
+			</button>
 		</div>
 		<div>
 		{
@@ -326,12 +348,12 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 		<div style={{width: '90%', margin: 'auto'}}>
 			<div style={{display: 'inline-block', width: '30%'}}>SEARCH:</div>
 			<input
-				className="my-input"
 				style={{
 					height: '30px',
 					width: '70%',
 					margin: '5px 0px 10px 0px',
-					textTransform: 'uppercase'
+					textTransform: 'uppercase',
+					backgroundColor: glob.paletteColor(3)
 				}}
 				value={searchString}
 				onChange={onSearch}

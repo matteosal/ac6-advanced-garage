@@ -70,14 +70,23 @@ table {
 }
 
 /* INPUT FIELD */
-.my-input {
-	background-color: rgb(51, 62, 84); /* Cannot put this inline because of the focused spec */
-}
-.my-input:focus {
-		background-color: rgb(67, 79, 103);
+
+input:focus {
     outline: none; /* Must remove the outline and reset everything to have a custom one */
     outline-style: solid;
     outline-color: rgb(204, 234, 248); 
     outline-width: 2px;
     outline-offset: 2px;
+}
+
+/* BUTTON  */
+button {
+  font-family: inherit;
+  color: inherit;
+  background-color: rgb(67, 84, 104); /* cannot be inline because of hover background spec  */
+  border: none;
+}
+button:hover {
+  background-color: rgb(151, 173, 184);
+  color: white;
 }
