@@ -1,10 +1,10 @@
 /* FONTS */
 @font-face {
-    font-family: 'Aldrich-Custom';
-    src: url('Assets/Fonts/aldrich-custom-webfont.woff2') format('woff2'),
-         url('Assets/Fonts/aldrich-custom-webfont.woff') format('woff');
-    font-weight: normal;
-    font-style: normal;
+	font-family: 'Aldrich-Custom';
+	src: url('Assets/Fonts/aldrich-custom-webfont.woff2') format('woff2'),
+			 url('Assets/Fonts/aldrich-custom-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 
 }
 
@@ -56,38 +56,41 @@ table {
 
 /* SCROLLBAR */
 .my-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+	width: 6px;
+	height: 6px;
 }
 .my-scrollbar::-webkit-scrollbar-track {
-  background: rgb(67, 84, 104);
+	background: rgb(67, 84, 104);
 }
 .my-scrollbar::-webkit-scrollbar-thumb {
-  background: rgb(151, 173, 184);
+	background: rgb(151, 173, 184);
 }
 .my-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: rgb(204, 234, 248);
+	background: rgb(204, 234, 248);
 }
 
 /* INPUT FIELD */
 
 input:focus {
-    outline: none; /* Must remove the outline and reset everything to have a custom one */
-    outline-style: solid;
-    outline-color: rgb(204, 234, 248); 
-    outline-width: 2px;
-    outline-offset: 2px;
+		outline: none; /* Must remove the outline and reset everything to have a custom one */
+		outline-style: solid;
+		outline-color: rgb(204, 234, 248); 
+		outline-width: 2px;
+		outline-offset: 2px;
 }
 
 /* BUTTON  */
 button {
-  font-family: inherit;
-  font-size: inherit;
-  color: inherit;
-  background-color: rgb(67, 84, 104); /* cannot be inline because of hover background spec  */
-  border: none;
+	margin: 0;
+	vertical-align: baseline;
+	font-family: inherit;
+	font-size: inherit;
+	color: inherit;
+	padding: 1px 6px;
+	background-color: rgb(67, 84, 104);
+	border: 2px solid rgb(13, 20, 30);
 }
 button:hover {
-  background-color: rgb(151, 173, 184);
-  color: white;
+	background-color: rgb(151, 173, 184);
+	color: white;
 }
