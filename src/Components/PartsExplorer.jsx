@@ -40,7 +40,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 							background: selected && backSubslot === 0 ? 
 								glob.paletteColor(5, 1, 1.5) : 
 								'gray',
-							bottom: '40px', left: '3px'
+							bottom: '39px', left: '3px'
 						}}
 						onMouseEnter = {() => setBacksubslot(0)}
 					></div>
@@ -51,7 +51,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 							background: selected && backSubslot === 1 ? 
 								glob.paletteColor(5, 1, 1.5) : 
 								'gray',
-							bottom: '40px', left: '12px'
+							bottom: '39px', left: '12px'
 						}}
 						onMouseEnter = {() => setBacksubslot(1)}
 					></div>
@@ -161,7 +161,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 				style={{display: 'inline-block', width: '20%', marginRight: '10%'}}
 				onClick={() => moveSlot(-1)}
 			>
-				{'< (E)'}
+				{'< (Q)'}
 			</button>
 			<div style={{display: 'inline-block', textAlign: 'center', width: '40%', 
 				marginBottom: '10px'}}>
@@ -171,7 +171,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 				style={{display: 'inline-block', width: '20%', marginLeft: '10%'}}
 				onClick={() => moveSlot(1)}
 			>
-				{'(Q) >'}
+				{'(E) >'}
 			</button>
 		</div>
 		<div>
@@ -195,14 +195,12 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 
 /*****************************************************************************/
 
-const PartNameDisplay = ({name, imgSize}) => {
-	return <div 
-		style={{
-			display: 'flex',
-			height: '100%', width: '100%'
-		}}>
+const PartNameDisplay = ({name}) => {
+	return (
+		<div style={{display: 'flex', height: '100%', width: '100%'}}>
 			<div style={{margin: 'auto'}}>{name}</div>
-	</div>
+		</div>
+	)
 }
 
 const EquippedTag = ({imgH, background}) => {
@@ -264,7 +262,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 		>
 			{
 				img === undefined ?
-					<PartNameDisplay name={part['Name']} imgSize={[imgW, imgH]} /> :
+					<PartNameDisplay name={part['Name']} /> :
 					<img src={img} width={imgW} style={{display: 'block'}} />
 			}
 			{
