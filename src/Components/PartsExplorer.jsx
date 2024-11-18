@@ -281,42 +281,6 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	)
 }
 
-// This should be precomputed
-function getPartsForSlot(slot, backSubslot) {
-	let slotFilterFunc;
-	const slotCapitalized = slot == 'fcs' ? 'FCS' : glob.capitalizeFirstLetter(slot);
-
-	if(['rightArm', 'leftArm'].includes(slot)) {
-		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
-	} else 
-	if(['rightBack', 'leftBack'].includes(slot)) {
-		const pairedSlotCapitalized = glob.capitalizeFirstLetter(glob.pairedUnitSlots[slot]);
-		if(backSubslot === 0)
-			// Actual back units. The convoluted filter indicates something should be refactored,
-			// maybe the parts data
-			slotFilterFunc = part => (
-				part.Kind === 'Unit' && 
-				(
-					(part[slotCapitalized] && !part[pairedSlotCapitalized]) || 
-					part['ID'] === glob.noneUnit['ID']
-				)
-			);
-		else
-			// Arm units for back slot
-			slotFilterFunc = part => (
-				part.Kind === 'Unit' && part[slotCapitalized] && part[pairedSlotCapitalized]
-			);
-	} else if(slot === 'booster') {
-		// The None booster exists because of the tank legs but the user should not be allowed
-		// to set it manually
-		slotFilterFunc = part => 
-			(part.Kind === slotCapitalized && part['ID'] != glob.noneBooster['ID']);
-	} else {
-		slotFilterFunc = part => (part.Kind === slotCapitalized);
-	}
-	return glob.partsData.filter(slotFilterFunc);	
-}
-
 const ModalWrapper = ({isOpen, closeModal, children}) => {
 	const dialogRef = useRef();
 
@@ -412,18 +376,93 @@ function searchFilter(parts, searchString) {
 	return output;
 }
 
+function computePartsForSlot(slot, backSubslot) {
+	let slotFilterFunc;
+	const slotCapitalized = slot == 'fcs' ? 'FCS' : glob.capitalizeFirstLetter(slot);
+
+	if(['rightArm', 'leftArm'].includes(slot)) {
+		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
+	} else 
+	if(['rightBack', 'leftBack'].includes(slot)) {
+		const pairedSlotCapitalized = glob.capitalizeFirstLetter(glob.pairedUnitSlots[slot]);
+		if(backSubslot === 0)
+			// Actual back units. The convoluted filter indicates something should be refactored,
+			// maybe the parts data
+			slotFilterFunc = part => (
+				part.Kind === 'Unit' && 
+				(
+					(part[slotCapitalized] && !part[pairedSlotCapitalized]) || 
+					part['ID'] === glob.noneUnit['ID']
+				)
+			);
+		else
+			// Arm units for back slot
+			slotFilterFunc = part => (
+				part.Kind === 'Unit' && part[slotCapitalized] && part[pairedSlotCapitalized]
+			);
+	} else if(slot === 'booster') {
+		// The None booster exists because of the tank legs but the user should not be allowed
+		// to set it manually
+		slotFilterFunc = part => 
+			(part.Kind === slotCapitalized && part['ID'] != glob.noneBooster['ID']);
+	} else {
+		slotFilterFunc = part => (part.Kind === slotCapitalized);
+	}
+	return glob.partsData.filter(slotFilterFunc);	
+}
+
+// Precompute the list of parts that can go into each slot
+let slotParts = {};
+glob.partSlots.map(
+	(slot) => {
+		if(!['leftBack', 'rightBack'].includes(slot))
+			slotParts[slot] = computePartsForSlot(slot, 0); // 2nd arg is irrelevant
+		else // This looks like shit
+			slotParts[slot] = {0: computePartsForSlot(slot, 0), 1: computePartsForSlot(slot, 1)}
+	}
+)
+
+function getPartsForSlot(slot, backSubslot) {
+	if(!['leftBack', 'rightBack'].includes(slot))
+		return slotParts[slot];
+	else
+		return slotParts[slot][backSubslot];
+}
+
+function computeSortingKeys(slot, backSubslot) {
+	const partsForSlot = getPartsForSlot(slot, backSubslot);
+	const allStats = partsForSlot.map(p => Object.keys(p)).flat();
+	let sortingKeys = [...new Set(allStats)].filter(
+		stat => !glob.hidddenPartStats.includes(stat)
+	).sort();
+	sortingKeys.unshift('Default');
+	return sortingKeys;	
+}
+
+let partSortingKeys = {};
+glob.partSlots.map(
+	(slot) => {
+		if(!['leftBack', 'rightBack'].includes(slot))
+			partSortingKeys[slot] = computeSortingKeys(slot, 0); // 2nd arg is irrelevant
+		else // This looks like shit
+			partSortingKeys[slot] = {0: computeSortingKeys(slot, 0), 1: 
+				computeSortingKeys(slot, 1)}
+	}
+)
+
+function getSortingKeys(slot, backSubslot) {
+	if(!['leftBack', 'rightBack'].includes(slot))
+		return partSortingKeys[slot];
+	else
+		return partSortingKeys[slot][backSubslot];
+}
 
 const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
 	const [highlightedId, setHighlightedId] = useState(-1);
 	const [sortBy, setSortBy] = useState({key: 'Default', ascend: true});
 
 	const partsForSlot = getPartsForSlot(preview.slot, backSubslot);
-	// sortingKeys should be precomputed too
-	const allStats = partsForSlot.map(p => Object.keys(p)).flat();
-	let sortingKeys = [...new Set(allStats)].filter(
-		stat => !glob.hidddenPartStats.includes(stat)
-	).sort();
-	sortingKeys.unshift('Default');
+	const sortingKeys = getSortingKeys(preview.slot, backSubslot);
 
 	const nonePart = partsForSlot.find(part => part['Name'] === '(NOTHING)');
 	let displayedParts = searchFilter(partsForSlot, searchString);

@@ -1,8 +1,8 @@
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
+* FIX BACKGROUND
 * AC stats panel
 	* Add expandable sections
 * Parts explorer
-	* Precompute parts and unique stats for each slot
 	* Part stats spacing in table. Define stat groups and add empty lines between groups. Don't
 	force Weight/EN load at the bottom
 	* Have PartSelector remember the sorting for every slot
