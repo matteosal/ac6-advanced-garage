@@ -70,7 +70,6 @@ table {
 }
 
 /* INPUT FIELD */
-
 input:focus {
 		outline: none; /* Must remove the outline and reset everything to have a custom one */
 		outline-style: solid;
@@ -93,4 +92,7 @@ button {
 button:hover {
 	background-color: rgb(151, 173, 184);
 	color: white;
+}
+button:active{
+	background-color:rgb(204, 234, 248);
 }
