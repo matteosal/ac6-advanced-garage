@@ -70,8 +70,16 @@ function App() {
 					</>:
 					<>
 					<div style={
-						{display: 'inline-block', width: '30%', verticalAlign: 'top', marginTop: '50px'}
+						{display: 'inline-block', width: '30%', verticalAlign: 'top', 
+							marginTop: '5px'}
 					}>
+						<button 
+							style={{display: 'block', height: '35px', width: '150px', 
+								border: '2px solid ' + glob.paletteColor(5)}}
+							onClick={() => previewDispatch({slot: null})}
+						>
+							BACK (ESC)
+						</button>
 						<PartsExplorer 
 							preview={preview}
 							previewDispatch={previewDispatch}
@@ -79,7 +87,7 @@ function App() {
 					</div>
 					<div style={
 						{display: 'inline-block', width: '65%', verticalAlign: 'top', 
-							marginLeft: '2.5%', marginRight: '2.5%', marginTop: '50px'}
+							marginLeft: '2.5%', marginRight: '2.5%', marginTop: '40px'}
 					}>
 						<PartStats 
 							preview={preview}
@@ -89,7 +97,7 @@ function App() {
 			}
 			</div>
 			<div style={
-				{display: 'inline-block', width: '35%', marginTop: '100px', verticalAlign: 'top'}
+				{display: 'inline-block', width: '35%', marginTop: '90px', verticalAlign: 'top'}
 			}>
 				<ACStats/>
 			</div>
