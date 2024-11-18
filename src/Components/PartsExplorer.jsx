@@ -438,7 +438,7 @@ function computeSortingKeys(slot, backSubslot) {
 	let sortingKeys = [...new Set(allStats)].filter(
 		stat => !glob.hidddenPartStats.includes(stat)
 	).sort();
-	sortingKeys.unshift('Default');
+	sortingKeys.unshift('Name');
 	return sortingKeys;	
 }
 
@@ -462,7 +462,7 @@ function getSortingKeys(slot, backSubslot) {
 
 const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
 	const [highlightedId, setHighlightedId] = useState(-1);
-	const [sortBy, setSortBy] = useState({key: 'Default', ascend: true});
+	const [sortBy, setSortBy] = useState({key: 'Name', ascend: true});
 
 	const partsForSlot = getPartsForSlot(preview.slot, backSubslot);
 	const sortingKeys = getSortingKeys(preview.slot, backSubslot);
@@ -473,12 +473,11 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 
 	displayedParts.sort(
 		(a, b) => {
-			const key = sortBy.key === 'Default' ? 'Name' : sortBy.key;
 			const order = sortBy.ascend ? 1 : -1;
 			// Default is set so that parts without the key will always come after the others
 			const defaultVal = order === 1 ? Infinity : -1;
-			let aVal = a[key] || defaultVal;
-			let bVal = b[key] || defaultVal;
+			let aVal = a[sortBy.key] || defaultVal;
+			let bVal = b[sortBy.key] || defaultVal;
 			// Resolve list specs
 			if (aVal.constructor == Array) aVal = aVal[0] * aVal[1];
 			if (bVal.constructor == Array) bVal = bVal[0] * bVal[1];
