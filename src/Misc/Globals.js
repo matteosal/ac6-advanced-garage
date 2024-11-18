@@ -46,7 +46,7 @@ const dottedBackgroundStyle = {
 
 function tableRowBackground(pos) {
 	if(pos % 2)
-		return paletteColor(3, 0.5);
+		return paletteColor(4, 0.5, 0.95);
 	else
 		return paletteColor(2, 0.5);
 }

@@ -80,7 +80,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 					</div> :
 				<></>
 			}
-		<div style={{width: '100%'}}>
+		<div className="my-scrollbar" style={{maxHeight: '625px', overflowY: 'auto'}}>
 			{
 				Object.keys(rightFiltered).map(
 					(name, pos) => {		

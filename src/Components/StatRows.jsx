@@ -132,7 +132,7 @@ function toValueAndDisplay(name, raw) {
 	return [value, display]
 }
 
-const namePadding = '5px 0px 5px 0px';
+const namePadding = '3px 0px';
 
 const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 
@@ -170,7 +170,7 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 		>
 			{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
 		</div>
-		<div style={{display: 'inline-block', padding: '5px 0px 5px 0px', width: nameW}}>
+		<div style={{display: 'inline-block', padding: namePadding, width: nameW}}>
 			{glob.toDisplayString(name)}
 		</div>
 		{
