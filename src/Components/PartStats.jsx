@@ -4,12 +4,11 @@ import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
 import {NumericRow} from './StatRows.jsx';
 import * as glob from '../Misc/Globals.js';
 
-const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
-	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 'LeftArm', 'RightBack', 'LeftBack','ID'];
-
 function filterPartStats(stats) {
 	let entries = Object.entries(stats);
-	let filteredEntries = entries.filter(([prop, val]) => !hidddenPartStats.includes(prop));
+	let filteredEntries = entries.filter(
+		([prop, val]) => !glob.hidddenPartStats.includes(prop)
+	);
 	return Object.fromEntries(filteredEntries)
 }
 
@@ -36,7 +35,7 @@ const PartStatsHeader = ({part}) => {
 	const manufacturerLogo = glob.manufacturerLogos[part['Manufacturer'] + '.png']
 
 	return(
-		<div style={{...glob.dottedBackgroundStyle, ...{height: 80}}}>
+		<div style={{...glob.dottedBackgroundStyle(), ...{height: 80}}}>
 			<div style={{display: 'inline-block', paddingTop: 20, paddingLeft: 10}}>
 				<div>{desc.toUpperCase()}</div>
 				<div style={{fontSize: '160%'}}>{part['Name']}</div>
@@ -65,7 +64,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	}
 
 	return(
-		<div style={{...glob.dottedBackgroundStyle, ...{padding: 15}}}>
+		<div style={{...glob.dottedBackgroundStyle(), ...{padding: 15}}}>
 			<div style={{display: 'inline-block', fontSize: '12px', 
 				padding: '0px 0px 10px 10px'}}>
 				{glob.boxCharacter + ' PART SPECS'}

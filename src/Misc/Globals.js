@@ -37,11 +37,13 @@ function paletteColor(id, alpha = 1, brightnessAdj = 1) {
 	return 'rgb(' + substr + alpha.toString() + ')'
 }
 
-const dottedBackgroundStyle = {
-	background: paletteColor(1),
-	backgroundImage: 'radial-gradient(rgb(80, 80, 80, 0.5) 1px, transparent 0)',
-	backgroundSize: '3px 3px',
-	backgroundPosition: '-1px -1px'
+function dottedBackgroundStyle(background = paletteColor(1)) {
+	return ({
+		background: background,
+		backgroundImage: 'radial-gradient(rgb(80, 80, 80, 0.5) 1px, transparent 0)',
+		backgroundSize: '3px 3px',
+		backgroundPosition: '-1px -1px'
+	})
 }
 
 function tableRowBackground(pos) {
@@ -140,6 +142,10 @@ const partSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core
 const pairedUnitSlots = {'rightArm': 'rightBack', 'rightBack': 'rightArm', 
 	'leftArm': 'leftBack', 'leftBack': 'leftArm'};
 
+const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
+	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 
+	'LeftArm', 'RightBack', 'LeftBack','ID'];
+
 /***************************************************************************************/
 
 function capitalizeFirstLetter(str) {
@@ -237,6 +243,7 @@ export {
 	acStatsRanges,
 	partSlots,
 	pairedUnitSlots,
+	hidddenPartStats,
 	/* UTILS */
 	boxCharacter,
 	splitCamelCase,

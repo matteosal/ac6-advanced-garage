@@ -391,7 +391,7 @@ const ACStats = () => {
 		<div style={
 			{
 				...{height: '750px', padding: '15px'},				
-				...glob.dottedBackgroundStyle
+				...glob.dottedBackgroundStyle()
 			}
 		}>
 			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>

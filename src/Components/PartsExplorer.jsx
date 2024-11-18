@@ -410,7 +410,7 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 		<div style={
 			{
 				...{height: '750px', padding: '15px 5px'},
-				...glob.dottedBackgroundStyle
+				...glob.dottedBackgroundStyle()
 			}
 		}>
 			<SlotSelector
