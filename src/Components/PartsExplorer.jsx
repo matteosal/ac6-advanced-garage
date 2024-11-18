@@ -331,6 +331,9 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy}) => {
 
 	return(
 		<>
+		<div style={{width: 'fit-content', margin: '0px auto 5px auto'}}>
+			Select sorting order
+		</div>
 		<div className="my-scrollbar" 
 			style={{width: '350px', maxHeight: '600px', overflowY: 'auto', marginBottom: '5px'}}
 		>

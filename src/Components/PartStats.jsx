@@ -36,7 +36,7 @@ const PartStatsHeader = ({part}) => {
 
 	return(
 		<div style={{...glob.dottedBackgroundStyle(), ...{height: 80}}}>
-			<div style={{display: 'inline-block', paddingTop: 20, paddingLeft: 10}}>
+			<div style={{display: 'inline-block', paddingTop: 20, paddingLeft: 20}}>
 				<div>{desc.toUpperCase()}</div>
 				<div style={{fontSize: '160%'}}>{part['Name']}</div>
 			</div>
