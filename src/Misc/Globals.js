@@ -13,6 +13,10 @@ const manufacturerLogos = importAll(
 	require.context('../Assets/Images/Manufacturers', false, /\.png/)
 );
 const infoIcon = require("../Assets/Images/info_icon.png");
+const sortIcons = {
+	ascend: require("../Assets/Images/sort_ascending.png"),
+	descend: require("../Assets/Images/sort_descending.png")
+};
 
 function toImageFileName(name) {
 	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
@@ -231,6 +235,7 @@ export {
 	unitIcons,
 	manufacturerLogos,
 	infoIcon,
+	sortIcons,
 	/* STYLES */
 	paletteColor,
 	dottedBackgroundStyle,

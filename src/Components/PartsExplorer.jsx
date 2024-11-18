@@ -1,8 +1,7 @@
-import { useState, useContext, useEffect } from 'react';
-
-import {ACPartsContext, ACPartsDispatchContext} from "../Contexts/ACPartsContext.jsx";
+import { useState, useContext, useEffect, useRef } from 'react';
 
 import * as glob from '../Misc/Globals.js';
+import {ACPartsContext, ACPartsDispatchContext} from "../Contexts/ACPartsContext.jsx";
 
 /*****************************************************************************/
 
@@ -101,7 +100,7 @@ function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksu
 	return [newPos, newRange];
 }
 
-const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, setSearchString}) => {
+const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, setSearchString, modal}) => {
 	const acParts = useContext(ACPartsContext).current;
 	const acPartsDispatch = useContext(ACPartsDispatchContext);
 
@@ -124,7 +123,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 	}
 
 	const handleKeyDown = (event) => {
-		if(event.target.matches('input'))
+		if(event.target.matches('input') || modal)
 			return
 		switch (event.key) {
 			case 'q':
@@ -282,9 +281,8 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	)
 }
 
-function getDisplayedParts(slot, backSubslot, searchString) {
-	// Get all parts for the slot. This is not smart because it could be precomputed for 
-	// every slot (save for search filtering and sorting)
+// This should be precomputed
+function getPartsForSlot(slot, backSubslot) {
 	let slotFilterFunc;
 	const slotCapitalized = slot == 'fcs' ? 'FCS' : glob.capitalizeFirstLetter(slot);
 
@@ -316,41 +314,168 @@ function getDisplayedParts(slot, backSubslot, searchString) {
 	} else {
 		slotFilterFunc = part => (part.Kind === slotCapitalized);
 	}
-	let output = glob.partsData.filter(slotFilterFunc);
+	return glob.partsData.filter(slotFilterFunc);	
+}
 
-	const nonePart = output.find(part => part['Name'] === '(NOTHING)');
+const ModalWrapper = ({isOpen, closeModal, children}) => {
+	const dialogRef = useRef();
 
-	// Filter by user query
-	if(searchString != '') {
-		const query = searchString.toLowerCase();
-		output = output.filter(part => part['Name'].toLowerCase().includes(query));
+	useEffect(() => {
+		if(isOpen)
+			dialogRef.current?.showModal();
+		else
+			dialogRef.current?.close();
+		}, 
+		[isOpen]
+	);
+
+	return (
+		<dialog 
+			ref={dialogRef}
+			onCancel={closeModal}
+			style={{
+				...glob.dottedBackgroundStyle(glob.paletteColor(2)),
+				...{borderColor: glob.paletteColor(5), color: 'inherit'}
+			}}
+		>
+			{children}
+		</dialog>
+	);
+}
+
+
+const SortModal = ({closeModal, keys, sortBy, setSortBy}) => {
+
+	const [highlightedKey, setHighlightedKey] = useState(keys[0]);
+	const [selectedKey, setSelectedKey] = useState(sortBy.key);	// This should remember it
+
+	const getBrightness = key => {
+		if(key === selectedKey)
+			return 2.5;
+		if(key === highlightedKey)
+			return 1.6;
+		return 1.3
 	}
 
-	// If none part was there before search filter ensure it's still there and put it at
-	// the top
-	if(nonePart != undefined) {
-		output = output.filter(part => part['Name'] != '(NOTHING)');
-		output.unshift(nonePart);
+	const onClick = (key) => {
+		setSelectedKey(key);
+		if(sortBy.key !== key)
+			setSortBy({key: key, ascend: true})
+		else
+			setSortBy({key: key, ascend: !sortBy.ascend})
 	}
+
+	return(
+		<>
+		<div className="my-scrollbar" 
+			style={{width: '350px', maxHeight: '600px', overflowY: 'auto', marginBottom: '5px'}}
+		>
+		{keys.map(
+				(key) => <div 
+					onMouseEnter={() => setHighlightedKey(key)}
+					onClick={() => onClick(key)}
+					style={{
+						background: glob.paletteColor(4, 1, getBrightness(key)),
+						textAlign: 'center', 
+						width: '90%', padding: '5px 0', margin: '5px auto',
+						position: 'relative'
+					}}
+					key={key}
+				>			
+					{glob.toDisplayString(key)}
+					{
+						key === selectedKey ?
+							<img 
+								src={sortBy.ascend ? glob.sortIcons.ascend : glob.sortIcons.descend} 
+								width='25px'
+								style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
+									bottom: '3px', left: '285px'}} 
+							/> :
+							<></>
+					}
+				</div>
+			)
+		}
+		</div>
+		<button style={{display: 'block', width: 'fit-content', margin: '10px auto'}} onClick={closeModal}>BACK</button>
+		</>
+	)
+}
+
+function searchFilter(parts, searchString) {
+	if(searchString === '')
+		return parts;
+
+	const query = searchString.toLowerCase();
+	let output = parts.filter(part => part['Name'].toLowerCase().includes(query));
 
 	return output;
 }
 
-const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSubslot}) => {
 
+const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
 	const [highlightedId, setHighlightedId] = useState(-1);
+	const [sortBy, setSortBy] = useState({key: 'Default', ascend: true});
 
-	const displayedParts = getDisplayedParts(preview.slot, backSubslot, searchString);
+	const partsForSlot = getPartsForSlot(preview.slot, backSubslot);
+	// sortingKeys should be precomputed too
+	const allStats = partsForSlot.map(p => Object.keys(p)).flat();
+	let sortingKeys = [...new Set(allStats)].filter(
+		stat => !glob.hidddenPartStats.includes(stat)
+	).sort();
+	sortingKeys.unshift('Default');
+
+	const nonePart = partsForSlot.find(part => part['Name'] === '(NOTHING)');
+	let displayedParts = searchFilter(partsForSlot, searchString);
+
+
+	displayedParts.sort(
+		(a, b) => {
+			const key = sortBy.key === 'Default' ? 'Name' : sortBy.key;
+			const order = sortBy.ascend ? 1 : -1;
+			// Default is set so that parts without the key will always come after the others
+			const defaultVal = order === 1 ? Infinity : -1;
+			let aVal = a[key] || defaultVal;
+			let bVal = b[key] || defaultVal;
+			// Resolve list specs
+			if (aVal.constructor == Array) aVal = aVal[0] * aVal[1];
+			if (bVal.constructor == Array) bVal = bVal[0] * bVal[1];
+			return aVal > bVal ? order : -order
+		}
+	)
+
+	// If none part was there before search filter ensure it's still there and put it at
+	// the top
+	if(nonePart != undefined) {
+		displayedParts = displayedParts.filter(part => part['Name'] != '(NOTHING)');
+		displayedParts.unshift(nonePart);
+	}	
+
+	const closeModal = () => setModal(false);
+
+	const handleKeyDown = (event) => {
+		if(event.target.matches('input') || modal)
+			return
+		if(event.key === 'x') 
+			setModal(true);
+	}
+
+	useEffect(() => {
+			document.addEventListener('keydown', handleKeyDown);
+			return () => document.removeEventListener('keydown', handleKeyDown);
+		},
+		[handleKeyDown]
+	);
 
 	return(
 		<>
-		<div style={{width: '90%', margin: 'auto'}}>
+		<div style={{width: '90%', margin: '0px auto'}}>
 			<div style={{display: 'inline-block', width: '30%'}}>SEARCH:</div>
 			<input
 				style={{
-					height: '30px',
+					height: '25px',
 					width: '70%',
-					margin: '5px 0px 10px 0px',
+					margin: '5px 0px 5px 0px',
 					textTransform: 'uppercase',
 					backgroundColor: glob.paletteColor(3)
 				}}
@@ -358,7 +483,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 				onChange={onSearch}
 			/>
 		</div>
-		<div className="my-scrollbar" style={{height: '600px', overflowY: 'auto'}}>
+		<div className="my-scrollbar" style={{height: '580px', overflowY: 'auto'}}>
 		{
 			displayedParts.map(
 				(part) => <PartBox
@@ -372,6 +497,36 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			)
 		}
 		</div>
+		<div 
+			style={{position: 'relative', textAlign: 'center', padding: '5px 0px',
+				margin: '10px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
+		>
+			{glob.toDisplayString(sortBy.key)}
+			<img 
+				src={sortBy.ascend ? glob.sortIcons.ascend : glob.sortIcons.descend} 
+				width='25px'
+				style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
+					bottom: '4px', left: '235px'}} 
+			/>
+		</div>
+		<button 
+			style={{display: 'block', width: 'fit-content', margin: '0px auto'}}
+			onClick={() => setModal(true)}
+		>
+			SORT (X)
+		</button>
+		<ModalWrapper 
+			isOpen={modal}
+			closeModal={closeModal}
+			parts={displayedParts}
+		>
+			{
+				modal ? 
+				<SortModal closeModal={closeModal} keys={sortingKeys} 
+					sortBy={sortBy} setSortBy={setSortBy} /> :
+				<></>
+			}
+		</ModalWrapper>
 		</>
 	);
 }
@@ -387,9 +542,10 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 	const [backSubslot, setBacksubslot] = useState(
 		['leftBack', 'rightBack'].includes(preview.slot) ? 0 : null
 	);
+	const [modal, setModal] = useState(false);
 
 	const handleKeyDown = (event) => {
-		if(event.target.matches('input'))
+		if(event.target.matches('input') || modal)
 			return
 		if(event.key === 'Escape') {
 			previewDispatch({slot: null})
@@ -405,9 +561,10 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 	);
 
 	return (
+		<>
 		<div style={
 			{
-				...{height: '750px', padding: '15px 5px'},
+				...{height: '775px', padding: '15px 5px'},
 				...glob.dottedBackgroundStyle()
 			}
 		}>
@@ -417,15 +574,19 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 				setBacksubslot={setBacksubslot}
 				previewDispatch={previewDispatch}
 				setSearchString={setSearchString}
+				modal={modal}
 			/>
 			<PartSelector
 				preview = {preview}
 				previewDispatch={previewDispatch}
 				searchString = {searchString}
 				backSubslot = {backSubslot}
+				modal = {modal}
+				setModal = {setModal}
 				onSearch = {event => setSearchString(event.target.value)}
 			/>
 		</div>
+		</>
 	)
 }
 

@@ -390,7 +390,7 @@ const ACStats = () => {
 	return (
 		<div style={
 			{
-				...{height: '750px', padding: '15px'},				
+				...{height: '775px', padding: '15px'},				
 				...glob.dottedBackgroundStyle()
 			}
 		}>
@@ -398,7 +398,7 @@ const ACStats = () => {
 				{glob.boxCharacter + ' AC SPECS'}
 			</div>
 
-			<div className="my-scrollbar" style={{height: '715px', overflowY: 'auto'}}>
+			<div className="my-scrollbar" style={{height: '740px', overflowY: 'auto'}}>
 				{
 					range.map(
 						(pos) => {
