@@ -33,7 +33,7 @@ function piecewiseLinear(x, breakpoints) {
 
 	let result = null;
 	for (let i = 1; i < lastPos + 1; i++) {
-		if (i < breakpoints[i][0]) {
+		if (x < breakpoints[i][0]) {
 			const [m, q] = lineParameters(breakpoints.slice(i - 1, i + 1))
 			result = m * x + q
 			break;
