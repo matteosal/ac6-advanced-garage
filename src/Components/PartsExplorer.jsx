@@ -308,10 +308,10 @@ const ModalWrapper = ({isOpen, closeModal, children}) => {
 }
 
 
-const SortModal = ({closeModal, keys, sortBy, setSortBy}) => {
+const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 
 	const [highlightedKey, setHighlightedKey] = useState(keys[0]);
-	const [selectedKey, setSelectedKey] = useState(sortBy.key);	// This should remember it
+	const [selectedKey, setSelectedKey] = useState(sortBy[slot].key);
 
 	const getBrightness = key => {
 		if(key === selectedKey)
@@ -321,12 +321,23 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy}) => {
 		return 1.3
 	}
 
+	console.log('SLOT IS ' + slot);
+
 	const onClick = (key) => {
 		setSelectedKey(key);
-		if(sortBy.key !== key)
-			setSortBy({key: key, ascend: true})
-		else
-			setSortBy({key: key, ascend: !sortBy.ascend})
+		if(sortBy[slot].key !== key) {
+			console.log('Setting new sort')
+			let newSortBy = {...sortBy};
+			newSortBy[slot] = {key: key, ascend: true};
+			console.log(newSortBy);
+			setSortBy(newSortBy);
+		} else {
+			console.log('Flipping order')
+			let newSortBy = {...sortBy};
+			newSortBy[slot] = {key: key, ascend: !sortBy[slot].ascend};
+			console.log(newSortBy);
+			setSortBy(newSortBy);
+		}
 	}
 
 	return(
@@ -353,7 +364,11 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy}) => {
 					{
 						key === selectedKey ?
 							<img 
-								src={sortBy.ascend ? glob.sortIcons.ascend : glob.sortIcons.descend} 
+								src={
+									sortBy[slot].ascend ? 
+										glob.sortIcons.ascend :
+										glob.sortIcons.descend
+									} 
 								width='25px'
 								style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
 									bottom: '3px', left: '285px'}} 
@@ -462,10 +477,19 @@ function getSortingKeys(slot, backSubslot) {
 
 const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
 	const [highlightedId, setHighlightedId] = useState(-1);
-	const [sortBy, setSortBy] = useState({key: 'Name', ascend: true});
+	const [sortBy, setSortBy] = useState(
+		Object.fromEntries(
+			glob.partSlots.map(slot =>
+				{return [slot, {key: 'Name', ascend: true}]}
+			)
+		)
+	);
+	const slot = preview.slot;
+	console.log(sortBy);
+	console.log(slot);
 
-	const partsForSlot = getPartsForSlot(preview.slot, backSubslot);
-	const sortingKeys = getSortingKeys(preview.slot, backSubslot);
+	const partsForSlot = getPartsForSlot(slot, backSubslot);
+	const sortingKeys = getSortingKeys(slot, backSubslot);
 
 	const nonePart = partsForSlot.find(part => part['Name'] === '(NOTHING)');
 	let displayedParts = searchFilter(partsForSlot, searchString);
@@ -473,11 +497,11 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 
 	displayedParts.sort(
 		(a, b) => {
-			const order = sortBy.ascend ? 1 : -1;
+			const order = sortBy[slot].ascend ? 1 : -1;
 			// Default is set so that parts without the key will always come after the others
 			const defaultVal = order === 1 ? Infinity : -1;
-			let aVal = a[sortBy.key] || defaultVal;
-			let bVal = b[sortBy.key] || defaultVal;
+			let aVal = a[sortBy[slot].key] || defaultVal;
+			let bVal = b[sortBy[slot].key] || defaultVal;
 			// Resolve list specs
 			if (aVal.constructor == Array) aVal = aVal[0] * aVal[1];
 			if (bVal.constructor == Array) bVal = bVal[0] * bVal[1];
@@ -530,7 +554,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 				(part) => <PartBox
 					part = {part}
 					previewDispatch = {previewDispatch}
-					slot = {preview.slot}
+					slot = {slot}
 					highlighted = {part['ID'] == highlightedId}
 					setHighlightedId = {setHighlightedId}
 					key = {part['ID']}
@@ -542,9 +566,9 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			style={{position: 'relative', textAlign: 'center', padding: '5px 0px',
 				margin: '10px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
 		>
-			{glob.toDisplayString(sortBy.key)}
+			{glob.toDisplayString(sortBy[slot].key)}
 			<img 
-				src={sortBy.ascend ? glob.sortIcons.ascend : glob.sortIcons.descend} 
+				src={sortBy[slot].ascend ? glob.sortIcons.ascend : glob.sortIcons.descend} 
 				width='25px'
 				style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
 					bottom: '4px', left: '235px'}} 
@@ -564,7 +588,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			{
 				modal ? 
 				<SortModal closeModal={closeModal} keys={sortingKeys} 
-					sortBy={sortBy} setSortBy={setSortBy} /> :
+					sortBy={sortBy} setSortBy={setSortBy} slot={slot} /> :
 				<></>
 			}
 		</ModalWrapper>
