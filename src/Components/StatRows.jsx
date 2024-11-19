@@ -470,7 +470,7 @@ function switchComponent(leftStat, rightStat, pos) {
 
 	if(rightStat.type === 'EmptyLine')
 		return (
-				<div style={{padding: '5px 0'}}>&nbsp;</div>
+				<div style={{padding: namePadding}}>&nbsp;</div>
 		)
 	else if(rightStat.type === 'BarOnly')
 		return (
