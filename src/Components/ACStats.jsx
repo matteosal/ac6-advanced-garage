@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
-import * as statRows from './StatRows.jsx';
+import switchComponent from './StatRows.jsx';
 
 /**********************************************************************************/
 
@@ -254,91 +254,11 @@ function computeAllStats(parts) {
 
 /**********************************************************************************/
 
-const statTooltips = {
-	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
-	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
-	'EffectiveAPExplosive': 'Amount of raw explosive damage that can be sustained.',
-	'EffectiveAPAvg': 'Average of all effective AP values.',
-	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of \
-\	\	energy (assuming no energy is recovered in between quick boosts).',
-	'ENRechargeDelayRedline': 'Time before energy starts recovering when the generator is \
-\	\	fully depleted.',
-	'QBENRechargeTime': 'Time to recovery energy consumed by one quick boost when the \
-\	\	generator is not fully depleted.\nNOTE: despite the energy bar depleting immediately \
-\	\	when a quick boost is performed, the energy is actually gradually depleted throughout \
-\	\	entire quick boost animation. This means that the value of the QB Jet Duration stat is \
-\	\	added to the recovery time to compute this value.',
-	'FullRechargeTime': 'Time to recover an amount of energy equal to the energy capacity \
-\	\	when the generator is not fully depleted.\nNOTE: this is a limit value because if the \
-\	\	generator is not fully depleted energy recovery will recover less than the full energy \
-\	\	capacity.',
-	'FullRechargeTimeRedline': 'Time to fully recover energy when the generator is fully \
-\	\	depleted',
-	'ENRecoveryProfiles': 'Shows the energy recovered over time in the normal (cyan) and \
-\	\	redlining (red) cases. When a part is in preview, the current profiles are shown with \
-\	\	dotted lines and the new ones with solid ones.\nNOTE: the cyan profile is a limit \
-\	\	case because if the generator is not fully depleted energy recovery will not start \
-\	\	from zero energy.',
-	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
-\	\	(right) to the total weight.',
-	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
-\	\	(right) to the total energy load.'
-};
-
-/**********************************************************************************/
-
 function toNullStat(stat) {
 	if(stat.type === 'EmptyLine')
 		return {type: 'EmptyLine'}
 	else
 		return {name: stat.name, value: null}
-}
-
-function switchComponent(leftStat, rightStat, pos) {
-
-	if(rightStat.type === 'EmptyLine')
-		return (
-				<div style={{padding: '5px 0'}}>&nbsp;</div>
-		)
-	else if(rightStat.type === 'BarOnly')
-		return (
-			<statRows.BarOnlyRow
-				name = {rightStat.name}
-				left = {leftStat.value}
-				right = {rightStat.value}
-				limit = {rightStat.limit}
-				key = {pos}				
-			/>
-		)
-	else if(rightStat.type === 'ProportionBar')
-		return(
-			<statRows.ProportionBarRow
-				name = {rightStat.name}
-				left = {leftStat.value}
-				right = {rightStat.value}
-				tooltip = {statTooltips[rightStat.name]}
-				key = {pos}				
-			/>		
-		)
-	else if(rightStat.type === 'Plot') {
-		return(
-			<statRows.PlotRow
-				name={rightStat.name}
-				left={leftStat.value}	
-				right={rightStat.value}
-				tooltip={statTooltips[rightStat.name]}
-			/>		
-		)		
-	}
-	else return (
-			<statRows.NumericRow
-				name = {rightStat.name}
-				leftRaw = {leftStat.value}
-				rightRaw = {rightStat.value}
-				tooltip = {statTooltips[rightStat.name]}
-				key = {pos}
-			/>
-		)
 }
 
 const redRowBackground = 'rgb(255, 0, 0, 0.5)'

@@ -3,8 +3,6 @@
 * AC stats panel
 	* Add expandable sections
 * Parts explorer
-	* Part stats spacing in table. Define stat groups and add empty lines between groups. Don't
-	force Weight/EN load at the bottom
 	* Have PartSelector remember the sorting for every slot
 * Refactoring
 	* Look into putting acParts.preview in the actual preview
