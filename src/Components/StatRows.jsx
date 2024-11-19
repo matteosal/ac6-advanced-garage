@@ -466,7 +466,7 @@ const statTooltips = {
 \	\	(right) to the total energy load.'
 };
 
-function switchComponent(leftStat, rightStat, pos) {
+function switchComponent(leftStat, rightStat, pos, kind = undefined) {
 
 	if(rightStat.type === 'EmptyLine')
 		return (
@@ -507,6 +507,7 @@ function switchComponent(leftStat, rightStat, pos) {
 				name = {rightStat.name}
 				leftRaw = {leftStat.value}
 				rightRaw = {rightStat.value}
+				kind = {kind}
 				tooltip = {statTooltips[rightStat.name]}
 				key = {pos}
 			/>

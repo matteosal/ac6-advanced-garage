@@ -193,7 +193,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 					(pos) => {
 						return(
 							<div style={{background: glob.tableRowBackground(pos)}} key={pos}>
-								{switchComponent(leftStats[pos], rightStats[pos], pos)}
+								{switchComponent(leftStats[pos], rightStats[pos], pos, rightPart['Kind'])}
 							</div>
 						)
 					}
