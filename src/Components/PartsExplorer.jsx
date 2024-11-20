@@ -1,5 +1,7 @@
 import { useState, useContext, useEffect, useRef } from 'react';
 
+import { Tooltip } from 'react-tooltip'
+
 import * as glob from '../Misc/Globals.js';
 import {ACPartsContext, ACPartsDispatchContext} from "../Contexts/ACPartsContext.jsx";
 
@@ -383,7 +385,10 @@ function searchFilter(parts, searchString) {
 		return parts;
 
 	const query = searchString.toLowerCase();
-	let output = parts.filter(part => part['Name'].toLowerCase().includes(query));
+	let output = parts.filter(
+		part => part['Name'].toLowerCase().includes(query) || 
+			part['Description']?.toLowerCase().includes(query)
+	);
 
 	return output;
 }
@@ -471,6 +476,8 @@ function getSortingKeys(slot, backSubslot) {
 
 const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
 	const [highlightedId, setHighlightedId] = useState(-1);
+	const [showSearchTooltip, setShowSearchTooltip] = useState(true)
+
 	const [sortBy, setSortBy] = useState(
 		Object.fromEntries(
 			glob.partSlots.map(slot =>
@@ -526,20 +533,6 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 
 	return(
 		<>
-		<div style={{width: '90%', margin: '0px auto'}}>
-			<div style={{display: 'inline-block', width: '30%'}}>SEARCH:</div>
-			<input
-				style={{
-					height: '25px',
-					width: '70%',
-					margin: '5px 0px 5px 0px',
-					textTransform: 'uppercase',
-					backgroundColor: glob.paletteColor(3)
-				}}
-				value={searchString}
-				onChange={onSearch}
-			/>
-		</div>
 		<div className="my-scrollbar" style={{height: '580px', overflowY: 'auto'}}>
 		{
 			displayedParts.map(
@@ -554,16 +547,54 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			)
 		}
 		</div>
+		<div style={{width: '90%', margin: '10px auto 0px auto'}}>
+			<div style={{display: 'inline-block', width: '25%'}}>FILTER:</div>
+			<input
+				className='tooltip-anchor'
+				data-tooltip-delay-show={100}
+				style={{
+					height: '25px',
+					width: '75%',
+					margin: '5px 0px 5px 0px',
+					textTransform: 'uppercase',
+					backgroundColor: glob.paletteColor(3)
+				}}
+				value={searchString}
+				onChange={onSearch}
+
+			/>
+		</div>
+		{ 
+			showSearchTooltip ?
+			<Tooltip 
+				style={{width: '265px', padding: '0px 0px 5px 20px'}}
+				anchorSelect='.tooltip-anchor'
+				place='right'
+				clickable
+			>
+				<div 
+					style={{width: '20px', height: '20px', padding: 0, 
+						margin: '0px 0px 0px auto', cursor: 'pointer'}}
+					onClick={() => setShowSearchTooltip(false)}
+				>
+				x
+				</div>
+				<div style={{width: '95%'}}>
+					Searches both in part names (e.g. BASHO) and in unit descriptions (e.g. HANDGUN)
+				</div>
+			</Tooltip> :
+			<></>
+		}
 		<div 
 			style={{position: 'relative', textAlign: 'center', padding: '5px 0px',
-				margin: '10px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
+				margin: '5px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
 		>
 			{glob.toDisplayString(sortBy[slot].key)}
 			<img 
 				src={sortBy[slot].ascend ? glob.sortIcons.ascend : glob.sortIcons.descend} 
 				width='25px'
 				style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
-					bottom: '4px', left: '235px'}} 
+					bottom: '3px', left: '235px'}} 
 			/>
 		</div>
 		<button 

@@ -1,6 +1,5 @@
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
 * FIX BACKGROUND
-* Move search box at the bottom
 * Refactoring
 	* Look into putting acParts.preview in the actual preview
 * Add build link generation and load, make sure build is validated
