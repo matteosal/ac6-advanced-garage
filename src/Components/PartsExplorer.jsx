@@ -255,7 +255,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 
 	return (
 		<div 
-			style = {{margin: '5px auto', position: 'relative', filter: filter, height: imgH, width: imgW, background: glob.paletteColor(4)}}
+			style = {{margin: '5px auto', position: 'relative', filter: filter, height: imgH, width: imgW, background: glob.paletteColor(4), cursor: 'pointer'}}
 			onMouseEnter = {() => {setHighlightedId(part['ID']); updatePreview();}}
 			onClick = {updateAssembly}
 		>

@@ -543,7 +543,7 @@ const CollapsibleHeader = ({label, isOpen, isOverload}) => {
 		<div 
 			style={{background: background, 
 				border: glob.paletteColor(5, 1, 1) + 'solid 1px', 
-				padding: '8px 0', width: '99%', margin: '5px 0px 5px 0px'}}
+				padding: '8px 0', width: '99%', margin: '5px 0px 5px 0px', cursor: 'pointer'}}
 			onMouseEnter={() => setHighlighted(true)}
 			onMouseLeave={() => setHighlighted(false)}
 		>

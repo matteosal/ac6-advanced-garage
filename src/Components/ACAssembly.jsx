@@ -29,7 +29,10 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 
 	return (
 		<div
-			style = {{border: 'solid 1px gray', padding: '5px', background: background}}
+			style = {
+				{border: 'solid 1px gray', padding: '5px', background: background, 
+					cursor: 'pointer'}
+			}
 			onMouseEnter = {mouseEnter}
 			onMouseLeave = {mouseLeave}
 			onClick = {mouseClick}
