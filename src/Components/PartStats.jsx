@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
-import switchComponent from './StatRows.jsx';
+import {StatRow} from './StatRows.jsx';
 import * as glob from '../Misc/Globals.js';
 
 function filterPartKeys(part) {
@@ -193,7 +193,12 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 					(pos) => {
 						return(
 							<div style={{background: glob.tableRowBackground(pos)}} key={pos}>
-								{switchComponent(leftStats[pos], rightStats[pos], pos, rightPart['Kind'])}
+								<StatRow 
+									leftStat={leftStats[pos]}
+									rightStat={rightStats[pos]}
+									kind={rightPart['Kind']}
+									pos={pos}								
+								/>
 							</div>
 						)
 					}

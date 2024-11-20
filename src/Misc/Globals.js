@@ -17,6 +17,7 @@ const sortIcons = {
 	ascend: require("../Assets/Images/sort_ascending.png"),
 	descend: require("../Assets/Images/sort_descending.png")
 };
+const expandIcon = require("../Assets/Images/expand_icon.png");
 
 function toImageFileName(name) {
 	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
@@ -236,6 +237,7 @@ export {
 	manufacturerLogos,
 	infoIcon,
 	sortIcons,
+	expandIcon,
 	/* STYLES */
 	paletteColor,
 	dottedBackgroundStyle,

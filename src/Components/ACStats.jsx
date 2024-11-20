@@ -2,7 +2,7 @@ import { useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
-import switchComponent from './StatRows.jsx';
+import {StatRowGroup} from './StatRows.jsx';
 
 /**********************************************************************************/
 
@@ -172,15 +172,17 @@ function computeAllStats(parts) {
 	const qbReloadTime = getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, weight);
 	const qbENConsumption = baseQBENConsumption * (2 - core['BoosterEfficiencyAdj'] / 100.);
 
+	const enCapacity = generator['ENCapacity'];
 	const enOutput = Math.floor(generator['ENOutput'] * 0.01 * core['GeneratorOutputAdj']);
 	const enLoad = glob.total(enLoadPerGroup);
 	const enSupplyEfficiency = getENSupplyEfficiency(enOutput, enLoad);
 	const enRechargeDelay = getRechargeDelays(generator, core);
+	const postRecENSupply = generator['PostRecoveryENSupply'];
 
-	const fullRechargeTime = timeToRecoverEnergy(generator['ENCapacity'], enSupplyEfficiency,
+	const fullRechargeTime = timeToRecoverEnergy(enCapacity, enSupplyEfficiency,
 		enRechargeDelay.normal);
 	const fullRechargeTimeRedline = timeToRecoverEnergy(
-		generator['ENCapacity'] - generator['PostRecoveryENSupply'],
+		enCapacity - postRecENSupply,
 		enSupplyEfficiency,
 		enRechargeDelay.redline
 	);
@@ -194,61 +196,66 @@ function computeAllStats(parts) {
 	const legsLoad = sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'));
 
 	return [
-		{name: 'AP', value: ap},
-		{name: 'AntiKineticDefense', value: defense.kinetic},
-		{name: 'AntiEnergyDefense', value: defense.energy},
-		{name: 'AntiExplosiveDefense', value: defense.explosive},
-		{name: 'AttitudeStability', value: sumKeyOver(parts, 'AttitudeStability', ['head', 'core', 'legs'])},
-		{name: 'AttitudeRecovery', value: getAttitudeRecovery(weight)},
-		{name: 'EffectiveAPKinetic', value: effectiveAP.kinetic},
-		{name: 'EffectiveAPEnergy', value: effectiveAP.energy},
-		{name: 'EffectiveAPExplosive', value: effectiveAP.explosive},
-		{name: 'EffectiveAPAvg', value: glob.mean(Object.values(effectiveAP))},
-		{type: 'EmptyLine'},
-		{name: 'TargetTracking', value: 
-			getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])},
-		{type: 'EmptyLine'},
-		{name: 'BoostSpeed', value: 
-			getBoostSpeed(baseSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
-		{name: 'QBSpeed', value: 
-			getQBSpeed(baseQBSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
-		{name: 'QBENConsumption', value: qbENConsumption},
-		{name: 'QBReloadTime', value: qbReloadTime},
-		{name: 'MaxConsecutiveQB', value: Math.ceil(generator['ENCapacity'] / qbENConsumption)},
-		{type: 'EmptyLine'},
-		{name: 'ENCapacity', value: generator['ENCapacity']},
-		{name: 'ENSupplyEfficiency', value: enSupplyEfficiency},
-		{name: 'ENRechargeDelay', value: enRechargeDelay.normal},
-		{name: 'ENRechargeDelayRedline', value: enRechargeDelay.redline},
-		{name: 'QBENRechargeTime', value: qbENRechargeTime},
-		{name: 'FullRechargeTime', value: fullRechargeTime},
-		{name: 'FullRechargeTimeRedline', value: fullRechargeTimeRedline},
-		{name: 'ENRecoveryProfiles', 
-			value: {
-				normal: [enRechargeDelay.normal, 0, enSupplyEfficiency, generator['ENCapacity']],
-				redline: [enRechargeDelay.redline, generator['PostRecoveryENSupply'], 
-					enSupplyEfficiency, generator['ENCapacity']]
-			},
-			type: 'Plot'
-		},
-		{type: 'EmptyLine'},
-		{name: 'TotalWeight', value: weight},
-		{type: 'EmptyLine'},
-		{name: 'TotalArmsLoad', value: armsLoad},
-		{name: 'ArmsLoadLimit', value: arms['ArmsLoadLimit']},
-		{name: 'TotalLoad', value: legsLoad},
-		{name: 'LoadLimit', value: legs['LoadLimit']},
-		{name: 'TotalENLoad', value: enLoad},
-		{name: 'ENOutput', value: enOutput},
-		{type: 'EmptyLine'},
-		{name: "CurrentLoad", value: legsLoad, type: 'BarOnly', limit: legs['LoadLimit']},
-		{name: "CurrentArmsLoad", value: armsLoad, type: 'BarOnly', 
-			limit: arms['ArmsLoadLimit']},
-		{name: "CurrentENLoad", value: enLoad, type: 'BarOnly', limit: enOutput},
-		{name: 'WeightByGroup', value: weightPerGroup.map(x => 100. * x / weight), 
-			type: 'ProportionBar'},
-		{name: 'ENLoadByGroup', value: enLoadPerGroup.map(x => 100. * x / enLoad), 
-			type: 'ProportionBar'}
+		[
+			{name: 'AP', value: ap},
+			{name: 'AntiKineticDefense', value: defense.kinetic},
+			{name: 'AntiEnergyDefense', value: defense.energy},
+			{name: 'AntiExplosiveDefense', value: defense.explosive},
+			{name: 'AttitudeStability', value: 
+				sumKeyOver(parts, 'AttitudeStability', ['head', 'core', 'legs'])},
+			{name: 'AttitudeRecovery', value: getAttitudeRecovery(weight)},
+			{name: 'EffectiveAPKinetic', value: effectiveAP.kinetic},
+			{name: 'EffectiveAPEnergy', value: effectiveAP.energy},
+			{name: 'EffectiveAPExplosive', value: effectiveAP.explosive},
+			{name: 'EffectiveAPAvg', value: glob.mean(Object.values(effectiveAP))}
+		],
+		[
+			{name: 'TargetTracking', value: 
+				getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])},
+			{name: 'BoostSpeed', value: 
+				getBoostSpeed(baseSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
+			{name: 'QBSpeed', value: 
+				getQBSpeed(baseQBSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
+			{name: 'QBENConsumption', value: qbENConsumption},
+			{name: 'QBReloadTime', value: qbReloadTime},
+			{name: 'MaxConsecutiveQB', value: 
+				Math.ceil(enCapacity / qbENConsumption)}
+		],
+		[
+			{name: 'ENCapacity', value: enCapacity},
+			{name: 'ENSupplyEfficiency', value: enSupplyEfficiency},
+			{name: 'ENRechargeDelay', value: enRechargeDelay.normal},
+			{name: 'ENRechargeDelayRedline', value: enRechargeDelay.redline},
+			{name: 'QBENRechargeTime', value: qbENRechargeTime},
+			{name: 'FullRechargeTime', value: fullRechargeTime},
+			{name: 'FullRechargeTimeRedline', value: fullRechargeTimeRedline},
+			{name: 'ENRecoveryProfiles', 
+				value: {
+					normal: 
+						[enRechargeDelay.normal, 0, enSupplyEfficiency, enCapacity],
+					redline: 
+						[enRechargeDelay.redline, postRecENSupply, enSupplyEfficiency, enCapacity]
+				},
+				type: 'Plot'
+			}
+		],
+		[
+			{name: 'TotalWeight', value: weight},
+			{name: 'TotalArmsLoad', value: armsLoad},
+			{name: 'ArmsLoadLimit', value: arms['ArmsLoadLimit']},
+			{name: 'TotalLoad', value: legsLoad},
+			{name: 'LoadLimit', value: legs['LoadLimit']},
+			{name: 'TotalENLoad', value: enLoad},
+			{name: 'ENOutput', value: enOutput},		
+			{name: "CurrentLoad", value: legsLoad, type: 'BarOnly', limit: legs['LoadLimit']},
+			{name: "CurrentArmsLoad", value: armsLoad, type: 'BarOnly', 
+				limit: arms['ArmsLoadLimit']},
+			{name: "CurrentENLoad", value: enLoad, type: 'BarOnly', limit: enOutput},
+			{name: 'WeightByGroup', value: weightPerGroup.map(x => 100. * x / weight), 
+				type: 'ProportionBar'},
+			{name: 'ENLoadByGroup', value: enLoadPerGroup.map(x => 100. * x / enLoad), 
+				type: 'ProportionBar'}
+		]
 	]
 }
 
@@ -261,11 +268,11 @@ function toNullStat(stat) {
 		return {name: stat.name, value: null}
 }
 
-const redRowBackground = 'rgb(255, 0, 0, 0.5)'
-
 function findStatValue(stats, statName) {
 	return stats.find(stat => stat.name === statName).value
 }
+
+const limitGroupPos = 3;
 
 function getOverloadTable(stats) {
 	// Not optimal, we are searching these fields in the list but we could just return
@@ -290,12 +297,14 @@ function getOverloadTable(stats) {
 	)	
 }
 
+const groupNames = ['DURABILITY', 'MOBILITY', 'ENERGY', 'LIMITS'];
+
 const ACStats = () => {
 	const acParts = useContext(ACPartsContext);
 
 	const currentStats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
-		let nullStats = currentStats.map(stat => toNullStat(stat));
+		let nullStats = currentStats.map(group => group.map(stat => toNullStat(stat)));
 		var [leftStats, rightStats] = [nullStats, currentStats];
 	}
 	else {
@@ -303,9 +312,9 @@ const ACStats = () => {
 		var [leftStats, rightStats] = [currentStats, previewStats];
 	}
 
-	const range = [...Array(currentStats.length).keys()];
+	const groupRange = [...Array(currentStats.length).keys()];
 
-	const overloadTable = getOverloadTable(rightStats);
+	const overloadTable = getOverloadTable(rightStats[limitGroupPos]);
 
 	return (
 		<div style={
@@ -317,20 +326,16 @@ const ACStats = () => {
 			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>
 				{glob.boxCharacter + ' AC SPECS'}
 			</div>
-
 			<div className="my-scrollbar" style={{height: '740px', overflowY: 'auto'}}>
 				{
-					range.map(
-						(pos) => {
-							let background = overloadTable[rightStats[pos].name] ? 
-								redRowBackground : 
-								glob.tableRowBackground(pos);
-							return(
-								<div style={{background: background}} key={pos}>
-									{switchComponent(leftStats[pos], rightStats[pos], pos)}
-								</div>
-							)
-						}
+					groupRange.map(
+						outerPos => <StatRowGroup
+							header={groupNames[outerPos]}
+							leftGroup={leftStats[outerPos]}
+							rightGroup={rightStats[outerPos]}
+							overloadTable={outerPos === limitGroupPos ? overloadTable : null}
+							key={outerPos}
+						/>
 					)
 				}
 			</div>

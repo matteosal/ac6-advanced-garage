@@ -1,5 +1,8 @@
+import { useState } from 'react';
+
 import { Tooltip } from 'react-tooltip'
 import PlotlyPlot from 'react-plotly.js';
+import Collapsible from 'react-collapsible';
 
 import * as glob from '../Misc/Globals.js';
 
@@ -134,7 +137,7 @@ function toValueAndDisplay(name, raw) {
 	return [value, display]
 }
 
-const namePadding = '3px 0px';
+const namePadding = '4px 0px';
 
 const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 
@@ -466,12 +469,12 @@ const statTooltips = {
 \	\	(right) to the total energy load.'
 };
 
-function switchComponent(leftStat, rightStat, pos, kind = undefined) {
+const EmptyRow = () => <div style={{padding: namePadding}}>&nbsp;</div>
+
+export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 
 	if(rightStat.type === 'EmptyLine')
-		return (
-				<div style={{padding: namePadding}}>&nbsp;</div>
-		)
+		return <EmptyRow />
 	else if(rightStat.type === 'BarOnly')
 		return (
 			<BarOnlyRow
@@ -499,6 +502,7 @@ function switchComponent(leftStat, rightStat, pos, kind = undefined) {
 				left={leftStat.value}	
 				right={rightStat.value}
 				tooltip={statTooltips[rightStat.name]}
+				key = {pos}
 			/>		
 		)		
 	}
@@ -514,4 +518,79 @@ function switchComponent(leftStat, rightStat, pos, kind = undefined) {
 		)
 }
 
-export default switchComponent;
+const redRowBackground = 'rgb(255, 0, 0, 0.5)';
+const redRowBackgroundHighlight = 'rgb(255, 0, 0, 0.75)';
+
+const CollapsibleHeader = ({label, isOpen, isOverload}) => {
+	const [highlighted, setHighlighted] = useState(false);
+
+	const [imgTransform, imgPad] = isOpen ? ['none', '0px 8px 0px 10px'] : 
+		['rotate(180deg)', '0px 10px 0px 8px'];
+	const imgStyle = {filter: 'invert(1)', transform: imgTransform, padding: imgPad};
+
+	let background;
+	if(isOverload && highlighted)
+		background = redRowBackgroundHighlight;
+	else if(isOverload && !highlighted)
+		background = redRowBackground;
+	else if(!isOverload && highlighted)
+		background = glob.paletteColor(5, 0.8);
+	else
+		background = glob.paletteColor(5, 0.3);
+
+	return(
+		<>
+		<div 
+			style={{background: background, 
+				border: glob.paletteColor(5, 1, 1) + 'solid 1px', 
+				padding: '8px 0', width: '99%', margin: '5px 0px 5px 0px'}}
+			onMouseEnter={() => setHighlighted(true)}
+			onMouseLeave={() => setHighlighted(false)}
+		>
+			<img src={glob.expandIcon} style={imgStyle} width='12px' />
+			<div style={{display: 'inline-block'}}>
+				{label}
+			</div>
+		</div>
+		</>
+	)
+}
+
+export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable}) => {
+	const statRange = [...Array(rightGroup.length).keys()];
+	let isOverload = false;
+	if(overloadTable && Object.values(overloadTable).includes(true)) {
+		isOverload = true;
+	}
+	return(
+		<>
+		<Collapsible 
+			trigger={<CollapsibleHeader label={header} isOpen={false} isOverload={isOverload} />}
+			triggerWhenOpen={<CollapsibleHeader label={header} isOpen={true} 
+				isOverload={isOverload} />}
+			open={true}
+			transitionTime={1}
+			key={header}
+		>
+		{
+			statRange.map(
+				innerPos => {
+					const background = overloadTable && overloadTable[rightGroup[innerPos].name] ? 
+						redRowBackground : 
+						glob.tableRowBackground(innerPos);
+					return(
+						<div style={{background: background}} key={innerPos}>
+							<StatRow
+								leftStat={leftGroup[innerPos]}
+								rightStat={rightGroup[innerPos]} 
+								pos={innerPos} 
+								/>
+						</div>
+					)
+				}
+			)
+		}
+		</Collapsible>
+		</>
+	)
+}

@@ -2,8 +2,6 @@
 * FIX BACKGROUND
 * Pointer cursors
 * Move search box at the bottom
-* AC stats panel
-	* Add expandable sections
 * Refactoring
 	* Look into putting acParts.preview in the actual preview
 * Add build link generation and load, make sure build is validated
