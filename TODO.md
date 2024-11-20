@@ -1,5 +1,7 @@
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
 * FIX BACKGROUND
+* Pointer cursors
+* Move search box at the bottom
 * AC stats panel
 	* Add expandable sections
 * Refactoring

@@ -24,7 +24,7 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 	else
 		manImg = null;
 
-	const background = highlighted ? glob.paletteColor(5) : glob.paletteColor(2, 0.5);
+	const background = highlighted ? glob.paletteColor(5, 0.75) : glob.paletteColor(2, 0.5);
 	const color = inactive ? 'gray' : 'inherit';
 
 	return (

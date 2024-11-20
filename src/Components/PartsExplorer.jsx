@@ -321,21 +321,15 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 		return 1.3
 	}
 
-	console.log('SLOT IS ' + slot);
-
 	const onClick = (key) => {
 		setSelectedKey(key);
 		if(sortBy[slot].key !== key) {
-			console.log('Setting new sort')
 			let newSortBy = {...sortBy};
 			newSortBy[slot] = {key: key, ascend: true};
-			console.log(newSortBy);
 			setSortBy(newSortBy);
 		} else {
-			console.log('Flipping order')
 			let newSortBy = {...sortBy};
 			newSortBy[slot] = {key: key, ascend: !sortBy[slot].ascend};
-			console.log(newSortBy);
 			setSortBy(newSortBy);
 		}
 	}
@@ -485,8 +479,6 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 		)
 	);
 	const slot = preview.slot;
-	console.log(sortBy);
-	console.log(slot);
 
 	const partsForSlot = getPartsForSlot(slot, backSubslot);
 	const sortingKeys = getSortingKeys(slot, backSubslot);
