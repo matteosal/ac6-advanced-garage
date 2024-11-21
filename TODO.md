@@ -13,3 +13,4 @@
 * Tests
 * Fix warnings given by npm start
 * Run linter / code checking tool
+* Readme

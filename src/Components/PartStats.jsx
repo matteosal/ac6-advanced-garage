@@ -41,7 +41,7 @@ const PartStatsHeader = ({part}) => {
 				<div style={{fontSize: '160%'}}>{part['Name']}</div>
 			</div>
 			<div style={{display: 'inline-block', float: 'right', paddingRight: 10}}>
-				<img style={{display: 'block'}} src={manufacturerLogo} width='80px' />
+				<img style={{display: 'block'}} src={manufacturerLogo} width='70px' />
 			</div>
 		</div>
 	)
