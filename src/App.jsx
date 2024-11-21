@@ -1,7 +1,6 @@
 import { useState, useReducer, useEffect, useContext } from 'react';
 
 import * as glob from './Misc/Globals.js';
-import {ACPartsProvider} from "./Contexts/ACPartsContext.jsx";
 import ACAssembly from "./Components/ACAssembly.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 import PartStats from "./Components/PartStats.jsx";
@@ -52,7 +51,6 @@ function App() {
 	return (
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
-		<ACPartsProvider>
 			<div style={
 				{display: 'inline-block', width: '65%', marginTop: '50px', verticalAlign: 'top'}
 			}>
@@ -91,7 +89,6 @@ function App() {
 			}>
 				<ACStats/>
 			</div>
-		</ACPartsProvider>
 		</div>
 		</div>
 	);

@@ -623,7 +623,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 
 const PartsExplorer = ({preview, previewDispatch}) => {
 
-	const acParts = useContext(ACPartsContext).current;	
+	const acParts = useContext(ACPartsContext).current;
 	const acPartsDispatch = useContext(ACPartsDispatchContext);
 
 	const [searchString, setSearchString] = useState('');
