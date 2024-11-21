@@ -165,7 +165,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 				{'< (Q)'}
 			</button>
 			<div style={{display: 'inline-block', textAlign: 'center', width: '40%', 
-				marginBottom: '10px'}}>
+				marginBottom: '12px'}}>
 				{glob.toDisplayString(preview.slot).toUpperCase()}
 			</div>
 			<button 
@@ -393,61 +393,8 @@ function searchFilter(parts, searchString) {
 	return output;
 }
 
-function computePartsForSlot(slot, backSubslot) {
-	let slotFilterFunc;
-	const slotCapitalized = slot == 'fcs' ? 'FCS' : glob.capitalizeFirstLetter(slot);
-
-	if(['rightArm', 'leftArm'].includes(slot)) {
-		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
-	} else 
-	if(['rightBack', 'leftBack'].includes(slot)) {
-		const pairedSlotCapitalized = glob.capitalizeFirstLetter(glob.pairedUnitSlots[slot]);
-		if(backSubslot === 0)
-			// Actual back units. The convoluted filter indicates something should be refactored,
-			// maybe the parts data
-			slotFilterFunc = part => (
-				part.Kind === 'Unit' && 
-				(
-					(part[slotCapitalized] && !part[pairedSlotCapitalized]) || 
-					part['ID'] === glob.noneUnit['ID']
-				)
-			);
-		else
-			// Arm units for back slot
-			slotFilterFunc = part => (
-				part.Kind === 'Unit' && part[slotCapitalized] && part[pairedSlotCapitalized]
-			);
-	} else if(slot === 'booster') {
-		// The None booster exists because of the tank legs but the user should not be allowed
-		// to set it manually
-		slotFilterFunc = part => 
-			(part.Kind === slotCapitalized && part['ID'] != glob.noneBooster['ID']);
-	} else {
-		slotFilterFunc = part => (part.Kind === slotCapitalized);
-	}
-	return glob.partsData.filter(slotFilterFunc);	
-}
-
-// Precompute the list of parts that can go into each slot
-let slotParts = {};
-glob.partSlots.map(
-	(slot) => {
-		if(!['leftBack', 'rightBack'].includes(slot))
-			slotParts[slot] = computePartsForSlot(slot, 0); // 2nd arg is irrelevant
-		else // This looks like shit
-			slotParts[slot] = {0: computePartsForSlot(slot, 0), 1: computePartsForSlot(slot, 1)}
-	}
-)
-
-function getPartsForSlot(slot, backSubslot) {
-	if(!['leftBack', 'rightBack'].includes(slot))
-		return slotParts[slot];
-	else
-		return slotParts[slot][backSubslot];
-}
-
 function computeSortingKeys(slot, backSubslot) {
-	const partsForSlot = getPartsForSlot(slot, backSubslot);
+	const partsForSlot = glob.getPartsForSlot(slot, backSubslot);
 	const allStats = partsForSlot.map(p => Object.keys(p)).flat();
 	let sortingKeys = [...new Set(allStats)].filter(
 		stat => !glob.hidddenPartStats.includes(stat)
@@ -487,7 +434,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 	);
 	const slot = preview.slot;
 
-	const partsForSlot = getPartsForSlot(slot, backSubslot);
+	const partsForSlot = glob.getPartsForSlot(slot, backSubslot);
 	const sortingKeys = getSortingKeys(slot, backSubslot);
 
 	const nonePart = partsForSlot.find(part => part['Name'] === '(NOTHING)');

@@ -1,5 +1,7 @@
 import partsData from '../Assets/PartsData.json';
 
+import { toast, Slide } from 'react-toastify';
+
 function importAll(r) {
 	let images = {};
 	r.keys().map(item => { images[item.replace('./', '')] = r(item); });
@@ -151,6 +153,59 @@ const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'Attack
 	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 
 	'LeftArm', 'RightBack', 'LeftBack','ID'];
 
+function computePartsForSlot(slot, backSubslot) {
+	let slotFilterFunc;
+	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot);
+
+	if(['rightArm', 'leftArm'].includes(slot)) {
+		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
+	} else 
+	if(['rightBack', 'leftBack'].includes(slot)) {
+		const pairedSlotCapitalized = capitalizeFirstLetter(pairedUnitSlots[slot]);
+		if(backSubslot === 0)
+			// Actual back units. The convoluted filter indicates something should be refactored,
+			// maybe the parts data
+			slotFilterFunc = part => (
+				part.Kind === 'Unit' && 
+				(
+					(part[slotCapitalized] && !part[pairedSlotCapitalized]) || 
+					part['ID'] === noneUnit['ID']
+				)
+			);
+		else
+			// Arm units for back slot
+			slotFilterFunc = part => (
+				part.Kind === 'Unit' && part[slotCapitalized] && part[pairedSlotCapitalized]
+			);
+	} else if(slot === 'booster') {
+		// The None booster exists because of the tank legs but the user should not be allowed
+		// to set it manually
+		slotFilterFunc = part => 
+			(part.Kind === slotCapitalized && part['ID'] != noneBooster['ID']);
+	} else {
+		slotFilterFunc = part => (part.Kind === slotCapitalized);
+	}
+	return partsData.filter(slotFilterFunc);	
+}
+
+// Precompute the list of parts that can go into each slot
+let slotParts = {};
+partSlots.map(
+	(slot) => {
+		if(!['leftBack', 'rightBack'].includes(slot))
+			slotParts[slot] = computePartsForSlot(slot, 0); // 2nd arg is irrelevant
+		else // This looks like shit
+			slotParts[slot] = {0: computePartsForSlot(slot, 0), 1: computePartsForSlot(slot, 1)}
+	}
+)
+
+function getPartsForSlot(slot, backSubslot) {
+	if(!['leftBack', 'rightBack'].includes(slot))
+		return slotParts[slot];
+	else
+		return slotParts[slot][backSubslot];
+}
+
 /***************************************************************************************/
 
 function capitalizeFirstLetter(str) {
@@ -206,6 +261,13 @@ function toDisplayString(str) {
 
 const boxCharacter = '\u25a0';
 
+function notify(msg) {
+	return toast(msg, 
+		{style: {background: paletteColor(0)}, type:'info', position: "top-right", 
+			autoClose: 3000, transition: Slide}
+	)
+}
+
 /***************************************************************************************/
 
 function round(val, roundTarget = 1) {
@@ -251,8 +313,10 @@ export {
 	partSlots,
 	pairedUnitSlots,
 	hidddenPartStats,
+	getPartsForSlot,
 	/* UTILS */
 	boxCharacter,
+	notify,
 	splitCamelCase,
 	capitalizeFirstLetter,
 	toDisplayString,

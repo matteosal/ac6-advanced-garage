@@ -1,6 +1,7 @@
 import { useState, useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
+import {copyBuildLink} from "../Misc/BuildImportExport.js";
 import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
 
 const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) => {
@@ -84,12 +85,13 @@ const AssemblyGroup = ({header, slotIds, previewSetter}) => {
 
 
 const ACAssembly = ({previewSetter}) => {
+	const parts = useContext(ACPartsContext).current;
 
 	const headers = ['UNIT', 'FRAME', 'INNER', 'EXPANSION'];
 	const ids = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10], [11]];
 
 	return(
-		<div>
+		<>
 		{
 			[0, 1, 2, 3].map(
 				i => <AssemblyGroup 
@@ -100,7 +102,13 @@ const ACAssembly = ({previewSetter}) => {
 				/>
 			)
 		}
-		</div>
+		<div style={{display: 'flex', width: '100%', height: '50px', 
+			background: glob.paletteColor(3)}}>
+			<button style={{margin: 'auto'}} onClick={() => copyBuildLink(parts)}>
+				CREATE BUILD LINK
+			</button>
+		</div>			
+		</>
 	)
 }
 
