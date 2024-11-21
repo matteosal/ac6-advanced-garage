@@ -26,8 +26,10 @@ function App() {
 	)
 
 	const backgroundStyle = {
+		width: '100vw',
 		height: '100vh',
-		width: '100vw',		
+		minWidth: '1600px',
+		minHeight: '900px',
 		background: 
 			'repeating-linear-gradient(\
 				rgb(0, 0, 0, 0) 0px,\
@@ -45,11 +47,6 @@ function App() {
 		height: '100%',
 		width: '1550px',
 		margin: 'auto'
-	};
-	const inlineBlockStyle = {
-		display: 'inline-block',
-		width: '500px',
-		marginTop: '50px'
 	};
 
 	return (

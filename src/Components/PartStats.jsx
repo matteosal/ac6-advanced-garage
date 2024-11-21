@@ -35,8 +35,8 @@ const PartStatsHeader = ({part}) => {
 	const manufacturerLogo = glob.manufacturerLogos[part['Manufacturer'] + '.png']
 
 	return(
-		<div style={{...glob.dottedBackgroundStyle(), ...{height: 80}}}>
-			<div style={{display: 'inline-block', paddingTop: 20, paddingLeft: 20}}>
+		<div style={{...glob.dottedBackgroundStyle(), ...{height: 70}}}>
+			<div style={{display: 'inline-block', paddingTop: 10, paddingLeft: 20}}>
 				<div>{desc.toUpperCase()}</div>
 				<div style={{fontSize: '160%'}}>{part['Name']}</div>
 			</div>
@@ -172,7 +172,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	const range = [...Array(rightStats.length).keys()];
 
 	return(
-		<div style={{...glob.dottedBackgroundStyle(), ...{padding: 15}}}>
+		<div style={{...glob.dottedBackgroundStyle(), ...{padding: '10px 15px'}}}>
 			<div style={{display: 'inline-block', fontSize: '12px', 
 				padding: '0px 0px 10px 10px'}}>
 				{glob.boxCharacter + ' PART SPECS'}
@@ -187,7 +187,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 					</div> :
 				<></>
 			}
-		<div className="my-scrollbar" style={{maxHeight: '650px', overflowY: 'auto'}}>
+		<div className="my-scrollbar" style={{maxHeight: '670px', overflowY: 'auto'}}>
 			{
 				range.map(
 					(pos) => {

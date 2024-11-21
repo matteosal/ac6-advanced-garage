@@ -547,7 +547,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			)
 		}
 		</div>
-		<div style={{width: '90%', margin: '10px auto 0px auto'}}>
+		<div style={{width: '90%', margin: '5px auto 0px auto'}}>
 			<div style={{display: 'inline-block', width: '25%'}}>FILTER:</div>
 			<input
 				className='tooltip-anchor'
@@ -580,14 +580,14 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 				x
 				</div>
 				<div style={{width: '95%'}}>
-					Searches both in part names (e.g. BASHO) and in unit descriptions (e.g. HANDGUN)
+					Searches both among part names (e.g. BASHO) and unit descriptions (e.g. HANDGUN)
 				</div>
 			</Tooltip> :
 			<></>
 		}
 		<div 
 			style={{position: 'relative', textAlign: 'center', padding: '5px 0px',
-				margin: '5px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
+				margin: '5px auto 10px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
 		>
 			{glob.toDisplayString(sortBy[slot].key)}
 			<img 
@@ -652,7 +652,7 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 		<>
 		<div style={
 			{
-				...{height: '775px', padding: '15px 5px'},
+				...{height: '785px', padding: '10px 5px'},
 				...glob.dottedBackgroundStyle()
 			}
 		}>
