@@ -70,13 +70,6 @@ function App() {
 						{display: 'inline-block', width: '30%', verticalAlign: 'top', 
 							marginTop: '5px'}
 					}>
-						<button 
-							style={{display: 'block', height: '35px', width: '150px', 
-								border: '2px solid ' + glob.paletteColor(5)}}
-							onClick={() => previewDispatch({slot: null})}
-						>
-							BACK (ESC)
-						</button>
 						<PartsExplorer 
 							preview={preview}
 							previewDispatch={previewDispatch}

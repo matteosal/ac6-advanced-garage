@@ -632,12 +632,16 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 	);
 	const [modal, setModal] = useState(false);
 
+	const closeExplorer = () => {
+		previewDispatch({slot: null})
+		acPartsDispatch({target: 'preview', setNull: true})		
+	}
+
 	const handleKeyDown = (event) => {
 		if(event.target.matches('input') || modal)
 			return
 		if(event.key === 'Escape') {
-			previewDispatch({slot: null})
-			acPartsDispatch({target: 'preview', setNull: true})
+			closeExplorer()
 		}
 	}
 
@@ -650,6 +654,13 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 
 	return (
 		<>
+		<button 
+			style={{display: 'block', height: '35px', width: '150px', 
+				border: '2px solid ' + glob.paletteColor(5)}}
+			onClick={() => closeExplorer()}
+		>
+			BACK (ESC)
+		</button>		
 		<div style={
 			{
 				...{height: '785px', padding: '10px 5px'},

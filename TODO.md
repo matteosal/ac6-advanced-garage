@@ -15,5 +15,6 @@
 		icons created by Good Ware - Flaticon</a>
 		* <a href="https://www.flaticon.com/free-icons/sort-ascending" title="sort ascending icons">Sort ascending icons created by Icon Hubs - Flaticon</a>
 	* Link to icons8.com for info icon
+* Tests
 * Fix warnings given by npm start
 * Run linter / code checking tool
