@@ -1,9 +1,10 @@
-import { useState, useContext, useEffect, useRef } from 'react';
+import { useState, useContext, useEffect } from 'react';
 
 import { Tooltip } from 'react-tooltip'
 
 import * as glob from '../Misc/Globals.js';
 import {ACPartsContext, ACPartsDispatchContext} from "../Contexts/ACPartsContext.jsx";
+import ModalWrapper from './ModalWrapper.jsx'
 
 /*****************************************************************************/
 
@@ -283,33 +284,6 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	)
 }
 
-const ModalWrapper = ({isOpen, closeModal, children}) => {
-	const dialogRef = useRef();
-
-	useEffect(() => {
-		if(isOpen)
-			dialogRef.current?.showModal();
-		else
-			dialogRef.current?.close();
-		}, 
-		[isOpen]
-	);
-
-	return (
-		<dialog 
-			ref={dialogRef}
-			onCancel={closeModal}
-			style={{
-				...glob.dottedBackgroundStyle(glob.paletteColor(2)),
-				...{borderColor: glob.paletteColor(5), color: 'inherit'}
-			}}
-		>
-			{children}
-		</dialog>
-	);
-}
-
-
 const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 
 	const [highlightedKey, setHighlightedKey] = useState(keys[0]);
@@ -375,7 +349,12 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 			)
 		}
 		</div>
-		<button style={{display: 'block', width: 'fit-content', margin: '10px auto'}} onClick={closeModal}>BACK</button>
+		<button
+			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
+			onClick={closeModal}
+		>
+			BACK
+		</button>
 		</>
 	)
 }
@@ -550,11 +529,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 		>
 			SORT (X)
 		</button>
-		<ModalWrapper 
-			isOpen={modal}
-			closeModal={closeModal}
-			parts={displayedParts}
-		>
+		<ModalWrapper isOpen={modal} closeModal={closeModal}>
 			{
 				modal ? 
 				<SortModal closeModal={closeModal} keys={sortingKeys} 

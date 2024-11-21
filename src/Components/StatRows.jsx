@@ -33,7 +33,16 @@ function isBetter(name, a, b) {
 const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
 
 const Paragraphs = ({text}) => {
-	return (text.split('\n').map((str, i) => <p key={i}>{str}</p>));
+	const split = text.split('\n');
+	return (
+		split.map(
+			(str, i) => 
+				<>
+					<p key={i}>{str}</p>
+					{i === split.length - 1 ? <></> : <p>&nbsp;</p>}
+				</>
+		)
+	);
 }
 
 const InfoBox = ({name, tooltip}) => {
@@ -42,7 +51,7 @@ const InfoBox = ({name, tooltip}) => {
 		<div style={{margin: '2px 1px 0px 2px'}}>
 			<img src={glob.infoIcon} width='100%'/>
 		</div>
-		<Tooltip style={{maxWidth: '15%'}} anchorSelect={'.' + name} place="left" >
+		<Tooltip style={{maxWidth: '20%', textAlign: 'justify'}} anchorSelect={'.' + name} place="left" >
 			<Paragraphs text={tooltip} />
 		</Tooltip>
 		</>

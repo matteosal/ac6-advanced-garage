@@ -40,6 +40,7 @@ body {
 }
 ol, ul {
 	list-style: none;
+	list-style-type: disc;
 }
 blockquote, q {
 	quotes: none;
@@ -52,6 +53,9 @@ q:before, q:after {
 table {
 	border-collapse: separate;
 	border-spacing: 0px;
+}
+a {
+	color: rgb(0, 255, 255);
 }
 
 /* SCROLLBAR */
@@ -96,4 +100,8 @@ button:hover {
 }
 button:active{
 	background-color:rgb(204, 234, 248);
+}
+
+dialog::backdrop {
+  backdrop-filter: brightness(40%);
 }

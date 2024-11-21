@@ -5,6 +5,63 @@ import ACAssembly from "./Components/ACAssembly.jsx";
 import PartsExplorer from "./Components/PartsExplorer.jsx";
 import PartStats from "./Components/PartStats.jsx";
 import ACStats from "./Components/ACStats.jsx";
+import ModalWrapper from './Components/ModalWrapper.jsx'
+
+/*************************************************************************************/
+
+const AboutModal = ({closeModal}) => {
+	return(
+		<div style={{textAlign: 'justify'}}>
+		<p>
+			AC6 Advanced Garage is a tool to create and analyze builds for the game Armored Core
+			VI. It aims at replicating the look and feel of the in-game	builder while also 
+			providing other features, including useful additional stats that are not shown in the
+			game. An info icon next to these stats displays a tooltip that explains their meaning.
+		</p>
+		<p>&nbsp;</p>
+		<p>
+			This is purely a passion project that I developed for fun and I intend to distribute
+			freely, I will never make any money from it. The source code is on&nbsp;
+			<a href="https://github.com/matteosal/ac6-advanced-garage" target="_blank">
+				GitHub
+			</a>, feel free reach out to report issues or if willing to contribute.
+		<p>&nbsp;</p>
+		<ul style={{paddingLeft: '20px'}}>
+			<li>
+				Game-related images scraped from the&nbsp;
+					<a href="https://armoredcore.fandom.com/" target="_blank">
+						game wiki
+					</a> with added color balancing and from in-game screenshots.
+			</li>
+			<li>
+				Mechanic icons created by&nbsp;
+				<a href="https://www.flaticon.com/free-icons/mechanic" target="_blank">
+				 Good Ware - Flaticon
+				 </a>
+			</li>
+			<li>
+				Sorting order icons created by&nbsp;
+				<a href="https://www.flaticon.com/free-icons/sort-ascending" target="_blank">
+					Icon Hubs - Flaticon
+				</a>			
+			</li>
+			<li>
+				Information icon from &nbsp;
+				<a href="https://icons8.com/" target="_blank">
+					icons8
+				</a>			
+			</li>
+		</ul>
+		</p>
+		<button 
+			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
+			onClick={closeModal}
+		>
+			BACK
+		</button>
+		</div>
+	)
+}
 
 /*************************************************************************************/
 
@@ -23,6 +80,9 @@ function App() {
 		previewReducer,
 		{slot: null, part: null}
 	)
+	const [modal, setModal] = useState(false);
+
+	const closeModal = () => setModal(false);
 
 	const backgroundStyle = {
 		width: '100vw',
@@ -57,9 +117,24 @@ function App() {
 			{
 				preview.slot === null ?
 					<>
-					<div style={{width: '35%', marginTop: '90px'}}>
+					<div style={{display:'inline-block', width: '35%', marginTop: '90px'}}>
 						<ACAssembly previewSetter={slot => previewDispatch({slot: slot})}/>
 					</div>
+					<div style={{display:'inline-block', width: '65%'}}>
+						<button 
+							style={{display: 'block', margin: 'auto'}}
+							onClick={() => setModal(true)}
+						>
+							ABOUT/INFO
+						</button>
+					</div>
+					<ModalWrapper isOpen={modal} closeModal={closeModal}>
+						{
+							modal ? 
+							<AboutModal closeModal={closeModal} /> :
+							<></>
+						}
+					</ModalWrapper>					
 					</>:
 					<>
 					<div style={
