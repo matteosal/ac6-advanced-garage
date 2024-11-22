@@ -215,7 +215,6 @@
 			55,
 			8
 		],
-		"ConsecutiveHits": 8,
 		"DirectHitAdjustment": 150,
 		"Guidance": 480,
 		"EffectiveRange": 1000,
@@ -286,7 +285,6 @@
 			43,
 			4
 		],
-		"ConsecutiveHits": 4,
 		"DirectHitAdjustment": 145,
 		"Guidance": 180,
 		"EffectiveRange": 2500,
@@ -416,7 +414,6 @@
 			43,
 			6
 		],
-		"ConsecutiveHits": 6,
 		"DirectHitAdjustment": 145,
 		"Guidance": 180,
 		"EffectiveRange": 2500,
@@ -452,7 +449,6 @@
 			43,
 			10
 		],
-		"ConsecutiveHits": 10,
 		"DirectHitAdjustment": 145,
 		"Guidance": 180,
 		"EffectiveRange": 2500,
@@ -584,7 +580,6 @@
 			240,
 			2
 		],
-		"ConsecutiveHits": 2,
 		"DirectHitAdjustment": 140,
 		"Guidance": 145,
 		"EffectiveRange": 1425,
@@ -1306,7 +1301,6 @@
 			102,
 			4
 		],
-		"ConsecutiveHits": 4,
 		"DirectHitAdjustment": 175,
 		"PAInterference": 117,
 		"Guidance": 240,
@@ -2182,9 +2176,9 @@
 		"LeftArm": false,
 		"RightBack": true,
 		"LeftBack": true,
-		"AttackPower": 655.0,
-		"Impact": 635.0,
-		"AccumulativeImpact": 494.0,
+		"AttackPower": [655.0, 2],
+		"Impact": [635.0, 2],
+		"AccumulativeImpact": [494.0, 2],
 		"BlastRadius": 60.0,
 		"ConsecutiveHits": 2.0,
 		"DirectHitAdjustment": 140.0,
@@ -2221,7 +2215,6 @@
 			3
 		],
 		"ATKHeatBuildup": 700,
-		"ConsecutiveHits": 3,
 		"ChgAttackPower": 1015,
 		"ChgImpact": 330,
 		"ChgAccumImpact": 185,
@@ -3211,7 +3204,6 @@
 			55,
 			10
 		],
-		"ConsecutiveHits": 10,
 		"DirectHitAdjustment": 145,
 		"Guidance": 180,
 		"EffectiveRange": 2500,
