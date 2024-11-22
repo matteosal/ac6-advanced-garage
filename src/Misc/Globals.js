@@ -1,4 +1,4 @@
-import partsData from '../Assets/PartsData.json';
+import rawPartsData from '../Assets/PartsData.json';
 
 import * as dataFuncs from './DataFuncs.js'
 
@@ -10,20 +10,20 @@ function importAll(r) {
 	return images;
 }
 
-const partImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
-const slotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
-const unitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
-const manufacturerLogos = importAll(
+export const partImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
+export const slotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
+export const unitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
+export const manufacturerLogos = importAll(
 	require.context('../Assets/Images/Manufacturers', false, /\.png/)
 );
-const infoIcon = require("../Assets/Images/info_icon.png");
-const sortIcons = {
+export const infoIcon = require("../Assets/Images/info_icon.png");
+export const sortIcons = {
 	ascend: require("../Assets/Images/sort_ascending.png"),
 	descend: require("../Assets/Images/sort_descending.png")
 };
-const expandIcon = require("../Assets/Images/expand_icon.png");
+export const expandIcon = require("../Assets/Images/expand_icon.png");
 
-function toImageFileName(name) {
+export function toImageFileName(name) {
 	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
 }
 
@@ -35,7 +35,7 @@ const palette = [
 	[13, 20, 30], [36, 53, 73], [51, 62, 84], [61, 72, 94], [67, 84, 104], [151, 173, 184]
 ];
 
-function paletteColor(id, alpha = 1, brightnessAdj = 1) {
+export function paletteColor(id, alpha = 1, brightnessAdj = 1) {
 	const stringVals = palette[id].map(val => (val * brightnessAdj).toString());
 	const substr = stringVals.reduce(
 		(acc, val) => {
@@ -46,7 +46,7 @@ function paletteColor(id, alpha = 1, brightnessAdj = 1) {
 	return 'rgb(' + substr + alpha.toString() + ')'
 }
 
-function dottedBackgroundStyle(background = paletteColor(1)) {
+export function dottedBackgroundStyle(background = paletteColor(1)) {
 	return ({
 		background: background,
 		backgroundImage: 'radial-gradient(rgb(80, 80, 80, 0.5) 1px, transparent 0)',
@@ -55,7 +55,7 @@ function dottedBackgroundStyle(background = paletteColor(1)) {
 	})
 }
 
-function tableRowBackground(pos) {
+export function tableRowBackground(pos) {
 	if(pos % 2)
 		return paletteColor(4, 0.5, 0.95);
 	else
@@ -64,33 +64,33 @@ function tableRowBackground(pos) {
 
 /***************************************************************************************/
 
-partsData = dataFuncs.postprocessData(partsData);
+export const partsData = dataFuncs.postprocessData(rawPartsData);
 
-const noneUnit = partsData.find(p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Unit');
-const noneBooster = partsData.find(
+export const noneUnit = partsData.find(p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Unit');
+export const noneBooster = partsData.find(
 	p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Booster'
 );
 
 // Stores min and max val for every stat, broken down by kinds
-const partStatsRanges = dataFuncs.getPartStatsRanges(partsData);
+export const partStatsRanges = dataFuncs.getPartStatsRanges(partsData);
 
 // Stores min and max for CurrentLoad, CurrentArmsLoad and CurrentENLoad
-const acStatsRanges = dataFuncs.getACStatRanges(partStatsRanges)
+export const acStatsRanges = dataFuncs.getACStatRanges(partStatsRanges)
 
-const partSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
+export const partSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
 	'arms', 'legs','booster', 'fcs', 'generator', 'expansion'];
 
-const pairedUnitSlots = {'rightArm': 'rightBack', 'rightBack': 'rightArm', 
+export const pairedUnitSlots = {'rightArm': 'rightBack', 'rightBack': 'rightArm', 
 	'leftArm': 'leftBack', 'leftBack': 'leftArm'};
 
-const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
+export const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
 	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 
 	'LeftArm', 'RightBack', 'LeftBack','ID'];
 
 // Precompute the list of parts that can go into each slot
 let rawPartsForSlot = dataFuncs.getRawPartsForSlot(partSlots, partsData, pairedUnitSlots);
 
-function getPartsForSlot(slot, backSubslot) {
+export function getPartsForSlot(slot, backSubslot) {
 	if(!['leftBack', 'rightBack'].includes(slot))
 		return rawPartsForSlot[slot];
 	else
@@ -117,7 +117,7 @@ function stringInsert(str, insert, pos) {
 	return str.substr(0, pos) + insert + str.substr(pos);
 }
 
-function splitCamelCase(str) {
+export function splitCamelCase(str) {
 	let upperCasePos = [];
 	for(var i = 1; i < str.length - 1; i++) {
 		if(
@@ -140,7 +140,7 @@ function splitCamelCase(str) {
 	return res;
 }
 
-function toDisplayString(str) {
+export function toDisplayString(str) {
 	const fromTable = displayStringTable[str];
 	if(fromTable != undefined)
 		return fromTable;
@@ -150,9 +150,9 @@ function toDisplayString(str) {
 	return capitalizeFirstLetter(res);
 }
 
-const boxCharacter = '\u25a0';
+export const boxCharacter = '\u25a0';
 
-function notify(msg) {
+export function notify(msg) {
 	return toast(msg, 
 		{style: {background: paletteColor(0)}, type:'info', position: "top-right", 
 			autoClose: 3000, transition: Slide}
@@ -161,56 +161,19 @@ function notify(msg) {
 
 /***************************************************************************************/
 
-function round(val, roundTarget = 1) {
+export function round(val, roundTarget = 1) {
 	if(val === null)
 		return val;
 	const roundFactor = 1 / roundTarget;
 	return Math.round(val * roundFactor) / roundFactor;
 }
 
-function total(list) {
+export function total(list) {
 	return list.reduce((val, acc) => val + acc);
 }
 
-function mean(list) {
+export function mean(list) {
 	if(list.length === 0)
 		return undefined;
 	return total(list) / list.length
 }
-
-
-/***************************************************************************************/
-
-export {
-	/* IMAGES */
-	toImageFileName,
-	partImages,
-	slotImages,
-	unitIcons,
-	manufacturerLogos,
-	infoIcon,
-	sortIcons,
-	expandIcon,
-	/* STYLES */
-	paletteColor,
-	dottedBackgroundStyle,
-	tableRowBackground,
-	/* PARTS */
-	partsData,
-	noneUnit,
-	noneBooster,
-	partStatsRanges,
-	acStatsRanges,
-	partSlots,
-	pairedUnitSlots,
-	hidddenPartStats,
-	getPartsForSlot,
-	/* UTILS */
-	boxCharacter,
-	notify,
-	splitCamelCase,
-	toDisplayString,
-	round,
-	total,
-	mean
-};
