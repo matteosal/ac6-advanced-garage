@@ -5,7 +5,14 @@
 			 url('Assets/Fonts/aldrich-custom-webfont.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
+}
 
+@font-face {
+	font-family: 'Operation-Napalm';
+	src: url('Assets/Fonts/operationnapalm-nrbwo-webfont.woff2') format('woff2'),
+			 url('Assets/Fonts/operationnapalm-nrbwo-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
 }
 
 /* RESET  */
@@ -25,8 +32,8 @@ time, mark, audio, video {
 	margin: 0;
 	padding: 0;
 	border: 0;
+	font-family: Aldrich-Custom, sans-serif;
 	font-size: 16px;
-	font-family: "Aldrich-Custom", sans-serif;
 	vertical-align: baseline;
 	color: white;
 }

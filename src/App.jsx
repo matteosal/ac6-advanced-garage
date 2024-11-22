@@ -107,6 +107,15 @@ function App() {
 		width: '1550px',
 		margin: 'auto'
 	};
+	const backgroundTextStyle = {width: 'fit-content',
+		margin: 'auto',
+		fontSize: '80px',
+		textAlign: 'center',
+		color: '#eee',
+		fontFamily: 'Operation-Napalm, serif',
+		fontWeight: 1000,
+		textShadow: '2px 2px 0px #666, 5px 7px 8px black'
+	}
 
 	return (
 		<div style={backgroundStyle}>
@@ -121,6 +130,12 @@ function App() {
 						<ACAssembly previewSetter={slot => previewDispatch({slot: slot})}/>
 					</div>
 					<div style={{display:'inline-block', width: '65%'}}>
+						<div style={backgroundTextStyle}>ARMORED CORE VI</div>
+						<div style={
+								{...backgroundTextStyle, fontSize: '45px', paddingBottom: '325px'}
+						}>
+							ADVANCED GARAGE
+						</div>
 						<button 
 							style={{display: 'block', margin: 'auto'}}
 							onClick={() => setModal(true)}
