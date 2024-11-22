@@ -62,7 +62,10 @@ export const ACPartsProvider = ({children}) => {
 
 	const [acParts, acPartsDispatch] = useReducer(
 		assemblyPartsReducer,
-		{current: getInitialBuild(searchParams.get('build')), preview: null}
+		null,
+		() => {
+			return {current: getInitialBuild(searchParams.get('build')), preview: null}
+		}
 	);
 
 	return (
