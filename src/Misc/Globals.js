@@ -1,5 +1,7 @@
 import partsData from '../Assets/PartsData.json';
 
+import * as dataFuncs from './DataFuncs.js'
+
 import { toast, Slide } from 'react-toastify';
 
 function importAll(r) {
@@ -62,86 +64,18 @@ function tableRowBackground(pos) {
 
 /***************************************************************************************/
 
-const noneUnitPre = {
-	"Name": "(NOTHING)",
-	"Kind": "Unit",
-	"RightArm": true,
-	"LeftArm": true,
-	"RightBack": true,
-	"LeftBack": true,
-	"Weight": 0,
-	"ENLoad": 0
-};
-const noneBoosterPre = {
-	"Name": "(NOTHING)",
-	"Kind": "Booster",
-	"Weight": 0,
-	"ENLoad": 0
-};
-const noneExpansionPre = {
-	"Name": "(NOTHING)",
-	"Kind": "Expansion"
-};
+partsData = dataFuncs.postprocessData(partsData);
 
-partsData = partsData.concat([noneUnitPre, noneBoosterPre, noneExpansionPre]);
-partsData = partsData.map((part, idx) => {return {...part, ...{ID: idx}}});
-
-// We do this so that these have the ID field. If the ordering of partsData changes
-// these statements must be changed too
-const noneUnit = partsData[partsData.length - 3];
-const noneBooster = partsData[partsData.length - 2];
-
-/***************************************************************************************/
+const noneUnit = partsData.find(p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Unit');
+const noneBooster = partsData.find(
+	p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Booster'
+);
 
 // Stores min and max val for every stat, broken down by kinds
-let partStatsRanges = {'Unit': {}, 'Head': {}, 'Core': {}, 'Arms': {}, 'Legs': {},
-	'Booster': {}, 'FCS': {}, 'Generator': {}, 'Expansion': {}};
+const partStatsRanges = dataFuncs.getPartStatsRanges(partsData);
 
-function updateRange(kind, partEntry) {
-	const [name, val] = partEntry;
-	if(typeof val === 'number') {
-		if(partStatsRanges[kind][name] === undefined) {
-			partStatsRanges[kind][name] = [val, val];
-			return;
-		}
-
-		if(val > partStatsRanges[kind][name][1])
-			partStatsRanges[kind][name][1] = val;
-		else if(val < partStatsRanges[kind][name][0])
-			partStatsRanges[kind][name][0] = val;
-	}
-	return;
-}
-
-// Fills partStatsRanges
-partsData.map(
-	part => {
-		Object.entries(part).map(entry => updateRange(part['Kind'], entry))
-	}
-);
-
-function minMaxAcross(kinds, prop) {
-	return kinds.reduce(
-			(acc, kind) => {
-				const minMax = partStatsRanges[kind][prop];
-				return [acc[0] + minMax[0], acc[1] + minMax[1]]	
-			},
-			[0, 0]
-		)	
-}
-
-let acStatsRanges = {};
-// This is not 100% correct because we are taking the MinMax across all units for all
-// unit slots, but every slot has its own set of allowed units
-acStatsRanges['CurrentLoad'] = minMaxAcross(
-	['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Booster', 'FCS', 'Generator'],
-	'Weight'
-);
-acStatsRanges['CurrentArmsLoad'] = minMaxAcross(['Unit', 'Unit'], 'Weight');
-acStatsRanges['CurrentENLoad'] = minMaxAcross(
-	['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs', 'Booster', 'FCS'],
-	'ENLoad'
-);
+// Stores min and max for CurrentLoad, CurrentArmsLoad and CurrentENLoad
+const acStatsRanges = dataFuncs.getACStatRanges(partStatsRanges)
 
 const partSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head', 'core', 
 	'arms', 'legs','booster', 'fcs', 'generator', 'expansion'];
@@ -153,57 +87,14 @@ const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'Attack
 	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 
 	'LeftArm', 'RightBack', 'LeftBack','ID'];
 
-function computePartsForSlot(slot, backSubslot) {
-	let slotFilterFunc;
-	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot);
-
-	if(['rightArm', 'leftArm'].includes(slot)) {
-		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
-	} else 
-	if(['rightBack', 'leftBack'].includes(slot)) {
-		const pairedSlotCapitalized = capitalizeFirstLetter(pairedUnitSlots[slot]);
-		if(backSubslot === 0)
-			// Actual back units. The convoluted filter indicates something should be refactored,
-			// maybe the parts data
-			slotFilterFunc = part => (
-				part.Kind === 'Unit' && 
-				(
-					(part[slotCapitalized] && !part[pairedSlotCapitalized]) || 
-					part['ID'] === noneUnit['ID']
-				)
-			);
-		else
-			// Arm units for back slot
-			slotFilterFunc = part => (
-				part.Kind === 'Unit' && part[slotCapitalized] && part[pairedSlotCapitalized]
-			);
-	} else if(slot === 'booster') {
-		// The None booster exists because of the tank legs but the user should not be allowed
-		// to set it manually
-		slotFilterFunc = part => 
-			(part.Kind === slotCapitalized && part['ID'] != noneBooster['ID']);
-	} else {
-		slotFilterFunc = part => (part.Kind === slotCapitalized);
-	}
-	return partsData.filter(slotFilterFunc);	
-}
-
 // Precompute the list of parts that can go into each slot
-let slotParts = {};
-partSlots.map(
-	(slot) => {
-		if(!['leftBack', 'rightBack'].includes(slot))
-			slotParts[slot] = computePartsForSlot(slot, 0); // 2nd arg is irrelevant
-		else // This looks like shit
-			slotParts[slot] = {0: computePartsForSlot(slot, 0), 1: computePartsForSlot(slot, 1)}
-	}
-)
+let rawPartsForSlot = dataFuncs.getRawPartsForSlot(partSlots, partsData, pairedUnitSlots);
 
 function getPartsForSlot(slot, backSubslot) {
 	if(!['leftBack', 'rightBack'].includes(slot))
-		return slotParts[slot];
+		return rawPartsForSlot[slot];
 	else
-		return slotParts[slot][backSubslot];
+		return rawPartsForSlot[slot][backSubslot];
 }
 
 /***************************************************************************************/
@@ -318,7 +209,6 @@ export {
 	boxCharacter,
 	notify,
 	splitCamelCase,
-	capitalizeFirstLetter,
 	toDisplayString,
 	round,
 	total,

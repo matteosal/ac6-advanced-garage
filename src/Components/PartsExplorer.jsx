@@ -419,7 +419,6 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 	const nonePart = partsForSlot.find(part => part['Name'] === '(NOTHING)');
 	let displayedParts = searchFilter(partsForSlot, searchString);
 
-
 	displayedParts.sort(
 		(a, b) => {
 			const order = sortBy[slot].ascend ? 1 : -1;
