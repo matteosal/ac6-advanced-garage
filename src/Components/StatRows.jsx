@@ -12,7 +12,10 @@ const roundTargets = {'AttitudeRecovery': 1, 'BoostSpeed': 1, 'QBSpeed': 1,
 	'QBENConsumption': 1, 'EffectiveAPKinetic': 1, 'EffectiveAPEnergy': 1, 
 	'EffectiveAPExplosive': 1, 'EffectiveAPAvg': 1, 'QBReloadTime': 0.01, 
 	'ENSupplyEfficiency': 1, 'ENRechargeDelay': 0.01, 'QBENRechargeTime': 0.01, 
-	'ENRechargeDelayRedline': 0.01, 'FullRechargeTime': 0.01, 'FullRechargeTimeRedline': 0.01};
+	'ENRechargeDelayRedline': 0.01, 'FullRechargeTime': 0.01, 'FullRechargeTimeRedline': 0.01,
+	'RightArmMissileLockTime': 0.01, 'LeftArmMissileLockTime': 0.01, 
+	'RightBackMissileLockTime': 0.01,'LeftBackMissileLockTime': 0.01
+};
 
 const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'TotalWeight',
 	'TotalArmsLoad', 'TotalLoad', 'TotalENLoad', 'ATKHeatBuildup', 'ChgHeatBuildup', 
@@ -21,7 +24,8 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'AmmunitionCost', 'ScanStandbyTime', 'QBReloadTime', 'ABENConsumption', 
 	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
 	'CurrentENLoad', 'ENRechargeDelayRedline', 'QBENRechargeTime', 'FullRechargeTime',
-	'FullRechargeTimeRedline'];
+	'FullRechargeTimeRedline', 'RightArmMissileLockTime', 'LeftArmMissileLockTime',
+	'RightBackMissileLockTime', 'LeftBackMissileLockTime'];
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
@@ -578,6 +582,10 @@ const statTooltips = {
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
 	'EffectiveAPExplosive': 'Amount of raw explosive damage that can be sustained.',
 	'EffectiveAPAvg': 'Average of all effective AP values.',
+	'RightArmMissileLockTime': 'Missile lock time of right arm unit, modified by FCS.',
+	'LeftArmMissileLockTime': 'Missile lock time of left arm unit, modified by FCS.',
+	'RightBackMissileLockTime': 'Missile lock time of right back unit, modified by FCS.',
+	'LeftBackMissileLockTime': 'Missile lock time of left back unit, modified by FCS.',
 	'UnitRangeProfiles': 'Gives an indication of how well the FCS is paired with the unit \
 \	\	ranges. Shows the FCS aim assist at close and medium range (horizontal cyan \
 \	\	lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 200m. When a \

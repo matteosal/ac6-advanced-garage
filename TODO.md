@@ -1,5 +1,3 @@
-* Targeting stats
-	* Missile lock + multilock time
 * Mechanics to figure out
 	* Ricochet distance calculation
 	* Heating vs cooling, which represents an equivalent to magazine size and reload time for

@@ -132,7 +132,8 @@ const allSlots = unitSlots.concat(frameSlots, innerSlots);
 
 function computeAllStats(parts) {
 
-	const {core, arms, legs, booster, generator} = parts;
+	const {core, arms, legs, booster, fcs, generator} = parts;
+	const units = unitSlots.map(s => parts[s]);
 
 	const weightPerGroup = [unitSlots, frameSlots, innerSlots].map(
 		slots => sumKeyOver(parts, 'Weight', slots)
@@ -200,6 +201,30 @@ function computeAllStats(parts) {
 	const armsLoad = sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']);
 	const legsLoad = sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'));
 
+	let targetingStats = [
+		{name: 'TargetTracking', value: 
+			getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])}
+	];
+
+	const lockTimeNames = ['RightArmMissileLockTime', 'LeftArmMissileLockTime', 
+		'RightBackMissileLockTime', 'LeftBackMissileLockTime'];
+	units.map((unit, pos) => unit['HomingLockTime'] ?
+		targetingStats.push(
+			{
+				name: lockTimeNames[pos],
+				value: unit['HomingLockTime'] * (2 - fcs['MissileLockCorrection'] / 100.)
+			}
+		) : 
+		null
+	);
+
+	targetingStats.push(
+		{name: 'UnitRangeProfiles',
+			value: getUnitRangesData(units, fcs),
+			type: 'RangePlot'
+		}
+	);
+
 	return [
 		[
 			{name: 'AP', value: ap},
@@ -214,14 +239,7 @@ function computeAllStats(parts) {
 			{name: 'EffectiveAPExplosive', value: effectiveAP.explosive},
 			{name: 'EffectiveAPAvg', value: glob.mean(Object.values(effectiveAP))}
 		],
-		[
-			{name: 'TargetTracking', value: 
-				getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])},
-			{name: 'UnitRangeProfiles',
-				value: getUnitRangesData(unitSlots.map(s => parts[s]), parts.fcs),
-				type: 'RangePlot'
-			}
-		],
+		targetingStats,
 		[
 			{name: 'BoostSpeed', value: 
 				getBoostSpeed(baseSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
@@ -315,15 +333,29 @@ const ACStats = () => {
 
 	const currentStats = computeAllStats(acParts.current);
 	if(acParts.preview === null) {
-		let nullStats = currentStats.map(group => group.map(stat => toNullStat(stat)));
+		const nullStats = currentStats.map(group => group.map(stat => toNullStat(stat)));
 		var [leftStats, rightStats] = [nullStats, currentStats];
 	}
 	else {
-		var previewStats = computeAllStats(acParts.preview);
-		var [leftStats, rightStats] = [currentStats, previewStats];
+		var rightStats = computeAllStats(acParts.preview);
+		// just like part stats, left stats should have all the stats from right stats in the 
+		// same order, with a value of undefined if the left stat is missing.
+		var leftStats = rightStats.map(
+			(rGroup, rGroupPos) => rGroup.map(
+				rStat => {
+					const match = currentStats[rGroupPos].find(
+						curStat => curStat.name === rStat.name
+					);
+					if(match !== undefined)
+						return match
+					else
+						return {...rStat, ...{value: undefined}}
+				}
+			)
+		)
 	}
 
-	const groupRange = [...Array(currentStats.length).keys()];
+	const groupRange = [...Array(groupNames.length).keys()];
 
 	const overloadTable = getOverloadTable(rightStats[limitGroupPos]);
 
