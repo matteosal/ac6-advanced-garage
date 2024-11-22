@@ -74,6 +74,9 @@ function validateAssembly(assembly) {
 }
 
 function parseQuery(query) {
+	if(!query)
+		return starterAssembly;
+
 	const ids = query.split('-').map(n => Number(n));
 	// Check that we have 12 numeric ids
 	if(ids.length !== 12)
@@ -95,8 +98,6 @@ function parseQuery(query) {
 		assembly[slot] = part;
 	}
 
-	validateAssembly(assembly);
-
 	return assembly
 }
 
@@ -105,8 +106,9 @@ export function getInitialBuild(query) {
 	// that happens we should dump the original mapping between ids and parts into a
 	// file and use that mapping to create/parse links
 	try {
-		const res = parseQuery(query);
-		return res;
+		const assembly = parseQuery(query);
+		validateAssembly(assembly);
+		return assembly;
 	} catch(err) {
 		let message = 'The provided build is invalid: ' + err[0] + 
 			'. The default build will be loaded instead.';
