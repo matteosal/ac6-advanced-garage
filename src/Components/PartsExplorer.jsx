@@ -230,7 +230,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	const acParts = useContext(ACPartsContext).current;		
 	const curPart = acParts[slot];
 
-	const filter = highlighted ? 'brightness(1.3)' : 'none'
+	const filter = highlighted ? 'brightness(1.6)' : 'none'
 
 	const img = glob.partImages[glob.toImageFileName(part.Name)];
 
@@ -353,7 +353,7 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
 			onClick={closeModal}
 		>
-			BACK
+			BACK (ESC)
 		</button>
 		</>
 	)

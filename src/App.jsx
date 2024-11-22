@@ -57,7 +57,7 @@ const AboutModal = ({closeModal}) => {
 			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
 			onClick={closeModal}
 		>
-			BACK
+			BACK (ESC)
 		</button>
 		</div>
 	)
