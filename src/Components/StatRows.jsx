@@ -45,13 +45,21 @@ const Paragraphs = ({text}) => {
 	);
 }
 
+function toAnchorName(str) {
+	return str.replace('/', '')
+}
+
 const InfoBox = ({name, tooltip}) => {
 	return(
 		<>
-		<div style={{margin: '2px 1px 0px 2px'}}>
+		<div className={toAnchorName(name)} style={{margin: '2px 1px 0px 2px'}}>
 			<img src={glob.infoIcon} width='100%'/>
 		</div>
-		<Tooltip style={{maxWidth: '20%', textAlign: 'justify'}} anchorSelect={'.' + name} place="left" >
+		<Tooltip 
+			style={{maxWidth: '20%', textAlign: 'justify'}}
+			anchorSelect={'.' + toAnchorName(name)}
+			place="left" 
+		>
 			<Paragraphs text={tooltip} />
 		</Tooltip>
 		</>
@@ -447,6 +455,43 @@ const PlotRow = ({name, left, right, tooltip}) => {
 
 /**********************************************************************************/
 
+const NoComparisonNumericRow = ({name, left, right, tooltip}) => {
+	if(left === undefined)
+		left = longDashCharacter
+	return (
+		<>
+		<div 
+			style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+			className={name}
+		>
+			{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
+		</div>
+		<div style={{display: 'inline-block', padding: namePadding, width: '63%'}}>
+			{glob.toDisplayString(name)}
+		</div>
+		<div style={
+			{display: 'inline-block', color: 'gray', textAlign: 'right', 
+				width: '12%', fontWeight: 'bold'}
+		}>
+			{left}
+		</div>
+		<div style={{display: 'inline-block', textAlign: 'center', color: 'gray', 
+			width: '5%'}
+		}>
+			{doubleArrowChar}
+		</div>
+		<div style={
+			{display: 'inline-block', color: 'white', textAlign: 'right', 
+				width: '12%', fontWeight: 'bold'}
+		}>
+			{right}
+		</div>
+	</>
+	);
+}
+
+/**********************************************************************************/
+
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
@@ -475,7 +520,20 @@ const statTooltips = {
 	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
 \	\	(right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
-\	\	(right) to the total energy load.'
+\	\	(right) to the total energy load.',
+	'Damage/s': 'Given by attack power * rapid fire.',
+	'Impact/s': 'Given by impact * rapid fire.',
+	'AccumulativeImpact/s': 'Given by accumulative impact * rapid fire.',
+	'Damage/sInclReload': 'Damage per second factoring in the reload time.',
+	'Impact/sInclReload': 'Impact per second factoring in the reload time.',
+	'AccImpact/sInclReload': 'Accumulative impact per second factoring in the reload time.',
+	'ComboDamage': 'Damage of full melee combo',
+	'ComboImpact': 'Impact of full melee combo',
+	'ComboAccumulativeImpact': 'Accumulative impact of full melee combo',
+	'DirectDamage': 'Attack power on staggered opponents.',
+	'DirectDamage/s': 'Damage per second on staggered opponents.',
+	'ComboDirectDamage': 'Damage of full melee combo on staggered opponents.',
+	'MagDumpTime': 'Minimum time to empty one magazine.'
 };
 
 const EmptyRow = () => <div style={{padding: namePadding}}>&nbsp;</div>
@@ -507,6 +565,17 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 	else if(rightStat.type === 'Plot') {
 		return(
 			<PlotRow
+				name={rightStat.name}
+				left={leftStat.value}	
+				right={rightStat.value}
+				tooltip={statTooltips[rightStat.name]}
+				key = {pos}
+			/>		
+		)		
+	}
+	else if(rightStat.type === 'NumericNoComparison') {
+		return(
+			<NoComparisonNumericRow
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}

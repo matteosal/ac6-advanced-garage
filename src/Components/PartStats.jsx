@@ -50,8 +50,11 @@ const PartStatsHeader = ({part}) => {
 const fullStatGroups = {
 	'Unit': [
 		[
-			'AttackPower', 'Impact', 'AccumulativeImpact', 'BlastRadius', 'ATKHeatBuildup',
-			'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
+			'AttackPower', 'Impact', 'AccumulativeImpact', 'Damage/s', 'Impact/s',
+			'AccumulativeImpact/s', 'Damage/sInclReload', 'Impact/sInclReload', 
+			'AccImpact/sInclReload', 'ComboDamage', 'ComboImpact', 'ComboAccumulativeImpact', 
+			'DirectDamage', 'DirectDamage/s', 'ComboDirectDamage', 'BlastRadius', 
+			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
 		],
 		[
 			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgBlastRadius', 'ChgHeatBuildup', 
@@ -63,8 +66,8 @@ const fullStatGroups = {
 			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'Guidance', 'IdealRange', 
 			'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 'ChgENLoad', 
 			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
-			'MagazineRounds', 'TotalRounds', 'ReloadTime', 'DeploymentRange', 'Cooling', 
-			'AmmunitionCost'
+			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'DeploymentRange', 
+			'Cooling', 'AmmunitionCost'
 		],
 		['Weight', 'ENLoad']
 	],
@@ -129,6 +132,10 @@ const fullStatGroups = {
 	]
 };
 
+function toRowType(statName) {
+	return statName === 'MagDumpTime' ? 'NumericNoComparison' : 'Numeric'
+}
+
 const PartStatsBody = ({leftPart, rightPart}) => {
 	const leftFiltered = filterPartKeys(leftPart)
 	const rightFiltered = filterPartKeys(rightPart)
@@ -147,8 +154,8 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	for(let i = 0; i < statGroups.length; i++) {
 		statGroups[i].map(
 			stat => {
-				leftStats.push({name: stat, value: leftFiltered[stat]});
-				rightStats.push({name: stat, value: rightFiltered[stat]});
+				leftStats.push({name: stat, value: leftFiltered[stat], type: toRowType(stat)});
+				rightStats.push({name: stat, value: rightFiltered[stat], type: toRowType(stat)});
 			}
 		);
 		if(statGroups[i].length > 0 && i < statGroups.length - 1){

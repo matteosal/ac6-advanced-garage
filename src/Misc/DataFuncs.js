@@ -19,9 +19,71 @@ const noneExpansionPre = {
 	"Kind": "Expansion"
 };
 
+function firstList(stat) {
+	if(stat.constructor === Array)
+		return stat[0]
+	else
+		return stat
+}
+
+function round(val, roundTarget = 1) {
+	if(val === null)
+		return val;
+	const roundFactor = 1 / roundTarget;
+	return Math.round(val * roundFactor) / roundFactor;
+}
+
+function addIfValid(obj, key, val, roundTo = 1) {
+	if(!Number.isNaN(val))
+		obj[key] = round(val, roundTo);
+	return val;
+}
+
+function addAdvancedUnitStats(unit) {
+	let res = {...unit};
+
+	const [atkPwr, impact, accImpact, magSize, rapidFire, reloadTime, consecutiveHits] = 
+		['AttackPower', 'Impact', 'AccumulativeImpact', 'MagazineRounds', 'RapidFire', 
+			'ReloadTime', 'ConsecutiveHits'].map(
+		stat => firstList(unit[stat] ? unit[stat] : NaN)
+	);
+
+	const dps = addIfValid(res, 'Damage/s', atkPwr * rapidFire);
+	addIfValid(res, 'Impact/s', impact * rapidFire);
+	addIfValid(res, 'AccumulativeImpact/s', accImpact * rapidFire);
+
+	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire, 0.1);
+	if(magDumpTime) {
+		addIfValid(res, 'Damage/sInclReload', (magSize * atkPwr) / (magDumpTime + reloadTime));
+		addIfValid(res, 'Impact/sInclReload', (magSize * impact) / (magDumpTime + reloadTime));
+		addIfValid(res, 'AccImpact/sInclReload', 
+			(magSize * accImpact) / (magDumpTime + reloadTime))
+	} else {
+		// This is for single shot units
+		addIfValid(res, 'Damage/sInclReload', atkPwr / reloadTime);
+		addIfValid(res, 'Impact/sInclReload', impact / reloadTime);
+		addIfValid(res, 'AccImpact/sInclReload', accImpact / reloadTime);
+	};
+
+	const comboDmg = addIfValid(res, 'ComboDamage', atkPwr * consecutiveHits);
+	addIfValid(res, 'ComboImpact', impact * consecutiveHits);
+	addIfValid(res, 'ComboAccumulativeImpact', accImpact * consecutiveHits);
+
+	addIfValid(res, 'DirectDamage', atkPwr * res['DirectHitAdjustment'] / 100);
+	addIfValid(res, 'DirectDamage/s', dps * res['DirectHitAdjustment'] / 100);
+	addIfValid(res, 'ComboDirectDamage', comboDmg * res['DirectHitAdjustment'] / 100);
+
+	return res;
+}
+
 export function postprocessData(data) {
 	let res = data.concat([noneUnitPre, noneBoosterPre, noneExpansionPre]);
 	res = res.map((part, idx) => {return {...part, ...{ID: idx}}});
+	res = res.map(
+		part => part['Kind'] === 'Unit' ?
+			addAdvancedUnitStats(part) :
+			part
+	);
 	return res;
 }
 
