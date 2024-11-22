@@ -331,6 +331,85 @@ const ProportionBarRow = ({name, left, right, tooltip}) => {
 
 /***************************************************************************************/
 
+const RangePlot = ({left, right}) => {
+	// left/right data is 
+	// [rArmRange, lArmRange, rBackRange, lBackRange, closeAssist, mediumAssist]
+	const cappedRanges = right.slice(0, 4).map(r => Math.min(r, 200));
+
+	let data = [
+		{
+			x: [0, 130, 130, 260],
+			y: [right[4], right[4], right[5], right[5]],
+			mode: 'lines',
+			line: {color: cyan}
+		},
+		{x: [cappedRanges[0], cappedRanges[0]], y: [0, 300], mode: 'lines', line: {color: red}},
+		{x: [cappedRanges[1], cappedRanges[1]], y: [0, 300], mode: 'lines', line: {color: red}},
+		{x: [cappedRanges[2], cappedRanges[2]], y: [0, 300], mode: 'lines', line: {color: red}},
+		{x: [cappedRanges[3], cappedRanges[3]], y: [0, 300], mode: 'lines', line: {color: red}}
+	];
+
+	if(left !== null)
+		data.push(
+			{
+				x: [0, 130, 130, 260],
+				y: [left[4], left[4], left[5], left[5]],
+				mode: 'lines',
+				line: {dash: 'dash', color: cyan}
+			}
+		)
+
+	const font = {family: 'Aldrich-Custom, sans-serif'};
+
+	return (
+		<PlotlyPlot
+			style={{width: '100%', height: '100%'}}
+			data={data}
+			layout={{
+				margin: {l: 30, r: 25, t: 25, b: 45},
+				xaxis: {
+					range: [0, 260],
+					title: {text: 'Distance', font: font, standoff: 5},
+					tickfont: font,
+					color: 'white'
+				},
+				yaxis: {
+					range: [0, 90],
+					title: {text: 'Assist', font: font, standoff: 1},
+					color: 'white',
+					showticklabels: false
+				},
+				showlegend: false,
+				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
+				paper_bgcolor: 'rgb(255, 255, 255, 0.1)'
+			}}
+			config={{displayModeBar: false, staticPlot: true}}
+		/>
+	)
+}
+
+const RangePlotRow = ({name, left, right, tooltip}) => {
+	return(
+		<>
+			<div 
+				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				className={name}
+			>
+				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
+			</div>		
+			<div style={{display: 'inline-block', padding: namePadding, width: '40%'}
+			}>
+				{glob.toDisplayString(name)}
+			</div>
+			<div style={{width: '60%', height: '200px', margin: '0px auto'}}>
+				<RangePlot left={left} right={right} />
+			</div>
+		</>
+	)
+}
+
+/***************************************************************************************/
+
 function getLinePoints(delay, gap, rate, enMax) {
 	const tMax = delay + (enMax - gap) / rate;
 	return (
@@ -356,7 +435,7 @@ function pushPoint(points, t, en) {
 	points.redline.en.push(en);	
 }
 
-const Plot = ({left, right}) => {
+const EnergyPlot = ({left, right}) => {
 	let rightPoints = getPlotPoints(right);
 	let leftPoints = getPlotPoints(left);
 
@@ -406,6 +485,8 @@ const Plot = ({left, right}) => {
 		);
 	}
 
+	const font = {family: 'Aldrich-Custom, sans-serif'};
+
 	return (
 		<PlotlyPlot
 			style={{width: '100%', height: '100%'}}
@@ -414,13 +495,13 @@ const Plot = ({left, right}) => {
 				margin: {l: 30, r: 25, t: 25, b: 45},
 				xaxis: {
 					range: [0, plotW],
-					title: {text: 'Time', font: {family: 'Aldrich-Custom, sans-serif'}, standoff: 5},
-					tickfont: {family: 'Aldrich-Custom, sans-serif'},
+					title: {text: 'Time', font: font, standoff: 5},
+					tickfont: font,
 					color: 'white'
 				},
 				yaxis: {
 					range: [0, plotH],
-					title: {text: 'EN', font: {family: 'Aldrich-Custom, sans-serif'}, standoff: 1},
+					title: {text: 'EN', font: font, standoff: 1},
 					color: 'white',
 					showticklabels: false
 				},
@@ -433,7 +514,7 @@ const Plot = ({left, right}) => {
 	)
 }
 
-const PlotRow = ({name, left, right, tooltip}) => {
+const EnergyPlotRow = ({name, left, right, tooltip}) => {
 	return(
 		<>
 			<div 
@@ -447,7 +528,7 @@ const PlotRow = ({name, left, right, tooltip}) => {
 				{glob.toDisplayString(name)}
 			</div>
 			<div style={{width: '60%', height: '200px', margin: '0px auto'}}>
-				<Plot left={left} right={right} />
+				<EnergyPlot left={left} right={right} />
 			</div>
 		</>
 	)
@@ -497,6 +578,11 @@ const statTooltips = {
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
 	'EffectiveAPExplosive': 'Amount of raw explosive damage that can be sustained.',
 	'EffectiveAPAvg': 'Average of all effective AP values.',
+	'UnitRangeProfiles': 'Gives an indication of how well the FCS is paired with the unit \
+\	\	ranges. Shows the FCS aim assist at close and medium range (horizontal cyan \
+\	\	lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 200m. When a \
+\	\	new FCS is in preview, the current FCS ranges are shown with dashed lines and the new \
+\	\	with solid ones. When a unit is in preview only the new unit ranges are shown.',
 	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of \
 \	\	energy (assuming no energy is recovered in between quick boosts).',
 	'ENRechargeDelayRedline': 'Time before energy starts recovering when the generator is \
@@ -513,8 +599,8 @@ const statTooltips = {
 	'FullRechargeTimeRedline': 'Time to fully recover energy when the generator is fully \
 \	\	depleted',
 	'ENRecoveryProfiles': 'Shows the energy recovered over time in the normal (cyan) and \
-\	\	redlining (red) cases. When a part is in preview, the current profiles are shown with \
-\	\	dotted lines and the new ones with solid ones.\nNOTE: the cyan profile is a limit \
+\	\	redlining (red) cases. When a new part is in preview, the current profiles are shown \
+\	\	with dashed lines and the new ones with solid ones.\nNOTE: the cyan profile is a limit \
 \	\	case because if the generator is not fully depleted energy recovery will not start \
 \	\	from zero energy.',
 	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
@@ -541,7 +627,7 @@ const EmptyRow = () => <div style={{padding: namePadding}}>&nbsp;</div>
 export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 
 	if(rightStat.type === 'EmptyLine')
-		return <EmptyRow />
+		return <EmptyRow key = {pos} />
 	else if(rightStat.type === 'BarOnly')
 		return (
 			<BarOnlyRow
@@ -562,9 +648,20 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 				key = {pos}				
 			/>		
 		)
-	else if(rightStat.type === 'Plot') {
+	else if(rightStat.type === 'EnergyPlot') {
 		return(
-			<PlotRow
+			<EnergyPlotRow
+				name={rightStat.name}
+				left={leftStat.value}	
+				right={rightStat.value}
+				tooltip={statTooltips[rightStat.name]}
+				key = {pos}
+			/>		
+		)		
+	}
+	else if(rightStat.type === 'RangePlot') {
+		return(
+			<RangePlotRow
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}

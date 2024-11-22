@@ -118,6 +118,11 @@ function timeToRecoverEnergy(energy, supplyEff, delay) {
 	return energy / supplyEff + delay;
 }
 
+function getUnitRangesData(units, fcs) {
+	let res = units.map(unit => unit['IdealRange'] || unit['EffectiveRange'] || null);
+	return res.concat([fcs['CloseRangeAssist'], fcs['MediumRangeAssist']])
+}
+
 /**********************************************************************************/
 
 const unitSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack'];
@@ -212,6 +217,12 @@ function computeAllStats(parts) {
 		[
 			{name: 'TargetTracking', value: 
 				getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])},
+			{name: 'UnitRangeProfiles',
+				value: getUnitRangesData(unitSlots.map(s => parts[s]), parts.fcs),
+				type: 'RangePlot'
+			}
+		],
+		[
 			{name: 'BoostSpeed', value: 
 				getBoostSpeed(baseSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
 			{name: 'QBSpeed', value: 
@@ -236,7 +247,7 @@ function computeAllStats(parts) {
 					redline: 
 						[enRechargeDelay.redline, postRecENSupply, enSupplyEfficiency, enCapacity]
 				},
-				type: 'Plot'
+				type: 'EnergyPlot'
 			}
 		],
 		[
@@ -272,8 +283,6 @@ function findStatValue(stats, statName) {
 	return stats.find(stat => stat.name === statName).value
 }
 
-const limitGroupPos = 3;
-
 function getOverloadTable(stats) {
 	// Not optimal, we are searching these fields in the list but we could just return
 	// them directly from computeAllStats
@@ -297,7 +306,9 @@ function getOverloadTable(stats) {
 	)	
 }
 
-const groupNames = ['DURABILITY', 'MOBILITY', 'ENERGY', 'LIMITS'];
+const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
+
+const limitGroupPos = groupNames.indexOf('LIMITS');
 
 const ACStats = () => {
 	const acParts = useContext(ACPartsContext);

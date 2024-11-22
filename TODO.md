@@ -1,5 +1,4 @@
 * Targeting stats
-	* FCS vs range pairing, maybe plots
 	* Missile lock + multilock time
 * Mechanics to figure out
 	* Ricochet distance calculation
