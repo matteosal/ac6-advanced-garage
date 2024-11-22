@@ -92,6 +92,12 @@ const ACAssembly = ({previewSetter}) => {
 
 	return(
 		<>
+		<div style={{display: 'flex', width: '100%', height: '50px', 
+			background: glob.paletteColor(3), marginBottom: '5px'}}>
+			<button style={{margin: 'auto'}} onClick={() => copyBuildLink(parts)}>
+				CREATE BUILD LINK
+			</button>
+		</div>	
 		{
 			[0, 1, 2, 3].map(
 				i => <AssemblyGroup 
@@ -101,13 +107,7 @@ const ACAssembly = ({previewSetter}) => {
 					key={i}
 				/>
 			)
-		}
-		<div style={{display: 'flex', width: '100%', height: '50px', 
-			background: glob.paletteColor(3)}}>
-			<button style={{margin: 'auto'}} onClick={() => copyBuildLink(parts)}>
-				CREATE BUILD LINK
-			</button>
-		</div>			
+		}		
 		</>
 	)
 }
