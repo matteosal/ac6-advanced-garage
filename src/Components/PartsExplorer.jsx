@@ -252,15 +252,19 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 
 	return (
 		<div 
-			style = {{margin: '5px auto', position: 'relative', filter: filter, height: imgH, width: imgW, background: glob.paletteColor(4), cursor: 'pointer'}}
+			style = {{margin: '5px auto', position: 'relative', height: imgH, width: imgW,
+				cursor: 'pointer'}}
 			onMouseEnter = {() => {setHighlightedId(part['ID']); updatePreview();}}
 			onClick = {updateAssembly}
 		>
-			{
-				img === undefined ?
-					<PartNameDisplay name={part['Name']} /> :
-					<img src={img} width={imgW} style={{display: 'block'}} />
-			}
+			<div style={{width: '100%', height: '100%', background: glob.paletteColor(4), 
+				filter: filter}}>
+				{
+					img === undefined ?
+						<PartNameDisplay name={part['Name']} /> :
+						<img src={img} width={imgW} style={{display: 'block'}} />
+				}
+			</div>
 			{
 				part['ID'] === curPart['ID'] ?
 					<EquippedTag background={glob.paletteColor(5)} imgH={imgH}/> :
