@@ -4,7 +4,7 @@
 	  units that have it. Will lead to adding advanced stats like Damage/s Incl Reload
 	* Recoil buildup vs recoil control, for related advanced targeting stat
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
-* Add build global scores to center
+* Global build scores? One per AC stat groups + offense
 * Tests
 * Try in other browsers
 * Run linter / code checking tool

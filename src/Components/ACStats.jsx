@@ -331,7 +331,7 @@ const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
 const ACStats = ({preview}) => {
-	const acParts = useContext(ACPartsContext);
+	const acParts = useContext(ACPartsContext).parts;
 
 	let leftStats, rightStats;
 	const currentStats = computeAllStats(acParts);

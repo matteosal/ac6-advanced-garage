@@ -104,7 +104,7 @@ function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksu
 }
 
 const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, setSearchString, modal}) => {
-	const acParts = useContext(ACPartsContext);
+	const acParts = useContext(ACPartsContext).parts;
 
 	const [slotRange, setSlotRange] = useState(getInitialSlotRange(preview.slot));
 
@@ -233,7 +233,7 @@ const EquippedTag = ({imgH, background}) => {
 const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) => {
 
 	const acPartsDispatch = useContext(ACPartsDispatchContext);
-	const acParts = useContext(ACPartsContext);		
+	const acParts = useContext(ACPartsContext).parts;		
 	const curPart = acParts[slot];
 
 	const filter = highlighted ? 'brightness(1.6)' : 'none'
