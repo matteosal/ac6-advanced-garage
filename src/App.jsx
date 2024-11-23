@@ -25,6 +25,7 @@ const AboutModal = ({closeModal}) => {
 			<a href="https://github.com/matteosal/ac6-advanced-garage" target="_blank">
 				GitHub
 			</a>, feel free reach out to report issues or if willing to contribute.
+		</p>
 		<p>&nbsp;</p>
 		<ul style={{paddingLeft: '20px'}}>
 			<li>
@@ -52,7 +53,6 @@ const AboutModal = ({closeModal}) => {
 				</a>			
 			</li>
 		</ul>
-		</p>
 		<button 
 			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
 			onClick={closeModal}
