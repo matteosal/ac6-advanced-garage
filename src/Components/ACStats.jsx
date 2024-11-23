@@ -120,7 +120,9 @@ function timeToRecoverEnergy(energy, supplyEff, delay) {
 
 function getUnitRangesData(units, fcs) {
 	let res = units.map(unit => unit['IdealRange'] || unit['EffectiveRange'] || null);
-	return res.concat([fcs['CloseRangeAssist'], fcs['MediumRangeAssist']])
+	return res.concat(
+		[fcs['CloseRangeAssist'], fcs['MediumRangeAssist'], fcs['LongRangeAssist']]
+	)
 }
 
 /**********************************************************************************/

@@ -337,13 +337,13 @@ const ProportionBarRow = ({name, left, right, tooltip}) => {
 
 const RangePlot = ({left, right}) => {
 	// left/right data is 
-	// [rArmRange, lArmRange, rBackRange, lBackRange, closeAssist, mediumAssist]
-	const cappedRanges = right.slice(0, 4).map(r => Math.min(r, 200));
+	// [rArmRange, lArmRange, rBackRange, lBackRange, closeAssist, mediumAssist, longAssist]
+	const cappedRanges = right.slice(0, 4).map(r => Math.min(r, 300));
 
 	let data = [
 		{
-			x: [0, 130, 130, 260],
-			y: [right[4], right[4], right[5], right[5]],
+			x: [0, 130, 130, 260, 260, 320],
+			y: [right[4], right[4], right[5], right[5], right[6], right[6]],
 			mode: 'lines',
 			line: {color: cyan}
 		},
@@ -356,8 +356,8 @@ const RangePlot = ({left, right}) => {
 	if(left !== null)
 		data.push(
 			{
-				x: [0, 130, 130, 260],
-				y: [left[4], left[4], left[5], left[5]],
+			x: [0, 130, 130, 260, 260, 320],
+			y: [right[4], right[4], right[5], right[5], right[6], right[6]],
 				mode: 'lines',
 				line: {dash: 'dash', color: cyan}
 			}
@@ -372,13 +372,13 @@ const RangePlot = ({left, right}) => {
 			layout={{
 				margin: {l: 30, r: 25, t: 25, b: 45},
 				xaxis: {
-					range: [0, 260],
+					range: [0, 320],
 					title: {text: 'Distance', font: font, standoff: 5},
 					tickfont: font,
 					color: 'white'
 				},
 				yaxis: {
-					range: [0, 90],
+					range: [0, 95],
 					title: {text: 'Assist', font: font, standoff: 1},
 					color: 'white',
 					showticklabels: false
@@ -587,8 +587,8 @@ const statTooltips = {
 	'RightBackMissileLockTime': 'Missile lock time of right back unit, modified by FCS.',
 	'LeftBackMissileLockTime': 'Missile lock time of left back unit, modified by FCS.',
 	'UnitRangeProfiles': 'Gives an indication of how well the FCS is paired with the unit \
-\	\	ranges. Shows the FCS aim assist at close and medium range (horizontal cyan \
-\	\	lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 200m. When a \
+\	\	ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan \
+\	\	lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m. When a \
 \	\	new FCS is in preview, the current FCS ranges are shown with dashed lines and the new \
 \	\	with solid ones. When a unit is in preview only the new unit ranges are shown.',
 	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of \
