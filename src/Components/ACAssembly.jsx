@@ -55,7 +55,7 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 }
 
 const AssemblyGroup = ({header, slotIds, previewSetter}) => {
-	const parts = useContext(ACPartsContext).current;
+	const parts = useContext(ACPartsContext);
 
 	const slotNames = slotIds.map(id => glob.partSlots[id]);
 	return(
@@ -85,7 +85,7 @@ const AssemblyGroup = ({header, slotIds, previewSetter}) => {
 
 
 const ACAssembly = ({previewSetter}) => {
-	const parts = useContext(ACPartsContext).current;
+	const parts = useContext(ACPartsContext);
 
 	const headers = ['UNIT', 'FRAME', 'INNER', 'EXPANSION'];
 	const ids = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10], [11]];

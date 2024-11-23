@@ -175,7 +175,7 @@ function App() {
 			<div style={
 				{display: 'inline-block', width: '35%', marginTop: '90px', verticalAlign: 'top'}
 			}>
-				<ACStats/>
+				<ACStats preview={preview}/>
 			</div>
 		</div>
 		</div>

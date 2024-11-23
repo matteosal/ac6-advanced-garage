@@ -328,16 +328,18 @@ const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
 
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
-const ACStats = () => {
+const ACStats = ({preview}) => {
 	const acParts = useContext(ACPartsContext);
 
-	const currentStats = computeAllStats(acParts.current);
-	if(acParts.preview === null) {
+	const currentStats = computeAllStats(acParts);
+	if(preview.part === null) {
 		const nullStats = currentStats.map(group => group.map(stat => toNullStat(stat)));
 		var [leftStats, rightStats] = [nullStats, currentStats];
 	}
 	else {
-		var rightStats = computeAllStats(acParts.preview);
+		const previewACParts = {...acParts};
+		previewACParts[preview.slot] = preview.part;
+		var rightStats = computeAllStats(previewACParts);
 		// just like part stats, left stats should have all the stats from right stats in the 
 		// same order, with a value of undefined if the left stat is missing.
 		var leftStats = rightStats.map(

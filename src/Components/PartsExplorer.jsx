@@ -104,8 +104,7 @@ function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksu
 }
 
 const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, setSearchString, modal}) => {
-	const acParts = useContext(ACPartsContext).current;
-	const acPartsDispatch = useContext(ACPartsDispatchContext);
+	const acParts = useContext(ACPartsContext);
 
 	const [slotRange, setSlotRange] = useState(getInitialSlotRange(preview.slot));
 
@@ -122,7 +121,6 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 			shiftPos(currentPos, slotRange, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot);
 		setSlotRange(newRange);
 		previewDispatch({slot: glob.partSlots[newPos]});
-		acPartsDispatch({target: 'preview', setNull: true});		
 	}
 
 	const handleKeyDown = (event) => {
@@ -147,7 +145,6 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 
 	const updateSlot = (s) => {
 		previewDispatch({slot: s});
-		acPartsDispatch({target: 'preview', setNull: true});
 		setSearchString('');
 		if(['leftBack', 'rightBack'].includes(s)) {
 			if(backSubslot === null)
@@ -227,7 +224,7 @@ const EquippedTag = ({imgH, background}) => {
 const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) => {
 
 	const acPartsDispatch = useContext(ACPartsDispatchContext);
-	const acParts = useContext(ACPartsContext).current;		
+	const acParts = useContext(ACPartsContext);		
 	const curPart = acParts[slot];
 
 	const filter = highlighted ? 'brightness(1.6)' : 'none'
@@ -236,19 +233,16 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 
 	const clearPreview = () => {
 		previewDispatch({part: null})
-		acPartsDispatch({target: 'preview', setNull: true})
 	}
 	const updatePreview = () => {
 		if(part['ID'] !== curPart['ID']) {
 			previewDispatch({part: part})
-			acPartsDispatch({target: 'preview', slot: slot, id: part['ID']})
 		} else {
 			clearPreview()
 		}
 	}
 	const updateAssembly = () => {
-		acPartsDispatch({target: 'current', slot: slot, id: part['ID']})
-		acPartsDispatch({target: 'preview', setNull: true})						
+		acPartsDispatch({slot: slot, id: part['ID']})				
 	}
 
 	const [imgW, imgAspectRatio] = [220, 0.51];
@@ -544,8 +538,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 
 const PartsExplorer = ({preview, previewDispatch}) => {
 
-	const acParts = useContext(ACPartsContext).current;
-	const acPartsDispatch = useContext(ACPartsDispatchContext);
+	const acParts = useContext(ACPartsContext);
 
 	const [searchString, setSearchString] = useState('');
 	const [backSubslot, setBacksubslot] = useState(
@@ -554,8 +547,7 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 	const [modal, setModal] = useState(false);
 
 	const closeExplorer = () => {
-		previewDispatch({slot: null})
-		acPartsDispatch({target: 'preview', setNull: true})		
+		previewDispatch({slot: null})	
 	}
 
 	const handleKeyDown = (event) => {

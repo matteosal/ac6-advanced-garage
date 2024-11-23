@@ -219,7 +219,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 const PartStats = ({preview}) => {
 
 	const previewPart = preview.part;
-	const curPart = useContext(ACPartsContext).current[preview.slot];
+	const curPart = useContext(ACPartsContext)[preview.slot];
 
 	if(previewPart === null) {
 		let nullPart = toNullStats(curPart);
