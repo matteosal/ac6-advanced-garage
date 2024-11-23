@@ -127,12 +127,12 @@ function App() {
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
 			<div style={
-				{display: 'inline-block', width: '65%', marginTop: '50px', verticalAlign: 'top'}
+				{display: 'inline-block', width: '65%', marginTop: '30px', verticalAlign: 'top'}
 			}>
 			{
 				preview.slot === null ?
 					<>
-					<div style={{display:'inline-block', width: '35%', marginTop: '90px'}}>
+					<div style={{display:'inline-block', width: '35%', marginTop: '70px'}}>
 						<ACAssembly previewSetter={slot => previewDispatch({slot: slot})}/>
 					</div>
 					<div style={{display:'inline-block', width: '65%'}}>
@@ -179,7 +179,7 @@ function App() {
 			}
 			</div>
 			<div style={
-				{display: 'inline-block', width: '35%', marginTop: '90px', verticalAlign: 'top'}
+				{display: 'inline-block', width: '35%', marginTop: '70px', verticalAlign: 'top'}
 			}>
 				<ACStats preview={preview}/>
 			</div>
