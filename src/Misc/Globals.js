@@ -74,6 +74,9 @@ export const noneBooster = partsData.find(
 	p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Booster'
 );
 
+// Used when removing tank leks
+export const defaultBooster = partsData.find(p => p['Name'] === 'BST-G1/P10');
+
 // Stores min and max val for every stat, broken down by kinds
 export const partStatsRanges = dataFuncs.getPartStatsRanges(partsData);
 

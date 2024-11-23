@@ -342,6 +342,13 @@ const ACStats = ({preview}) => {
 	else {
 		const previewACParts = {...acParts};
 		previewACParts[preview.slot] = preview.part;
+		if(
+			previewACParts.legs['LegType'] !== 'Tank' && 
+			previewACParts.booster['ID'] === glob.noneBooster['ID']
+		) {
+			// This happens when the current AC has tank legs and the preview has non-tank legs
+			previewACParts.booster = glob.defaultBooster;
+		}
 		rightStats = computeAllStats(previewACParts);
 		// just like part stats, left stats should have all the stats from right stats in the 
 		// same order, with a value of undefined if the left stat is missing.

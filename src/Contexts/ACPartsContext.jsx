@@ -34,7 +34,7 @@ const assemblyPartsReducer = (parts, action) => {
 			}
 		} else if(newPart['LegType'] !== 'Tank') {
 			if(parts.booster['ID'] === glob.noneBooster['ID']) {
-				newParts.booster = glob.partsData.find((part) => part['Kind'] === 'Booster');
+				newParts.booster = glob.defaultBooster;
 				glob.notify('Random booster added');
 			}
 		}
