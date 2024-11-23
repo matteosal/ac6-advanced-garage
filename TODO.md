@@ -7,5 +7,4 @@
 * Global build scores? One per AC stat groups + offense
 * Tests
 * Try in other browsers
-* Run linter / code checking tool
 * Readme
