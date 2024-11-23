@@ -338,7 +338,7 @@ const ProportionBarRow = ({name, left, right, tooltip}) => {
 const RangePlot = ({left, right}) => {
 	// left/right data is 
 	// [rArmRange, lArmRange, rBackRange, lBackRange, closeAssist, mediumAssist, longAssist]
-	const cappedRanges = right.slice(0, 4).map(r => Math.min(r, 300));
+	const cappedRanges = right.slice(0, 4).map(r => r === null ? r : Math.min(r, 300));
 
 	let data = [
 		{
@@ -346,12 +346,13 @@ const RangePlot = ({left, right}) => {
 			y: [right[4], right[4], right[5], right[5], right[6], right[6]],
 			mode: 'lines',
 			line: {color: cyan}
-		},
-		{x: [cappedRanges[0], cappedRanges[0]], y: [0, 300], mode: 'lines', line: {color: red}},
-		{x: [cappedRanges[1], cappedRanges[1]], y: [0, 300], mode: 'lines', line: {color: red}},
-		{x: [cappedRanges[2], cappedRanges[2]], y: [0, 300], mode: 'lines', line: {color: red}},
-		{x: [cappedRanges[3], cappedRanges[3]], y: [0, 300], mode: 'lines', line: {color: red}}
+		}
 	];
+	data = data.concat(
+		cappedRanges.map(r => {
+			return {x: [r, r], y: [0, 300], mode: 'lines', line: {color: red}}
+		})
+	);
 
 	if(left !== null)
 		data.push(
