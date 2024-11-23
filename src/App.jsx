@@ -19,17 +19,19 @@ const AboutModal = ({closeModal}) => {
 			game. An info icon next to these stats displays a tooltip that explains their meaning.
 		</p>
 		<p>&nbsp;</p>
-		<p>
-			This is purely a passion project that I developed for fun and I intend to distribute
-			freely, I will never make any money from it. The source code is on&nbsp;
+			For more information about how stats are computed, the source code is on&nbsp;
 			<a href="https://github.com/matteosal/ac6-advanced-garage" target="_blank">
 				GitHub
-			</a>, feel free reach out to report issues or if willing to contribute.
+			</a>. Feel free reach out to report issues or if willing to contribute.
+		<p>&nbsp;</p>
+		<p>
+			This is purely a passion project that I developed for fun and I intend to distribute
+			freely, I will never make any money from it.
 		</p>
 		<p>&nbsp;</p>
 		<ul style={{paddingLeft: '20px'}}>
 			<li>
-				Game-related images scraped from the&nbsp;
+				Game-related images taken from the&nbsp;
 					<a href="https://armoredcore.fandom.com/" target="_blank">
 						game wiki
 					</a> with added color balancing and from in-game screenshots.
