@@ -20,7 +20,7 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 
 	const slotImg = glob.slotImages[glob.toImageFileName(slot)];
 	let manImg;
-	if(manufacturer != undefined)
+	if(manufacturer !== undefined)
 		manImg = glob.manufacturerLogos[glob.toImageFileName(manufacturer)];
 	else
 		manImg = null;
@@ -39,7 +39,7 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 			onClick = {mouseClick}
 		>
 			<div style={{display: 'inline-block', verticalAlign: 'bottom'}}>
-				<img src={slotImg} width='45px' style={{display: 'block'}} />
+				<img src={slotImg} alt={slot} width='45px' style={{display: 'block'}} />
 			</div>
 			<div style={{display: 'inline-block', marginLeft: '5px'}}>
 				<div style={{fontSize: '10px', color: color}}>
@@ -48,7 +48,8 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 				<div style={{color: color}}>{partName}</div>
 			</div>
 			<div style={{display: 'inline-block', float: 'right'}}>
-				<img src={manImg} width='35px' style={{display: 'block', opacity: '0.5'}} />
+				<img src={manImg} width='35px' alt={manufacturer} 
+					style={{display: 'block', opacity: '0.5'}} />
 			</div>
 		</div>
 	);

@@ -57,7 +57,7 @@ const InfoBox = ({name, tooltip}) => {
 	return(
 		<>
 		<div className={toAnchorName(name)} style={{margin: '2px 1px 0px 2px'}}>
-			<img src={glob.infoIcon} width='100%'/>
+			<img src={glob.infoIcon} alt={'info icon'} width='100%'/>
 		</div>
 		<Tooltip 
 			style={{maxWidth: '20%', textAlign: 'justify'}}
@@ -200,7 +200,7 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 			{glob.toDisplayString(name)}
 		</div>
 		{
-			kind != undefined ?
+			kind !== undefined ?
 				<div style={{display: 'inline-block', width: barW}}>
 					<StatBar kind={kind} name={name} left={left} right={right} color={rightColor}/>
 				</div> :
@@ -586,35 +586,35 @@ const statTooltips = {
 	'LeftArmMissileLockTime': 'Missile lock time of left arm unit, modified by FCS.',
 	'RightBackMissileLockTime': 'Missile lock time of right back unit, modified by FCS.',
 	'LeftBackMissileLockTime': 'Missile lock time of left back unit, modified by FCS.',
-	'UnitRangeProfiles': 'Gives an indication of how well the FCS is paired with the unit \
-\	\	ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan \
-\	\	lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m. When a \
-\	\	new FCS is in preview, the current FCS ranges are shown with dashed lines and the new \
-\	\	with solid ones. When a unit is in preview only the new unit ranges are shown.',
-	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of \
-\	\	energy (assuming no energy is recovered in between quick boosts).',
-	'ENRechargeDelayRedline': 'Time before energy starts recovering when the generator is \
-\	\	fully depleted.',
-	'QBENRechargeTime': 'Time to recovery energy consumed by one quick boost when the \
-\	\	generator is not fully depleted.\nNOTE: despite the energy bar depleting immediately \
-\	\	when a quick boost is performed, the energy is actually gradually depleted throughout \
-\	\	entire quick boost animation. This means that the value of the QB Jet Duration stat is \
-\	\	added to the recovery time to compute this value.',
-	'FullRechargeTime': 'Time to recover an amount of energy equal to the energy capacity \
-\	\	when the generator is not fully depleted.\nNOTE: this is a limit value because if the \
-\	\	generator is not fully depleted energy recovery will recover less than the full energy \
-\	\	capacity.',
-	'FullRechargeTimeRedline': 'Time to fully recover energy when the generator is fully \
-\	\	depleted',
-	'ENRecoveryProfiles': 'Shows the energy recovered over time in the normal (cyan) and \
-\	\	redlining (red) cases. When a new part is in preview, the current profiles are shown \
-\	\	with dashed lines and the new ones with solid ones.\nNOTE: the cyan profile is a limit \
-\	\	case because if the generator is not fully depleted energy recovery will not start \
-\	\	from zero energy.',
-	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
-\	\	(right) to the total weight.',
-	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner parts \
-\	\	(right) to the total energy load.',
+	'UnitRangeProfiles': 'Gives an indication of how well the FCS is paired with the unit ' +
+		'ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan ' +
+		'lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m. When ' +
+		'a new FCS is in preview, the current FCS ranges are shown with dashed lines and the ' +
+		'new with solid ones. When a unit is in preview only the new unit ranges are shown.',
+	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of ' +
+		'energy (assuming no energy is recovered in between quick boosts).',
+	'ENRechargeDelayRedline': 'Time before energy starts recovering when the generator is ' +
+		'fully depleted.',
+	'QBENRechargeTime': 'Time to recovery energy consumed by one quick boost when the ' +
+		'generator is not fully depleted.\nNOTE: despite the energy bar depleting immediately ' +
+		'when a quick boost is performed, the energy is actually gradually depleted ' +
+		'throughout entire quick boost animation. This means that the value of the QB Jet ' +
+		'Duration stat is added to the recovery time to compute this value.',
+	'FullRechargeTime': 'Time to recover an amount of energy equal to the energy capacity ' +
+		'when the generator is not fully depleted.\nNOTE: this is a limit value because if ' +
+		'the generator is not fully depleted energy recovery will recover less than the full ' +
+		'energy capacity.',
+	'FullRechargeTimeRedline': 'Time to fully recover energy when the generator is fully ' +
+		'depleted',
+	'ENRecoveryProfiles': 'Shows the energy recovered over time in the normal (cyan) and ' +
+		'redlining (red) cases. When a new part is in preview, the current profiles are shown ' +
+		'with dashed lines and the new ones with solid ones.\nNOTE: the cyan profile is a ' +
+		'limit case because if the generator is not fully depleted energy recovery will not ' +
+		'start from zero energy.',
+	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
+		'parts (right) to the total weight.',
+	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
+		'parts (right) to the total energy load.',
 	'Damage/s': 'Given by attack power * rapid fire.',
 	'Impact/s': 'Given by impact * rapid fire.',
 	'AccumulativeImpact/s': 'Given by accumulative impact * rapid fire.',
@@ -730,7 +730,7 @@ const CollapsibleHeader = ({label, isOpen, isOverload}) => {
 			onMouseEnter={() => setHighlighted(true)}
 			onMouseLeave={() => setHighlighted(false)}
 		>
-			<img src={glob.expandIcon} style={imgStyle} width='12px' />
+			<img src={glob.expandIcon} alt={'expand/collapse'} style={imgStyle} width='12px' />
 			<div style={{display: 'inline-block'}}>
 				{label}
 			</div>

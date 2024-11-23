@@ -1,5 +1,3 @@
-import { useState, useReducer, useEffect, useContext } from 'react';
-
 import * as glob from '../Misc/Globals.js';
 
 /***************************************************************************************/
@@ -43,33 +41,37 @@ function validateAssembly(assembly) {
 		const match = allowedParts.find(part => part['ID'] === partId);
 		const isNoneBooster = slot === 'booster' && partId === glob.noneBooster['ID'];
 		if(match === undefined && !isNoneBooster)
-			throw [
-				'part ' + assembly[slot]['Name'] + ' is not allowed for slot \'' + slot + '\'',
-				assembly
-			]
+			throw Object.assign(
+				new Error(
+					'part ' + assembly[slot]['Name'] + ' is not allowed for slot \'' + slot + '\''
+				),
+				{ parts: assembly }
+			);
 	}
 	// Check that units are not duplicated on the same side
 	for(const slot of ['rightBack', 'leftBack']) {
 		const pairedSlot = glob.pairedUnitSlots[slot]
 		const backId = assembly[slot]['ID'];
 		if(backId !== glob.noneUnit['ID'] && backId === assembly[pairedSlot]['ID'])
-			throw [
-				'unit ' + assembly[slot]['Name'] + ' is assigned to both the \'' + 
-					pairedSlot + '\' and \'' + slot + '\' slots',
-				assembly
-			]
+			throw Object.assign(
+				new Error(
+					'unit ' + assembly[slot]['Name'] + ' is assigned to both the \'' + 
+						pairedSlot + '\' and \'' + slot + '\' slots'
+				),
+				{ parts: assembly }
+			);
 	}
 	// Check that tank legs and booster are correctly matched
 	if(assembly.legs['LegType'] === 'Tank' && assembly.booster['ID'] !== glob.noneBooster['ID'])
-		throw [
-			'build has tank legs but a booster is set',
-			assembly
-		]
+		throw Object.assign(
+			new Error('build has tank legs but a booster is set'),
+			{ parts: assembly }
+		);
 	if(assembly.legs['LegType'] !== 'Tank' && assembly.booster['ID'] === glob.noneBooster['ID'])
-		throw [
-			'build has non-tank legs but no booster is set',
-			assembly
-		]
+		throw Object.assign(
+			new Error('build has non-tank legs but no booster is set'),
+			{ parts: assembly }
+		);
 }
 
 function parseQuery(query) {
@@ -79,11 +81,11 @@ function parseQuery(query) {
 	const ids = query.split('-').map(n => Number(n));
 	// Check that we have 12 numeric ids
 	if(ids.length !== 12)
-		throw ['build code is is not formatted properly', null]
+		throw new Error('build code is is not formatted properly');
 
 	for(const id of ids) { 
 		if(Number.isNaN(id)) {
-			throw ['build code is is not formatted properly', null]
+			throw new Error('build code is is not formatted properly');
 		}
 	}
 
@@ -93,7 +95,7 @@ function parseQuery(query) {
 		const slot = glob.partSlots[pos];
 		const part = glob.partsData.find(part => part['ID'] === ids[pos]);
 		if(part === undefined)
-			throw ['part with id ' + ids[pos] + ' does not exist', null]
+			throw new Error('part with id ' + ids[pos] + ' does not exist');
 		assembly[slot] = part;
 	}
 
@@ -109,15 +111,15 @@ export function getInitialBuild(query) {
 		validateAssembly(assembly);
 		return assembly;
 	} catch(err) {
-		let message = 'The provided build is invalid: ' + err[0] + 
+		let message = 'The provided build is invalid: ' + err.message + 
 			'. The default build will be loaded instead.';
-		if(err[1] !== null) {
-			message = message + ' The invalid build configuration is:';
-			for(const part of Object.entries(err[1]))
+		if(err.parts) {
+			message = message + ' The invalid build configuration is:\n';
+			for(const part of Object.entries(err.parts))
 				message = message + '\n' + part[0] + ': ' + part[1]['Name']
 		}
-		window.alert(message)
-		return starterAssembly
+		window.alert(message);
+		return starterAssembly;
 	}
 }
 

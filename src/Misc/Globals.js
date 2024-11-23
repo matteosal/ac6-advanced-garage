@@ -6,7 +6,10 @@ import { toast, Slide } from 'react-toastify';
 
 function importAll(r) {
 	let images = {};
-	r.keys().map(item => { images[item.replace('./', '')] = r(item); });
+	r.keys().map(item => {
+		images[item.replace('./', '')] = r(item);
+		return null;
+	});
 	return images;
 }
 
@@ -142,7 +145,7 @@ export function splitCamelCase(str) {
 
 export function toDisplayString(str) {
 	const fromTable = displayStringTable[str];
-	if(fromTable != undefined)
+	if(fromTable !== undefined)
 		return fromTable;
 
 	const res = splitCamelCase(str);

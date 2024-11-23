@@ -28,11 +28,11 @@ const assemblyPartsReducer = (parts, action) => {
 	// Manage tank legs and boosters
 	if(action.slot === 'legs') {
 		if(newPart['LegType'] === 'Tank') {
-			if(parts.booster['ID'] != glob.noneBooster['ID']) {
+			if(parts.booster['ID'] !== glob.noneBooster['ID']) {
 				newParts.booster = glob.noneBooster;
 				glob.notify('Booster removed');
 			}
-		} else if(newPart['LegType'] != 'Tank') {
+		} else if(newPart['LegType'] !== 'Tank') {
 			if(parts.booster['ID'] === glob.noneBooster['ID']) {
 				newParts.booster = glob.partsData.find((part) => part['Kind'] === 'Booster');
 				glob.notify('Random booster added');
@@ -47,7 +47,7 @@ const assemblyPartsReducer = (parts, action) => {
 /***************************************************************************************/
 
 export const ACPartsProvider = ({children}) => {
-	const [searchParams, setSearchParams] = useSearchParams();
+	const [searchParams] = useSearchParams();
 
 	const [acParts, acPartsDispatch] = useReducer(
 		assemblyPartsReducer,

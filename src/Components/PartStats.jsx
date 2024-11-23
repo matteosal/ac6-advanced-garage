@@ -19,7 +19,7 @@ function toNullStats(part) {
 }
 
 const UnitIcon = ({img}) => {
-	return <img src={img} width='20px' 
+	return <img src={img} alt='unit icon' width='20px' 
 		style={{margin: '0px 2px', border: 'solid 1px gray'}} />
 }
 
@@ -41,7 +41,8 @@ const PartStatsHeader = ({part}) => {
 				<div style={{fontSize: '160%'}}>{part['Name']}</div>
 			</div>
 			<div style={{display: 'inline-block', float: 'right', paddingRight: 10}}>
-				<img style={{display: 'block'}} src={manufacturerLogo} width='70px' />
+				<img style={{display: 'block'}} alt={part['Manufacturer']} 
+					src={manufacturerLogo} width='70px' />
 			</div>
 		</div>
 	)
@@ -156,6 +157,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 			stat => {
 				leftStats.push({name: stat, value: leftFiltered[stat], type: toRowType(stat)});
 				rightStats.push({name: stat, value: rightFiltered[stat], type: toRowType(stat)});
+				return null;
 			}
 		);
 		if(statGroups[i].length > 0 && i < statGroups.length - 1){
@@ -221,12 +223,13 @@ const PartStats = ({preview}) => {
 	const previewPart = preview.part;
 	const curPart = useContext(ACPartsContext)[preview.slot];
 
+	let leftPart, rightPart;
 	if(previewPart === null) {
 		let nullPart = toNullStats(curPart);
-		var [leftPart, rightPart] = [nullPart, curPart];
+		[leftPart, rightPart] = [nullPart, curPart];
 	}
 	else {
-		var [leftPart, rightPart] = [curPart, previewPart];
+		[leftPart, rightPart] = [curPart, previewPart];
 	}
 
 	return (

@@ -7,6 +7,5 @@
 * Add build global scores to center
 * Tests
 * Try in other browsers
-* Fix warnings given by npm start
 * Run linter / code checking tool
 * Readme

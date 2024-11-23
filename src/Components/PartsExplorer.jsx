@@ -1,4 +1,4 @@
-import { useState, useContext, useEffect } from 'react';
+import { useState, useContext, useEffect, useCallback } from 'react';
 
 import { Tooltip } from 'react-tooltip'
 
@@ -30,7 +30,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 				position: 'relative'
 			}}>
 			<div onMouseEnter={() => {if(!inactive) updateSlot()}}>
-				<img style={imgStyle} src={img} width='100%' />
+				<img style={imgStyle} src={img} alt={slot} width='100%' />
 			</div>
 			{
 				['leftBack', 'rightBack'].includes(slot) ? 
@@ -112,29 +112,38 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 		(s, pos) => pos >= slotRange[0] && pos <= slotRange[1]
 	);
 
-	const moveSlot = delta => {
-		setSearchString('');	
-		const currentPos = glob.partSlots.indexOf(preview.slot);
-		const maxPos = glob.partSlots.length - 1;			
-		const hasTankLegs = acParts.legs['LegType'] === 'Tank';
-		const [newPos, newRange] = 
-			shiftPos(currentPos, slotRange, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot);
-		setSlotRange(newRange);
-		previewDispatch({slot: glob.partSlots[newPos]});
-	}
+	const moveSlot = useCallback(
+		delta => {
+			setSearchString('');	
+			const currentPos = glob.partSlots.indexOf(preview.slot);
+			const maxPos = glob.partSlots.length - 1;			
+			const hasTankLegs = acParts.legs['LegType'] === 'Tank';
+			const [newPos, newRange] = 
+				shiftPos(currentPos, slotRange, delta, maxPos, hasTankLegs, 
+					backSubslot, setBacksubslot);
+			setSlotRange(newRange);
+			previewDispatch({slot: glob.partSlots[newPos]});
+		},
+		[acParts, preview, backSubslot, slotRange, previewDispatch, setBacksubslot, 
+			setSearchString]
+	);
 
-	const handleKeyDown = (event) => {
-		if(event.target.matches('input') || modal)
-			return
-		switch (event.key) {
-			case 'q':
-				moveSlot(-1);
-				break;
-			case 'e':
-				moveSlot(1);
-				break;
-		}
-	}
+	const handleKeyDown = useCallback(
+		(event) => {
+			if(event.target.matches('input') || modal)
+				return
+			switch (event.key) {
+				case 'q':
+					moveSlot(-1);
+					break;
+				case 'e':
+					moveSlot(1);
+					break;
+				default:
+			}
+		},
+		[modal, moveSlot]
+	);
 
 	useEffect(() => {
 			document.addEventListener('keydown', handleKeyDown);
@@ -210,11 +219,11 @@ const EquippedTag = ({imgH, background}) => {
 			display: 'block',
 			height: size, width: size,
 			position: 'absolute', bottom: shift,
-			backgroundImage: '-webkit-linear-gradient(\
-				-45deg,' +
-				background + '50%,\
-				transparent 50%\
-			)'
+			backgroundImage: '-webkit-linear-gradient(' +
+				'-45deg,' +
+				background + '50%,' +
+				'transparent 50%' +
+			')'
 		}}
 	>
 		EQ
@@ -262,7 +271,7 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 				{
 					img === undefined ?
 						<PartNameDisplay name={part['Name']} /> :
-						<img src={img} width={imgW} style={{display: 'block'}} />
+						<img src={img} alt={part['Name']} width={imgW} style={{display: 'block'}} />
 				}
 			</div>
 			{
@@ -336,7 +345,8 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 									sortBy[slot].ascend ? 
 										glob.sortIcons.ascend :
 										glob.sortIcons.descend
-									} 
+									}
+								alt={sortBy[slot].ascend ? 'ascend' : 'descend'}
 								width='25px'
 								style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
 									bottom: '3px', left: '285px'}} 
@@ -388,6 +398,7 @@ glob.partSlots.map(
 		else // This looks like shit
 			partSortingKeys[slot] = {0: computeSortingKeys(slot, 0), 1: 
 				computeSortingKeys(slot, 1)}
+		return null;
 	}
 )
 
@@ -425,27 +436,30 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			let aVal = a[sortBy[slot].key] || defaultVal;
 			let bVal = b[sortBy[slot].key] || defaultVal;
 			// Resolve list specs
-			if (aVal.constructor == Array) aVal = aVal[0] * aVal[1];
-			if (bVal.constructor == Array) bVal = bVal[0] * bVal[1];
+			if (aVal.constructor === Array) aVal = aVal[0] * aVal[1];
+			if (bVal.constructor === Array) bVal = bVal[0] * bVal[1];
 			return aVal > bVal ? order : -order
 		}
 	)
 
 	// If none part was there before search filter ensure it's still there and put it at
 	// the top
-	if(nonePart != undefined) {
-		displayedParts = displayedParts.filter(part => part['Name'] != '(NOTHING)');
+	if(nonePart !== undefined) {
+		displayedParts = displayedParts.filter(part => part['Name'] !== '(NOTHING)');
 		displayedParts.unshift(nonePart);
 	}	
 
 	const closeModal = () => setModal(false);
 
-	const handleKeyDown = (event) => {
-		if(event.target.matches('input') || modal)
-			return
-		if(event.key === 'x') 
-			setModal(true);
-	}
+	const handleKeyDown = useCallback(
+		(event) => {
+			if(event.target.matches('input') || modal)
+				return
+			if(event.key === 'x') 
+				setModal(true);
+		},
+		[modal, setModal]
+	);
 
 	useEffect(() => {
 			document.addEventListener('keydown', handleKeyDown);
@@ -463,7 +477,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 					part = {part}
 					previewDispatch = {previewDispatch}
 					slot = {slot}
-					highlighted = {part['ID'] == highlightedId}
+					highlighted = {part['ID'] === highlightedId}
 					setHighlightedId = {setHighlightedId}
 					key = {part['ID']}
 				/>
@@ -514,7 +528,8 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 		>
 			{glob.toDisplayString(sortBy[slot].key)}
 			<img 
-				src={sortBy[slot].ascend ? glob.sortIcons.ascend : glob.sortIcons.descend} 
+				src={sortBy[slot].ascend ? glob.sortIcons.ascend : glob.sortIcons.descend}
+				alt={sortBy[slot].ascend ? 'ascend' : 'descend'}
 				width='25px'
 				style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
 					bottom: '3px', left: '235px'}} 
@@ -542,25 +557,27 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 
 const PartsExplorer = ({preview, previewDispatch}) => {
 
-	const acParts = useContext(ACPartsContext);
-
 	const [searchString, setSearchString] = useState('');
 	const [backSubslot, setBacksubslot] = useState(
 		['leftBack', 'rightBack'].includes(preview.slot) ? 0 : null
 	);
 	const [modal, setModal] = useState(false);
 
-	const closeExplorer = () => {
-		previewDispatch({slot: null})	
-	}
+	const closeExplorer = useCallback(
+		() => {previewDispatch({slot: null})},
+		[previewDispatch]
+	);
 
-	const handleKeyDown = (event) => {
-		if(event.target.matches('input') || modal)
-			return
-		if(event.key === 'Escape') {
-			closeExplorer()
-		}
-	}
+	const handleKeyDown = useCallback(
+		(event) => {
+			if(event.target.matches('input') || modal)
+				return
+			if(event.key === 'Escape') {
+				closeExplorer()
+			}
+		},
+		[modal, closeExplorer]
+	)
 
 	useEffect(() => {
 			document.addEventListener('keydown', handleKeyDown);

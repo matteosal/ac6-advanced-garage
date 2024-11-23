@@ -1,4 +1,4 @@
-import { useState, useReducer, useEffect, useContext } from 'react';
+import { useState, useReducer } from 'react';
 
 import * as glob from './Misc/Globals.js';
 import ACAssembly from "./Components/ACAssembly.jsx";
@@ -20,7 +20,8 @@ const AboutModal = ({closeModal}) => {
 		</p>
 		<p>&nbsp;</p>
 			For more information about how stats are computed, the source code is on&nbsp;
-			<a href="https://github.com/matteosal/ac6-advanced-garage" target="_blank">
+			<a href="https://github.com/matteosal/ac6-advanced-garage" target="_blank"
+				rel="noreferrer">
 				GitHub
 			</a>. Feel free reach out to report issues or if willing to contribute.
 		<p>&nbsp;</p>
@@ -32,25 +33,28 @@ const AboutModal = ({closeModal}) => {
 		<ul style={{paddingLeft: '20px'}}>
 			<li>
 				Game-related images taken from the&nbsp;
-					<a href="https://armoredcore.fandom.com/" target="_blank">
+					<a href="https://armoredcore.fandom.com/" target="_blank"
+						rel="noreferrer">
 						game wiki
 					</a> with added color balancing and from in-game screenshots.
 			</li>
 			<li>
 				Mechanic icons created by&nbsp;
-				<a href="https://www.flaticon.com/free-icons/mechanic" target="_blank">
+				<a href="https://www.flaticon.com/free-icons/mechanic" target="_blank"
+					rel="noreferrer">
 				 Good Ware - Flaticon
 				 </a>
 			</li>
 			<li>
 				Sorting order icons created by&nbsp;
-				<a href="https://www.flaticon.com/free-icons/sort-ascending" target="_blank">
+				<a href="https://www.flaticon.com/free-icons/sort-ascending" target="_blank"
+					rel="noreferrer">
 					Icon Hubs - Flaticon
 				</a>			
 			</li>
 			<li>
 				Information icon from &nbsp;
-				<a href="https://icons8.com/" target="_blank">
+				<a href="https://icons8.com/" target="_blank" rel="noreferrer">
 					icons8
 				</a>			
 			</li>
@@ -92,16 +96,16 @@ function App() {
 		minWidth: '1600px',
 		minHeight: '900px',
 		background: 
-			'repeating-linear-gradient(\
-				rgb(0, 0, 0, 0) 0px,\
-				rgb(0, 0, 0, 0) 3px,\
-				rgb(127, 127, 127, 0.05) 3px,\
-				rgb(127, 127, 127, 0.05) 6px\
-			), \
-			radial-gradient(\
-				circle at center,'
-				+ glob.paletteColor(1) + ','
-				+ glob.paletteColor(0) + 
+			'repeating-linear-gradient(' +
+				'rgb(0, 0, 0, 0) 0px,' +
+				'rgb(0, 0, 0, 0) 3px,' +
+				'rgb(127, 127, 127, 0.05) 3px,' +
+				'rgb(127, 127, 127, 0.05) 6px' +
+			'),' +
+			'radial-gradient(' +
+				'circle at center,' +
+				glob.paletteColor(1) + ',' +
+				glob.paletteColor(0) + 
 			')'
 	};
 	const containerStyle = {
