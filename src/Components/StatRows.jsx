@@ -1,10 +1,15 @@
 import { useState } from 'react';
 
 import { Tooltip } from 'react-tooltip'
-import PlotlyPlot from 'react-plotly.js';
 import Collapsible from 'react-collapsible';
 
+import createPlotlyComponent from 'react-plotly.js/factory';
+import Plotly from 'plotly.js-basic-dist';
+
 import * as glob from '../Misc/Globals.js';
+
+const PlotlyPlot = createPlotlyComponent(Plotly);
+
 
 /***************************************************************************************/
 
