@@ -6,6 +6,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "gh-pages": "^6.2.0",
     "plotly.js-basic-dist": "^2.35.2",
     "react": "^18.3.1",
     "react-collapsible": "^2.10.0",
@@ -23,7 +24,9 @@
     "build": "react-scripts build",
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -46,5 +49,6 @@
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.0",
     "@babel/plugin-transform-private-property-in-object": "^7.25.9"
-  }
+  },
+  "homepage": "https://matteosal.github.io/ac6-advanced-garage"
 }
