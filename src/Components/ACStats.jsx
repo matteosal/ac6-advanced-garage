@@ -72,7 +72,7 @@ function getBoostSpeed(baseSpeed, weight, limit) {
 		return 0.
 	const multiplier = piecewiseLinear(
 		weight / 10000., 
-		[[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.6]]
+		[[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.65]]
 	);
 	return baseSpeed * multiplier;
 }
@@ -155,28 +155,21 @@ function computeAllStats(parts) {
 		['kinetic', 'energy', 'explosive'].map(t => [t, ap * defense[t] / 1000])
 	);
 
-	let baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption,
-		qbJetDuration;
-	if(legs['LegType'] === 'Tank')
-		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption,
-			qbJetDuration] = [
-			legs['TravelSpeed'],
-			legs['HighSpeedPerf'],
-			legs['QBReloadTime'],
-			legs['QBReloadIdealWeight'],
-			legs['QBENConsumption'],
-			legs['QBJetDuration']
-		];
-	else
-		[baseSpeed, baseQBSpeed, baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption,
-			qbJetDuration] = [
-			booster['Thrust'] * 6 / 100.,
-			booster['QBThrust'] / 50.,
-			booster['QBReloadTime'],
-			booster['QBReloadIdealWeight'],
-			booster['QBENConsumption'],
-			booster['QBJetDuration']
-		];
+	let baseSpeed;
+	let srcPart;
+	if(legs['LegType'] === 'Tank') {
+		baseSpeed = legs['HighSpeedPerf'];
+		srcPart = legs;
+	} else {
+		baseSpeed = booster['Thrust'] * 6 / 100.;
+		srcPart = booster;
+	}
+	const baseQBSpeed = srcPart['QBThrust'] / 50.;
+	const [baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption, qbJetDuration] = 
+		['QBReloadTime', 'QBReloadIdealWeight', 'QBENConsumption', 'QBJetDuration'].map(
+			name => srcPart[name]
+		);
+
 	const qbReloadTime = getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, weight);
 	const qbENConsumption = baseQBENConsumption * (2 - core['BoosterEfficiencyAdj'] / 100.);
 
