@@ -13,10 +13,11 @@ const AboutModal = ({closeModal}) => {
 	return(
 		<div style={{textAlign: 'justify'}}>
 		<p>
-			AC6 Advanced Garage is a tool to create and analyze builds for the game Armored Core
-			VI. It aims at replicating the look and feel of the in-game	builder while also 
-			providing other features, including useful additional stats that are not shown in the
-			game. An info icon next to these stats displays a tooltip that explains their meaning.
+			AC6 Advanced Garage is a tool to create, analyze and optimize builds for the game 
+			Armored Core VI. It aims at replicating the look and feel of the in-game builder 
+			while also providing other features, including useful additional stats that are not 
+			shown in the game. An info icon next to these stats displays a tooltip that explains
+			their meaning.
 		</p>
 		<p>&nbsp;</p>
 			For more information about how stats are computed, the source code is on&nbsp;
