@@ -363,7 +363,7 @@ const RangePlot = ({left, right}) => {
 		data.push(
 			{
 			x: [0, 130, 130, 260, 260, 320],
-			y: [right[4], right[4], right[5], right[5], right[6], right[6]],
+			y: [left[4], left[4], left[5], left[5], left[6], left[6]],
 				mode: 'lines',
 				line: {dash: 'dash', color: cyan}
 			}
