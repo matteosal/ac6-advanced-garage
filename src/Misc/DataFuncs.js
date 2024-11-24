@@ -112,7 +112,8 @@ export function getPartStatsRanges(data) {
 	// Fills res
 	data.map(
 		part => {
-			Object.entries(part).map(entry => updateRange(part['Kind'], entry, res))
+			Object.entries(part).map(entry => updateRange(part['Kind'], entry, res));
+			return null;
 		}
 	);
 	return res;
@@ -160,7 +161,7 @@ function computePartsForSlot(slot, backSubslot, partsData, pairedUnitSlots) {
 	);
 
 	let slotFilterFunc;
-	const slotCapitalized = slot == 'fcs' ? 'FCS' : capitalizeFirstLetter(slot);
+	const slotCapitalized = slot === 'fcs' ? 'FCS' : capitalizeFirstLetter(slot);
 
 	if(['rightArm', 'leftArm'].includes(slot)) {
 		slotFilterFunc = part => (part.Kind === 'Unit' && part[slotCapitalized]);
@@ -186,7 +187,7 @@ function computePartsForSlot(slot, backSubslot, partsData, pairedUnitSlots) {
 		// The None booster exists because of the tank legs but the user should not be allowed
 		// to set it manually
 		slotFilterFunc = part => 
-			(part.Kind === slotCapitalized && part['ID'] != noneBooster['ID']);
+			(part.Kind === slotCapitalized && part['ID'] !== noneBooster['ID']);
 	} else {
 		slotFilterFunc = part => (part.Kind === slotCapitalized);
 	}
@@ -206,6 +207,7 @@ export function getRawPartsForSlot(partSlots, partsData, pairedUnitSlots) {
 					0: computePartsForSlot(slot, 0, partsData, pairedUnitSlots),
 					1: computePartsForSlot(slot, 1, partsData, pairedUnitSlots)
 				}
+			return null;
 		}
 	);
 	return res
