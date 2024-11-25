@@ -22,14 +22,15 @@ const noneExpansionPre = {
 // The game is inconsistent in what "a*b" means in attack power and impact specs
 const takeFirstUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 'MA-E-211 SAMPU',
 	'MA-J-201 RANSETSU-AR', 'WS-5001 SOUP'];
-function resolveList(name, list) {
-	return takeFirstUnits.includes(name) ? firstList(list) : multList(list);
-}
-function firstList(stat) {
-	return stat.constructor === Array ? stat[0] : stat
-}
-function multList(stat) {
-	return stat.constructor === Array ? stat[0] * stat[1] : stat
+function resolveList(name, spec) {
+	if(spec === NaN)
+		return NaN;
+	else if(spec.constructor === Array && takeFirstUnits.includes(name))
+		return spec[0];
+	else if(spec.constructor === Array)
+		return spec[0] * spec[1];
+	else
+		return spec;
 }
 
 function round(val, roundTarget = 1) {
@@ -52,10 +53,13 @@ function addAdvancedUnitStats(unit) {
 	if(unit['Description'] === 'Laser Turret')
 		return res;
 
-	const [atkPwr, impact, accImpact, magSize, rapidFire, reloadTime, consecutiveHits] = 
-		['AttackPower', 'Impact', 'AccumulativeImpact', 'MagazineRounds', 'RapidFire', 
-			'ReloadTime', 'ConsecutiveHits'].map(
-		stat => resolveList(unit['Name'], unit[stat] ? unit[stat] : NaN)
+	const [rawAtkPwr, rawImpact, rawAccImpact, magSize, rapidFire, reloadTime, consecutiveHits,
+		lockTime] = ['AttackPower', 'Impact', 'AccumulativeImpact', 'MagazineRounds', 'RapidFire'
+			, 'ReloadTime', 'ConsecutiveHits', 'HomingLockTime'].map(
+		stat => unit[stat] ? unit[stat] : NaN
+	);
+	const [atkPwr, impact, accImpact] = [rawAtkPwr, rawImpact, rawAccImpact].map(
+		val => resolveList(unit['Name'], val)
 	);
 
 	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire, 0.1);
@@ -70,22 +74,30 @@ function addAdvancedUnitStats(unit) {
 
 
 	if(magDumpTime) {
-		addIfValid(res, 'Damage/sInclReload', (magSize * atkPwr) / (magDumpTime + reloadTime));
-		addIfValid(res, 'Impact/sInclReload', (magSize * impact) / (magDumpTime + reloadTime));
-		addIfValid(res, 'AccImpact/sInclReload', 
-			(magSize * accImpact) / (magDumpTime + reloadTime))
+		const den = magDumpTime + reloadTime;
+		addIfValid(res, 'Damage/sInclReload', magSize * atkPwr / den);
+		addIfValid(res, 'Impact/sInclReload', magSize * impact / den);
+		addIfValid(res, 'AccImpact/sInclReload', magSize * accImpact / den)
 	} else {
 		// This is for single shot units
-		addIfValid(res, 'Damage/sInclReload', atkPwr / reloadTime);
-		addIfValid(res, 'Impact/sInclReload', impact / reloadTime);
-		addIfValid(res, 'AccImpact/sInclReload', accImpact / reloadTime);
+		const den = Number.isNaN(lockTime) ? reloadTime : reloadTime + lockTime;
+		addIfValid(res, 'Damage/sInclReload', atkPwr / den);
+		addIfValid(res, 'Impact/sInclReload', impact / den);
+		addIfValid(res, 'AccImpact/sInclReload', accImpact / den);
 	};
 
 	const comboDmg = addIfValid(res, 'ComboDamage', atkPwr * consecutiveHits);
 	addIfValid(res, 'ComboImpact', impact * consecutiveHits);
-	addIfValid(res, 'ComboAccumulativeImpact', accImpact * consecutiveHits);
+	addIfValid(res, 'ComboAccumulativeImpact', accImpact * consecutiveHits)
 
-	addIfValid(res, 'DirectDamage', atkPwr * res['DirectHitAdjustment'] / 100);
+	if(rawAtkPwr.constructor === Array) 
+		res['DirectDamage'] = [
+			round(rawAtkPwr[0] * res['DirectHitAdjustment'] / 100),
+			rawAtkPwr[1]
+		]
+	else
+		addIfValid(res, 'DirectDamage', atkPwr * res['DirectHitAdjustment'] / 100);
+
 	addIfValid(res, 'DirectDamage/s', dps * res['DirectHitAdjustment'] / 100);
 	addIfValid(res, 'ComboDirectDamage', comboDmg * res['DirectHitAdjustment'] / 100);
 
