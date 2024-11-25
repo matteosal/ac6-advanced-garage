@@ -630,7 +630,7 @@ const statTooltips = {
 	'ComboDamage': 'Damage of full melee combo',
 	'ComboImpact': 'Impact of full melee combo',
 	'ComboAccumulativeImpact': 'Accumulative impact of full melee combo',
-	'DirectDamage': 'Attack power on staggered opponents.',
+	'DirectAttackPower': 'Attack power on staggered opponents.',
 	'DirectDamage/s': 'Damage per second on staggered opponents.',
 	'ComboDirectDamage': 'Damage of full melee combo on staggered opponents.',
 	'MagDumpTime': 'Minimum time to empty one magazine.'

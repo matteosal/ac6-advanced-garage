@@ -54,7 +54,7 @@ const fullStatGroups = {
 			'AttackPower', 'Impact', 'AccumulativeImpact', 'Damage/s', 'Impact/s',
 			'AccumulativeImpact/s', 'Damage/sInclReload', 'Impact/sInclReload', 
 			'AccImpact/sInclReload', 'ComboDamage', 'ComboImpact', 'ComboAccumulativeImpact', 
-			'DirectDamage', 'DirectDamage/s', 'ComboDirectDamage', 'BlastRadius', 
+			'DirectAttackPower', 'DirectDamage/s', 'ComboDirectDamage', 'BlastRadius', 
 			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
 		],
 		[

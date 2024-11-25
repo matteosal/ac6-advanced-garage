@@ -91,12 +91,12 @@ function addAdvancedUnitStats(unit) {
 	addIfValid(res, 'ComboAccumulativeImpact', accImpact * consecutiveHits)
 
 	if(rawAtkPwr.constructor === Array) 
-		res['DirectDamage'] = [
+		res['DirectAttackPower'] = [
 			round(rawAtkPwr[0] * res['DirectHitAdjustment'] / 100),
 			rawAtkPwr[1]
 		]
 	else
-		addIfValid(res, 'DirectDamage', atkPwr * res['DirectHitAdjustment'] / 100);
+		addIfValid(res, 'DirectAttackPower', atkPwr * res['DirectHitAdjustment'] / 100);
 
 	addIfValid(res, 'DirectDamage/s', dps * res['DirectHitAdjustment'] / 100);
 	addIfValid(res, 'ComboDirectDamage', comboDmg * res['DirectHitAdjustment'] / 100);
