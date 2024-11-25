@@ -583,6 +583,10 @@ const NoComparisonNumericRow = ({name, left, right, tooltip}) => {
 
 /**********************************************************************************/
 
+const fireAnimationNote = '\nNOTE: all DPS/IPS related specs assume that the fire animation ' +
+	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
+	'launchers that fire individual missiles in rapid sequence).'
+
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
@@ -621,17 +625,23 @@ const statTooltips = {
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total energy load.',
-	'Damage/s': 'Given by attack power * rapid fire.',
-	'Impact/s': 'Given by impact * rapid fire.',
-	'AccumulativeImpact/s': 'Given by accumulative impact * rapid fire.',
-	'Damage/sInclReload': 'Damage per second factoring in the reload time.',
-	'Impact/sInclReload': 'Impact per second factoring in the reload time.',
-	'AccImpact/sInclReload': 'Accumulative impact per second factoring in the reload time.',
+	'Damage/s': 'Raw damage dealt per second, not counting reloads and cooldowns.' + 
+		fireAnimationNote,
+	'Impact/s': 'Raw impact damage dealt per second, not counting reloads and cooldowns.' + 
+		fireAnimationNote,
+	'AccumulativeImpact/s': 'Raw accumulated impact damage dealt per second, not counting ' + 
+		'reloads and cooldowns.' + fireAnimationNote,
+	'Damage/sInclReload': 'Damage per second factoring in the reload time and base homing ' +
+		'lock time when present.' + fireAnimationNote,
+	'Impact/sInclReload': 'Impact per second factoring in the reload time and base homing ' +
+		'lock time when present.' + fireAnimationNote,
+	'AccImpact/sInclReload': 'Accumulative impact per second factoring in the reload time and '
+		+ 'base homing lock time when present.' + fireAnimationNote,
 	'ComboDamage': 'Damage of full melee combo',
 	'ComboImpact': 'Impact of full melee combo',
 	'ComboAccumulativeImpact': 'Accumulative impact of full melee combo',
 	'DirectAttackPower': 'Attack power on staggered opponents.',
-	'DirectDamage/s': 'Damage per second on staggered opponents.',
+	'DirectDamage/s': 'Damage per second on staggered opponents.' + fireAnimationNote,
 	'ComboDirectDamage': 'Damage of full melee combo on staggered opponents.',
 	'MagDumpTime': 'Minimum time to empty one magazine.'
 };
