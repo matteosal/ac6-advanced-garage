@@ -3208,6 +3208,8 @@
 		"DirectHitAdjustment": 145,
 		"Guidance": 180,
 		"EffectiveRange": 2500,
+		"RapidFire": 2.9,
+		"MagazineRounds": 30,
 		"TotalRounds": 420,
 		"HomingLockTime": 0.5,
 		"MaxLockCount": 1,

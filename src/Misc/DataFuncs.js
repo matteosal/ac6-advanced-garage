@@ -19,11 +19,17 @@ const noneExpansionPre = {
 	"Kind": "Expansion"
 };
 
+// The game is inconsistent in what "a*b" means in attack power and impact specs
+const takeFirstUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 'MA-E-211 SAMPU',
+	'MA-J-201 RANSETSU-AR', 'WS-5001 SOUP'];
+function resolveList(name, list) {
+	return takeFirstUnits.includes(name) ? firstList(list) : multList(list);
+}
 function firstList(stat) {
-	if(stat.constructor === Array)
-		return stat[0]
-	else
-		return stat
+	return stat.constructor === Array ? stat[0] : stat
+}
+function multList(stat) {
+	return stat.constructor === Array ? stat[0] * stat[1] : stat
 }
 
 function round(val, roundTarget = 1) {
@@ -49,7 +55,7 @@ function addAdvancedUnitStats(unit) {
 	const [atkPwr, impact, accImpact, magSize, rapidFire, reloadTime, consecutiveHits] = 
 		['AttackPower', 'Impact', 'AccumulativeImpact', 'MagazineRounds', 'RapidFire', 
 			'ReloadTime', 'ConsecutiveHits'].map(
-		stat => firstList(unit[stat] ? unit[stat] : NaN)
+		stat => resolveList(unit['Name'], unit[stat] ? unit[stat] : NaN)
 	);
 
 	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire, 0.1);
