@@ -42,6 +42,10 @@ function addIfValid(obj, key, val, roundTo = 1) {
 function addAdvancedUnitStats(unit) {
 	let res = {...unit};
 
+	// This is too complicated to compute and report
+	if(unit['Description'] === 'Laser Turret')
+		return res;
+
 	const [atkPwr, impact, accImpact, magSize, rapidFire, reloadTime, consecutiveHits] = 
 		['AttackPower', 'Impact', 'AccumulativeImpact', 'MagazineRounds', 'RapidFire', 
 			'ReloadTime', 'ConsecutiveHits'].map(
