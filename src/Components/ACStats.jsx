@@ -214,7 +214,7 @@ function computeAllStats(parts) {
 	);
 
 	targetingStats.push(
-		{name: 'UnitRangeProfiles',
+		{name: 'AimAssistProfile',
 			value: getUnitRangesData(units, fcs),
 			type: 'RangePlot'
 		}

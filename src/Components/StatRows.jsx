@@ -596,7 +596,7 @@ const statTooltips = {
 	'LeftArmMissileLockTime': 'Missile lock time of left arm unit, modified by FCS.',
 	'RightBackMissileLockTime': 'Missile lock time of right back unit, modified by FCS.',
 	'LeftBackMissileLockTime': 'Missile lock time of left back unit, modified by FCS.',
-	'UnitRangeProfiles': 'Gives an indication of how well the FCS is paired with the unit ' +
+	'AimAssistProfile': 'Gives an indication of how well the FCS is paired with the unit ' +
 		'ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan ' +
 		'lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m. When ' +
 		'a new FCS is in preview, the current FCS ranges are shown with dashed lines and the ' +
