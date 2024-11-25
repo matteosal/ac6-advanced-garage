@@ -132,7 +132,7 @@ export function copyBuildLink(parts) {
 				acc + '-' + id,
 		''
 	);
-	const url = window.location.origin + '/search?build=' + idString;
+	const url = window.location.origin + window.location.pathname + '?build=' + idString;
 	const promise = navigator.clipboard.writeText(url);
 	promise.then(() => glob.notify('Link copied to clipboard'));
 }
