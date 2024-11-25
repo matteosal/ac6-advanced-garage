@@ -6,5 +6,3 @@
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
 * Global build scores? One per AC stat groups + offense
 * Tests
-* Try in other browsers
-* Readme
