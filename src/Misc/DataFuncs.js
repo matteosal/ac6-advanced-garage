@@ -48,11 +48,17 @@ function addAdvancedUnitStats(unit) {
 		stat => firstList(unit[stat] ? unit[stat] : NaN)
 	);
 
+	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire, 0.1);
+
+	// DPS/IPS related stats don't make sense for this
+	if(unit['Description'] === 'Pulse Shield Launcher')
+		return res;
+
 	const dps = addIfValid(res, 'Damage/s', atkPwr * rapidFire);
 	addIfValid(res, 'Impact/s', impact * rapidFire);
 	addIfValid(res, 'AccumulativeImpact/s', accImpact * rapidFire);
 
-	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire, 0.1);
+
 	if(magDumpTime) {
 		addIfValid(res, 'Damage/sInclReload', (magSize * atkPwr) / (magDumpTime + reloadTime));
 		addIfValid(res, 'Impact/sInclReload', (magSize * impact) / (magDumpTime + reloadTime));
