@@ -107,7 +107,8 @@ function App() {
 				'circle at center,' +
 				glob.paletteColor(1) + ',' +
 				glob.paletteColor(0) + 
-			')'
+			')',
+		position: 'relative'
 	};
 	const containerStyle = {
 		height: '100%',
@@ -184,6 +185,9 @@ function App() {
 			}>
 				<ACStats preview={preview}/>
 			</div>
+		</div>
+		<div style={{color: 'gray', position: 'absolute', bottom: 15, left: 20}}>
+			{'Version ' + process.env.REACT_APP_VERSION}
 		</div>
 		</div>
 	);
