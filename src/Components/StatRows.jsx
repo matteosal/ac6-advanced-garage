@@ -290,7 +290,7 @@ const cyan = 'rgb(72, 202, 228)';
 const ProportionBar = ({values}) => {
 	const [round0, round1] = [glob.round(values[0]), glob.round(values[1])];
 	const round = [round0, round1, 100 - round0 - round1];
-	const displayed = round.map(val => val > 15 ? val + '%' : null)
+	const displayed = round.map(val => val > 18 ? val + '%' : null)
 	return(
 		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px', lineHeight: '20px'}}>
 			<div style={{width: barDivShrink, margin: '0px auto'}}>
@@ -300,7 +300,7 @@ const ProportionBar = ({values}) => {
 				<div style={proportionStyle(values[1], 'rgb(0, 150, 199)')}>
 					{displayed[1]}
 				</div>
-				<div style={proportionStyle(values[2], 'rgb(20, 156, 255)')}>
+				<div style={proportionStyle(values[2], 'rgb(7, 245, 209)')}>
 					{displayed[2]}
 				</div>
 			</div>
