@@ -23,7 +23,7 @@ const noneExpansionPre = {
 const takeFirstUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 'MA-E-211 SAMPU',
 	'MA-J-201 RANSETSU-AR', 'WS-5001 SOUP'];
 function resolveList(name, spec) {
-	if(spec === NaN)
+	if(Number.isNaN(spec))
 		return NaN;
 	else if(spec.constructor === Array && takeFirstUnits.includes(name))
 		return spec[0];
