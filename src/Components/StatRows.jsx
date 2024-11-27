@@ -445,6 +445,13 @@ function pushPoint(points, t, en) {
 	points.redline.en.push(en);	
 }
 
+const maxENCapacity = glob.partsData.filter(part => part['Kind'] === 'Generator').reduce(
+	(max, part) => {
+		return Math.max(max, part['ENCapacity'])
+	},
+	0
+)
+
 const EnergyPlot = ({left, right}) => {
 	let rightPoints = getPlotPoints(right);
 	let leftPoints = getPlotPoints(left);
@@ -452,11 +459,8 @@ const EnergyPlot = ({left, right}) => {
 	let tMax = Math.max(rightPoints.normal.t[2], rightPoints.redline.t[2]);
 	if(leftPoints !== null)
 		tMax = Math.max(tMax, leftPoints.normal.t[2], leftPoints.redline.t[2]);
-	let enMax = rightPoints.normal.en[2];
-	if(leftPoints !== null)
-		enMax = Math.max(enMax, leftPoints.normal.en[2]);
 
-	const [plotW, plotH] = [1.4 * tMax, 1.2 * enMax];
+	const [plotW, plotH] = [Math.max(6, 1.1 * tMax), 1.1 * maxENCapacity];
 	pushPoint(rightPoints, plotW, rightPoints.normal.en[2]);
 	if(leftPoints !== null)
 		pushPoint(leftPoints, plotW, leftPoints.normal.en[2]);
