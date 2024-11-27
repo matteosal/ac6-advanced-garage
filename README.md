@@ -2,6 +2,9 @@
 
 AC6 Advanced Garage is a tool to create, analyze and optimize builds for the game Armored Core VI. Its main purpose is to replicate the look and feel of the in-game builder showing all its computed AC specs while also adding extra useful ones. 
 
+* [Deployed site](https://matteosal.github.io/ac6-advanced-garage)
+* [Changelog](https://github.com/matteosal/ac6-advanced-garage/blob/master/CHANGELOG.md)
+
 ## In-game specs
 
 Barring possible errors in the part specs data, AC6 Advanced Garage correctly computes the in-game specs except currently for Speed/QBSpeed in case of overloading and Target Tracking in case of arms overload. I could look into adding their correct computation but these cases are not relevant for the game. Besides those, many specs can also differ from the in-game results by 1 on the last digit. These occasional differences exist because the reverse-engineering of spec computation starts from the values given by the game builder which are heavily rounded, so it contains small errors in its premise.
