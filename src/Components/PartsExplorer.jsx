@@ -9,12 +9,16 @@ import ModalWrapper from './ModalWrapper.jsx'
 /*****************************************************************************/
 
 const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubslot}) => {
+	const [highlighted, setHighlighted] = useState(false);
+
 	let imgStyle = {};
 	let borderColor = glob.paletteColor(2);
 	if(selected) {
-		imgStyle['filter'] = 'brightness(1.5)';
+		imgStyle['filter'] = 'brightness(1.6)';
 		borderColor = glob.paletteColor(5);
 	}
+	else if(highlighted)
+		imgStyle['filter'] = 'brightness(1.3)'
 	else if(inactive)
 		imgStyle['filter'] = 'brightness(0.5)';
 
@@ -27,9 +31,14 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 				borderTopStyle: 'solid',
 				borderTopWidth: '2px',
 				borderTopColor: borderColor,
-				position: 'relative'
+				position: 'relative',
+				cursor: 'pointer'
 			}}>
-			<div onMouseEnter={() => {if(!inactive) updateSlot()}}>
+			<div 
+				onMouseEnter={() => {if(!inactive) setHighlighted(true)}}
+				onMouseLeave={() => {if(!inactive) setHighlighted(false)}}
+				onClick={() => {if(!inactive) updateSlot()}}
+			>
 				<img style={imgStyle} src={img} alt={slot} width='100%' />
 			</div>
 			{
@@ -44,7 +53,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 								'gray',
 							bottom: '39px', left: '3px'
 						}}
-						onMouseEnter = {() => setBacksubslot(0)}
+						onClick = {() => {if(selected) setBacksubslot(0)}}
 					></div>
 					<div 
 						style = {{
@@ -55,7 +64,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 								'gray',
 							bottom: '39px', left: '12px'
 						}}
-						onMouseEnter = {() => setBacksubslot(1)}
+						onClick = {() => {if(selected) setBacksubslot(1)}}
 					></div>
 					</> :
 					<></>
