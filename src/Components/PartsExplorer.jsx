@@ -132,15 +132,10 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 		(event) => {
 			if(event.target.matches('input') || modal)
 				return
-			switch (event.key) {
-				case 'q':
-					moveSlot(-1);
-					break;
-				case 'e':
-					moveSlot(1);
-					break;
-				default:
-			}
+			if(['q', 'Q'].includes(event.key))
+				moveSlot(-1);
+			else if(['e', 'E'].includes(event.key))
+				moveSlot(1);
 		},
 		[modal, moveSlot]
 	);
@@ -455,7 +450,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 		(event) => {
 			if(event.target.matches('input') || modal)
 				return
-			if(event.key === 'x') 
+			if(['x', 'X'].includes(event.key)) 
 				setModal(true);
 		},
 		[modal, setModal]
