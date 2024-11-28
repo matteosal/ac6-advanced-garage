@@ -16,3 +16,13 @@ There are quite a lot more specs that can be computed out from the data given by
 # Getting Started
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Execute `npm install` to install the dependencies and `npm start` to run locally.
+
+## Deployment
+
+Deployment to GitHub Pages is handled by `gh-pages` with some extra steps to keep track of version history. The steps to deploy a new version are:
+
+* Bump the package version number in [package.json](https://github.com/matteosal/ac6-advanced-garage/blob/master/package.json) and [package-lock.json](https://github.com/matteosal/ac6-advanced-garage/blob/master/package-lock.json)
+* Update the [Changelog](https://github.com/matteosal/ac6-advanced-garage/blob/master/CHANGELOG.md)
+* Commit the above changes
+* Create a tag on the current commit named vX.Y.Z where X, Y, Z match the new version number. Push the tag.
+* Run `npm run deploy`. A script will check that a version tag is attached to the current commit, and the tag name will be used by `gh-pages` to produce a commit message that mentions the deployment version.
