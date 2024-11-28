@@ -15,7 +15,7 @@ exec('git tag --points-at HEAD',
 				'Create a tag named \'vX.Y.Z\' on the current commit and ensure the changes ' +
 				'from the latest version are listed in the changelog.'
 			);
-		const trimmed = stdout.substring(0, stdout.length - 1);
+		const trimmed = stdout.trim();
 		if(!/^v\d+\.\d+\.\d+$/.test(trimmed))
 			fail(
 				'Predeploy check failed: the release tag is named incorrectly. ' + 
