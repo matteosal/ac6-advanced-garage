@@ -1,7 +1,6 @@
 import { useState } from 'react';
 
 import * as glob from '../Misc/Globals.js';
-import {copyBuildLink} from "../Misc/BuildImportExport.js";
 
 const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) => {
 	const [highlighted, setHighlighted] = useState(false)
@@ -91,15 +90,6 @@ const ACAssembly = ({parts, previewSetter}) => {
 
 	return(
 		<>
-		<div style={
-			{
-				...glob.dottedBackgroundStyle(),
-				...{display: 'flex', width: '99%', height: '45px', margin: '0px auto 5px auto', 
-					border: 'solid 2px ' + glob.paletteColor(4)}
-			}
-		}>
-			<div style={{margin: 'auto', fontSize: '20px'}}>ASSEMBLY</div>
-		</div>
 		{
 			[0, 1, 2, 3].map(
 				i => <AssemblyGroup 
@@ -111,12 +101,6 @@ const ACAssembly = ({parts, previewSetter}) => {
 				/>
 			)
 		}
-		<div style={{display: 'flex', width: '100%', height: '50px', 
-			background: glob.paletteColor(3)}}>
-			<button style={{margin: 'auto'}} onClick={() => copyBuildLink(parts)}>
-				CREATE BUILD LINK
-			</button>
-		</div>			
 		</>
 	)
 }
