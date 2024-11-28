@@ -1,4 +1,6 @@
-import { useReducer } from 'react';
+import { useReducer, useContext } from 'react';
+
+import {BuilderPartsContext} from '../Contexts/BuilderPartsContext.jsx'
 
 import ACAssembly from './ACAssembly.jsx';
 import PartsExplorer from './PartsExplorer.jsx';
@@ -23,6 +25,8 @@ const BuildComponent = () => {
 		{slot: null, part: null}
 	)
 
+	const parts = useContext(BuilderPartsContext).parts;
+
 	return(
 		<>
 		<div style={
@@ -32,7 +36,7 @@ const BuildComponent = () => {
 			preview.slot === null ?
 				<>
 				<div style={{display:'inline-block', width: '35%', marginTop: '40px'}}>
-					<ACAssembly previewSetter={slot => previewDispatch({slot: slot})}/>
+					<ACAssembly parts={parts} previewSetter={slot => previewDispatch({slot: slot})}/>
 				</div>
 				<div style={{display:'inline-block', verticalAlign: 'top', width: '65%'}}>
 					<Title />

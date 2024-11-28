@@ -1,14 +1,14 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 import {copyBuildLink} from "../Misc/BuildImportExport.js";
-import {BuilderPartsContext} from "../Contexts/BuilderPartsContext.jsx";
 
 const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) => {
 	const [highlighted, setHighlighted] = useState(false)
 
 	let mouseEnter, mouseLeave, mouseClick;
-	if(inactive) {
+	const isStatic = inactive || previewSetter === null;
+	if(isStatic) {
 		mouseEnter = () => {};
 		mouseLeave = () => {};
 		mouseClick = () => {};
@@ -32,7 +32,7 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 		<div
 			style = {
 				{border: 'solid 1px gray', padding: '5px', background: background, 
-					cursor: 'pointer'}
+					cursor: isStatic ? 'auto' : 'pointer'}
 			}
 			onMouseEnter = {mouseEnter}
 			onMouseLeave = {mouseLeave}
@@ -55,8 +55,7 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 	);
 }
 
-const AssemblyGroup = ({header, slotIds, previewSetter}) => {
-	const parts = useContext(BuilderPartsContext).parts;
+const AssemblyGroup = ({parts, header, slotIds, previewSetter}) => {
 
 	const slotNames = slotIds.map(id => glob.partSlots[id]);
 	return(
@@ -85,8 +84,7 @@ const AssemblyGroup = ({header, slotIds, previewSetter}) => {
 
 
 
-const ACAssembly = ({previewSetter}) => {
-	const parts = useContext(BuilderPartsContext).parts;
+const ACAssembly = ({parts, previewSetter}) => {
 
 	const headers = ['UNIT', 'FRAME', 'INNER', 'EXPANSION'];
 	const ids = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10], [11]];
@@ -105,6 +103,7 @@ const ACAssembly = ({previewSetter}) => {
 		{
 			[0, 1, 2, 3].map(
 				i => <AssemblyGroup 
+					parts={parts}
 					header={headers[i]}
 					slotIds={ids[i]}
 					previewSetter={previewSetter}
