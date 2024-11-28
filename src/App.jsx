@@ -3,6 +3,7 @@ import { useState, useReducer } from 'react';
 import * as glob from './Misc/Globals.js';
 import MainSwitcher from './Components/MainSwitcher.jsx';
 import BuildComponent from './Components/BuildComponent.jsx';
+import CompareBuildsComponent from './Components/CompareBuildsComponent.jsx';
 
 /*************************************************************************************/
 
@@ -38,6 +39,7 @@ const SwitchedComponent = ({selectedSwitch}) => {
 			return <BuildComponent />
 			break;
 		case 'COMPARE BUILDS':
+			return <CompareBuildsComponent />
 			break;
 		default:
 			window.log('Internal error: invalid selected switch');
@@ -52,7 +54,7 @@ function App() {
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
 			<MainSwitcher selectedSwitch={selectedSwitch} setSelectedSwitch={setSelectedSwitch}/>
-			<SwitchedComponent selectedSwitch={selectedSwitch} />
+				<SwitchedComponent selectedSwitch={selectedSwitch} />
 		</div>
 		<div style={{color: 'gray', position: 'absolute', bottom: 15, left: 20}}>
 			{'Version ' + process.env.REACT_APP_VERSION}
