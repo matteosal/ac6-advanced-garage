@@ -3,7 +3,8 @@ import { useState, useContext, useEffect, useCallback } from 'react';
 import { Tooltip } from 'react-tooltip'
 
 import * as glob from '../Misc/Globals.js';
-import {ACPartsContext, ACPartsDispatchContext} from "../Contexts/ACPartsContext.jsx";
+import {BuilderPartsContext, BuilderPartsDispatchContext} from 
+	"../Contexts/BuilderPartsContext.jsx";
 import ModalWrapper from './ModalWrapper.jsx'
 
 /*****************************************************************************/
@@ -113,7 +114,7 @@ function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksu
 }
 
 const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, setSearchString, modal}) => {
-	const acParts = useContext(ACPartsContext).parts;
+	const acParts = useContext(BuilderPartsContext).parts;
 
 	const [slotRange, setSlotRange] = useState(getInitialSlotRange(preview.slot));
 
@@ -236,8 +237,8 @@ const EquippedTag = ({imgH, background}) => {
 
 const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) => {
 
-	const acPartsDispatch = useContext(ACPartsDispatchContext);
-	const acParts = useContext(ACPartsContext).parts;		
+	const acPartsDispatch = useContext(BuilderPartsDispatchContext);
+	const acParts = useContext(BuilderPartsContext).parts;		
 	const curPart = acParts[slot];
 
 	const filter = highlighted ? 'brightness(1.6)' : 'none'

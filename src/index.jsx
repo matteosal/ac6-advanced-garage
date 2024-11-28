@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import 'react-tooltip/dist/react-tooltip.css'
 
-import {ACPartsProvider} from "./Contexts/ACPartsContext.jsx";
+import {BuilderPartsProvider} from "./Contexts/BuilderPartsContext.jsx";
 
 import './reset.css'
 
@@ -17,10 +17,10 @@ const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<React.StrictMode>
 		<BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
-			<ACPartsProvider>
+			<BuilderPartsProvider>
 			<App />
 			<ToastContainer />
-			</ACPartsProvider>
+			</BuilderPartsProvider>
 		</BrowserRouter>
 	</React.StrictMode>
 );

@@ -1,7 +1,7 @@
 import { useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
-import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
+import {BuilderPartsContext} from "../Contexts/BuilderPartsContext.jsx";
 import {StatRowGroup} from './StatRows.jsx';
 
 /**********************************************************************************/
@@ -324,7 +324,7 @@ const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
 const ACStats = ({preview}) => {
-	const acParts = useContext(ACPartsContext).parts;
+	const acParts = useContext(BuilderPartsContext).parts;
 
 	let leftStats, rightStats;
 	const currentStats = computeAllStats(acParts);

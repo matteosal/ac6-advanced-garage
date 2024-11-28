@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
+import {BuilderPartsContext} from "../Contexts/BuilderPartsContext.jsx";
 import {StatRow} from './StatRows.jsx';
 import * as glob from '../Misc/Globals.js';
 
@@ -221,7 +221,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 const PartStats = ({preview}) => {
 
 	const previewPart = preview.part;
-	const curPart = useContext(ACPartsContext).parts[preview.slot];
+	const curPart = useContext(BuilderPartsContext).parts[preview.slot];
 
 	let leftPart, rightPart;
 	if(previewPart === null) {
