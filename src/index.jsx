@@ -10,6 +10,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import 'react-tooltip/dist/react-tooltip.css'
 
 import {BuilderPartsProvider} from "./Contexts/BuilderPartsContext.jsx";
+import {ComparerPartsProvider} from "./Contexts/ComparerPartsContext.jsx";
 
 import './reset.css'
 
@@ -18,8 +19,10 @@ root.render(
 	<React.StrictMode>
 		<BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
 			<BuilderPartsProvider>
-			<App />
-			<ToastContainer />
+			<ComparerPartsProvider>
+				<App />
+				<ToastContainer />
+			</ComparerPartsProvider>
 			</BuilderPartsProvider>
 		</BrowserRouter>
 	</React.StrictMode>

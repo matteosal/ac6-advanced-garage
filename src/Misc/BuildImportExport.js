@@ -18,7 +18,7 @@ const starterACPartNames = [
 ];
 const assemblyKinds = ['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs',
 	'Booster', 'FCS', 'Generator', 'Expansion'];
-const starterAssembly = Object.fromEntries(
+export const starterAssembly = Object.fromEntries(
 	starterACPartNames.map(
 		(name, pos) => [
 			glob.partSlots[pos],

@@ -54,7 +54,7 @@ function App() {
 		<div style={backgroundStyle}>
 		<div style={containerStyle}>
 			<MainSwitcher selectedSwitch={selectedSwitch} setSelectedSwitch={setSelectedSwitch}/>
-				<SwitchedComponent selectedSwitch={selectedSwitch} />
+			<SwitchedComponent selectedSwitch={selectedSwitch} />
 		</div>
 		<div style={{color: 'gray', position: 'absolute', bottom: 15, left: 20}}>
 			{'Version ' + process.env.REACT_APP_VERSION}
