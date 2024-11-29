@@ -1,5 +1,3 @@
-import { useState } from 'react';
-
 import * as glob from '../Misc/Globals.js';
 
 const switcherButtonStyle = {
@@ -8,7 +6,6 @@ const switcherButtonStyle = {
 }
 
 const SwitcherButton = ({name, selected, setter}) => {
-	const [highlighted, setHighlighted] = useState(false);
 
 	const isSelected = name === selected;
 	let style = switcherButtonStyle;

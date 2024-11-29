@@ -1,6 +1,5 @@
-import { useReducer, createContext, useEffect } from 'react';
+import { useReducer, createContext } from 'react';
 
-import * as glob from '../Misc/Globals.js';
 import {starterAssembly} from '../Misc/BuildImportExport.js'
 
 export const ComparerPartsContext = createContext(null);

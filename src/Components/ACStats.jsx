@@ -1,7 +1,4 @@
-import { useContext } from 'react';
-
 import * as glob from '../Misc/Globals.js';
-import {BuilderPartsContext} from "../Contexts/BuilderPartsContext.jsx";
 import {StatRowGroup} from './StatRows.jsx';
 
 /**********************************************************************************/

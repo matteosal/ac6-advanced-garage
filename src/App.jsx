@@ -1,4 +1,4 @@
-import { useState, useReducer } from 'react';
+import { useState } from 'react';
 
 import * as glob from './Misc/Globals.js';
 import MainSwitcher from './Components/MainSwitcher.jsx';
@@ -37,10 +37,8 @@ const SwitchedComponent = ({selectedSwitch}) => {
 	switch (selectedSwitch) {
 		case 'BUILD':
 			return <BuildComponent />
-			break;
 		case 'COMPARE BUILDS':
 			return <CompareBuildsComponent />
-			break;
 		default:
 			window.log('Internal error: invalid selected switch');
 			return <></>
