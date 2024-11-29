@@ -32,7 +32,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 				borderTopWidth: '2px',
 				borderTopColor: borderColor,
 				position: 'relative',
-				cursor: 'pointer'
+				cursor: inactive ? 'auto' : 'pointer'
 			}}>
 			<div 
 				onMouseEnter={() => {if(!inactive) setHighlighted(true)}}
