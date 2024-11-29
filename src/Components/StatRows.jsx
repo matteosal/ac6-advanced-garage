@@ -421,7 +421,7 @@ const RangePlotRow = ({name, left, right, tooltip}) => {
 			>
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
 			</div>		
-			<div style={{display: 'inline-block', padding: namePadding, width: '40%'}
+			<div style={{display: 'inline-block', padding: namePadding}
 			}>
 				{glob.toDisplayString(name)}
 			</div>
@@ -551,7 +551,7 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 			>
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
 			</div>		
-			<div style={{display: 'inline-block', padding: namePadding, width: '40%'}
+			<div style={{display: 'inline-block', padding: namePadding}
 			}>
 				{glob.toDisplayString(name)}
 			</div>
