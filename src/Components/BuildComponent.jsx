@@ -85,7 +85,7 @@ const BuildComponent = () => {
 		<div style={
 			{display: 'inline-block', width: '35%', marginTop: '35px', verticalAlign: 'top'}
 		}>
-			<ACStats preview={preview}/>
+			<ACStats acParts={parts} preview={preview}/>
 		</div>
 		</>
 	)

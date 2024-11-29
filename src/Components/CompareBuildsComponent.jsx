@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useReducer, useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 import {parseBuildQuery} from '../Misc/BuildImportExport.js'
@@ -6,10 +6,23 @@ import {ComparerPartsContext, ComparerPartsDispatchContext} from
 	'../Contexts/ComparerPartsContext.jsx'
 
 import ACAssembly from './ACAssembly.jsx'
+import ACStats from './ACStats.jsx'
+
+const showStatsReducer = (showStats, pos) => {
+	const res = [...showStats];
+	res[pos] = !res[pos];
+	return res;
+}
 
 const CompareBuildsComponent = () => {
 	const comparerParts = useContext(ComparerPartsContext);
 	const comparerPartsDispatch = useContext(ComparerPartsDispatchContext);
+
+	const [showStats, toogleShowStats] = useReducer(
+		showStatsReducer,
+		null,
+		() => new Array(comparerParts.length).fill(false)
+	);
 
 	const inputHandler = (event, pos) => {
 		event.preventDefault();
@@ -44,7 +57,17 @@ const CompareBuildsComponent = () => {
 									/>
 								</form>
 							</div>
-							<ACAssembly parts={build} previewSetter={null} />
+							<button 
+								style={{display: 'block', margin: 'auto'}}
+								onClick={() => toogleShowStats(pos)}
+							>
+								{showStats[pos] ? 'SHOW ASSEMBLY' : 'SHOW SPECS'}
+							</button>
+							{
+								showStats[pos] ? 
+								<ACStats acParts={build} preview={{slot: null, part: null}} /> :
+								<ACAssembly parts={build} previewSetter={null} />
+							}
 						</div>
 					)
 				}
