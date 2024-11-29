@@ -3,7 +3,7 @@ import { useReducer, createContext, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom'
 
 import * as glob from '../Misc/Globals.js';
-import {getInitialBuild} from '../Misc/BuildImportExport.js'
+import {parseBuildQuery, starterAssembly} from '../Misc/BuildImportExport.js'
 
 export const BuilderPartsContext = createContext(null);
 export const BuilderPartsDispatchContext = createContext(null);
@@ -58,7 +58,9 @@ export const BuilderPartsProvider = ({children}) => {
 		builderPartsReducer,
 		null,
 		() => {
-			return {parts: getInitialBuild(searchParams.get('build')), msg: null}
+			const query = searchParams.get('build');
+			const assembly = query ? parseBuildQuery(query) : starterAssembly;
+			return {parts: assembly, msg: null}
 		}
 	);
 
