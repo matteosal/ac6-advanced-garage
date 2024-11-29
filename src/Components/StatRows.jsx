@@ -188,23 +188,21 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, hideLeft}) => {
 		leftDisplay = longDashCharacter;
 	}
 
-	// kind !== undefined indicates we are creating a row for the part stats panel and there
-	// will be a bar as well, so nameW has to shrink. barW is only used in this case. hideLeft
-	// indicates we are rendering a row for the build comparer sonameW has to extend to take the
-	// left display space. If hideLeft == true the kind is always undefined
-	let nameW;
-	if(hideLeft) 
-		nameW = '75%';
-	else if (kind === undefined)
-		nameW = '63%';
-	else
-		nameW = '43%'
-	const barW = '20%';
+	let infoW, nameW, barW, numW, symbolW;
+	if(hideLeft) {
+		[infoW, nameW, numW, symbolW] = ['4%', '66%', '20%', '5%']
+	} else {
+		// kind !== undefined indicates we are creating a row for the part stats panel and there
+		// will be a bar as well, so nameW has to shrink and barW is used. If hideLeft == true 
+		// the kind is always undefined
+		nameW = kind === undefined ? '63%' : '43%';
+		[infoW, barW, numW, symbolW] = ['3%', '20%', '12%', '5%']
+	}
 
 	return (
 		<>
 		<div 
-			style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+			style={{display: 'inline-block', width: infoW, verticalAlign: 'middle'}}
 			className={name}
 		>
 			{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
@@ -224,24 +222,24 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, hideLeft}) => {
 			<></> :
 			<div style={
 				{display: 'inline-block', color: 'gray', textAlign: 'right', 
-					width: '12%', fontWeight: 'bold'}
+					width: numW, fontWeight: 'bold'}
 			}>
 				{leftDisplay}
 			</div> 
 		}
 		<div style={{display: 'inline-block', textAlign: 'center', color: 'gray', 
-			width: '5%'}
+			width: symbolW}
 		}>
 			{doubleArrowChar}
 		</div>
 		<div style={
 			{display: 'inline-block', color: rightColor, textAlign: 'right', 
-				width: '12%', fontWeight: 'bold'}
+				width: numW, fontWeight: 'bold'}
 		}>
 			{rightDisplay}
 		</div>
 		<div style={{display: 'inline-block', color: rightColor, textAlign: 'center', 
-			width: '5%'}
+			width: symbolW}
 		}>
 			{triangle}
 		</div>

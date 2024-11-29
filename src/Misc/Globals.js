@@ -116,8 +116,11 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'EffectiveAPEnergy': 'Effective AP (Energy)',
 	'EffectiveAPExplosive': 'Effective AP (Explosive)',
 	'EffectiveAPAvg': 'Effective AP (Avg.)', 'QBENRechargeTime': 'QB EN Recharge Time',
-	'ENRechargeDelayRedline': 'EN Recharge Delay (Redline)',
-	'FullRechargeTimeRedline': 'Full Recharge Time (Redline)'};
+	'ENRechargeDelayRedline': 'EN Rech. Delay (Redline)',
+	'FullRechargeTimeRedline': 'Full Rech. Time (Redline)',
+	'RightBackMissileLockTime': 'R-Back Missile Lock Time',
+	'LeftBackMissileLockTime': 'L-Back Missile Lock Time'
+};
 
 function stringInsert(str, insert, pos) {
 	return str.substr(0, pos) + insert + str.substr(pos);
