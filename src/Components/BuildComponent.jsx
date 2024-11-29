@@ -67,7 +67,7 @@ const BuildComponent = () => {
 					{display: 'inline-block', width: '30%', verticalAlign: 'top'}
 				}>
 					<PartsExplorer 
-						preview={preview}
+						previewSlot={preview.slot}
 						previewDispatch={previewDispatch}
 					/>
 				</div>

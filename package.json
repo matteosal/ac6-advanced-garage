@@ -1,6 +1,6 @@
 {
   "name": "ac6-advanced-garage",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "private": true,
   "dependencies": {
     "@testing-library/jest-dom": "^5.17.0",
@@ -25,6 +25,7 @@
     "analyze": "source-map-explorer 'build/static/js/*.js'",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
+    "local-deploy": "PUBLIC_URL=/ npm run build && serve -s build",
     "predeploy": "node scripts/predeploy-checks.js && npm run build",
     "deploy": "node scripts/gh-pages-deploy.js"
   },

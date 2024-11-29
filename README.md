@@ -15,7 +15,7 @@ There are quite a lot more specs that can be computed out from the data given by
 
 # Getting Started
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Execute `npm install` to install the dependencies and `npm start` to run locally.
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). Execute `npm install` to install the dependencies and `npm start` to run locally. Running `npm run local-deploy` builds the project and deploys it locally. Use `npm run local-deploy -- -l XXXX` to deploy on port `XXXX`.
 
 ## Deployment
 
@@ -25,4 +25,4 @@ Deployment to GitHub Pages is handled by `gh-pages` with some extra steps to kee
 * Update the [Changelog](https://github.com/matteosal/ac6-advanced-garage/blob/master/CHANGELOG.md)
 * Commit the above changes
 * Create a tag on the current commit named vX.Y.Z where X, Y, Z match the new version number. Push the tag.
-* Run `npm run deploy`. A script will check that a version tag is attached to the current commit, and the tag name will be used by `gh-pages` to produce a commit message that mentions the deployment version.
+* Run `npm run deploy`. A script will check that a version tag is attached to the current commit, will build the project and deploy it. The tag name will be used by `gh-pages` to produce a commit message that mentions the deployment version.

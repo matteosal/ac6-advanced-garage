@@ -33,7 +33,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 				borderTopWidth: '2px',
 				borderTopColor: borderColor,
 				position: 'relative',
-				cursor: 'pointer'
+				cursor: inactive ? 'auto' : 'pointer'
 			}}>
 			<div 
 				onMouseEnter={() => {if(!inactive) setHighlighted(true)}}
@@ -113,10 +113,10 @@ function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksu
 	return [newPos, newRange];
 }
 
-const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, setSearchString, modal}) => {
+const SlotSelector = ({previewSlot, backSubslot, setBacksubslot, previewDispatch, setSearchString, modal}) => {
 	const acParts = useContext(BuilderPartsContext).parts;
 
-	const [slotRange, setSlotRange] = useState(getInitialSlotRange(preview.slot));
+	const [slotRange, setSlotRange] = useState(getInitialSlotRange(previewSlot));
 
 	const displayedPartSlots = glob.partSlots.filter(
 		(s, pos) => pos >= slotRange[0] && pos <= slotRange[1]
@@ -125,7 +125,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 	const moveSlot = useCallback(
 		delta => {
 			setSearchString('');	
-			const currentPos = glob.partSlots.indexOf(preview.slot);
+			const currentPos = glob.partSlots.indexOf(previewSlot);
 			const maxPos = glob.partSlots.length - 1;			
 			const hasTankLegs = acParts.legs['LegType'] === 'Tank';
 			const [newPos, newRange] = 
@@ -134,7 +134,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 			setSlotRange(newRange);
 			previewDispatch({slot: glob.partSlots[newPos]});
 		},
-		[acParts, preview, backSubslot, slotRange, previewDispatch, setBacksubslot, 
+		[acParts, previewSlot, backSubslot, slotRange, previewDispatch, setBacksubslot, 
 			setSearchString]
 	);
 
@@ -178,7 +178,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 			</button>
 			<div style={{display: 'inline-block', textAlign: 'center', width: '40%', 
 				marginBottom: '12px'}}>
-				{glob.toDisplayString(preview.slot).toUpperCase()}
+				{glob.toDisplayString(previewSlot).toUpperCase()}
 			</div>
 			<button 
 				style={{display: 'inline-block', width: '20%', marginLeft: '10%'}}
@@ -193,7 +193,7 @@ const SlotSelector = ({preview, backSubslot, setBacksubslot, previewDispatch, se
 				(s) => <SlotBox 
 					slot = {s}
 					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
-					selected = {s === preview.slot}
+					selected = {s === previewSlot}
 					updateSlot = {() => updateSlot(s)}
 					backSubslot = {backSubslot}
 					setBacksubslot = {setBacksubslot}
@@ -245,14 +245,11 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 
 	const img = glob.partImages[glob.toImageFileName(part.Name)];
 
-	const clearPreview = () => {
-		previewDispatch({part: null})
-	}
 	const updatePreview = () => {
 		if(part['ID'] !== curPart['ID']) {
 			previewDispatch({part: part})
 		} else {
-			clearPreview()
+			previewDispatch({part: null})
 		}
 	}
 	const updateAssembly = () => {
@@ -338,7 +335,7 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 						background: glob.paletteColor(4, 1, getBrightness(key)),
 						textAlign: 'center', 
 						width: '90%', padding: '5px 0', margin: '5px auto',
-						position: 'relative'
+						cursor: 'pointer', position: 'relative'
 					}}
 					key={key}
 				>			
@@ -414,7 +411,7 @@ function getSortingKeys(slot, backSubslot) {
 		return partSortingKeys[slot][backSubslot];
 }
 
-const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
+const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
 	const [highlightedId, setHighlightedId] = useState(-1);
 	const [showSearchTooltip, setShowSearchTooltip] = useState(true)
 
@@ -425,25 +422,36 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			)
 		)
 	);
-	const slot = preview.slot;
 
-	const partsForSlot = glob.getPartsForSlot(slot, backSubslot);
-	const sortingKeys = getSortingKeys(slot, backSubslot);
+	const partsForSlot = glob.getPartsForSlot(previewSlot, backSubslot);
+	const sortingKeys = getSortingKeys(previewSlot, backSubslot);
 
 	const nonePart = partsForSlot.find(part => part['Name'] === '(NOTHING)');
 	let displayedParts = searchFilter(partsForSlot, searchString);
 
+	// This sorting happens everytime a part is hovered on, because it changes preview.part
+	// and this component depends on preview.slot. Separating the part and slot states should
+	// prevent the sorting from happening every time because this component and this entire file
+	// would not depend on the preview part state.
 	displayedParts.sort(
 		(a, b) => {
-			const order = sortBy[slot].ascend ? 1 : -1;
+			const order = sortBy[previewSlot].ascend ? 1 : -1;
 			// Default is set so that parts without the key will always come after the others
-			const defaultVal = order === 1 ? Infinity : -1;
-			let aVal = a[sortBy[slot].key] || defaultVal;
-			let bVal = b[sortBy[slot].key] || defaultVal;
+			const defaultVal = order === 1 ? Infinity : -Infinity;
+			let aVal = a[sortBy[previewSlot].key] || defaultVal;
+			let bVal = b[sortBy[previewSlot].key] || defaultVal;
 			// Resolve list specs
 			if (aVal.constructor === Array) aVal = aVal[0] * aVal[1];
 			if (bVal.constructor === Array) bVal = bVal[0] * bVal[1];
-			return aVal > bVal ? order : -order
+			// Sort alphabetically is key is equal
+			let res;
+			if(aVal > bVal)      
+				res = order;
+			else if(aVal < bVal)
+				res = -order;
+			else
+				res = a['Name'] > b['Name'] ? order : -order;
+			return res
 		}
 	)
 
@@ -481,7 +489,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 				(part) => <PartBox
 					part = {part}
 					previewDispatch = {previewDispatch}
-					slot = {slot}
+					slot = {previewSlot}
 					highlighted = {part['ID'] === highlightedId}
 					setHighlightedId = {setHighlightedId}
 					key = {part['ID']}
@@ -531,10 +539,10 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			style={{position: 'relative', textAlign: 'center', padding: '5px 0px',
 				margin: '5px auto 10px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
 		>
-			{glob.toDisplayString(sortBy[slot].key)}
+			{glob.toDisplayString(sortBy[previewSlot].key)}
 			<img 
-				src={sortBy[slot].ascend ? glob.sortIcons.ascend : glob.sortIcons.descend}
-				alt={sortBy[slot].ascend ? 'ascend' : 'descend'}
+				src={sortBy[previewSlot].ascend ? glob.sortIcons.ascend : glob.sortIcons.descend}
+				alt={sortBy[previewSlot].ascend ? 'ascend' : 'descend'}
 				width='25px'
 				style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
 					bottom: '3px', left: '235px'}} 
@@ -550,7 +558,7 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 			{
 				modal ? 
 				<SortModal closeModal={closeModal} keys={sortingKeys} 
-					sortBy={sortBy} setSortBy={setSortBy} slot={slot} /> :
+					sortBy={sortBy} setSortBy={setSortBy} slot={previewSlot} /> :
 				<></>
 			}
 		</ModalWrapper>
@@ -560,11 +568,11 @@ const PartSelector = ({preview, previewDispatch, searchString, onSearch, backSub
 
 /*****************************************************************************/
 
-const PartsExplorer = ({preview, previewDispatch}) => {
+const PartsExplorer = ({previewSlot, previewDispatch}) => {
 
 	const [searchString, setSearchString] = useState('');
 	const [backSubslot, setBacksubslot] = useState(
-		['leftBack', 'rightBack'].includes(preview.slot) ? 0 : null
+		['leftBack', 'rightBack'].includes(previewSlot) ? 0 : null
 	);
 	const [modal, setModal] = useState(false);
 
@@ -607,7 +615,7 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 			}
 		}>
 			<SlotSelector
-				preview={preview}
+				previewSlot={previewSlot}
 				backSubslot={backSubslot}
 				setBacksubslot={setBacksubslot}
 				previewDispatch={previewDispatch}
@@ -615,7 +623,7 @@ const PartsExplorer = ({preview, previewDispatch}) => {
 				modal={modal}
 			/>
 			<PartSelector
-				preview = {preview}
+				previewSlot = {previewSlot}
 				previewDispatch={previewDispatch}
 				searchString = {searchString}
 				backSubslot = {backSubslot}
