@@ -436,13 +436,21 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 		(a, b) => {
 			const order = sortBy[previewSlot].ascend ? 1 : -1;
 			// Default is set so that parts without the key will always come after the others
-			const defaultVal = order === 1 ? Infinity : -1;
+			const defaultVal = order === 1 ? Infinity : -Infinity;
 			let aVal = a[sortBy[previewSlot].key] || defaultVal;
 			let bVal = b[sortBy[previewSlot].key] || defaultVal;
 			// Resolve list specs
 			if (aVal.constructor === Array) aVal = aVal[0] * aVal[1];
 			if (bVal.constructor === Array) bVal = bVal[0] * bVal[1];
-			return aVal > bVal ? order : -order
+			// Sort alphabetically is key is equal
+			let res;
+			if(aVal > bVal)      
+				res = order;
+			else if(aVal < bVal)
+				res = -order;
+			else
+				res = a['Name'] > b['Name'] ? order : -order;
+			return res
 		}
 	)
 
