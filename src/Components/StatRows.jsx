@@ -165,7 +165,7 @@ function toValueAndDisplay(name, raw) {
 
 const namePadding = '4px 0px';
 
-const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
+const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, hideLeft}) => {
 
 	// This row is also used for unit stats such as attack power that can have
 	// form e.g. 100x3 ([100, 3] in data) so we have to account for that
@@ -189,8 +189,16 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 	}
 
 	// kind !== undefined indicates we are creating a row for the part stats panel and there
-	// will be a bar as well, so nameW has to shrink. barW is only used in this case
-	const nameW = kind === undefined ? '63%' : '43%';
+	// will be a bar as well, so nameW has to shrink. barW is only used in this case. hideLeft
+	// indicates we are rendering a row for the build comparer sonameW has to extend to take the
+	// left display space. If hideLeft == true the kind is always undefined
+	let nameW;
+	if(hideLeft) 
+		nameW = '75%';
+	else if (kind === undefined)
+		nameW = '63%';
+	else
+		nameW = '43%'
 	const barW = '20%';
 
 	return (
@@ -211,12 +219,16 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 				</div> :
 				<></>
 		}
-		<div style={
-			{display: 'inline-block', color: 'gray', textAlign: 'right', 
-				width: '12%', fontWeight: 'bold'}
-		}>
-			{leftDisplay}
-		</div>
+		{
+			hideLeft ?
+			<></> :
+			<div style={
+				{display: 'inline-block', color: 'gray', textAlign: 'right', 
+					width: '12%', fontWeight: 'bold'}
+			}>
+				{leftDisplay}
+			</div> 
+		}
 		<div style={{display: 'inline-block', textAlign: 'center', color: 'gray', 
 			width: '5%'}
 		}>
@@ -308,7 +320,9 @@ const ProportionBar = ({values}) => {
 	)
 }
 
-const ProportionBarRow = ({name, left, right, tooltip}) => {
+const ProportionBarRow = ({name, left, right, tooltip, hideLeft}) => {
+	const nameW = hideLeft ? '60%' : '30%';
+	const leftBarW = hideLeft ? '0' : '30%';
 	return (
 		<>
 			<div 
@@ -318,11 +332,11 @@ const ProportionBarRow = ({name, left, right, tooltip}) => {
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
 			</div>			
 			<div style={{display: 'inline-block', padding: namePadding, 
-				width: '30%'}
+				width: nameW}
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{display: 'inline-block', width: '30%', padding: '0px 2% 0px 3%'}}>
+			<div style={{display: 'inline-block', width: leftBarW, padding: '0px 2% 0px 3%'}}>
 				{
 					left === null ? 
 						<></> :
@@ -652,7 +666,7 @@ const statTooltips = {
 
 const EmptyRow = () => <div style={{padding: namePadding}}>&nbsp;</div>
 
-export const StatRow = ({leftStat, rightStat, pos, kind}) => {
+export const StatRow = ({leftStat, rightStat, pos, kind, hideLeft}) => {
 
 	if(rightStat.type === 'EmptyLine')
 		return <EmptyRow key = {pos} />
@@ -673,6 +687,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 				left = {leftStat.value}
 				right = {rightStat.value}
 				tooltip = {statTooltips[rightStat.name]}
+				hideLeft = {hideLeft}
 				key = {pos}				
 			/>		
 		)
@@ -716,6 +731,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 				rightRaw = {rightStat.value}
 				kind = {kind}
 				tooltip = {statTooltips[rightStat.name]}
+				hideLeft={hideLeft}
 				key = {pos}
 			/>
 		)
@@ -759,7 +775,7 @@ const CollapsibleHeader = ({label, isOpen, isOverload}) => {
 	)
 }
 
-export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable}) => {
+export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable, hideLeft}) => {
 	const statRange = [...Array(rightGroup.length).keys()];
 	let isOverload = false;
 	if(overloadTable && Object.values(overloadTable).includes(true)) {
@@ -786,7 +802,8 @@ export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable}) => 
 							<StatRow
 								leftStat={leftGroup[innerPos]}
 								rightStat={rightGroup[innerPos]} 
-								pos={innerPos} 
+								pos={innerPos}
+								hideLeft={hideLeft}
 								/>
 						</div>
 					)

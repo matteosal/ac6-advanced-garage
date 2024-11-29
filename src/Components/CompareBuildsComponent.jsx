@@ -44,7 +44,7 @@ const CompareBuildsComponent = () => {
 			comparerParts.map(
 				(build, pos) => {
 					return(
-						<div key={pos}>
+						<div style={{width: '24%'}} key={pos}>
 							<div style={{display: 'flex', alignItems: 'center', gap: '10px', width: '100%', margin: 'auto'}}>
 								<div>ENTER LINK:</div>
 								<form onSubmit={event => inputHandler(event, pos)}>
@@ -65,7 +65,11 @@ const CompareBuildsComponent = () => {
 							</button>
 							{
 								showStats[pos] ? 
-								<ACStats acParts={build} preview={{slot: null, part: null}} /> :
+								<ACStats 
+									acParts={build}
+									preview={{slot: null, part: null}}
+									hideLeft={true}
+								/> :
 								<ACAssembly parts={build} previewSetter={null} />
 							}
 						</div>

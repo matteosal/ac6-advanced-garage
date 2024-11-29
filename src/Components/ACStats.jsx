@@ -320,7 +320,7 @@ const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
 
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
-const ACStats = ({acParts, preview}) => {
+const ACStats = ({acParts, preview, hideLeft}) => {
 
 	let leftStats, rightStats;
 	const currentStats = computeAllStats(acParts);
@@ -378,6 +378,7 @@ const ACStats = ({acParts, preview}) => {
 							leftGroup={leftStats[outerPos]}
 							rightGroup={rightStats[outerPos]}
 							overloadTable={outerPos === limitGroupPos ? overloadTable : null}
+							hideLeft={hideLeft}
 							key={outerPos}
 						/>
 					)

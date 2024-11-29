@@ -19,7 +19,7 @@ export const ComparerPartsProvider = ({children}) => {
 	const [comparerParts, comparerPartsDispatch] = useReducer(
 		comparerPartsReducer,
 		null,
-		() => [starterAssembly, starterAssembly, starterAssembly, starterAssembly]
+		() => new Array(4).fill(starterAssembly)
 	);
 
 	return (
