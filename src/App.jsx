@@ -165,7 +165,7 @@ function App() {
 							marginTop: '5px'}
 					}>
 						<PartsExplorer 
-							preview={preview}
+							previewSlot={preview.slot}
 							previewDispatch={previewDispatch}
 						/>
 					</div>
