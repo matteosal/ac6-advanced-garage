@@ -85,15 +85,17 @@ const CompareBuildsComponent = () => {
 							>
 								{showStats[pos] ? 'SHOW ASSEMBLY' : 'SHOW SPECS'}
 							</button>
-							{
-								showStats[pos] ? 
-								<ACStats 
-									acParts={build}
-									comparedParts={comparedBuilds[pos]}
-									buildCompareMode={true}
-								/> :
-								<ACAssembly parts={build} previewSetter={null} />
-							}
+							<div style={{height: '655px', marginBottom: '5px'}}>
+								{
+									showStats[pos] ? 
+									<ACStats 
+										acParts={build}
+										comparedParts={comparedBuilds[pos]}
+										buildCompareMode={true}
+									/> :
+									<ACAssembly parts={build} previewSetter={null} />
+								}
+							</div>
 							<input
 								type="checkbox"
 								disabled={

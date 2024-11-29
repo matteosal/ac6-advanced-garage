@@ -74,7 +74,7 @@ const BuildComponent = () => {
 				</div>
 				<div style={{display:'inline-block', verticalAlign: 'top', width: '65%'}}>
 					<Title />
-				</div>				
+				</div>
 				</> 
 				:
 				<>
@@ -98,7 +98,8 @@ const BuildComponent = () => {
 		}
 		</div>
 		<div style={
-			{display: 'inline-block', width: '35%', marginTop: '35px', verticalAlign: 'top'}
+			{display: 'inline-block', width: '35%', marginTop: '35px', verticalAlign: 'top',
+				height: '775px'}
 		}>
 			<ACStats acParts={acParts} comparedParts={comparedParts}/>
 		</div>

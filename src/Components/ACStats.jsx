@@ -356,14 +356,14 @@ const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 	return (
 		<div style={
 			{
-				...{height: '775px', padding: '15px 15px'},				
+				...{boxSizing: 'border-box', height: '100%', padding: '15px 15px'},				
 				...glob.dottedBackgroundStyle()
 			}
 		}>
 			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>
 				{glob.boxCharacter + ' AC SPECS'}
 			</div>
-			<div className="my-scrollbar" style={{height: '740px', overflowY: 'auto'}}>
+			<div className="my-scrollbar" style={{height: '95%', overflowY: 'auto'}}>
 				{
 					groupRange.map(
 						outerPos => <StatRowGroup
