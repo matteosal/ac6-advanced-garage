@@ -20,7 +20,7 @@ async function deploy() {
 		const commitMessage = await getCommitMessage('git tag --points-at HEAD');
 
 		ghpages.publish(
-			path.join(__dirname, 'build'),
+			path.join(__dirname, '../build'),
 			{message: commitMessage},
 			(err) => {
 				if(err)
