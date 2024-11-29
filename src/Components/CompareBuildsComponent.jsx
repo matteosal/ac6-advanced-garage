@@ -2,26 +2,32 @@ import { useReducer, useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 import {parseBuildQuery} from '../Misc/BuildImportExport.js'
-import {ComparerPartsContext, ComparerPartsDispatchContext} from 
-	'../Contexts/ComparerPartsContext.jsx'
+import {ComparerBuildsContext, ComparerBuildsDispatchContext} from 
+	'../Contexts/ComparerBuildsContext.jsx'
 
 import ACAssembly from './ACAssembly.jsx'
 import ACStats from './ACStats.jsx'
 
-const showStatsReducer = (showStats, pos) => {
-	const res = [...showStats];
+const booleanListReducer = (state, pos) => {
+	const res = [...state];
 	res[pos] = !res[pos];
 	return res;
 }
 
 const CompareBuildsComponent = () => {
-	const comparerParts = useContext(ComparerPartsContext);
-	const comparerPartsDispatch = useContext(ComparerPartsDispatchContext);
+	const builds = useContext(ComparerBuildsContext);
+	const buildsDispatch = useContext(ComparerBuildsDispatchContext);
 
 	const [showStats, toogleShowStats] = useReducer(
-		showStatsReducer,
+		booleanListReducer,
 		null,
-		() => new Array(comparerParts.length).fill(false)
+		() => new Array(builds.length).fill(false)
+	);
+
+	const [compareSwitches, toggleCompareSwitches] = useReducer(
+		booleanListReducer,
+		null,
+		() => new Array(builds.length).fill(false)
 	);
 
 	const inputHandler = (event, pos) => {
@@ -35,17 +41,33 @@ const CompareBuildsComponent = () => {
 			query = ''
 		}
 		const build = parseBuildQuery(query);
-		comparerPartsDispatch({pos: pos, parts: build})
+		buildsDispatch({pos: pos, parts: build})
 	}
+
+	// Detect if two comparison checkbox are ticked and set the compared builds
+	// accordingly
+	let comparedBuildsPos = [];
+	compareSwitches.map((b, pos) => {
+		if(b) comparedBuildsPos.push(pos);
+		return null;
+	});
+	let comparedBuilds = new Array(builds.length).fill(null);
+	if(comparedBuildsPos.length === 2) {
+		comparedBuilds[comparedBuildsPos[0]] = builds[comparedBuildsPos[1]];
+		comparedBuilds[comparedBuildsPos[1]] = builds[comparedBuildsPos[0]];
+	}
+
+	console.log(comparedBuilds);
 
 	return (
 		<div style={{display: 'flex', justifyContent: 'space-around'}}>
 		{
-			comparerParts.map(
+			builds.map(
 				(build, pos) => {
 					return(
 						<div style={{width: '24%'}} key={pos}>
-							<div style={{display: 'flex', alignItems: 'center', gap: '10px', width: '100%', margin: 'auto'}}>
+							<div style={{display: 'flex', alignItems: 'center', gap: '10px', 
+								width: '100%', margin: 'auto'}}>
 								<div>ENTER LINK:</div>
 								<form onSubmit={event => inputHandler(event, pos)}>
 									<input
@@ -67,11 +89,20 @@ const CompareBuildsComponent = () => {
 								showStats[pos] ? 
 								<ACStats 
 									acParts={build}
-									preview={{slot: null, part: null}}
-									hideLeft={true}
+									comparedParts={comparedBuilds[pos]}
+									buildCompareMode={true}
 								/> :
 								<ACAssembly parts={build} previewSetter={null} />
 							}
+							<input
+								type="checkbox"
+								disabled={
+									!compareSwitches[pos] && 
+									compareSwitches.filter(b => b === true).length === 2
+								}
+								checked={compareSwitches[pos]}
+								onChange={() => toggleCompareSwitches(pos)}
+							/>
 						</div>
 					)
 				}

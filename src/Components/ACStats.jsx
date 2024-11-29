@@ -320,25 +320,16 @@ const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
 
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
-const ACStats = ({acParts, preview, hideLeft}) => {
+const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 
 	let leftStats, rightStats;
 	const currentStats = computeAllStats(acParts);
-	if(preview.part === null) {
+	if(comparedParts === null) {
 		const nullStats = currentStats.map(group => group.map(stat => toNullStat(stat)));
 		[leftStats, rightStats] = [nullStats, currentStats];
 	}
 	else {
-		const previewACParts = {...acParts};
-		previewACParts[preview.slot] = preview.part;
-		if(
-			previewACParts.legs['LegType'] !== 'Tank' && 
-			previewACParts.booster['ID'] === glob.noneBooster['ID']
-		) {
-			// This happens when the current AC has tank legs and the preview has non-tank legs
-			previewACParts.booster = glob.defaultBooster;
-		}
-		rightStats = computeAllStats(previewACParts);
+		rightStats = computeAllStats(comparedParts);
 		// just like part stats, left stats should have all the stats from right stats in the 
 		// same order, with a value of undefined if the left stat is missing.
 		leftStats = rightStats.map(
@@ -354,6 +345,8 @@ const ACStats = ({acParts, preview, hideLeft}) => {
 				}
 			)
 		)
+		if(buildCompareMode)
+			[leftStats, rightStats] = [rightStats, leftStats];
 	}
 
 	const groupRange = [...Array(groupNames.length).keys()];
@@ -378,7 +371,7 @@ const ACStats = ({acParts, preview, hideLeft}) => {
 							leftGroup={leftStats[outerPos]}
 							rightGroup={rightStats[outerPos]}
 							overloadTable={outerPos === limitGroupPos ? overloadTable : null}
-							hideLeft={hideLeft}
+							hideLeft={buildCompareMode}
 							key={outerPos}
 						/>
 					)

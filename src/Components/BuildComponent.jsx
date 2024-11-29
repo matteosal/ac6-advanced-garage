@@ -28,7 +28,22 @@ const BuildComponent = () => {
 		{slot: null, part: null}
 	)
 
-	const parts = useContext(BuilderPartsContext).parts;
+	const acParts = useContext(BuilderPartsContext).parts;
+
+	let comparedParts;
+	if(preview.part === null)
+		comparedParts = null
+	else {
+		comparedParts = {...acParts};
+		comparedParts[preview.slot] = preview.part;
+		if(
+			comparedParts.legs['LegType'] !== 'Tank' && 
+			comparedParts.booster['ID'] === glob.noneBooster['ID']
+		) {
+			// This happens when the current AC has tank legs and the preview has non-tank legs
+			comparedParts.booster = glob.defaultBooster;
+		}
+	}
 
 	return(
 		<>
@@ -49,10 +64,10 @@ const BuildComponent = () => {
 					}>
 						<div style={{margin: 'auto', fontSize: '20px'}}>ASSEMBLY</div>
 					</div>				
-					<ACAssembly parts={parts} previewSetter={slot => previewDispatch({slot: slot})}/>
+					<ACAssembly parts={acParts} previewSetter={slot => previewDispatch({slot: slot})}/>
 					<div style={{display: 'flex', width: '100%', height: '50px', 
 						background: glob.paletteColor(3)}}>
-						<button style={{margin: 'auto'}} onClick={() => copyBuildLink(parts)}>
+						<button style={{margin: 'auto'}} onClick={() => copyBuildLink(acParts)}>
 							CREATE BUILD LINK
 						</button>
 					</div>
@@ -85,7 +100,7 @@ const BuildComponent = () => {
 		<div style={
 			{display: 'inline-block', width: '35%', marginTop: '35px', verticalAlign: 'top'}
 		}>
-			<ACStats acParts={parts} preview={preview}/>
+			<ACStats acParts={acParts} comparedParts={comparedParts}/>
 		</div>
 		</>
 	)

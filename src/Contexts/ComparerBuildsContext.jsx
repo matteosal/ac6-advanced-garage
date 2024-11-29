@@ -2,8 +2,8 @@ import { useReducer, createContext } from 'react';
 
 import {starterAssembly} from '../Misc/BuildImportExport.js'
 
-export const ComparerPartsContext = createContext(null);
-export const ComparerPartsDispatchContext = createContext(null);
+export const ComparerBuildsContext = createContext(null);
+export const ComparerBuildsDispatchContext = createContext(null);
 
 /***************************************************************************************/
 
@@ -15,7 +15,8 @@ const comparerPartsReducer = (comparerParts, action) => {
 
 /***************************************************************************************/
 
-export const ComparerPartsProvider = ({children}) => {
+// This will probably be overkill in the end
+export const ComparerBuildsProvider = ({children}) => {
 	const [comparerParts, comparerPartsDispatch] = useReducer(
 		comparerPartsReducer,
 		null,
@@ -23,10 +24,10 @@ export const ComparerPartsProvider = ({children}) => {
 	);
 
 	return (
-		 <ComparerPartsContext.Provider value={comparerParts}>
-			<ComparerPartsDispatchContext.Provider value={comparerPartsDispatch}>
+		 <ComparerBuildsContext.Provider value={comparerParts}>
+			<ComparerBuildsDispatchContext.Provider value={comparerPartsDispatch}>
 				{children}
-			</ComparerPartsDispatchContext.Provider>
-		</ComparerPartsContext.Provider>
+			</ComparerBuildsDispatchContext.Provider>
+		</ComparerBuildsContext.Provider>
 	);
 }
