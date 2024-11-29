@@ -337,7 +337,7 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 						background: glob.paletteColor(4, 1, getBrightness(key)),
 						textAlign: 'center', 
 						width: '90%', padding: '5px 0', margin: '5px auto',
-						position: 'relative'
+						cursor: 'pointer', position: 'relative'
 					}}
 					key={key}
 				>			
