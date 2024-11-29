@@ -338,7 +338,7 @@ const ProportionBarRow = ({name, left, right, tooltip, hideLeft}) => {
 			</div>
 			<div style={{display: 'inline-block', width: leftBarW, padding: '0px 2% 0px 3%'}}>
 				{
-					left === null ? 
+					left === null || hideLeft ? 
 						<></> :
 						<ProportionBar values={left}/>
 				}
