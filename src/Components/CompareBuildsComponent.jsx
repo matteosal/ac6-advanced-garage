@@ -77,7 +77,7 @@ const ComparerColumn = (params) => {
 		if(b) comparedBuildsPos.push(pos);
 		return null;
 	});
-	const filter = comparedBuildsPos.length == 2 && !compareSwitches[pos] ?
+	const filter = comparedBuildsPos.length === 2 && !compareSwitches[pos] ?
 		'brightness(0.5)' : 'none';
 
 	return(

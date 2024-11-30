@@ -1,6 +1,5 @@
 import { useState, useContext, useEffect, useCallback } from 'react';
 
-import { Tooltip } from 'react-tooltip'
 
 import * as glob from '../Misc/Globals.js';
 import {BuilderPartsContext, BuilderPartsDispatchContext} from 
