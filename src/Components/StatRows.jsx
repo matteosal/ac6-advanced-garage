@@ -297,10 +297,11 @@ function proportionStyle(val, color) {
 
 const cyan = 'rgb(72, 202, 228)';
 
-const ProportionBar = ({values}) => {
+const ProportionBar = ({values, buildCompareMode}) => {
 	const [round0, round1] = [glob.round(values[0]), glob.round(values[1])];
 	const round = [round0, round1, 100 - round0 - round1];
-	const displayed = round.map(val => val > 18 ? val + '%' : null)
+	const displayLimit = buildCompareMode ? 28 : 18;
+	const displayed = round.map(val => val > displayLimit ? val + '%' : null)
 	return(
 		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px', lineHeight: '20px'}}>
 			<div style={{width: barDivShrink, margin: '0px auto'}}>
@@ -342,9 +343,7 @@ const ProportionBarRow = ({name, left, right, tooltip, buildCompareMode}) => {
 				}
 			</div>
 			<div style={{display: 'inline-block', width: '30%'}}>
-				<ProportionBar 
-					values={right}
-				/>
+				<ProportionBar values={right} buildCompareMode={buildCompareMode}/>
 			</div>
 		</>
 	)
