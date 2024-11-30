@@ -48,7 +48,7 @@ const Paragraphs = ({text}) => {
 			(str, i) => 
 				<>
 					<p key={i}>{str}</p>
-					{i === split.length - 1 ? <></> : <p>&nbsp;</p>}
+					{i === split.length - 1 ? <></> : <p key={i + 'newline'}>&nbsp;</p>}
 				</>
 		)
 	);
