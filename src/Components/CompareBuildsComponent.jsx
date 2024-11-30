@@ -14,11 +14,71 @@ const booleanListReducer = (state, pos) => {
 	return res;
 }
 
+const ComparerColumnHeader = ({pos, inputHandler, showStats, toggleShowStats}) => {
+	return(
+		<div style={{...glob.dottedBackgroundStyle(), padding: '10px 0px', 
+			marginBottom: '10px'}}>
+		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center',
+			gap: '10px', padding: '0px 0px 10px 0px'}}>
+			<div style={{width: 'auto'}}>BUILD LINK:</div>
+			<form onSubmit={event => inputHandler(event, pos)}>
+				<input
+					style={{width: '170px', height: '30px', 
+						backgroundColor: glob.paletteColor(3)}}
+				/>
+			<input type="submit" value="LOAD" style={{marginLeft: '10px', padding: '3px 10px'}}/>
+			</form>
+		</div>
+		<button 
+			style={{display: 'block', margin: 'auto', width: '200px'}}
+			onClick={() => toggleShowStats(pos)}
+		>
+			{showStats[pos] ? 'SHOW ASSEMBLY' : 'SHOW SPECS'}
+		</button>
+		</div>
+	)
+}
+
+const ComparerColumn = (params) => {
+	const {build, pos, inputHandler, showStats, comparedBuilds, compareSwitches, 
+		toggleShowStats, toggleCompareSwitches} = params;
+	return(
+		<div style={{width: '24%'}}>
+			<ComparerColumnHeader
+				pos={pos}
+				inputHandler={inputHandler}
+				showStats={showStats}
+				toggleShowStats={toggleShowStats}
+			/>
+			<div style={{height: '655px', marginBottom: '5px'}}>
+				{
+					showStats[pos] ? 
+					<ACStats 
+						acParts={build}
+						comparedParts={comparedBuilds[pos]}
+						buildCompareMode={true}
+					/> :
+					<ACAssembly parts={build} previewSetter={null} />
+				}
+			</div>
+			<input
+				type="checkbox"
+				disabled={
+					!compareSwitches[pos] && 
+					compareSwitches.filter(b => b === true).length === 2
+				}
+				checked={compareSwitches[pos]}
+				onChange={() => toggleCompareSwitches(pos)}
+			/>
+		</div>
+	)
+}
+
 const CompareBuildsComponent = () => {
 	const builds = useContext(ComparerBuildsContext);
 	const buildsDispatch = useContext(ComparerBuildsDispatchContext);
 
-	const [showStats, toogleShowStats] = useReducer(
+	const [showStats, toggleShowStats] = useReducer(
 		booleanListReducer,
 		null,
 		() => new Array(builds.length).fill(false)
@@ -57,55 +117,23 @@ const CompareBuildsComponent = () => {
 		comparedBuilds[comparedBuildsPos[1]] = builds[comparedBuildsPos[0]];
 	}
 
-	console.log(comparedBuilds);
-
 	return (
-		<div style={{display: 'flex', justifyContent: 'space-around'}}>
+		<div style={{display: 'flex', justifyContent: 'space-around', marginTop: '25px'}}>
 		{
 			builds.map(
 				(build, pos) => {
 					return(
-						<div style={{width: '24%'}} key={pos}>
-							<div style={{display: 'flex', alignItems: 'center', gap: '10px', 
-								width: '100%', margin: 'auto'}}>
-								<div>ENTER LINK:</div>
-								<form onSubmit={event => inputHandler(event, pos)}>
-									<input
-										style={{
-											height: '25px',
-											margin: '5px 0px 5px 0px',
-											backgroundColor: glob.paletteColor(3)
-										}}
-									/>
-								</form>
-							</div>
-							<button 
-								style={{display: 'block', margin: 'auto'}}
-								onClick={() => toogleShowStats(pos)}
-							>
-								{showStats[pos] ? 'SHOW ASSEMBLY' : 'SHOW SPECS'}
-							</button>
-							<div style={{height: '655px', marginBottom: '5px'}}>
-								{
-									showStats[pos] ? 
-									<ACStats 
-										acParts={build}
-										comparedParts={comparedBuilds[pos]}
-										buildCompareMode={true}
-									/> :
-									<ACAssembly parts={build} previewSetter={null} />
-								}
-							</div>
-							<input
-								type="checkbox"
-								disabled={
-									!compareSwitches[pos] && 
-									compareSwitches.filter(b => b === true).length === 2
-								}
-								checked={compareSwitches[pos]}
-								onChange={() => toggleCompareSwitches(pos)}
-							/>
-						</div>
+						<ComparerColumn
+							build={build}
+							pos={pos}
+							inputHandler={inputHandler}
+							showStats={showStats}
+							comparedBuilds={comparedBuilds}
+							compareSwitches={compareSwitches}
+							toggleShowStats={toggleShowStats}
+							toggleCompareSwitches={toggleCompareSwitches}
+							key={pos}
+						/>
 					)
 				}
 			)

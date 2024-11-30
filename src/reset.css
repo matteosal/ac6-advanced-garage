@@ -90,7 +90,7 @@ input:focus {
 }
 
 /* BUTTON  */
-button {
+button, input[type=submit] {
 	margin: 0;
 	vertical-align: baseline;
 	font-family: inherit;
@@ -99,13 +99,14 @@ button {
 	padding: 3px 7px;
 	background-color: rgb(84, 105, 130);
 	border: 2px solid rgb(13, 20, 30);
+	outline: none;
 	cursor: pointer;
 }
-button:hover {
+button:hover, input[type=submit]:hover {
 	background-color: rgb(151, 173, 184);
 	color: white;
 }
-button:active{
+button:active, input[type=submit]:active {
 	background-color:rgb(204, 234, 248);
 }
 
