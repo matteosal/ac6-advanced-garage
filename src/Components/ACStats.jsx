@@ -371,7 +371,7 @@ const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 							leftGroup={leftStats[outerPos]}
 							rightGroup={rightStats[outerPos]}
 							overloadTable={outerPos === limitGroupPos ? overloadTable : null}
-							hideLeft={buildCompareMode}
+							buildCompareMode={buildCompareMode}
 							key={outerPos}
 						/>
 					)

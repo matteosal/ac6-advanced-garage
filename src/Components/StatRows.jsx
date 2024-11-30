@@ -165,7 +165,7 @@ function toValueAndDisplay(name, raw) {
 
 const namePadding = '4px 0px';
 
-const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, hideLeft}) => {
+const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) => {
 
 	// This row is also used for unit stats such as attack power that can have
 	// form e.g. 100x3 ([100, 3] in data) so we have to account for that
@@ -189,12 +189,12 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, hideLeft}) => {
 	}
 
 	let infoW, nameW, barW, numW, symbolW;
-	if(hideLeft) {
+	if(buildCompareMode) {
 		[infoW, nameW, numW, symbolW] = ['4%', '66%', '20%', '5%']
 	} else {
 		// kind !== undefined indicates we are creating a row for the part stats panel and there
-		// will be a bar as well, so nameW has to shrink and barW is used. If hideLeft == true 
-		// the kind is always undefined
+		// will be a bar as well, so nameW has to shrink and barW is used. If 
+		//	buildCompareMode == true the kind is always undefined
 		nameW = kind === undefined ? '63%' : '43%';
 		[infoW, barW, numW, symbolW] = ['3%', '20%', '12%', '5%']
 	}
@@ -218,7 +218,7 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, hideLeft}) => {
 				<></>
 		}
 		{
-			hideLeft ?
+			buildCompareMode ?
 			<></> :
 			<div style={
 				{display: 'inline-block', color: 'gray', textAlign: 'right', 
@@ -318,9 +318,9 @@ const ProportionBar = ({values}) => {
 	)
 }
 
-const ProportionBarRow = ({name, left, right, tooltip, hideLeft}) => {
-	const nameW = hideLeft ? '60%' : '30%';
-	const leftBarW = hideLeft ? '0' : '30%';
+const ProportionBarRow = ({name, left, right, tooltip, buildCompareMode}) => {
+	const nameW = buildCompareMode ? '60%' : '30%';
+	const leftBarW = buildCompareMode ? '0' : '30%';
 	return (
 		<>
 			<div 
@@ -336,7 +336,7 @@ const ProportionBarRow = ({name, left, right, tooltip, hideLeft}) => {
 			</div>
 			<div style={{display: 'inline-block', width: leftBarW, padding: '0px 2% 0px 3%'}}>
 				{
-					left === null || hideLeft ? 
+					left === null || buildCompareMode ? 
 						<></> :
 						<ProportionBar values={left}/>
 				}
@@ -664,7 +664,7 @@ const statTooltips = {
 
 const EmptyRow = () => <div style={{padding: namePadding}}>&nbsp;</div>
 
-export const StatRow = ({leftStat, rightStat, pos, kind, hideLeft}) => {
+export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
 
 	if(rightStat.type === 'EmptyLine')
 		return <EmptyRow key = {pos} />
@@ -685,7 +685,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind, hideLeft}) => {
 				left = {leftStat.value}
 				right = {rightStat.value}
 				tooltip = {statTooltips[rightStat.name]}
-				hideLeft = {hideLeft}
+				buildCompareMode = {buildCompareMode}
 				key = {pos}				
 			/>		
 		)
@@ -729,7 +729,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind, hideLeft}) => {
 				rightRaw = {rightStat.value}
 				kind = {kind}
 				tooltip = {statTooltips[rightStat.name]}
-				hideLeft={hideLeft}
+				buildCompareMode={buildCompareMode}
 				key = {pos}
 			/>
 		)
@@ -773,7 +773,7 @@ const CollapsibleHeader = ({label, isOpen, isOverload}) => {
 	)
 }
 
-export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable, hideLeft}) => {
+export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable, buildCompareMode}) => {
 	const statRange = [...Array(rightGroup.length).keys()];
 	let isOverload = false;
 	if(overloadTable && Object.values(overloadTable).includes(true)) {
@@ -801,7 +801,7 @@ export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable, hide
 								leftStat={leftGroup[innerPos]}
 								rightStat={rightGroup[innerPos]} 
 								pos={innerPos}
-								hideLeft={hideLeft}
+								buildCompareMode={buildCompareMode}
 								/>
 						</div>
 					)
