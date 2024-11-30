@@ -320,6 +320,24 @@ const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
 
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
+// Returns all the stats that are present in reference, taking their value from toFilter.
+// If a stat is only present in reference the value is undefined
+function filterStats(toFilter, reference) {
+	return reference.map(
+		(rGroup, rGroupPos) => rGroup.map(
+			rStat => {
+				const match = toFilter[rGroupPos].find(
+					curStat => curStat.name === rStat.name
+				);
+				if(match !== undefined)
+					return match
+				else
+					return {...rStat, ...{value: undefined}}
+			}
+		)
+	);
+}
+
 const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 
 	let leftStats, rightStats;
@@ -329,24 +347,12 @@ const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 		[leftStats, rightStats] = [nullStats, currentStats];
 	}
 	else {
-		rightStats = computeAllStats(comparedParts);
-		// just like part stats, left stats should have all the stats from right stats in the 
-		// same order, with a value of undefined if the left stat is missing.
-		leftStats = rightStats.map(
-			(rGroup, rGroupPos) => rGroup.map(
-				rStat => {
-					const match = currentStats[rGroupPos].find(
-						curStat => curStat.name === rStat.name
-					);
-					if(match !== undefined)
-						return match
-					else
-						return {...rStat, ...{value: undefined}}
-				}
-			)
-		)
+		const comparedStats = computeAllStats(comparedParts);
 		if(buildCompareMode)
-			[leftStats, rightStats] = [rightStats, leftStats];
+			[leftStats, rightStats] = [comparedStats, currentStats];
+		else
+			[leftStats, rightStats] = [currentStats, comparedStats];
+		leftStats = filterStats(leftStats, rightStats);
 	}
 
 	const groupRange = [...Array(groupNames.length).keys()];

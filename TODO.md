@@ -8,7 +8,6 @@
 * Tests
 * Create custom Plotly bundle to reduce size
 
-* Check missile lock time stats if presence is not matching
 * Different tooltips for plot rows
 * Remember comparer state when switching to builder and back
 * Larger plots
