@@ -39,11 +39,39 @@ const ComparerColumnHeader = ({pos, inputHandler, showStats, toggleShowStats}) =
 	)
 }
 
+const ComparerColumnFooter = ({pos, compareSwitches, toggleCompareSwitches}) => {
+	return(
+		<div style={{display: 'flex', justifyContent:'center', gap: '20px', 
+			alignItems: 'center', backgroundColor: glob.paletteColor(3), padding: '10px 0px'}}>
+			COMPARE
+			<input
+				type="checkbox"
+				style={{transform: 'scale(1.25)'}}
+				disabled={
+					!compareSwitches[pos] && 
+					compareSwitches.filter(b => b === true).length === 2
+				}
+				checked={compareSwitches[pos]}
+				onChange={() => toggleCompareSwitches(pos)}
+			/>
+		</div>
+	)
+}
+
 const ComparerColumn = (params) => {
 	const {build, pos, inputHandler, showStats, comparedBuilds, compareSwitches, 
 		toggleShowStats, toggleCompareSwitches} = params;
+
+	let comparedBuildsPos = [];
+	compareSwitches.map((b, pos) => {
+		if(b) comparedBuildsPos.push(pos);
+		return null;
+	});
+	const filter = comparedBuildsPos.length == 2 && !compareSwitches[pos] ?
+		'brightness(0.5)' : 'none';
+
 	return(
-		<div style={{width: '24%'}}>
+		<div style={{width: '24%', filter: filter}}>
 			<ComparerColumnHeader
 				pos={pos}
 				inputHandler={inputHandler}
@@ -61,15 +89,8 @@ const ComparerColumn = (params) => {
 					<ACAssembly parts={build} previewSetter={null} />
 				}
 			</div>
-			<input
-				type="checkbox"
-				disabled={
-					!compareSwitches[pos] && 
-					compareSwitches.filter(b => b === true).length === 2
-				}
-				checked={compareSwitches[pos]}
-				onChange={() => toggleCompareSwitches(pos)}
-			/>
+			<ComparerColumnFooter pos={pos} compareSwitches={compareSwitches} 
+				toggleCompareSwitches={toggleCompareSwitches}/>
 		</div>
 	)
 }
