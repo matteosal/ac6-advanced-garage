@@ -606,6 +606,16 @@ const fireAnimationNote = '\nNOTE: all DPS/IPS related specs assume that the fir
 	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
 	'launchers that fire individual missiles in rapid sequence).'
 
+const aimAssistProfileDesc = 'Gives an indication of how well the FCS is paired with the ' +
+	'unit ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan ' +
+	'lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m.';
+
+const enRecoveryProfilesDesc = 'Shows the energy recovered over time in the normal (cyan) ' +
+	'and redlining (red) cases.';
+
+const enRecoveryProfilesNote = 'NOTE: the cyan profile is a limit case because if the ' +
+	'generator is not fully depleted energy recovery will not start from zero energy.';
+
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
@@ -615,11 +625,9 @@ const statTooltips = {
 	'LeftArmMissileLockTime': 'Missile lock time of left arm unit, modified by FCS.',
 	'RightBackMissileLockTime': 'Missile lock time of right back unit, modified by FCS.',
 	'LeftBackMissileLockTime': 'Missile lock time of left back unit, modified by FCS.',
-	'AimAssistProfile': 'Gives an indication of how well the FCS is paired with the unit ' +
-		'ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan ' +
-		'lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m. When ' +
-		'a new FCS is in preview, the current FCS ranges are shown with dashed lines and the ' +
-		'new with solid ones. When a unit is in preview only the new unit ranges are shown.',
+	'AimAssistProfile': aimAssistProfileDesc + ' When a new FCS is in preview, the current ' +
+		'FCS assist values are shown with dashed lines and the new with solid ones. When a ' +
+		'unit is in preview only the new unit ranges are shown.',
 	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of ' +
 		'energy (assuming no energy is recovered in between quick boosts).',
 	'ENRechargeDelayRedline': 'Time before energy starts recovering when the generator is ' +
@@ -635,11 +643,9 @@ const statTooltips = {
 		'energy capacity.',
 	'FullRechargeTimeRedline': 'Time to fully recover energy when the generator is fully ' +
 		'depleted',
-	'ENRecoveryProfiles': 'Shows the energy recovered over time in the normal (cyan) and ' +
-		'redlining (red) cases. When a new part is in preview, the current profiles are shown ' +
-		'with dashed lines and the new ones with solid ones.\nNOTE: the cyan profile is a ' +
-		'limit case because if the generator is not fully depleted energy recovery will not ' +
-		'start from zero energy.',
+	'ENRecoveryProfiles': enRecoveryProfilesDesc + ' When a new part is in preview, the ' +
+		'current profiles are shown with dashed lines and the new ones with solid ones.\n' + 
+		enRecoveryProfilesNote,
 	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
@@ -665,9 +671,27 @@ const statTooltips = {
 	'MagDumpTime': 'Minimum time to empty one magazine.'
 };
 
+const statTooltipsComparerMode = {
+	'AimAssistProfile': aimAssistProfileDesc + ' When two builds are compared, this build\'s ' +
+		'FCS assist values are shown with solid lines and the ones from the other build with ' +
+		'dashed lines.',
+	'ENRecoveryProfiles': enRecoveryProfilesDesc + ' When two builds are compared, this ' +
+		'build\'s profiles are shown with solid lines and the ones from the other build with ' +
+		'dashed lines.\n' + enRecoveryProfilesNote
+}
+
+function getTooltip(name, buildCompareMode) {
+	if(!buildCompareMode)
+		return statTooltips[name];
+	const comparerModeTooltip = statTooltipsComparerMode[name];
+	return comparerModeTooltip ? comparerModeTooltip : statTooltips[name]
+}
+
 const EmptyRow = () => <div style={{padding: namePadding}}>&nbsp;</div>
 
 export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
+
+	const tooltip = getTooltip(rightStat.name, buildCompareMode);
 
 	if(rightStat.type === 'EmptyLine')
 		return <EmptyRow key = {pos} />
@@ -687,7 +711,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
 				name = {rightStat.name}
 				left = {leftStat.value}
 				right = {rightStat.value}
-				tooltip = {statTooltips[rightStat.name]}
+				tooltip = {tooltip}
 				buildCompareMode = {buildCompareMode}
 				key = {pos}				
 			/>		
@@ -698,7 +722,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}
-				tooltip={statTooltips[rightStat.name]}
+				tooltip={tooltip}
 				key = {pos}
 			/>		
 		)		
@@ -709,7 +733,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}
-				tooltip={statTooltips[rightStat.name]}
+				tooltip={tooltip}
 				key = {pos}
 			/>		
 		)		
@@ -720,7 +744,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}
-				tooltip={statTooltips[rightStat.name]}
+				tooltip={tooltip}
 				key = {pos}
 			/>		
 		)		
@@ -731,7 +755,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
 				leftRaw = {leftStat.value}
 				rightRaw = {rightStat.value}
 				kind = {kind}
-				tooltip = {statTooltips[rightStat.name]}
+				tooltip = {tooltip}
 				buildCompareMode={buildCompareMode}
 				key = {pos}
 			/>
