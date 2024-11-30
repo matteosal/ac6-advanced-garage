@@ -10,6 +10,4 @@
 
 * Different tooltips for plot rows
 * Remember comparer state when switching to builder and back
-* Larger plots
-* Larger info icons in other rows
 * Tooltip on link field

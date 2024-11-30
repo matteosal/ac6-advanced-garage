@@ -190,13 +190,13 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) 
 
 	let infoW, nameW, barW, numW, symbolW;
 	if(buildCompareMode) {
-		[infoW, nameW, numW, symbolW] = ['4%', '66%', '20%', '5%']
+		[infoW, nameW, numW, symbolW] = ['15px', '65%', '20%', '5%']
 	} else {
 		// kind !== undefined indicates we are creating a row for the part stats panel and there
 		// will be a bar as well, so nameW has to shrink and barW is used. If 
 		//	buildCompareMode == true the kind is always undefined
 		nameW = kind === undefined ? '63%' : '43%';
-		[infoW, barW, numW, symbolW] = ['3%', '20%', '12%', '5%']
+		[infoW, barW, numW, symbolW] = ['15px', '20%', '12%', '5%']
 	}
 
 	return (
@@ -325,7 +325,7 @@ const ProportionBarRow = ({name, left, right, tooltip, buildCompareMode}) => {
 	return (
 		<>
 			<div 
-				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				style={{display: 'inline-block', width: '15px', verticalAlign: 'middle'}}
 				className={name}
 			>
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
@@ -413,7 +413,7 @@ const RangePlotRow = ({name, left, right, tooltip}) => {
 	return(
 		<>
 			<div 
-				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				style={{display: 'inline-block', width: '15px', verticalAlign: 'middle'}}
 				className={name}
 			>
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
@@ -422,7 +422,7 @@ const RangePlotRow = ({name, left, right, tooltip}) => {
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '60%', height: '200px', margin: '0px auto'}}>
+			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
 				<RangePlot left={left} right={right} />
 			</div>
 		</>
@@ -543,7 +543,7 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 	return(
 		<>
 			<div 
-				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				style={{display: 'inline-block', width: '15px', verticalAlign: 'middle'}}
 				className={name}
 			>
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
@@ -552,7 +552,7 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '60%', height: '200px', margin: '0px auto'}}>
+			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
 				<EnergyPlot left={left} right={right} />
 			</div>
 		</>
