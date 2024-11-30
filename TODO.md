@@ -7,6 +7,3 @@
 * Global build scores? One per AC stat groups + offense
 * Tests
 * Create custom Plotly bundle to reduce size
-
-* Remember comparer state when switching to builder and back
-* Tooltip on link field
