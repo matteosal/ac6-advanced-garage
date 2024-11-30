@@ -54,19 +54,23 @@ const Paragraphs = ({text}) => {
 	);
 }
 
+let anchorId = 0;
 function toAnchorName(str) {
-	return str.replace('/', '')
+	if(anchorId === 1000)
+		anchorId = 0;
+	return str.replace('/', '') + (anchorId++)
 }
 
 const InfoBox = ({name, tooltip}) => {
+	const anchorName = toAnchorName(name);
 	return(
 		<>
-		<div className={toAnchorName(name)} style={{margin: '2px 1px 0px 2px'}}>
+		<div className={anchorName} style={{margin: '2px 1px 0px 2px'}}>
 			<img src={glob.infoIcon} alt={'info icon'} width='100%'/>
 		</div>
 		<Tooltip 
 			style={{maxWidth: '20%', textAlign: 'justify'}}
-			anchorSelect={'.' + toAnchorName(name)}
+			anchorSelect={'.' + anchorName}
 			place="left" 
 		>
 			<Paragraphs text={tooltip} />
