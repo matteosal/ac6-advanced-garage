@@ -6,6 +6,7 @@ import * as glob from '../Misc/Globals.js';
 import {BuilderPartsContext, BuilderPartsDispatchContext} from 
 	"../Contexts/BuilderPartsContext.jsx";
 import ModalWrapper from './ModalWrapper.jsx'
+import ClosableTooltip from './ClosableTooltip.jsx'
 
 /*****************************************************************************/
 
@@ -413,7 +414,7 @@ function getSortingKeys(slot, backSubslot) {
 
 const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
 	const [highlightedId, setHighlightedId] = useState(-1);
-	const [showSearchTooltip, setShowSearchTooltip] = useState(true)
+	const [showSearchTooltip, setShowSearchTooltip] = useState(() => true);
 
 	const [sortBy, setSortBy] = useState(
 		Object.fromEntries(
@@ -500,7 +501,7 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 		<div style={{width: '90%', margin: '5px auto 0px auto'}}>
 			<div style={{display: 'inline-block', width: '25%'}}>FILTER:</div>
 			<input
-				className='tooltip-anchor'
+				className='search-tooltip-anchor'
 				data-tooltip-delay-show={100}
 				style={{
 					height: '25px',
@@ -514,27 +515,13 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 
 			/>
 		</div>
-		{ 
-			showSearchTooltip ?
-			<Tooltip 
-				style={{width: '265px', padding: '0px 0px 5px 20px'}}
-				anchorSelect='.tooltip-anchor'
-				place='right'
-				clickable
-			>
-				<div 
-					style={{width: '20px', height: '20px', padding: 0, 
-						margin: '0px 0px 0px auto', cursor: 'pointer'}}
-					onClick={() => setShowSearchTooltip(false)}
-				>
-				x
-				</div>
-				<div style={{width: '95%'}}>
-					Searches both among part names (e.g. BASHO) and unit descriptions (e.g. HANDGUN)
-				</div>
-			</Tooltip> :
-			<></>
-		}
+		<ClosableTooltip
+			text='Searches both among part names (e.g. BASHO) and unit descriptions (e.g. HANDGUN)'
+			place='right'
+			anchor='search-tooltip-anchor'
+			show={showSearchTooltip}
+			setShow={setShowSearchTooltip}
+		/>
 		<div 
 			style={{position: 'relative', textAlign: 'center', padding: '5px 0px',
 				margin: '5px auto 10px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
