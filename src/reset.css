@@ -57,10 +57,6 @@ q:before, q:after {
 	content: '';
 	content: none;
 }
-table {
-	border-collapse: separate;
-	border-spacing: 0px;
-}
 a {
 	color: rgb(0, 255, 255);
 }
