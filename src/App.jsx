@@ -4,6 +4,7 @@ import * as glob from './Misc/Globals.js';
 import MainSwitcher from './Components/MainSwitcher.jsx';
 import BuildComponent from './Components/BuildComponent.jsx';
 import CompareBuildsComponent from './Components/CompareBuildsComponent.jsx';
+import TablesComponent from './Components/TablesComponent.jsx';
 
 /*************************************************************************************/
 
@@ -39,8 +40,10 @@ const SwitchedComponent = ({selectedSwitch}) => {
 			return <BuildComponent />
 		case 'COMPARE BUILDS':
 			return <CompareBuildsComponent />
+		case 'TABLES':
+			return <TablesComponent />
 		default:
-			window.log('Internal error: invalid selected switch');
+			window.alert('Internal error: invalid selected switch');
 			return <></>
 	}
 }

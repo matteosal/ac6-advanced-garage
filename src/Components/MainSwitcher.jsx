@@ -28,6 +28,8 @@ const MainSwitcher = ({selectedSwitch, setSelectedSwitch}) => {
 			<SwitcherButton name={'BUILD'} selected={selectedSwitch} setter={setSelectedSwitch} />
 			<SwitcherButton name={'COMPARE BUILDS'}
 				selected={selectedSwitch} setter={setSelectedSwitch} />
+			<SwitcherButton name={'TABLES'}
+				selected={selectedSwitch} setter={setSelectedSwitch} />
 		</div>
 	)
 }
