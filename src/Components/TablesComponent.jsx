@@ -12,6 +12,20 @@ const cellStyle = {
 
 const DraggableHeader = ({name, pos, moveColumn}) => {
 
+	const handleDragStart = (event) => {
+		event.dataTransfer.setData('pos', pos);
+	};
+
+	const allowDrop = (event) =>  {
+		event.preventDefault();
+	}
+
+	const handleDrop = (event) => {
+		event.preventDefault();
+		const srcPos = event.dataTransfer.getData('pos');
+		moveColumn(srcPos, pos);
+	};
+
 	return (
 		<th 
 			style={
@@ -22,6 +36,10 @@ const DraggableHeader = ({name, pos, moveColumn}) => {
 					border: '2px solid ' + glob.paletteColor(5)
 				}
 			}
+			draggable
+			onDragStart={handleDragStart}
+			onDragOver={allowDrop}
+			onDrop={handleDrop}
 		>
 			{glob.toDisplayString(name)}
 		</th>
@@ -42,10 +60,10 @@ function toCellDisplay(val) {
 const DraggableTable = ({data}) => {
 	const [columnOrder, setColumnOrder] = useState(() => Object.keys(data[0]));
 
-	const moveColumn = (fromIndex, toIndex) => {
+	const moveColumn = (srcPos, dstPos) => {
 		const newOrder = [...columnOrder];
-		const [movedColumn] = newOrder.splice(fromIndex, 1);
-		newOrder.splice(toIndex, 0, movedColumn);
+		const [movedColumn] = newOrder.splice(srcPos, 1);
+		newOrder.splice(dstPos, 0, movedColumn);
 		setColumnOrder(newOrder);
 	};
 
