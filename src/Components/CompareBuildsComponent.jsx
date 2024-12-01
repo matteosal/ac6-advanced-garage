@@ -1,4 +1,4 @@
-import { useState, useReducer, useContext } from 'react';
+import { useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 import {parseBuildQuery} from '../Misc/BuildImportExport.js'
@@ -71,7 +71,6 @@ const ComparerColumnFooter = ({pos, disabled}) => {
 const ComparerColumn = ({pos, inputHandler, comparedParts}) => {
 
 	const state = useContext(ComparerStateContext);
-	const stateDispatch = useContext(ComparerStateDispatchContext);
 
 	const build = state.builds[pos];
 	const showStats = state.showStats[pos];
