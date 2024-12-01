@@ -16,14 +16,14 @@ const booleanListReducer = (state, pos) => {
 }
 
 const ComparerColumnHeader = (params) => {
-	const {pos, inputHandler, showStats, toggleShowStats, showTooltip, setShowTooltip} = params;
+	const {inputHandler, showStats, toggleShowStats, showTooltip, setShowTooltip} = params;
 	return(
 		<div style={{...glob.dottedBackgroundStyle(), padding: '10px 0px', 
 			marginBottom: '10px'}}>
 		<div style={{display: 'flex', justifyContent: 'center', alignItems: 'center',
 			gap: '10px', padding: '0px 0px 10px 0px'}}>
 			<div style={{width: 'auto'}}>BUILD LINK:</div>
-			<form onSubmit={event => inputHandler(event, pos)}>
+			<form onSubmit={inputHandler}>
 				<input
 					className="link-tooltip-anchor"
 					style={{width: '170px', height: '30px', 
@@ -41,15 +41,15 @@ const ComparerColumnHeader = (params) => {
 		</div>
 		<button 
 			style={{display: 'block', margin: 'auto', width: '200px'}}
-			onClick={() => toggleShowStats(pos)}
+			onClick={toggleShowStats}
 		>
-			{showStats[pos] ? 'SHOW ASSEMBLY' : 'SHOW SPECS'}
+			{showStats ? 'SHOW ASSEMBLY' : 'SHOW SPECS'}
 		</button>
 		</div>
 	)
 }
 
-const ComparerColumnFooter = ({pos, compareSwitches, toggleCompareSwitches}) => {
+const ComparerColumnFooter = ({checked, disabled, toggleCompareSwitch}) => {
 	return(
 		<div style={{display: 'flex', justifyContent:'center', gap: '20px', 
 			alignItems: 'center', backgroundColor: glob.paletteColor(3), padding: '10px 0px'}}>
@@ -57,33 +57,25 @@ const ComparerColumnFooter = ({pos, compareSwitches, toggleCompareSwitches}) => 
 			<input
 				type="checkbox"
 				style={{transform: 'scale(1.25)'}}
-				disabled={
-					!compareSwitches[pos] && 
-					compareSwitches.filter(b => b === true).length === 2
-				}
-				checked={compareSwitches[pos]}
-				onChange={() => toggleCompareSwitches(pos)}
+				disabled={disabled}
+				checked={checked}
+				onChange={toggleCompareSwitch}
 			/>
 		</div>
 	)
 }
 
 const ComparerColumn = (params) => {
-	const {build, pos, inputHandler, showStats, comparedBuilds, compareSwitches, 
-		toggleShowStats, toggleCompareSwitches, showTooltip, setShowTooltip} = params;
+	const {build, inputHandler, showStats, comparedParts, checked, 
+		toggleShowStats, toggleCompareSwitch, showTooltip, setShowTooltip} = params;
 
-	let comparedBuildsPos = [];
-	compareSwitches.map((b, pos) => {
-		if(b) comparedBuildsPos.push(pos);
-		return null;
-	});
-	const filter = comparedBuildsPos.length === 2 && !compareSwitches[pos] ?
-		'brightness(0.5)' : 'none';
+	// compared parts === undefined -> no pair of builds are compared
+	// compared parts === null -> a pair of builds is compared but this is not in the pair
+	// compared parts === obj -> a pair of builds is compared and this is in the pair
 
 	return(
-		<div style={{width: '24%', filter: filter}}>
+		<div style={{width: '24%', filter: comparedParts === null ? 'brightness(0.5)' : 'none'}}>
 			<ComparerColumnHeader
-				pos={pos}
 				inputHandler={inputHandler}
 				showStats={showStats}
 				toggleShowStats={toggleShowStats}
@@ -92,17 +84,17 @@ const ComparerColumn = (params) => {
 			/>
 			<div style={{height: '655px', marginBottom: '5px'}}>
 				{
-					showStats[pos] ? 
+					showStats ? 
 					<ACStats 
 						acParts={build}
-						comparedParts={comparedBuilds[pos]}
+						comparedParts={comparedParts === undefined ? null : comparedParts}
 						buildCompareMode={true}
 					/> :
 					<ACAssembly parts={build} previewSetter={null} />
 				}
 			</div>
-			<ComparerColumnFooter pos={pos} compareSwitches={compareSwitches} 
-				toggleCompareSwitches={toggleCompareSwitches}/>
+			<ComparerColumnFooter checked={checked} disabled={comparedParts === null} 
+				toggleCompareSwitch={toggleCompareSwitch}/>
 		</div>
 	)
 }
@@ -113,7 +105,7 @@ const CompareBuildsComponent = () => {
 
 	const [showTooltip, setShowTooltip] = useState(true);
 
-	const [showStats, toggleShowStats] = useReducer(
+	const [allShowStats, toggleAllShowStats] = useReducer(
 		booleanListReducer,
 		null,
 		() => new Array(builds.length).fill(false)
@@ -125,7 +117,7 @@ const CompareBuildsComponent = () => {
 		() => new Array(builds.length).fill(false)
 	);
 
-	const inputHandler = (event, pos) => {
+	const posInputHandler = (event, pos) => {
 		event.preventDefault();
 		let query;
 		try {
@@ -146,10 +138,13 @@ const CompareBuildsComponent = () => {
 		if(b) comparedBuildsPos.push(pos);
 		return null;
 	});
-	let comparedBuilds = new Array(builds.length).fill(null);
+	let comparedBuilds;
 	if(comparedBuildsPos.length === 2) {
+		comparedBuilds = new Array(builds.length).fill(null);
 		comparedBuilds[comparedBuildsPos[0]] = builds[comparedBuildsPos[1]];
 		comparedBuilds[comparedBuildsPos[1]] = builds[comparedBuildsPos[0]];
+	} else {
+		comparedBuilds = new Array(builds.length).fill(undefined);
 	}
 
 	return (
@@ -160,13 +155,12 @@ const CompareBuildsComponent = () => {
 					return(
 						<ComparerColumn
 							build={build}
-							pos={pos}
-							inputHandler={inputHandler}
-							showStats={showStats}
-							comparedBuilds={comparedBuilds}
-							compareSwitches={compareSwitches}
-							toggleShowStats={toggleShowStats}
-							toggleCompareSwitches={toggleCompareSwitches}
+							inputHandler={(ev) => posInputHandler(ev, pos)}
+							showStats={allShowStats[pos]}
+							comparedParts={comparedBuilds[pos]}
+							checked={compareSwitches[pos]}
+							toggleShowStats={() => toggleAllShowStats(pos)}
+							toggleCompareSwitch={() => toggleCompareSwitches(pos)}
 							showTooltip={showTooltip}
 							setShowTooltip={setShowTooltip}
 							key={pos}
