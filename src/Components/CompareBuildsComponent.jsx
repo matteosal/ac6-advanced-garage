@@ -2,21 +2,19 @@ import { useState, useReducer, useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 import {parseBuildQuery} from '../Misc/BuildImportExport.js'
-import {ComparerBuildsContext, ComparerBuildsDispatchContext} from 
-	'../Contexts/ComparerBuildsContext.jsx'
+import {ComparerStateContext, ComparerStateDispatchContext} from 
+	'../Contexts/ComparerStateContext.jsx'
 
 import ACAssembly from './ACAssembly.jsx'
 import ACStats from './ACStats.jsx'
 import ClosableTooltip from './ClosableTooltip.jsx'
 
-const booleanListReducer = (state, pos) => {
-	const res = [...state];
-	res[pos] = !res[pos];
-	return res;
-}
+const ComparerColumnHeader = ({pos, inputHandler, showStats}) => {
+	const showTooltip = useContext(ComparerStateContext).showTooltip;
+	const stateDispatch = useContext(ComparerStateDispatchContext);
+	const setShowTooltip = () => stateDispatch({target: 'showTooltip'});
+	const toggleShowStats = () => stateDispatch({target: 'showStats', pos: pos});
 
-const ComparerColumnHeader = (params) => {
-	const {inputHandler, showStats, toggleShowStats, showTooltip, setShowTooltip} = params;
 	return(
 		<div style={{...glob.dottedBackgroundStyle(), padding: '10px 0px', 
 			marginBottom: '10px'}}>
@@ -49,7 +47,12 @@ const ComparerColumnHeader = (params) => {
 	)
 }
 
-const ComparerColumnFooter = ({checked, disabled, toggleCompareSwitch}) => {
+const ComparerColumnFooter = ({pos, disabled}) => {
+	const state = useContext(ComparerStateContext);
+	const stateDispatch = useContext(ComparerStateDispatchContext);
+
+	const checked = state.checked[pos];
+	const toggleCompareSwitch = () => stateDispatch({target: 'checked', pos: pos})
 	return(
 		<div style={{display: 'flex', justifyContent:'center', gap: '20px', 
 			alignItems: 'center', backgroundColor: glob.paletteColor(3), padding: '10px 0px'}}>
@@ -65,9 +68,13 @@ const ComparerColumnFooter = ({checked, disabled, toggleCompareSwitch}) => {
 	)
 }
 
-const ComparerColumn = (params) => {
-	const {build, inputHandler, showStats, comparedParts, checked, 
-		toggleShowStats, toggleCompareSwitch, showTooltip, setShowTooltip} = params;
+const ComparerColumn = ({pos, inputHandler, comparedParts}) => {
+
+	const state = useContext(ComparerStateContext);
+	const stateDispatch = useContext(ComparerStateDispatchContext);
+
+	const build = state.builds[pos];
+	const showStats = state.showStats[pos];
 
 	// compared parts === undefined -> no pair of builds are compared
 	// compared parts === null -> a pair of builds is compared but this is not in the pair
@@ -76,11 +83,9 @@ const ComparerColumn = (params) => {
 	return(
 		<div style={{width: '24%', filter: comparedParts === null ? 'brightness(0.5)' : 'none'}}>
 			<ComparerColumnHeader
+				pos={pos}
 				inputHandler={inputHandler}
 				showStats={showStats}
-				toggleShowStats={toggleShowStats}
-				showTooltip={showTooltip}
-				setShowTooltip={setShowTooltip}
 			/>
 			<div style={{height: '655px', marginBottom: '5px'}}>
 				{
@@ -93,29 +98,14 @@ const ComparerColumn = (params) => {
 					<ACAssembly parts={build} previewSetter={null} />
 				}
 			</div>
-			<ComparerColumnFooter checked={checked} disabled={comparedParts === null} 
-				toggleCompareSwitch={toggleCompareSwitch}/>
+			<ComparerColumnFooter pos={pos} disabled={comparedParts === null}/>
 		</div>
 	)
 }
 
 const CompareBuildsComponent = () => {
-	const builds = useContext(ComparerBuildsContext);
-	const buildsDispatch = useContext(ComparerBuildsDispatchContext);
-
-	const [showTooltip, setShowTooltip] = useState(true);
-
-	const [allShowStats, toggleAllShowStats] = useReducer(
-		booleanListReducer,
-		null,
-		() => new Array(builds.length).fill(false)
-	);
-
-	const [compareSwitches, toggleCompareSwitches] = useReducer(
-		booleanListReducer,
-		null,
-		() => new Array(builds.length).fill(false)
-	);
+	const state = useContext(ComparerStateContext);
+	const stateDispatch = useContext(ComparerStateDispatchContext);
 
 	const posInputHandler = (event, pos) => {
 		event.preventDefault();
@@ -128,41 +118,37 @@ const CompareBuildsComponent = () => {
 			query = ''
 		}
 		const build = parseBuildQuery(query);
-		buildsDispatch({pos: pos, parts: build})
+		stateDispatch({target: 'builds', pos: pos, value: build})
 	}
 
 	// Detect if two comparison checkbox are ticked and set the compared builds
 	// accordingly
 	let comparedBuildsPos = [];
-	compareSwitches.map((b, pos) => {
+	state.checked.map((b, pos) => {
 		if(b) comparedBuildsPos.push(pos);
 		return null;
 	});
 	let comparedBuilds;
 	if(comparedBuildsPos.length === 2) {
-		comparedBuilds = new Array(builds.length).fill(null);
-		comparedBuilds[comparedBuildsPos[0]] = builds[comparedBuildsPos[1]];
-		comparedBuilds[comparedBuildsPos[1]] = builds[comparedBuildsPos[0]];
+		comparedBuilds = new Array(state.builds.length).fill(null);
+		comparedBuilds[comparedBuildsPos[0]] = state.builds[comparedBuildsPos[1]];
+		comparedBuilds[comparedBuildsPos[1]] = state.builds[comparedBuildsPos[0]];
 	} else {
-		comparedBuilds = new Array(builds.length).fill(undefined);
+		comparedBuilds = new Array(state.builds.length).fill(undefined);
 	}
+
+	const range = [...Array(state.builds.length).keys()];
 
 	return (
 		<div style={{display: 'flex', justifyContent: 'space-around', marginTop: '25px'}}>
 		{
-			builds.map(
-				(build, pos) => {
+			range.map(
+				(pos) => {
 					return(
 						<ComparerColumn
-							build={build}
+							pos={pos}
 							inputHandler={(ev) => posInputHandler(ev, pos)}
-							showStats={allShowStats[pos]}
 							comparedParts={comparedBuilds[pos]}
-							checked={compareSwitches[pos]}
-							toggleShowStats={() => toggleAllShowStats(pos)}
-							toggleCompareSwitch={() => toggleCompareSwitches(pos)}
-							showTooltip={showTooltip}
-							setShowTooltip={setShowTooltip}
 							key={pos}
 						/>
 					)
