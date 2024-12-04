@@ -103,9 +103,94 @@ export function getPartsForSlot(slot, backSubslot) {
 		return rawPartsForSlot[slot][backSubslot];
 }
 
+export const partStatGroups = {
+	'Unit': [
+		[
+			'AttackPower', 'Impact', 'AccumulativeImpact', 'Damage/s', 'Impact/s',
+			'AccumulativeImpact/s', 'Damage/sInclReload', 'Impact/sInclReload', 
+			'AccImpact/sInclReload', 'ComboDamage', 'ComboImpact', 'ComboAccumulativeImpact', 
+			'DirectAttackPower', 'DirectDamage/s', 'ComboDirectDamage', 'BlastRadius', 
+			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
+		],
+		[
+			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgBlastRadius', 'ChgHeatBuildup', 
+			'FullChgAttackPower', 'FullChgImpact', 'FullChgAccumImpact', 'FullChgBlastRadius',
+			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration',
+			'DplyHeatBuildup'
+		],
+		[
+			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'Guidance', 'IdealRange', 
+			'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 'ChgENLoad', 
+			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
+			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'DeploymentRange', 
+			'Cooling', 'AmmunitionCost'
+		],
+		['Weight', 'ENLoad']
+	],
+	'Head': [
+		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
+		[
+			'AttitudeStability', 'SystemRecovery', 'ScanDistance', 'ScanEffectDuration',
+			'ScanStandbyTime'
+		],
+		['Weight', 'ENLoad']
+	],
+	'Core': [
+		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
+		['AttitudeStability', 'BoosterEfficiencyAdj', 'GeneratorOutputAdj', 'GeneratorSupplyAdj'],
+		['Weight', 'ENLoad']
+	],
+	'Arms': [
+		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
+		['ArmsLoadLimit', 'RecoilControl', 'FirearmSpecialization', 'MeleeSpecialization'],
+		['Weight', 'ENLoad']
+	],
+	'Legs': [
+		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
+		[
+			'AttitudeStability', 'LoadLimit', 'JumpDistance', 'JumpHeight', 'TravelSpeed',
+			'HighSpeedPerf'
+		],
+		[
+			'Thrust', 'UpwardThrust', 'UpwardENConsumption', 'QBThrust', 'QBJetDuration',
+			'QBENConsumption', 'QBReloadTime',
+			'QBReloadIdealWeight', 'ABThrust', 'ABENConsumption'
+		],
+		['Weight', 'ENLoad']
+	],
+	'Booster': [
+		['Thrust', 'UpwardThrust', 'UpwardENConsumption'],
+		[
+			'QBThrust', 'QBJetDuration','QBENConsumption', 'QBReloadTime','QBReloadIdealWeight'
+		],
+		['ABThrust', 'ABENConsumption'],
+		['MeleeAttackThrust', 'MeleeAtkENConsump'],
+		['Weight', 'ENLoad']
+	],
+	'FCS': [
+		['CloseRangeAssist', 'MediumRangeAssist', 'LongRangeAssist'],
+		['MissileLockCorrection', 'MultiLockCorrection'],
+		['Weight', 'ENLoad']
+	],
+	'Generator': [
+		[
+			'ENCapacity', 'ENRecharge', 'SupplyRecovery', 'PostRecoveryENSupply', 
+			'EnergyFirearmSpec',
+		],
+		['Weight', 'ENOutput']
+	],
+	'Expansion': [
+		[
+			'AttackPower', 'Impact', 'AccumulativeImpact', 'BlastRadius', 'EffectRange',
+			'Resilience', 'Duration'
+		],
+		['DirectHitAdjustment']
+	]
+};
+
 /***************************************************************************************/
 
-function capitalizeFirstLetter(str) {
+export function capitalizeFirstLetter(str) {
 	return String(str).charAt(0).toUpperCase() + String(str).slice(1);
 }
 

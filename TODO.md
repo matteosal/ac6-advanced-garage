@@ -7,3 +7,5 @@
 * Global build scores? One per AC stat groups + offense
 * Tests
 * Create custom Plotly bundle to reduce size
+
+https://en.bandainamcoent.eu/armored-core/news/armored-core-vi-fires-of-rubicon-patch-notes-1072

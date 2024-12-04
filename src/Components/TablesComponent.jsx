@@ -145,9 +145,8 @@ function getHeaderColor(range, endpoint, pos) {
 		return glob.paletteColor(4)
 }
 
-const DraggableTable = ({data}) => {
+const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
-	const [columnOrder, setColumnOrder] = useState(() => Object.keys(data[0]));
 	const [previewShiftInfo, setPreviewShiftInfo] = useState({range: null, posDirection: true});
 
 	const changeOrdering = (srcPos, dstPos) => {
@@ -221,31 +220,142 @@ const tableHidddenPartStats = ['Kind', 'Manufacturer', 'AttackType',
 	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 
 	'LeftArm', 'RightBack', 'LeftBack','ID'];
 
-const TablesComponent = () => {
-	const data = glob.getPartsForSlot('rightArm').map(
-		part => Object.fromEntries(
-			Object.entries(part).filter(
-				([name, val]) => {
-					return !tableHidddenPartStats.includes(name)
-				}
+const partClasses = ['armUnit', 'backUnit', 'head', 'core', 'arms', 'legs', 'booster',
+	'fcs', 'generator', 'expansion'];
+
+function toSlotName(className) {
+	if(className === 'armUnit')
+		return 'rightArm';
+	else if (className === 'backUnit')
+		return 'rightBack'
+	else
+		return className
+}
+
+function toKind(className) {
+	if(['armUnit', 'backUnit'].includes(className))
+		return 'Unit';
+	else if(className === 'fcs')
+		return 'FCS';
+	else
+		return glob.capitalizeFirstLetter(className);
+}
+
+const ClassBox = ({partClass, selected, setter}) => {
+	const [highlighted, setHighlighted] = useState(false);
+
+	const imgStyle = {width: '60px'};
+	if(selected)
+		imgStyle['filter'] = 'brightness(1.6)';
+	else if(highlighted)
+		imgStyle['filter'] = 'brightness(1.3)';
+
+	const img = glob.slotImages[glob.toImageFileName(toSlotName(partClass))];
+	return (
+		<div 
+			style={{display: 'flex'}}
+			onMouseEnter={() => setHighlighted(true)}
+			onMouseLeave={() => setHighlighted(false)}
+			onClick={setter}
+		>
+			<img src={img} style={imgStyle}/>
+		</div>
+	)
+}
+
+function getTableData(partClass) {
+	const slotName = toSlotName(partClass);
+
+	const parts = glob.getPartsForSlot(slotName, 0).filter(
+		part => part['Name'] !== '(NOTHING)'
+	);
+
+	return(
+		parts.map(
+			part => Object.fromEntries(
+				Object.entries(part).filter(
+					([name, val]) => {
+						return !tableHidddenPartStats.includes(name)
+					}
+				)
 			)
 		)
-	);
-/*	const range = [...Array(8).keys()];
-	const data = [Object.fromEntries(range.map(
-		i => [i, 'val' + i]
-	))];*/
+	)
+}
+
+// We could get these by taking the union of all keys in the data, but taking them from the
+// global list gives us a nicer default ordering
+function getDataColumns(kind) {
+	let res = glob.partStatGroups[kind].flat();
+	res.unshift('Name');
+	return res
+}
+
+const ClassSelector = ({setData, setColumnOrder}) => {
+	const [selectedClass, setSelectedClass] = useState('armUnit');
+
+	const setter = (partClass) => {
+		const data = getTableData(partClass);
+		setSelectedClass(partClass);
+		setData(data);
+		setColumnOrder(getDataColumns(toKind(partClass)));
+	}
+
 	return(
+		<div style={{display: 'flex', alignItems: 'center'}}>
+			<div style={{marginRight: '5px'}}>{'PART CLASS: '}</div>
+			{
+				partClasses.map(
+					partClass => <ClassBox 
+						partClass={partClass}
+						selected={partClass === selectedClass}
+						setter={() => setter(partClass)}
+						key={partClass}
+					/>
+				)
+			}
+		</div>
+	)
+}
+
+const Header = ({setData, setColumnOrder}) => {
+	return(
+		<div style={{...glob.dottedBackgroundStyle(), padding: '10px', 
+			margin: '20px 0px 10px 0px'}}>
+			<ClassSelector
+				setData={setData}
+				setColumnOrder={setColumnOrder}
+			/>
+		</div>
+	)
+}
+
+const TablesComponent = () => {
+
+	const [data, setData] = useState(
+		() => getTableData('armUnit')
+	)
+	const [columnOrder, setColumnOrder] = useState(
+		() => getDataColumns(toKind('armUnit'))
+	);
+
+	return(
+		<>
+		<Header 
+			setData={setData}
+			setColumnOrder={setColumnOrder}
+		/>
 		<div 
 			className='my-scrollbar'
 			style={{
 				...glob.dottedBackgroundStyle(),
 				padding: '15px',
-				height: '750px', overflow: 'auto'
+				height: '700px', overflow: 'auto'
 			}}
 		>
-			<DraggableTable data={data} />
+			<DraggableTable data={data} columnOrder={columnOrder} setColumnOrder={setColumnOrder} />
 		</div>
+		</>
 	)
 }
 

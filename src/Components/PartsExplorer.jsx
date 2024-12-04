@@ -19,7 +19,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 		borderColor = glob.paletteColor(5);
 	}
 	else if(highlighted)
-		imgStyle['filter'] = 'brightness(1.3)'
+		imgStyle['filter'] = 'brightness(1.3)';
 	else if(inactive)
 		imgStyle['filter'] = 'brightness(0.5)';
 
