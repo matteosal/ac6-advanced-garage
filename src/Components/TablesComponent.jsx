@@ -348,14 +348,18 @@ const TablesComponent = () => {
 			setColumnOrder={setColumnOrder}
 		/>
 		<div 
-			className='my-scrollbar'
 			style={{
 				...glob.dottedBackgroundStyle(),
-				padding: '15px',
-				height: '700px', overflow: 'auto'
+				padding: '15px'
 			}}
 		>
-			<DraggableTable data={data} columnOrder={columnOrder} setColumnOrder={setColumnOrder} />
+			<div className='my-scrollbar' style={{height: '700px', overflow: 'auto'}}>
+				<DraggableTable
+					data={data}
+					columnOrder={columnOrder}
+					setColumnOrder={setColumnOrder}
+				/>
+			</div>
 		</div>
 		</>
 	)
