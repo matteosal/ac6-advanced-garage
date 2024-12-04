@@ -2,19 +2,34 @@ import {useState, useReducer, useContext, useRef} from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
-function getCellStyle(thick) {
-	const w = thick ? '5px' : '2px';
-	return(
-		{
-			width: '140px',
-			padding: '5px 10px 5px 10px',
-			boxSizing: 'border-box',
-			borderLeftWidth: w, borderRightWidth: w,
-			borderLeftStyle: 'solid', borderRightStyle: 'solid',
-			borderLeftColor: glob.paletteColor(5), borderRightColor: glob.paletteColor(5),
-			textAlign: 'center'			
-		}
-	)
+import ScrollableTable from './ScrollableTable.jsx'
+
+function getCellStyle(pos, wide, tall, thick, bottomBorder) {
+	const width = wide ? '240px' : '140px';
+	const borderW = thick ? '5px' : '2px';
+	const style = {
+		display: 'inline-block',
+		width: width,
+		padding: '5px 10px 5px 10px',
+		boxSizing: 'border-box',
+		borderRightWidth: borderW,
+		borderRightStyle: 'solid',
+		borderLeftColor: glob.paletteColor(5), borderRightColor: glob.paletteColor(5),
+		textAlign: 'center'			
+	};
+	if(bottomBorder) {
+		style.borderBottomWidth = '2px';
+		style.borderBottomStyle = style.borderRightStyle;	
+		style.borderBottomColor = style.borderRightColor;		
+	}
+	if(pos === 0 || thick) {
+		style.borderLeftWidth = style.borderRightWidth;
+		style.borderLeftStyle = style.borderRightStyle;
+		style.borderLeftColor = style.borderRightColor;
+	}
+	if(tall)
+		style.height = '60px'
+	return style
 }
 
 const longDashCharacter = '\u2012';
@@ -89,22 +104,21 @@ const DraggableHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandl
 			previewShiftInfo.range[0]
 	}
 
-	const cellBaseStyle = getCellStyle(pos === rangeEndpoint);
+	const cellBaseStyle = getCellStyle(pos, name === 'Name', true, 
+		pos === rangeEndpoint, false);
 	const color = getHeaderColor(previewShiftInfo.range, rangeEndpoint, pos);
 
 	const cellStyle = {
 		...cellBaseStyle,
 		backgroundColor: color,
 		padding: '5px 0px',
+		borderTop: '2px solid ' + glob.paletteColor(5),
 		borderBottom: '2px solid ' + glob.paletteColor(5),
 		opacity: isBeingDragged ? 0.5 : 1
 	};
 
-	if(name === 'Name')
-		cellStyle.width = '240px';
-
 	return (
-		<th 
+		<div 
 			style={cellStyle}
 		>
 			<div style=
@@ -117,7 +131,7 @@ const DraggableHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandl
 					{doubleArrowLeft}
 				</div>
 				<div 
-					style={{height: '100%', width: '80%', display: 'flex', alignItems:'center', justifyContent: 'center', cursor: 'grab'}}
+					style={{height: '100%', width: '80%', display: 'flex', alignItems:'center', justifyContent: 'center', cursor: 'grab', whiteSpace: 'normal'}}
 					draggable
 					onDragStart={handleDragStart}
 					onDragEnd={handleDragEnd}
@@ -134,7 +148,7 @@ const DraggableHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandl
 					{doubleArrowRight}
 				</div>
 			</div>
-		</th>
+		</div>
 	);
 };
 
@@ -178,43 +192,43 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 	}
 
 	return (
-		<table style={{tableLayout: 'fixed', borderCollapse: 'collapse', width: 'auto', 
-			width: '100%', border: '2px solid ' + glob.paletteColor(5)}}>
-			<thead>
-			<tr>
-				{
-					columnOrder.map(
-						(name, pos) => <DraggableHeader
-							name={name}
-							pos={pos}
-							previewShiftInfo={previewShiftInfo}
-							changeOrdering={changeOrdering}
-							dragHandler={dragHandler}
-							key={name}
-						/>
-					)
-				}
-			</tr>
-			</thead>
-			<tbody>
-				{
-					data.map(
-						(row, rowIndex) => <tr 
-							style={{backgroundColor: glob.tableRowBackground(rowIndex)}}
-							key={rowIndex}
-						>
-							{
-								columnOrder.map(
-									(name, pos) => <td style={getCellStyle(pos === rangeEndpoint)} key={name}>
-										{toCellDisplay(row[name])}
-									</td>
-								)
-							}
-						</tr>
-					)
-				}
-			</tbody>
-		</table>
+		<>
+		<div style={{whiteSpace: 'nowrap'}}>
+			{
+				columnOrder.map(
+					(name, pos) => <DraggableHeader
+						name={name}
+						pos={pos}
+						previewShiftInfo={previewShiftInfo}
+						changeOrdering={changeOrdering}
+						dragHandler={dragHandler}
+						key={name}
+					/>
+				)
+			}
+		</div>
+			{
+				data.map(
+					(row, rowIndex) => <div 
+						style={{display: 'table-row', whiteSpace: 'nowrap',
+							backgroundColor: glob.tableRowBackground(rowIndex)}}
+						key={rowIndex}
+					>
+						{
+							columnOrder.map(
+								(name, pos) => <div 
+									style={getCellStyle(pos, name === 'Name', false, 
+										pos === rangeEndpoint, rowIndex === data.length - 1)}
+									key={name}
+								>
+									{toCellDisplay(row[name])}
+								</div>
+							)
+						}
+					</div>
+				)
+			}
+		</>
 	);
 };
 
