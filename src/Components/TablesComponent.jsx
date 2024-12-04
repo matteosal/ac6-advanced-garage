@@ -6,7 +6,7 @@ function getCellStyle(thick) {
 	const w = thick ? '5px' : '2px';
 	return(
 		{
-			width: '160px',
+			width: '140px',
 			padding: '5px 10px 5px 10px',
 			boxSizing: 'border-box',
 			borderLeftWidth: w, borderRightWidth: w,
@@ -92,18 +92,20 @@ const DraggableHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandl
 	const cellBaseStyle = getCellStyle(pos === rangeEndpoint);
 	const color = getHeaderColor(previewShiftInfo.range, rangeEndpoint, pos);
 
+	const cellStyle = {
+		...cellBaseStyle,
+		backgroundColor: color,
+		padding: '5px 0px',
+		borderBottom: '2px solid ' + glob.paletteColor(5),
+		opacity: isBeingDragged ? 0.5 : 1
+	};
+
+	if(name === 'Name')
+		cellStyle.width = '240px';
+
 	return (
 		<th 
-			style={
-				{
-					...cellBaseStyle,
-					backgroundColor: color,
-					height: '50px',
-					padding: '0px',
-					borderBottom: '2px solid ' + glob.paletteColor(5),
-					opacity: isBeingDragged ? 0.5 : 1
-				}
-			}
+			style={cellStyle}
 		>
 			<div style=
 				{{display: 'flex', justifyContent: 'center', alignItems: 'center', 
