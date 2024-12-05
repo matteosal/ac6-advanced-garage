@@ -7,6 +7,7 @@ function getCellStyle(pos, wide, tall, thick, bottomBorder) {
 	const borderW = thick ? '5px' : '2px';
 	const style = {
 		display: 'inline-block',
+		verticalAlign: 'top',
 		width: width,
 		padding: '5px 10px 5px 10px',
 		boxSizing: 'border-box',
@@ -28,6 +29,7 @@ function getCellStyle(pos, wide, tall, thick, bottomBorder) {
 	if(pos === 0) {
 		style.position = 'sticky';
 		style.left = 0;
+		style.zIndex = 1;
 	}
 	if(tall)
 		style.height = '80px';
@@ -47,13 +49,13 @@ function toCellDisplay(val) {
 		return val
 }
 
-function getShiftSymbolsVisibility(shiftInfo, pos) {
+function getShowShiftSymbols(shiftInfo, pos) {
 	if(!shiftInfo.range)
-		return ['hidden', 'hidden'];
+		return [false, false];
 	else if(pos >= shiftInfo.range[0] && pos <= shiftInfo.range[1])
-		return shiftInfo.posDirection ? ['visible', 'hidden'] : ['hidden', 'visible']
+		return shiftInfo.posDirection ? [true, false] : [false, true]
 	else
-		return ['hidden', 'hidden'];
+		return [false, false];
 }
 
 const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, dragHandler, changeSorting}) => {
@@ -109,23 +111,9 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 		};
 	}
 
-	let [leftVisibility, rightVisibility] = getShiftSymbolsVisibility(previewShiftInfo, pos);
+	let [showLeftShift, showRightShift] = getShowShiftSymbols(previewShiftInfo, pos);
 
-	let rightSymbol;
-	let isSortOrder = false;
-	if(rightVisibility === 'visible' || sortOrder == null) {
-		rightSymbol = doubleArrowRight;
-	}
-	else if(sortOrder) {
-		isSortOrder = true;
-		rightVisibility = 'visible';
-		rightSymbol = glob.sortIcons.ascend;
-	}
-	else {
-		isSortOrder = true;
-		rightVisibility = 'visible';
-		rightSymbol = glob.sortIcons.descend;
-	}
+	const showSortOrder = sortOrder !== null && !showRightShift;
 
 	let rangeEndpoint = null;
 	if(previewShiftInfo.range) {
@@ -151,20 +139,23 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 			style={cellStyle}
 		>
 			<div style=
-				{{display: 'flex', justifyContent: 'center', alignItems: 'center', 
-					height: '100%'}}
+				{{display: 'flex', justifyContent: 'center', height: '100%',
+					position: 'relative'}}
 			>
+				{
+					showLeftShift ? 
+						<div 
+							style={{fontSize: '20px', position: 'absolute', top: '21px',
+								right: '90%'}}
+						>
+							{doubleArrowLeft}
+						</div> :
+						<></>
+				}
 				<div 
-					style={{height: '100%', width: '10%', visibility: leftVisibility, 
-						display: 'flex', alignItems:'center', justifyContent: 'center', 
-						cursor: 'default', fontSize: '20px'}}
-				>
-					{doubleArrowLeft}
-				</div>
-				<div 
-					style={{height: '100%', width: '80%', display: 'flex', alignItems:'center',
-						justifyContent: 'center', cursor: pos === 0 ? 'default' : 'grab',
-						whiteSpace: 'normal'}}
+					style={{height: '100%', width: '70%', display: 'flex', alignItems:'center',
+						justifyContent: 'center', whiteSpace: 'normal',
+						cursor: pos === 0 ? 'default' : 'grab'}}
 					draggable={pos !== 0}
 					onDragStart={handleDragStart}
 					onDragEnd={handleDragEnd}
@@ -176,21 +167,29 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 				>
 					{glob.toDisplayString(name)}
 				</div>
-				<div 
-					style={{height: '100%', width: '10%', visibility: rightVisibility,
-						display: 'flex', alignItems:'center', justifyContent: 'center', 
-						cursor: 'default', fontSize: '20px', position: 'relative'}}
-				>
-					{
-						isSortOrder ? 
-							<img 
-								src={rightSymbol}
-								style={{width: '20px', filter: 'invert(1)', position: 'absolute',	
-									right: '0px'}} 
-							/> :
-							rightSymbol
-					}
-				</div>
+				{
+					showRightShift ? 
+						<div 
+							style={{fontSize: '20px', position: 'absolute', top: '21px',
+								left: '90%'}}
+						>
+							{doubleArrowRight}
+						</div> :
+						<></>
+				}
+				{
+					showSortOrder ? 
+						<img 
+							src={
+								sortOrder ? 
+									glob.sortIcons.ascend :
+									glob.sortIcons.descend
+								}
+							style={{width: '20px', filter: 'invert(1)', position: 'absolute',
+								top: '23px', left: '85%'}} 
+						/> :
+						<></>
+				}
 			</div>
 		</div>
 	);
@@ -291,7 +290,7 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
 	return (
 		<>
-		<div style={{display: 'table-row', whiteSpace: 'nowrap', position: 'sticky', top: '0', zIndex: 1}}>
+		<div style={{display: 'table-row', whiteSpace: 'nowrap', position: 'sticky', top: '0', zIndex: 2}}>
 			{
 				columnOrder.map(
 					(name, pos) => <ColumnHeader
