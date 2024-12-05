@@ -56,47 +56,58 @@ function getShiftSymbolsVisibility(shiftInfo, pos) {
 		return ['hidden', 'hidden'];
 }
 
-const DraggableColHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandler}) => {
+const ColumnHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandler}) => {
 
 	const [isBeingDragged, setIsBeingDragged] = useState(false);
 
-	const handleDragStart = (event) => {
-		event.dataTransfer.setData(JSON.stringify(pos), pos);
-		setIsBeingDragged(true);
-	};
+	let handleDragStart, handleDragEnd, handleDragEnter, handleDragLeave, handleDragOver,
+		handleDrop;
+	if(pos === 0)
+		handleDragStart = handleDragEnd = handleDragEnter = handleDragLeave = handleDragOver 
+			= handleDrop = () => {};
+	else {
+		handleDragStart = (event) => {
+			event.dataTransfer.setData(JSON.stringify(pos), pos);
+			setIsBeingDragged(true);
+		};
 
-	const handleDragEnd = (event) => {
-		setIsBeingDragged(false);
-	};
+		handleDragEnd = (event) => {
+			setIsBeingDragged(false);
+		};
 
-	const handleDragEnter = (event) =>  {
-		const srcPos = Number(event.dataTransfer.types[0]);
-		if(srcPos < pos)
-			dragHandler({range: [srcPos + 1, pos], posDirection: true}, pos);
-		else if(srcPos > pos)
-			dragHandler({range: [pos, srcPos - 1], posDirection: false}, pos);
-	}
-
-	const handleDragLeave = (event) =>  {
-		const srcPos = Number(event.dataTransfer.types[0]);
-		if(srcPos !== pos)
-			setTimeout(
-				() => dragHandler(
-					{range: null, posDirection: srcPos < pos},
-					pos
-				), 
-				25
-			);
-	}
-
-	const handleDrop = (event) => {
-		event.preventDefault();
-		const srcPos = Number(event.dataTransfer.types[0]);
-		if(srcPos !== pos) {
-			dragHandler({range: null, posDirection: true});
-			changeOrdering(srcPos, pos);
+		handleDragEnter = (event) =>  {
+			const srcPos = Number(event.dataTransfer.types[0]);
+			if(srcPos < pos)
+				dragHandler({range: [srcPos + 1, pos], posDirection: true}, pos);
+			else if(srcPos > pos)
+				dragHandler({range: [pos, srcPos - 1], posDirection: false}, pos);
 		}
-	};
+
+		handleDragLeave = (event) =>  {
+			const srcPos = Number(event.dataTransfer.types[0]);
+			if(srcPos !== pos)
+				setTimeout(
+					() => dragHandler(
+						{range: null, posDirection: srcPos < pos},
+						pos
+					), 
+					25
+				);
+		}
+
+		handleDragOver = (event) => {
+			event.preventDefault();
+		}
+
+		handleDrop = (event) => {
+			event.preventDefault();
+			const srcPos = Number(event.dataTransfer.types[0]);
+			if(srcPos !== pos) {
+				dragHandler({range: null, posDirection: true});
+				changeOrdering(srcPos, pos);
+			}
+		};
+	}
 
 	const [leftVisible, rightVisible] = getShiftSymbolsVisibility(previewShiftInfo, pos);
 
@@ -116,7 +127,7 @@ const DraggableColHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHa
 		padding: '5px 0px',
 		borderTop: '2px solid ' + glob.paletteColor(5),
 		borderBottom: '2px solid ' + glob.paletteColor(5),
-		opacity: isBeingDragged ? 0.5 : 1
+		filter: isBeingDragged ? 'brightness(0.6)' : 'none'
 	};
 
 	return (
@@ -128,24 +139,28 @@ const DraggableColHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHa
 					height: '100%'}}
 			>
 				<div 
-					style={{height: '100%', width: '10%', visibility: leftVisible, display: 'flex', alignItems:'center', justifyContent: 'center', cursor: 'default'}}
+					style={{height: '100%', width: '10%', visibility: leftVisible, display: 'flex',
+						alignItems:'center', justifyContent: 'center', cursor: 'default'}}
 				>
 					{doubleArrowLeft}
 				</div>
 				<div 
-					style={{height: '100%', width: '80%', display: 'flex', alignItems:'center', justifyContent: 'center', cursor: 'grab', whiteSpace: 'normal'}}
-					draggable
+					style={{height: '100%', width: '80%', display: 'flex', alignItems:'center',
+						justifyContent: 'center', cursor: pos === 0 ? 'default' : 'grab',
+						whiteSpace: 'normal'}}
+					draggable={pos !== 0}
 					onDragStart={handleDragStart}
 					onDragEnd={handleDragEnd}
 					onDragEnter={handleDragEnter}
 					onDragLeave={handleDragLeave}
-					onDragOver={event => event.preventDefault()}
+					onDragOver={handleDragOver}
 					onDrop={handleDrop}
 				>
 					{glob.toDisplayString(name)}
 				</div>
 				<div 
-					style={{height: '100%', width: '10%', visibility: rightVisible, display: 'flex', alignItems:'center', justifyContent: 'center', cursor: 'default'}}
+					style={{height: '100%', width: '10%', visibility: rightVisible, display: 'flex',
+						alignItems:'center', justifyContent: 'center', cursor: 'default'}}
 				>
 					{doubleArrowRight}
 				</div>
@@ -223,7 +238,7 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 		<div style={{display: 'table-row', whiteSpace: 'nowrap', position: 'sticky', top: '0', zIndex: 1}}>
 			{
 				columnOrder.map(
-					(name, pos) => <DraggableColHeader
+					(name, pos) => <ColumnHeader
 						name={name}
 						pos={pos}
 						previewShiftInfo={previewShiftInfo}
