@@ -391,10 +391,13 @@ const TablesComponent = () => {
 		<div 
 			style={{
 				...glob.dottedBackgroundStyle(),
+				boxSizing: 'border-box',
+				width: '100%',
 				padding: '15px'
 			}}
 		>
-			<div className='my-scrollbar' style={{height: '700px', overflow: 'auto'}}>
+			<div className='my-scrollbar' style={{height: '700px', overflow: 'auto',
+				width: 'fit-content', maxWidth: '100%', margin: '0px auto'}}>
 				<DraggableTable
 					data={data}
 					columnOrder={columnOrder}
