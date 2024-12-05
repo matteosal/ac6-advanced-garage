@@ -2,8 +2,6 @@ import {useState, useReducer, useContext, useRef} from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
-import ScrollableTable from './ScrollableTable.jsx'
-
 function getCellStyle(pos, wide, tall, thick, bottomBorder) {
 	const width = wide ? '240px' : '140px';
 	const borderW = thick ? '5px' : '2px';
@@ -27,8 +25,12 @@ function getCellStyle(pos, wide, tall, thick, bottomBorder) {
 		style.borderLeftStyle = style.borderRightStyle;
 		style.borderLeftColor = style.borderRightColor;
 	}
+	if(pos === 0) {
+		style.position = 'sticky';
+		style.left = 0;
+	}
 	if(tall)
-		style.height = '60px'
+		style.height = '60px';
 	return style
 }
 
@@ -54,7 +56,7 @@ function getShiftSymbolsVisibility(shiftInfo, pos) {
 		return ['hidden', 'hidden'];
 }
 
-const DraggableHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandler}) => {
+const DraggableColHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandler}) => {
 
 	const [isBeingDragged, setIsBeingDragged] = useState(false);
 
@@ -161,6 +163,31 @@ function getHeaderColor(range, endpoint, pos) {
 		return glob.paletteColor(4)
 }
 
+export function stickyRowBackground(pos) {
+	if(pos % 2)
+		return glob.paletteColor(4, 1, 0.95);
+	else
+		return glob.paletteColor(2);
+}
+
+const TableCell = ({content, rowPos, colPos, colName, rangeEndpoint, bottomBorder}) => {
+	const color = colPos === 0 ? stickyRowBackground(rowPos) : glob.tableRowBackground(rowPos);
+	return(
+		<div 
+			style={
+				{
+					...getCellStyle(colPos, colName === 'Name', false, 
+						colPos === rangeEndpoint, bottomBorder),
+					backgroundColor: color
+				}
+			}
+			key={colName}
+		>
+			{toCellDisplay(content)}
+		</div>
+	)
+}
+
 const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
 	const [previewShiftInfo, setPreviewShiftInfo] = useState({range: null, posDirection: true});
@@ -193,10 +220,10 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
 	return (
 		<>
-		<div style={{whiteSpace: 'nowrap'}}>
+		<div style={{display: 'table-row', whiteSpace: 'nowrap', position: 'sticky', top: '0', zIndex: 1}}>
 			{
 				columnOrder.map(
-					(name, pos) => <DraggableHeader
+					(name, pos) => <DraggableColHeader
 						name={name}
 						pos={pos}
 						previewShiftInfo={previewShiftInfo}
@@ -209,20 +236,20 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 		</div>
 			{
 				data.map(
-					(row, rowIndex) => <div 
-						style={{display: 'table-row', whiteSpace: 'nowrap',
-							backgroundColor: glob.tableRowBackground(rowIndex)}}
-						key={rowIndex}
+					(row, rowPos) => <div 
+						style={{display: 'table-row', whiteSpace: 'nowrap'}}
+						key={rowPos}
 					>
 						{
 							columnOrder.map(
-								(name, pos) => <div 
-									style={getCellStyle(pos, name === 'Name', false, 
-										pos === rangeEndpoint, rowIndex === data.length - 1)}
-									key={name}
-								>
-									{toCellDisplay(row[name])}
-								</div>
+								(name, colPos) => <TableCell
+									content={toCellDisplay(row[name])}
+									rowPos={rowPos}
+									colPos={colPos}
+									colName={name}
+									rangeEndpoint={rangeEndpoint}
+									bottomBorder={rowPos === data.length - 1}
+								/>
 							)
 						}
 					</div>
