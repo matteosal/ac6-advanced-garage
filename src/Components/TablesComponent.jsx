@@ -236,25 +236,7 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
 	let sortedData = data;
 	sortedData.sort(
-		(a, b) => {
-			const order = sorting.ascend ? 1 : -1;
-			// Default is set so that parts without the key will always come after the others
-			const defaultVal = order === 1 ? Infinity : -Infinity;
-			let aVal = a[sorting.key] || defaultVal;
-			let bVal = b[sorting.key] || defaultVal;
-			// Resolve list specs
-			if (aVal.constructor === Array) aVal = aVal[0] * aVal[1];
-			if (bVal.constructor === Array) bVal = bVal[0] * bVal[1];
-			// Sort alphabetically is key is equal
-			let res;
-			if(aVal > bVal)      
-				res = order;
-			else if(aVal < bVal)
-				res = -order;
-			else
-				res = a['Name'] > b['Name'] ? order : -order;
-			return res
-		}
+		(a, b) => glob.partSortingFunction(sorting.key, sorting.ascend, a, b)
 	);
 
 	const changeSorting = key => {
