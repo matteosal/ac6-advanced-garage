@@ -283,9 +283,9 @@ const partClasses = ['armUnit', 'backUnit', 'head', 'core', 'arms', 'legs', 'boo
 
 function toSlotName(className) {
 	if(className === 'armUnit')
-		return 'rightArm';
+		return 'leftArm';
 	else if (className === 'backUnit')
-		return 'rightBack'
+		return 'leftBack'
 	else
 		return className
 }
@@ -341,11 +341,14 @@ function getTableData(partClass) {
 	)
 }
 
-// We could get these by taking the union of all keys in the data, but taking them from the
-// global list gives us a nicer default ordering
-function getDataColumns(kind) {
+function getDataColumns(kind, data) {
+	const dataKeys = data.map(part => Object.keys(part)).flat();
+	const uniqueDataKeys = dataKeys.filter((col, pos, allKeys) => allKeys.indexOf(col) === pos);
+	// We could just return uniqueDataKeys, but using from the global list gives us a nicer 
+	// default ordering
 	let res = glob.partStatGroups[kind].flat();
 	res.unshift('Name');
+	res = res.filter(col => uniqueDataKeys.includes(col));
 	return res
 }
 
@@ -356,7 +359,7 @@ const ClassSelector = ({setData, setColumnOrder}) => {
 		const data = getTableData(partClass);
 		setSelectedClass(partClass);
 		setData(data);
-		setColumnOrder(getDataColumns(toKind(partClass)));
+		setColumnOrder(getDataColumns(toKind(partClass), data));
 	}
 
 	return(
@@ -394,7 +397,7 @@ const TablesComponent = () => {
 		() => getTableData('armUnit')
 	)
 	const [columnOrder, setColumnOrder] = useState(
-		() => getDataColumns(toKind('armUnit'))
+		() => getDataColumns(toKind('armUnit'), getTableData('armUnit'))
 	);
 
 	return(
