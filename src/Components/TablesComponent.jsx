@@ -30,7 +30,7 @@ function getCellStyle(pos, wide, tall, thick, bottomBorder) {
 		style.left = 0;
 	}
 	if(tall)
-		style.height = '60px';
+		style.height = '80px';
 	return style
 }
 
@@ -140,7 +140,8 @@ const ColumnHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandler}
 			>
 				<div 
 					style={{height: '100%', width: '10%', visibility: leftVisible, display: 'flex',
-						alignItems:'center', justifyContent: 'center', cursor: 'default'}}
+						alignItems:'center', justifyContent: 'center', cursor: 'default',
+						fontSize: '20px'}}
 				>
 					{doubleArrowLeft}
 				</div>
@@ -160,7 +161,8 @@ const ColumnHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandler}
 				</div>
 				<div 
 					style={{height: '100%', width: '10%', visibility: rightVisible, display: 'flex',
-						alignItems:'center', justifyContent: 'center', cursor: 'default'}}
+						alignItems:'center', justifyContent: 'center', cursor: 'default', 
+						fontSize: '20px'}}
 				>
 					{doubleArrowRight}
 				</div>
