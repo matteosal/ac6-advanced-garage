@@ -56,7 +56,7 @@ function getShiftSymbolsVisibility(shiftInfo, pos) {
 		return ['hidden', 'hidden'];
 }
 
-const ColumnHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandler}) => {
+const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, dragHandler, changeSorting}) => {
 
 	const [isBeingDragged, setIsBeingDragged] = useState(false);
 
@@ -156,6 +156,7 @@ const ColumnHeader = ({name, pos, previewShiftInfo, changeOrdering, dragHandler}
 					onDragLeave={handleDragLeave}
 					onDragOver={handleDragOver}
 					onDrop={handleDrop}
+					onClick={() => changeSorting(name)}
 				>
 					{glob.toDisplayString(name)}
 				</div>
@@ -207,7 +208,36 @@ const TableCell = ({content, rowPos, colPos, colName, rangeEndpoint, bottomBorde
 
 const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
+	const [sorting, setSorting] = useState({key: 'Name', ascend: true});
 	const [previewShiftInfo, setPreviewShiftInfo] = useState({range: null, posDirection: true});
+
+	let sortedData = data;
+	sortedData.sort(
+		(a, b) => {
+			const order = sorting.ascend ? 1 : -1;
+			// Default is set so that parts without the key will always come after the others
+			const defaultVal = order === 1 ? Infinity : -Infinity;
+			let aVal = a[sorting.key] || defaultVal;
+			let bVal = b[sorting.key] || defaultVal;
+			// Resolve list specs
+			if (aVal.constructor === Array) aVal = aVal[0] * aVal[1];
+			if (bVal.constructor === Array) bVal = bVal[0] * bVal[1];
+			// Sort alphabetically is key is equal
+			let res;
+			if(aVal > bVal)      
+				res = order;
+			else if(aVal < bVal)
+				res = -order;
+			else
+				res = a['Name'] > b['Name'] ? order : -order;
+			return res
+		}
+	);
+
+	const changeSorting = key => {
+		const newAscend = key === sorting.key ? !sorting.ascend : true;
+		setSorting({key: key, ascend: newAscend})
+	}
 
 	const changeOrdering = (srcPos, dstPos) => {
 		const newOrder = [...columnOrder];
@@ -243,16 +273,18 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 					(name, pos) => <ColumnHeader
 						name={name}
 						pos={pos}
+						sortOrder={sorting.key === name ? sorting.ascend : null}
 						previewShiftInfo={previewShiftInfo}
-						changeOrdering={changeOrdering}
 						dragHandler={dragHandler}
+						changeOrdering={changeOrdering}
+						changeSorting={changeSorting}
 						key={name}
 					/>
 				)
 			}
 		</div>
 			{
-				data.map(
+				sortedData.map(
 					(row, rowPos) => <div 
 						style={{display: 'table-row', whiteSpace: 'nowrap'}}
 						key={rowPos}
