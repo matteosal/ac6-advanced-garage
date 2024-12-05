@@ -3,7 +3,7 @@ import {useState, useReducer, useContext, useRef} from 'react';
 import * as glob from '../Misc/Globals.js';
 
 function getCellStyle(pos, wide, tall, thick, bottomBorder) {
-	const width = wide ? '240px' : '140px';
+	const width = wide ? '250px' : '150px';
 	const borderW = thick ? '5px' : '2px';
 	const style = {
 		display: 'inline-block',
@@ -109,7 +109,23 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 		};
 	}
 
-	const [leftVisible, rightVisible] = getShiftSymbolsVisibility(previewShiftInfo, pos);
+	let [leftVisibility, rightVisibility] = getShiftSymbolsVisibility(previewShiftInfo, pos);
+
+	let rightSymbol;
+	let isSortOrder = false;
+	if(rightVisibility === 'visible' || sortOrder == null) {
+		rightSymbol = doubleArrowRight;
+	}
+	else if(sortOrder) {
+		isSortOrder = true;
+		rightVisibility = 'visible';
+		rightSymbol = glob.sortIcons.ascend;
+	}
+	else {
+		isSortOrder = true;
+		rightVisibility = 'visible';
+		rightSymbol = glob.sortIcons.descend;
+	}
 
 	let rangeEndpoint = null;
 	if(previewShiftInfo.range) {
@@ -139,9 +155,9 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 					height: '100%'}}
 			>
 				<div 
-					style={{height: '100%', width: '10%', visibility: leftVisible, display: 'flex',
-						alignItems:'center', justifyContent: 'center', cursor: 'default',
-						fontSize: '20px'}}
+					style={{height: '100%', width: '10%', visibility: leftVisibility, 
+						display: 'flex', alignItems:'center', justifyContent: 'center', 
+						cursor: 'default', fontSize: '20px'}}
 				>
 					{doubleArrowLeft}
 				</div>
@@ -161,11 +177,19 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 					{glob.toDisplayString(name)}
 				</div>
 				<div 
-					style={{height: '100%', width: '10%', visibility: rightVisible, display: 'flex',
-						alignItems:'center', justifyContent: 'center', cursor: 'default', 
-						fontSize: '20px'}}
+					style={{height: '100%', width: '10%', visibility: rightVisibility,
+						display: 'flex', alignItems:'center', justifyContent: 'center', 
+						cursor: 'default', fontSize: '20px', position: 'relative'}}
 				>
-					{doubleArrowRight}
+					{
+						isSortOrder ? 
+							<img 
+								src={rightSymbol}
+								style={{width: '20px', filter: 'invert(1)', position: 'absolute',	
+									right: '0px'}} 
+							/> :
+							rightSymbol
+					}
 				</div>
 			</div>
 		</div>
