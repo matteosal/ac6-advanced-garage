@@ -1,6 +1,9 @@
 import {useState, useReducer, useContext, useRef} from 'react';
 
 import * as glob from '../Misc/Globals.js';
+import ModalWrapper from './ModalWrapper.jsx'
+
+/*****************************************************************************/
 
 function getCellStyle(pos, wide, tall, thick, bottomBorder) {
 	const width = wide ? '250px' : '150px';
@@ -313,6 +316,8 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 	);
 };
 
+/*****************************************************************************/
+
 const tableHidddenPartStats = ['Kind', 'Manufacturer', 'AttackType', 
 	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 
 	'LeftArm', 'RightBack', 'LeftBack','ID'];
@@ -338,6 +343,41 @@ function toKind(className) {
 		return glob.capitalizeFirstLetter(className);
 }
 
+function getTableData(partClass) {
+	const slotName = toSlotName(partClass);
+
+	const parts = glob.getPartsForSlot(slotName, 0).filter(
+		part => part['Name'] !== '(NOTHING)'
+	);
+
+	return(
+		parts.map(
+			part => Object.fromEntries(
+				Object.entries(part).filter(
+					([name, val]) => !tableHidddenPartStats.includes(name)
+				)
+			)
+		)
+	)
+}
+
+const tableData = [];
+partClasses.map(c => {tableData[c] = getTableData(c); return null})
+
+function getDefaultDataColumns(partClass) {
+	const dataKeys = tableData[partClass].map(part => Object.keys(part)).flat();
+	const uniqueDataKeys = dataKeys.filter((col, pos, allKeys) => allKeys.indexOf(col) === pos);
+	// We could just return uniqueDataKeys, but using the global list gives us a nicer 
+	// default ordering
+	let res = glob.partStatGroups[toKind(partClass)].flat();
+	res.unshift('Name');
+	res = res.filter(col => uniqueDataKeys.includes(col));
+	return res
+}
+
+const defaultDataColumns = [];
+partClasses.map(c => {defaultDataColumns[c] = getDefaultDataColumns(c); return null})
+
 const ClassBox = ({partClass, selected, setter}) => {
 	const [highlighted, setHighlighted] = useState(false);
 
@@ -360,45 +400,12 @@ const ClassBox = ({partClass, selected, setter}) => {
 	)
 }
 
-function getTableData(partClass) {
-	const slotName = toSlotName(partClass);
-
-	const parts = glob.getPartsForSlot(slotName, 0).filter(
-		part => part['Name'] !== '(NOTHING)'
-	);
-
-	return(
-		parts.map(
-			part => Object.fromEntries(
-				Object.entries(part).filter(
-					([name, val]) => {
-						return !tableHidddenPartStats.includes(name)
-					}
-				)
-			)
-		)
-	)
-}
-
-function getDataColumns(kind, data) {
-	const dataKeys = data.map(part => Object.keys(part)).flat();
-	const uniqueDataKeys = dataKeys.filter((col, pos, allKeys) => allKeys.indexOf(col) === pos);
-	// We could just return uniqueDataKeys, but using from the global list gives us a nicer 
-	// default ordering
-	let res = glob.partStatGroups[kind].flat();
-	res.unshift('Name');
-	res = res.filter(col => uniqueDataKeys.includes(col));
-	return res
-}
-
-const ClassSelector = ({setData, setColumnOrder}) => {
-	const [selectedClass, setSelectedClass] = useState('armUnit');
+const ClassSelector = ({selectedClass, setSelectedClass, setData, setColumnOrder}) => {
 
 	const setter = (partClass) => {
-		const data = getTableData(partClass);
 		setSelectedClass(partClass);
-		setData(data);
-		setColumnOrder(getDataColumns(toKind(partClass), data));
+		setData(tableData[partClass]);
+		setColumnOrder(defaultDataColumns[partClass]);
 	}
 
 	return(
@@ -418,30 +425,165 @@ const ClassSelector = ({setData, setColumnOrder}) => {
 	)
 }
 
-const Header = ({setData, setColumnOrder}) => {
+const Header = ({columnOrder, setData, setColumnOrder}) => {
+
+	const [columnFilterModal, setColumnFilterModal] = useState(false);
+	const [selectedClass, setSelectedClass] = useState('armUnit');
+
+	const closeColumnFilterModal = () => setColumnFilterModal(false);
+
 	return(
-		<div style={{...glob.dottedBackgroundStyle(), padding: '10px', 
+		<div style={{...glob.dottedBackgroundStyle(), display:'flex', padding: '10px', 
 			margin: '20px 0px 10px 0px'}}>
 			<ClassSelector
+				selectedClass={selectedClass}
+				setSelectedClass={setSelectedClass}
 				setData={setData}
 				setColumnOrder={setColumnOrder}
 			/>
+			<button 
+				onClick={() => setColumnFilterModal(true)}
+			>
+				FILTER COLUMNS
+			</button>
+			<ModalWrapper isOpen={columnFilterModal} closeModal={closeColumnFilterModal}>
+				{
+					columnFilterModal ? 
+					<ColumnFilters 
+						selectedClass={selectedClass}
+						columnOrder={columnOrder}
+						closeModal={closeColumnFilterModal}
+						setColumnOrder={setColumnOrder}
+					/> :
+					<></>
+				}
+			</ModalWrapper>	
 		</div>
+	)
+}
+
+const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal}) => {
+
+	const allCols = defaultDataColumns[selectedClass].filter(colName => colName !== 'Name');
+
+	const [checkboxes, setCheckboxes] = useState(
+		() => Object.fromEntries(
+			allCols.map(
+				c => [c, columnOrder.includes(c)]
+			)
+		)
+	);
+
+	const setAll = val => {
+		const newState = Object.fromEntries(
+			Object.keys(checkboxes).map(colName => [colName, val])
+		);
+		setCheckboxes(newState);
+		if(val) {
+			const newOrder = allCols;
+			newOrder.unshift('Name');
+			setColumnOrder(newOrder);
+		} else 
+			setColumnOrder(['Name'])
+	}
+
+	const toggleColumn = name => {
+		const newState = {...checkboxes};
+		const newVal = !newState[name];
+		newState[name] = newVal;
+		setCheckboxes(newState);
+		let newColumnOrder = [...columnOrder];
+		if(newVal)
+			newColumnOrder.push(name)
+		else
+			newColumnOrder = newColumnOrder.filter(colName => colName !== name)
+		setColumnOrder(newColumnOrder);
+	}
+
+	const rowLength = 3;
+	const rows = [];
+	let tempRow = [];
+	let colIdx = 0;
+
+	allCols.map(
+		colName => {
+			if(colIdx > rowLength - 1) {
+				rows.push(tempRow);
+				tempRow = [];
+				colIdx = 0;
+			}
+			tempRow.push(colName);
+			colIdx++;
+		}
+	);
+	for(let i = tempRow.length - 1; i < rowLength - 1; i++)
+		tempRow.push(null)
+	rows.push(tempRow);
+
+	return(
+		<>
+		<div style={{display: 'flex', justifyContent: 'space-around', marginBottom: '10px'}}>
+			<button onClick={() => setAll(true)}>SELECT ALL</button>
+			<button onClick={() => setAll(false)}>DESELECT ALL</button>
+		</div>
+		<div className="my-scrollbar" 
+			style={{maxHeight: '700px', overflowY: 'auto'}}
+		>		
+		<table style={{borderCollapse: 'collapse'}}>
+		{
+			rows.map(
+				row => <tr>
+					{
+						row.map(
+							name => name ?
+							 <td 
+								style={{width: '180px', height: '50px', verticalAlign: 'middle', 
+									border: 'solid 2px ' + glob.paletteColor(4)}}
+							>
+								<div style={{display: 'flex', padding: '5px'}}>
+									<label style={{width: '80%'}} for={name}>
+										{glob.toDisplayString(name)}
+									</label>
+									<input
+										type="checkbox"
+										style={{width: '20%', height: '30%', margin: 'auto'}}
+										id={name}
+										checked={checkboxes[name]}
+										onChange={() => toggleColumn(name)}
+									/>
+								</div>
+							</td> :
+							null
+						)
+					}
+				</tr>
+			)
+		}
+		</table>
+		<button 
+			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
+			onClick={closeModal}
+		>
+			BACK (ESC)
+		</button>
+		</div>
+		</>
 	)
 }
 
 const TablesComponent = () => {
 
 	const [data, setData] = useState(
-		() => getTableData('armUnit')
+		() => tableData['armUnit']
 	)
 	const [columnOrder, setColumnOrder] = useState(
-		() => getDataColumns(toKind('armUnit'), getTableData('armUnit'))
+		() => defaultDataColumns['armUnit']
 	);
 
 	return(
 		<>
 		<Header 
+			columnOrder={columnOrder}
 			setData={setData}
 			setColumnOrder={setColumnOrder}
 		/>

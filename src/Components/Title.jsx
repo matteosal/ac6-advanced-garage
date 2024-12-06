@@ -74,9 +74,7 @@ const backgroundTextStyle = {width: 'fit-content',
 }
 
 const Title = () => {
-
 	const [modal, setModal] = useState(false);
-
 	const closeModal = () => setModal(false);
 
 	return(
