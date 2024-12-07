@@ -117,7 +117,7 @@
 		"TotalRounds": 32,
 		"HomingLockTime": 2.4,
 		"MaxLockCount": 1,
-		"ReloadTime": 3.6,
+		"ReloadTime": 4.1,
 		"AmmunitionCost": 450,
 		"Weight": 4250,
 		"ENLoad": 425
@@ -422,7 +422,7 @@
 		"MaxLockCount": 6,
 		"ReloadTime": 5,
 		"AmmunitionCost": 80,
-		"Weight": 3840,
+		"Weight": 3610,
 		"ENLoad": 241
 	},
 	{
@@ -1062,17 +1062,17 @@
 		"LeftArm": true,
 		"RightBack": true,
 		"LeftBack": true,
-		"AttackPower": 272.0,
+		"AttackPower": 249.0,
 		"Impact": 315.0,
 		"AccumulativeImpact": 160.0,
 		"DirectHitAdjustment": 125.0,
-		"Recoil": 30.0,
+		"Recoil": 49,
 		"IdealRange": 90.0,
 		"EffectiveRange": 178.0,
 		"RapidFire": 1.7,
 		"MagazineRounds": 8.0,
 		"TotalRounds": 208.0,
-		"ReloadTime": 2.5,
+		"ReloadTime": 3,
 		"AmmunitionCost": 120.0,
 		"Weight": 1650.0,
 		"ENLoad": 158.0
@@ -2212,13 +2212,13 @@
 			3
 		],
 		"AccumulativeImpact": [
-			75,
+			76,
 			3
 		],
 		"ATKHeatBuildup": 700,
-		"ChgAttackPower": 1015,
-		"ChgImpact": 330,
-		"ChgAccumImpact": 185,
+		"ChgAttackPower": [1015, 3],
+		"ChgImpact": [330, 3],
+		"ChgAccumImpact": [185, 3],
 		"ChgHeatBuildup": 1000,
 		"DirectHitAdjustment": 145,
 		"Recoil": 70,
@@ -2846,7 +2846,7 @@
 		"MaxLockCount": 6,
 		"ReloadTime": 6.0,
 		"AmmunitionCost": 100,
-		"Weight": 3900,
+		"Weight": 3650,
 		"ENLoad": 276
 	},
 	{
@@ -4747,7 +4747,7 @@
 		"Kind": "Booster",
 		"Manufacturer": "SCHNEIDER",
 		"Thrust": 6167,
-		"UpwardThrust": 4834,
+		"UpwardThrust": 5301,
 		"UpwardENConsumption": 710,
 		"QBThrust": 18050,
 		"QBJetDuration": 0.26,
@@ -4785,7 +4785,7 @@
 		"Kind": "Booster",
 		"Manufacturer": "RRI",
 		"Thrust": 6534,
-		"UpwardThrust": 5334,
+		"UpwardThrust": 5484,
 		"UpwardENConsumption": 580,
 		"QBThrust": 18850,
 		"QBJetDuration": 0.28,
