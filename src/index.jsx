@@ -9,7 +9,7 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import 'react-tooltip/dist/react-tooltip.css'
 
-import {BuilderPartsProvider} from "./Contexts/BuilderPartsContext.jsx";
+import {BuilderStateProvider} from "./Contexts/BuilderStateContext.jsx";
 import {ComparerStateProvider} from "./Contexts/ComparerStateContext.jsx";
 import {TablesStateProvider} from "./Contexts/TablesStateContext.jsx";
 
@@ -18,13 +18,13 @@ import './reset.css'
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
 	<BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
-		<BuilderPartsProvider>
+		<BuilderStateProvider>
 		<ComparerStateProvider>
 		<TablesStateProvider>
 			<App />
 			<ToastContainer />
 		</TablesStateProvider>
 		</ComparerStateProvider>
-		</BuilderPartsProvider>
+		</BuilderStateProvider>
 	</BrowserRouter>
 );

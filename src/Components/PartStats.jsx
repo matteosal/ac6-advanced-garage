@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import {BuilderPartsContext} from "../Contexts/BuilderPartsContext.jsx";
+import {BuilderStateContext} from "../Contexts/BuilderStateContext.jsx";
 import {StatRow} from './StatRows.jsx';
 import * as glob from '../Misc/Globals.js';
 
@@ -133,10 +133,12 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	)
 }
 
-const PartStats = ({preview}) => {
+const PartStats = () => {
 
-	const previewPart = preview.part;
-	const curPart = useContext(BuilderPartsContext).parts[preview.slot];
+	const state = useContext(BuilderStateContext);
+
+	const previewPart = state.preview.part;
+	const curPart = state.parts[state.preview.slot];
 
 	let leftPart, rightPart;
 	if(previewPart === null) {

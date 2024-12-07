@@ -3,7 +3,8 @@ import { useReducer, useContext } from 'react';
 import * as glob from '../Misc/Globals.js';
 import {copyBuildLink} from "../Misc/BuildImportExport.js";
 
-import {BuilderPartsContext} from '../Contexts/BuilderPartsContext.jsx'
+import {BuilderStateContext} from '../Contexts/BuilderStateContext.jsx'
+import {BuilderStateDispatchContext} from '../Contexts/BuilderStateContext.jsx'
 
 import ACAssembly from './ACAssembly.jsx';
 import PartsExplorer from './PartsExplorer.jsx';
@@ -11,24 +12,13 @@ import PartStats from './PartStats.jsx';
 import ACStats from './ACStats.jsx';
 import Title from './Title.jsx';
 
-const previewReducer = (preview, action) => {
-	if(action.slot === null) {
-		// Set slot to null means close the part explorer. Reached by keydown handler (ESC)
-		return {slot: null, part: null}
-	} else if(action.slot !== undefined) { 
-		return {slot: action.slot, part: null}
-	} else // Set part without changing slot
-		return {slot: preview.slot, part: action.part}
-}
-
 const BuildComponent = () => {
 
-	const [preview, previewDispatch] = useReducer(
-		previewReducer,
-		{slot: null, part: null}
-	)
+	const state = useContext(BuilderStateContext);
+	const stateDispatch = useContext(BuilderStateDispatchContext);
 
-	const acParts = useContext(BuilderPartsContext).parts;
+	const preview = state.preview;
+	const acParts = state.parts;
 
 	let comparedParts;
 	if(preview.part === null)
@@ -64,7 +54,10 @@ const BuildComponent = () => {
 					}>
 						<div style={{margin: 'auto', fontSize: '20px'}}>ASSEMBLY</div>
 					</div>				
-					<ACAssembly parts={acParts} previewSetter={slot => previewDispatch({slot: slot})}/>
+					<ACAssembly
+						parts={acParts}
+						previewSetter={slot => stateDispatch({target: 'preview', slot: slot})}
+					/>
 					<div style={{display: 'flex', width: '100%', height: '50px', 
 						background: glob.paletteColor(3)}}>
 						<button style={{margin: 'auto'}} onClick={() => copyBuildLink(acParts)}>
@@ -81,18 +74,13 @@ const BuildComponent = () => {
 				<div style={
 					{display: 'inline-block', width: '30%', verticalAlign: 'top'}
 				}>
-					<PartsExplorer 
-						previewSlot={preview.slot}
-						previewDispatch={previewDispatch}
-					/>
+					<PartsExplorer />
 				</div>
 				<div style={
 					{display: 'inline-block', width: '65%', verticalAlign: 'top', 
 						marginLeft: '2.5%', marginRight: '2.5%', marginTop: '35px'}
 				}>
-					<PartStats 
-						preview={preview}
-					/>
+					<PartStats />
 				</div>
 				</>
 		}
