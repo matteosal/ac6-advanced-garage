@@ -348,7 +348,7 @@ const ClassBox = ({partClass, selected, setter}) => {
 	const img = glob.slotImages[glob.toImageFileName(glob.toSlotName(partClass))];
 	return (
 		<div 
-			style={{display: 'flex'}}
+			style={{display: 'inline-block'}}
 			onMouseEnter={() => setHighlighted(true)}
 			onMouseLeave={() => setHighlighted(false)}
 			onClick={setter}
@@ -356,6 +356,15 @@ const ClassBox = ({partClass, selected, setter}) => {
 			<img src={img} style={imgStyle}/>
 		</div>
 	)
+}
+
+function toDisplayedPartClass(partClass) {
+	if(partClass === 'armUnit')
+		return 'ARM UNIT';
+	if(partClass === 'backUnit')
+		return 'BACK UNIT';
+	else
+		return partClass.toUpperCase()
 }
 
 const ClassSelector = () => {
@@ -368,8 +377,10 @@ const ClassSelector = () => {
 	}
 
 	return(
-		<div style={{display: 'flex', alignItems: 'center'}}>
-			<div style={{marginRight: '5px'}}>{'PART CLASS: '}</div>
+		<div style={{alignItems: 'center'}}>
+			<div style={{width: 'fit-content', margin: '0px auto', paddingBottom: '5px'}}>
+				{toDisplayedPartClass(selectedClass)}
+			</div>
 			{
 				glob.partClasses.map(
 					partClass => <ClassBox 
@@ -395,23 +406,24 @@ const TablesHeader = () => {
 	const closeUnitFilterModal = () => setUnitFilterModal(false);
 
 	return(
-		<div style={{...glob.dottedBackgroundStyle(), display:'flex', padding: '10px', 
+		<div style={{...glob.dottedBackgroundStyle(), display:'flex', justifyContent: 'center',
+			alignItems: 'center', gap: '30px', padding: '10px 0px 5px 0px', 
 			margin: '20px 0px 10px 0px'}}>
-			<ClassSelector />
 			<button 
 				onClick={() => setColumnFilterModal(true)}
 			>
 				FILTER COLUMNS
 			</button>
-			{
-				['armUnit', 'backUnit'].includes(selectedClass) ?
-					<button 
-						onClick={() => setUnitFilterModal(true)}
-					>
-						FILTER UNITS
-					</button> : 
-					<></>
-			}
+			<ClassSelector />
+			<button
+				style={{
+					visibility: ['armUnit', 'backUnit'].includes(selectedClass) ? 
+						'visible' : 'hidden'
+				}}
+				onClick={() => setUnitFilterModal(true)}
+			>
+				FILTER UNITS
+			</button> 
 			<ModalWrapper isOpen={columnFilterModal} closeModal={closeColumnFilterModal}>
 				{
 					columnFilterModal ? 
