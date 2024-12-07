@@ -88,24 +88,24 @@ function getInitialSlotRange(slot) {
 	return [start, start + 4]
 }
 
-function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot) {
+function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBackSubslot) {
 	if ((delta === 1 && pos === maxPos) || (delta === -1 && pos === 0))
 		return [pos, range];
 	// Compute new pos ID, managing back subslots
 	if(pos === 1 && delta === 1)
-		setBacksubslot(0);
+		setBackSubslot(0);
 	else if(pos === 4 && delta === -1)
-		setBacksubslot(1);
+		setBackSubslot(1);
 	else if(pos === 2 || pos === 3) {
 		// Here we basically move by half a step and check where we land
 		const subpos = backSubslot === 0 ? pos : pos + 0.5;
 		const newSubPos = subpos + delta / 2;
 		const floor = Math.floor(newSubPos);
 		if(floor === 1 || floor === 4)
-			setBacksubslot(null);
+			setBackSubslot(0);
 		else {
 			delta = floor - pos; // This might be 0 if we are only switching subslot
-			setBacksubslot(Math.round(2 * (newSubPos - floor)))
+			setBackSubslot(Math.round(2 * (newSubPos - floor)))
 		}
 	}
 	let newPos = pos + delta;
@@ -136,7 +136,7 @@ const SlotSelector = ({setSearchString, modal}) => {
 		(s, pos) => pos >= slotRange[0] && pos <= slotRange[1]
 	);
 
-	const setBacksubslot = val => stateDispatch({target: 'backSubslot', value: val});
+	const setBackSubslot = val => stateDispatch({target: 'backSubslot', value: val});
 
 	const moveSlot = useCallback(
 		delta => {
@@ -145,11 +145,11 @@ const SlotSelector = ({setSearchString, modal}) => {
 			const maxPos = glob.partSlots.length - 1;			
 			const hasTankLegs = acParts.legs['LegType'] === 'Tank';
 			const [newPos, newRange] = shiftPos(currentPos, slotRange, delta, maxPos, 
-				hasTankLegs, backSubslot, setBacksubslot);
+				hasTankLegs, backSubslot, setBackSubslot);
 			setSlotRange(newRange);
 			stateDispatch({target: 'preview', slot: glob.partSlots[newPos]});
 		},
-		[acParts, previewSlot, backSubslot, slotRange, setBacksubslot, 
+		[acParts, previewSlot, backSubslot, slotRange, setBackSubslot, 
 			setSearchString]
 	);
 
@@ -176,10 +176,8 @@ const SlotSelector = ({setSearchString, modal}) => {
 		stateDispatch({target: 'preview', slot: s});
 		setSearchString('');
 		if(['leftBack', 'rightBack'].includes(s)) {
-			if(backSubslot === null)
-				setBacksubslot(0)
-		} else
-			setBacksubslot(null)
+			setBackSubslot(0)
+		}
 	}
 
 	return (
