@@ -405,7 +405,6 @@ const ClassSelector = ({selectedClass, setSelectedClass, setData, setColumnOrder
 
 	const setter = (partClass) => {
 		setSelectedClass(partClass);
-		setData(tableData[partClass]);
 		setColumnOrder(defaultDataColumns[partClass]);
 	}
 
@@ -426,11 +425,10 @@ const ClassSelector = ({selectedClass, setSelectedClass, setData, setColumnOrder
 	)
 }
 
-const Header = ({columnOrder, setData, setColumnOrder}) => {
+const TablesHeader = ({columnOrder, selectedClass, setSelectedClass, setColumnOrder}) => {
 
 	const [columnFilterModal, setColumnFilterModal] = useState(false);
 	const [unitFilterModal, setUnitFilterModal] = useState(false);
-	const [selectedClass, setSelectedClass] = useState('armUnit');
 
 	const closeColumnFilterModal = () => setColumnFilterModal(false);
 	const closeUnitFilterModal = () => setUnitFilterModal(false);
@@ -441,7 +439,6 @@ const Header = ({columnOrder, setData, setColumnOrder}) => {
 			<ClassSelector
 				selectedClass={selectedClass}
 				setSelectedClass={setSelectedClass}
-				setData={setData}
 				setColumnOrder={setColumnOrder}
 			/>
 			<button 
@@ -720,18 +717,20 @@ const UnitFilters = ({closeModal}) => {
 
 const TablesComponent = () => {
 
-	const [data, setData] = useState(
-		() => tableData['armUnit']
-	)
+	const [selectedClass, setSelectedClass] = useState('armUnit');
+
 	const [columnOrder, setColumnOrder] = useState(
 		() => defaultDataColumns['armUnit']
 	);
 
+	const data = tableData[selectedClass];
+
 	return(
 		<>
-		<Header 
+		<TablesHeader 
 			columnOrder={columnOrder}
-			setData={setData}
+			selectedClass={selectedClass}
+			setSelectedClass={setSelectedClass}
 			setColumnOrder={setColumnOrder}
 		/>
 		<div 
