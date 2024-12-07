@@ -204,7 +204,8 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'ENRechargeDelayRedline': 'EN Rech. Delay (Redline)',
 	'FullRechargeTimeRedline': 'Full Rech. Time (Redline)',
 	'RightBackMissileLockTime': 'R-Back Missile Lock Time',
-	'LeftBackMissileLockTime': 'L-Back Missile Lock Time'
+	'LeftBackMissileLockTime': 'L-Back Missile Lock Time',
+	'ACS Failure': 'ACS Failure', 'Semi-Auto': 'Semi-Auto', 'Full-Auto': 'Full-Auto'
 };
 
 function stringInsert(str, insert, pos) {

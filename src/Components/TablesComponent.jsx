@@ -306,6 +306,7 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 									colName={name}
 									rangeEndpoint={rangeEndpoint}
 									bottomBorder={rowPos === data.length - 1}
+									key={colPos}
 								/>
 							)
 						}
@@ -428,9 +429,11 @@ const ClassSelector = ({selectedClass, setSelectedClass, setData, setColumnOrder
 const Header = ({columnOrder, setData, setColumnOrder}) => {
 
 	const [columnFilterModal, setColumnFilterModal] = useState(false);
+	const [unitFilterModal, setUnitFilterModal] = useState(false);
 	const [selectedClass, setSelectedClass] = useState('armUnit');
 
 	const closeColumnFilterModal = () => setColumnFilterModal(false);
+	const closeUnitFilterModal = () => setUnitFilterModal(false);
 
 	return(
 		<div style={{...glob.dottedBackgroundStyle(), display:'flex', padding: '10px', 
@@ -446,20 +449,61 @@ const Header = ({columnOrder, setData, setColumnOrder}) => {
 			>
 				FILTER COLUMNS
 			</button>
+			{
+				['armUnit', 'backUnit'].includes(selectedClass) ?
+					<button 
+						onClick={() => setUnitFilterModal(true)}
+					>
+						FILTER UNITS
+					</button> : 
+					<></>
+			}
 			<ModalWrapper isOpen={columnFilterModal} closeModal={closeColumnFilterModal}>
 				{
 					columnFilterModal ? 
-					<ColumnFilters 
-						selectedClass={selectedClass}
-						columnOrder={columnOrder}
-						closeModal={closeColumnFilterModal}
-						setColumnOrder={setColumnOrder}
-					/> :
-					<></>
+						<ColumnFilters 
+							selectedClass={selectedClass}
+							columnOrder={columnOrder}
+							closeModal={closeColumnFilterModal}
+							setColumnOrder={setColumnOrder}
+						/> :
+						<></>
+				}
+			</ModalWrapper>
+			<ModalWrapper isOpen={unitFilterModal} closeModal={closeUnitFilterModal}>
+				{
+					unitFilterModal ? 
+						<UnitFilters
+							closeModal={closeUnitFilterModal}
+						/> :
+						<></>
 				}
 			</ModalWrapper>	
 		</div>
 	)
+}
+
+function partitionList(list, subLength) {
+	const subLists = [];
+	let tempSubList = [];
+	let innerIdx = 0;
+
+	list.map(
+		colName => {
+			if(innerIdx > subLength - 1) {
+				subLists.push(tempSubList);
+				tempSubList = [];
+				innerIdx = 0;
+			}
+			tempSubList.push(colName);
+			innerIdx++;
+		}
+	);
+	for(let i = tempSubList.length - 1; i < subLength - 1; i++)
+		tempSubList.push(null)
+	subLists.push(tempSubList);
+
+	return subLists;
 }
 
 const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal}) => {
@@ -500,25 +544,7 @@ const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal})
 		setColumnOrder(newColumnOrder);
 	}
 
-	const rowLength = 3;
-	const rows = [];
-	let tempRow = [];
-	let colIdx = 0;
-
-	allCols.map(
-		colName => {
-			if(colIdx > rowLength - 1) {
-				rows.push(tempRow);
-				tempRow = [];
-				colIdx = 0;
-			}
-			tempRow.push(colName);
-			colIdx++;
-		}
-	);
-	for(let i = tempRow.length - 1; i < rowLength - 1; i++)
-		tempRow.push(null)
-	rows.push(tempRow);
+	const rows = partitionList(allCols, 4);
 
 	return(
 		<>
@@ -530,18 +556,20 @@ const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal})
 			style={{maxHeight: '700px', overflowY: 'auto'}}
 		>		
 		<table style={{borderCollapse: 'collapse'}}>
+		<tbody>
 		{
 			rows.map(
-				row => <tr>
+				row => <tr key={row}>
 					{
 						row.map(
 							name => name ?
 							 <td 
 								style={{width: '180px', height: '50px', verticalAlign: 'middle', 
 									border: 'solid 2px ' + glob.paletteColor(4)}}
+								key={name}
 							>
 								<div style={{display: 'flex', padding: '5px'}}>
-									<label style={{width: '80%'}} for={name}>
+									<label style={{width: '80%'}} htmlFor={name}>
 										{glob.toDisplayString(name)}
 									</label>
 									<input
@@ -559,6 +587,7 @@ const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal})
 				</tr>
 			)
 		}
+		</tbody>
 		</table>
 		<button 
 			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
@@ -567,6 +596,124 @@ const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal})
 			BACK (ESC)
 		</button>
 		</div>
+		</>
+	)
+}
+
+const unitFilterKeys = {
+	'AttackType': ['Explosive', 'Energy', 'Kinetic', 'Coral'],
+	'WeaponType': ['Burst', 'Charge', 'Melee', 'Homing', 'Semi-Auto', 'Full-Auto', 'Shield'],
+	'ReloadType': ['Single Shot', 'Overheat', 'Magazine'],
+	'AdditionalEffect': ['ACS Failure', 'Camera Disruption', 'Shock']
+};
+
+const unitFilterIcons = {};
+Object.keys(unitFilterKeys).map(
+	group => {
+		unitFilterIcons[group] = {};
+		unitFilterKeys[group].map(
+			key => unitFilterIcons[group][key] = glob.unitIcons[key + '.png']
+		)
+	}
+)
+
+const FilterGroup = ({group}) => {
+	const [checkboxes, setCheckboxes] = useState(
+		() => Object.fromEntries(unitFilterKeys[group].map(k => [k, true]))
+	);
+
+	const rows = partitionList(Object.entries(unitFilterIcons[group]), 2);
+
+	const toggleKey = name => {
+		const newState = {...checkboxes};
+		const newVal = !newState[name];
+		newState[name] = newVal;
+		setCheckboxes(newState);
+/*		let newColumnOrder = [...columnOrder];
+		if(newVal)
+			newColumnOrder.push(name)
+		else
+			newColumnOrder = newColumnOrder.filter(colName => colName !== name)
+		setColumnOrder(newColumnOrder);*/
+	}
+
+	return(
+		<div>
+			<div style={{width: 'fit-content', margin: '0px auto 10px auto'}}>
+				{glob.toDisplayString(group)}
+			</div>
+			{
+				rows.map(
+					row => <div style={{display: 'flex', gap: '15px', marginBottom: '3px'}}>
+						{
+							row.map(
+								val => val ?
+									<div
+										style={{display: 'flex', alignItems: 'center'}}
+										key={val[0]}
+									>
+										<img src={val[1]} style={{width: '20px'}} />
+										<label 
+											style={{width: '100px', paddingLeft: '5px'}}
+											htmlFor={val[0]}
+										>
+											{glob.toDisplayString(val[0])}
+										</label>
+										<input
+											type="checkbox"
+											style={{}}
+											id={val[0]}
+											checked={checkboxes[val[0]]}
+											onChange={() => toggleKey(val[0])}
+										/>
+									</div> : 
+									null
+							)
+						}
+					</div>
+				)
+			}
+		</div>
+	)
+}
+
+const UnitFilters = ({closeModal}) => {
+
+	const [filters, setFilters] = useState(
+		() => Object.fromEntries(Object.keys(unitFilterKeys).map(group => [group, []]))
+	);
+
+	const cellStyle = {border: 'solid 2px ' + glob.paletteColor(4), padding: '10px'};
+
+	const rows = partitionList(Object.keys(unitFilterKeys), 2);
+
+	return(
+		<>
+		<div style={{display: 'flex', justifyContent: 'space-around', marginBottom: '10px'}}>
+			<button>SELECT ALL</button>
+			<button>DESELECT ALL</button>
+		</div>		
+		<table style={{borderCollapse: 'collapse'}}><tbody>
+		{
+			rows.map(
+				row => <tr>
+					{
+						row.map(
+							group => <td style={cellStyle}>
+								<FilterGroup group={group} setFilter={setFilters} />
+							</td>
+						)
+					}
+				</tr>
+			)
+		}
+		</tbody></table>
+		<button 
+			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
+			onClick={closeModal}
+		>
+			BACK (ESC)
+		</button>
 		</>
 	)
 }

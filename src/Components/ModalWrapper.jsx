@@ -20,7 +20,7 @@ const ModalWrapper = ({isOpen, closeModal, children}) => {
 			onCancel={closeModal}
 			style={{
 				...glob.dottedBackgroundStyle(glob.paletteColor(2)),
-				...{borderColor: glob.paletteColor(5), color: 'inherit', maxWidth: '35%'}
+				...{borderColor: glob.paletteColor(5), color: 'inherit', maxWidth: '40%'}
 			}}
 		>
 			{children}
