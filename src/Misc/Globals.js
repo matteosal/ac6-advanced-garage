@@ -292,3 +292,60 @@ export function mean(list) {
 		return undefined;
 	return total(list) / list.length
 }
+
+/***************************************************************************************/
+
+function toKind(className) {
+	if(['armUnit', 'backUnit'].includes(className))
+		return 'Unit';
+	else if(className === 'fcs')
+		return 'FCS';
+	else
+		return capitalizeFirstLetter(className);
+}
+
+export function toSlotName(className) {
+	if(className === 'armUnit')
+		return 'leftArm';
+	else if (className === 'backUnit')
+		return 'leftBack'
+	else
+		return className
+}
+
+function getDefaultDataColumns(partClass) {
+	const dataKeys = tableData[partClass].map(part => Object.keys(part)).flat();
+	const uniqueDataKeys = dataKeys.filter((col, pos, allKeys) => allKeys.indexOf(col) === pos);
+	// We could just return uniqueDataKeys, but using the global list gives us a nicer 
+	// default ordering
+	let res = partStatGroups[toKind(partClass)].flat();
+	res.unshift('Name');
+	res = res.filter(col => uniqueDataKeys.includes(col));
+	return res
+}
+
+function getTableData(partClass) {
+	const slotName = toSlotName(partClass);
+
+	const parts = getPartsForSlot(slotName, 0).filter(
+		part => part['Name'] !== '(NOTHING)'
+	);
+
+	return parts;
+}
+
+export const partClasses = ['armUnit', 'backUnit', 'head', 'core', 'arms', 'legs', 'booster',
+	'fcs', 'generator', 'expansion'];
+
+export const tableData = [];
+partClasses.map(c => {tableData[c] = getTableData(c); return null});
+
+export const defaultTableColumns = [];
+partClasses.map(c => {defaultTableColumns[c] = getDefaultDataColumns(c); return null});
+
+export const allUnitFilters = {
+	'AttackType': ['Explosive', 'Energy', 'Kinetic', 'Coral'],
+	'WeaponType': ['Burst', 'Charge', 'Melee', 'Homing', 'Semi-Auto', 'Full-Auto', 'Shield'],
+	'ReloadType': ['Single Shot', 'Overheat', 'Magazine'],
+	'AdditionalEffect': ['ACS Failure', 'Camera Disruption', 'Shock', 'NoEffect']
+};

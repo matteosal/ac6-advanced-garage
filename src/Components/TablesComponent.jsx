@@ -1,6 +1,10 @@
 import {useState, useReducer, useContext, useRef} from 'react';
 
 import * as glob from '../Misc/Globals.js';
+
+import {TablesStateContext, TablesStateDispatchContext} from 
+	'../Contexts/TablesStateContext.jsx'
+
 import ModalWrapper from './ModalWrapper.jsx'
 
 /*****************************************************************************/
@@ -235,9 +239,15 @@ const TableCell = ({content, rowPos, colPos, colName, rangeEndpoint, bottomBorde
 	)
 }
 
-const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
+const DraggableTable = ({data}) => {
 
-	const [sorting, setSorting] = useState({key: 'Name', ascend: true});
+	const state = useContext(TablesStateContext);
+	const stateDispatch = useContext(TablesStateDispatchContext);
+
+	const selectedClass = state.selectedClass;
+	const columnOrder = state.columnOrder[selectedClass];
+	const sorting = state.sorting[selectedClass];
+
 	const [previewShiftInfo, setPreviewShiftInfo] = useState({range: null, posDirection: true});
 
 	let sortedData = data;
@@ -247,14 +257,18 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
 	const changeSorting = key => {
 		const newAscend = key === sorting.key ? !sorting.ascend : true;
-		setSorting({key: key, ascend: newAscend})
+		stateDispatch({
+			target: 'sorting',
+			partClass: selectedClass,
+			value: {key: key, ascend: newAscend}
+		})
 	}
 
 	const changeOrdering = (srcPos, dstPos) => {
 		const newOrder = [...columnOrder];
 		const [movedColumn] = newOrder.splice(srcPos, 1);
 		newOrder.splice(dstPos, 0, movedColumn);
-		setColumnOrder(newOrder);
+		stateDispatch({target: 'columnOrder', partClass: selectedClass, value: newOrder});
 	};
 
 	const dragHandler = (newInfo, callerPos=null) => setPreviewShiftInfo(
@@ -322,65 +336,6 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
 /*****************************************************************************/
 
-const tableHidddenPartStats = ['Kind', 'Manufacturer', 'LegType', 'GeneratorType', 'RightArm', 
-	'LeftArm', 'RightBack', 'LeftBack','ID'];
-
-const partClasses = ['armUnit', 'backUnit', 'head', 'core', 'arms', 'legs', 'booster',
-	'fcs', 'generator', 'expansion'];
-
-function toSlotName(className) {
-	if(className === 'armUnit')
-		return 'leftArm';
-	else if (className === 'backUnit')
-		return 'leftBack'
-	else
-		return className
-}
-
-function toKind(className) {
-	if(['armUnit', 'backUnit'].includes(className))
-		return 'Unit';
-	else if(className === 'fcs')
-		return 'FCS';
-	else
-		return glob.capitalizeFirstLetter(className);
-}
-
-function getTableData(partClass) {
-	const slotName = toSlotName(partClass);
-
-	const parts = glob.getPartsForSlot(slotName, 0).filter(
-		part => part['Name'] !== '(NOTHING)'
-	);
-
-	return(
-		parts.map(
-			part => Object.fromEntries(
-				Object.entries(part).filter(
-					([name, val]) => !tableHidddenPartStats.includes(name)
-				)
-			)
-		)
-	)
-}
-
-const tableData = [];
-partClasses.map(c => {tableData[c] = getTableData(c); return null})
-
-function getDefaultDataColumns(partClass) {
-	const dataKeys = tableData[partClass].map(part => Object.keys(part)).flat();
-	const uniqueDataKeys = dataKeys.filter((col, pos, allKeys) => allKeys.indexOf(col) === pos);
-	// We could just return uniqueDataKeys, but using the global list gives us a nicer 
-	// default ordering
-	let res = glob.partStatGroups[toKind(partClass)].flat();
-	res.unshift('Name');
-	res = res.filter(col => uniqueDataKeys.includes(col));
-	return res
-}
-
-const defaultDataColumns = [];
-partClasses.map(c => {defaultDataColumns[c] = getDefaultDataColumns(c); return null})
-
 const ClassBox = ({partClass, selected, setter}) => {
 	const [highlighted, setHighlighted] = useState(false);
 
@@ -390,7 +345,7 @@ const ClassBox = ({partClass, selected, setter}) => {
 	else if(highlighted)
 		imgStyle['filter'] = 'brightness(1.3)';
 
-	const img = glob.slotImages[glob.toImageFileName(toSlotName(partClass))];
+	const img = glob.slotImages[glob.toImageFileName(glob.toSlotName(partClass))];
 	return (
 		<div 
 			style={{display: 'flex'}}
@@ -403,18 +358,20 @@ const ClassBox = ({partClass, selected, setter}) => {
 	)
 }
 
-const ClassSelector = ({selectedClass, setSelectedClass, setData, setColumnOrder}) => {
+const ClassSelector = () => {
+
+	const selectedClass = useContext(TablesStateContext).selectedClass;
+	const stateDispatch = useContext(TablesStateDispatchContext);
 
 	const setter = (partClass) => {
-		setSelectedClass(partClass);
-		setColumnOrder(defaultDataColumns[partClass]);
+		stateDispatch({target: 'selectedClass', value: partClass});
 	}
 
 	return(
 		<div style={{display: 'flex', alignItems: 'center'}}>
 			<div style={{marginRight: '5px'}}>{'PART CLASS: '}</div>
 			{
-				partClasses.map(
+				glob.partClasses.map(
 					partClass => <ClassBox 
 						partClass={partClass}
 						selected={partClass === selectedClass}
@@ -427,7 +384,9 @@ const ClassSelector = ({selectedClass, setSelectedClass, setData, setColumnOrder
 	)
 }
 
-const TablesHeader = ({columnOrder, selectedClass, unitFilters, setUnitFilters, setSelectedClass, setColumnOrder}) => {
+const TablesHeader = () => {
+
+	const selectedClass = useContext(TablesStateContext).selectedClass;
 
 	const [columnFilterModal, setColumnFilterModal] = useState(false);
 	const [unitFilterModal, setUnitFilterModal] = useState(false);
@@ -438,11 +397,7 @@ const TablesHeader = ({columnOrder, selectedClass, unitFilters, setUnitFilters, 
 	return(
 		<div style={{...glob.dottedBackgroundStyle(), display:'flex', padding: '10px', 
 			margin: '20px 0px 10px 0px'}}>
-			<ClassSelector
-				selectedClass={selectedClass}
-				setSelectedClass={setSelectedClass}
-				setColumnOrder={setColumnOrder}
-			/>
+			<ClassSelector />
 			<button 
 				onClick={() => setColumnFilterModal(true)}
 			>
@@ -460,23 +415,14 @@ const TablesHeader = ({columnOrder, selectedClass, unitFilters, setUnitFilters, 
 			<ModalWrapper isOpen={columnFilterModal} closeModal={closeColumnFilterModal}>
 				{
 					columnFilterModal ? 
-						<ColumnFilters 
-							selectedClass={selectedClass}
-							columnOrder={columnOrder}
-							closeModal={closeColumnFilterModal}
-							setColumnOrder={setColumnOrder}
-						/> :
+						<ColumnFilters closeModal={closeColumnFilterModal} /> :
 						<></>
 				}
 			</ModalWrapper>
 			<ModalWrapper isOpen={unitFilterModal} closeModal={closeUnitFilterModal}>
 				{
 					unitFilterModal ? 
-						<UnitFilters
-							unitFilters={unitFilters}
-							setUnitFilters={setUnitFilters}
-							closeModal={closeUnitFilterModal}
-						/> :
+						<UnitFilters closeModal={closeUnitFilterModal} /> :
 						<></>
 				}
 			</ModalWrapper>	
@@ -507,9 +453,17 @@ function partitionList(list, subLength) {
 	return subLists;
 }
 
-const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal}) => {
+const ColumnFilters = ({closeModal}) => {
 
-	const allCols = defaultDataColumns[selectedClass].filter(colName => colName !== 'Name');
+	const state = useContext(TablesStateContext);
+	const stateDispatch = useContext(TablesStateDispatchContext);
+
+	const selectedClass = state.selectedClass;
+	const columnOrder = state.columnOrder[selectedClass];
+
+	const allCols = glob.defaultTableColumns[selectedClass].filter(
+		colName => colName !== 'Name'
+	);
 
 	const checkboxes = Object.fromEntries(
 		allCols.map(
@@ -521,19 +475,19 @@ const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal})
 		if(val) {
 			const newOrder = allCols;
 			newOrder.unshift('Name');
-			setColumnOrder(newOrder);
+			stateDispatch({target: 'columnOrder', partClass: selectedClass, value: newOrder});
 		} else 
-			setColumnOrder(['Name'])
+			stateDispatch({target: 'columnOrder', partClass: selectedClass, value: ['Name']});
 	}
 
 	const toggleColumn = name => {
 		const newVal = !checkboxes[name];
-		let newColumnOrder = [...columnOrder];
+		let newOrder = [...columnOrder];
 		if(newVal)
-			newColumnOrder.push(name)
+			newOrder.push(name);
 		else
-			newColumnOrder = newColumnOrder.filter(colName => colName !== name)
-		setColumnOrder(newColumnOrder);
+			newOrder = newOrder.filter(colName => colName !== name);
+		stateDispatch({target: 'columnOrder', partClass: selectedClass, value: newOrder});
 	}
 
 	const rows = partitionList(allCols, 4);
@@ -592,24 +546,23 @@ const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal})
 	)
 }
 
-const unitFilterKeys = {
-	'AttackType': ['Explosive', 'Energy', 'Kinetic', 'Coral'],
-	'WeaponType': ['Burst', 'Charge', 'Melee', 'Homing', 'Semi-Auto', 'Full-Auto', 'Shield'],
-	'ReloadType': ['Single Shot', 'Overheat', 'Magazine'],
-	'AdditionalEffect': ['ACS Failure', 'Camera Disruption', 'Shock', 'NoEffect']
-};
-
 const unitFilterIcons = {};
-Object.keys(unitFilterKeys).map(
+Object.keys(glob.allUnitFilters).map(
 	group => {
 		unitFilterIcons[group] = {};
-		unitFilterKeys[group].map(
+		glob.allUnitFilters[group].map(
 			key => unitFilterIcons[group][key] = glob.unitIcons[key + '.png']
 		)
 	}
 )
 
-const FilterGroup = ({group, checkboxes, unitFilters, setUnitFilters}) => {
+const FilterGroup = ({group, checkboxes}) => {
+
+	const state = useContext(TablesStateContext);
+	const stateDispatch = useContext(TablesStateDispatchContext);
+
+	const selectedClass = state.selectedClass;	
+	const unitFilters = state.unitFilters[selectedClass];
 
 	const rows = partitionList(Object.entries(unitFilterIcons[group]), 2);
 
@@ -620,7 +573,7 @@ const FilterGroup = ({group, checkboxes, unitFilters, setUnitFilters}) => {
 			newFilters[group] = newFilters[group].filter(keyName => keyName !== name)
 		else
 			newFilters[group].push(name)
-		setUnitFilters(newFilters);
+		stateDispatch({target: 'unitFilters', partClass: selectedClass, value: newFilters});
 	}
 
 	return(
@@ -666,14 +619,20 @@ const FilterGroup = ({group, checkboxes, unitFilters, setUnitFilters}) => {
 	)
 }
 
-const UnitFilters = ({closeModal, unitFilters, setUnitFilters}) => {
+const UnitFilters = ({closeModal}) => {
+
+	const state = useContext(TablesStateContext);
+	const stateDispatch = useContext(TablesStateDispatchContext);
+
+	const selectedClass = state.selectedClass;	
+	const unitFilters = state.unitFilters[selectedClass];
 
 	const checkboxes = Object.fromEntries(
-		Object.keys(unitFilterKeys).map(
+		Object.keys(glob.allUnitFilters).map(
 			group => [
 				group,
 				Object.fromEntries(
-					unitFilterKeys[group].map(
+					glob.allUnitFilters[group].map(
 						key => [key, !unitFilters[group].includes(key)]
 					)
 				)
@@ -684,16 +643,20 @@ const UnitFilters = ({closeModal, unitFilters, setUnitFilters}) => {
 	const setAll = val => {
 		if(val){
 			const newFilters = Object.fromEntries(
-				Object.keys(unitFilterKeys).map(group => [group, []])
+				Object.keys(glob.allUnitFilters).map(group => [group, []])
 			);
-			setUnitFilters(newFilters);
+			stateDispatch({target: 'unitFilters', partClass: selectedClass, value: newFilters});
 		} else
-			setUnitFilters(unitFilterKeys);
+			stateDispatch({
+				target: 'unitFilters',
+				partClass: selectedClass,
+				value: glob.allUnitFilters
+			});
 	}
 
 	const cellStyle = {border: 'solid 2px ' + glob.paletteColor(4), padding: '10px'};
 
-	const rows = partitionList(Object.keys(unitFilterKeys), 2);
+	const rows = partitionList(Object.keys(glob.allUnitFilters), 2);
 
 	return(
 		<>
@@ -704,15 +667,13 @@ const UnitFilters = ({closeModal, unitFilters, setUnitFilters}) => {
 		<table style={{borderCollapse: 'collapse'}}><tbody>
 		{
 			rows.map(
-				row => <tr>
+				row => <tr key={row}>
 					{
 						row.map(
-							group => <td style={cellStyle}>
+							group => <td style={cellStyle} key={group}>
 								<FilterGroup 
 									group={group}
-									unitFilters={unitFilters}
 									checkboxes={checkboxes[group]}
-									setUnitFilters={setUnitFilters}
 								/>
 							</td>
 						)
@@ -733,17 +694,11 @@ const UnitFilters = ({closeModal, unitFilters, setUnitFilters}) => {
 
 const TablesComponent = () => {
 
-	const [selectedClass, setSelectedClass] = useState('armUnit');
+	const state = useContext(TablesStateContext);
+	const selectedClass = state.selectedClass;
+	const unitFilters = state.unitFilters[selectedClass];
 
-	const [columnOrder, setColumnOrder] = useState(
-		() => defaultDataColumns['armUnit']
-	);
-
-	const [unitFilters, setUnitFilters] = useState(
-		() => Object.fromEntries(Object.keys(unitFilterKeys).map(group => [group, []]))
-	);
-
-	let data = tableData[selectedClass];
+	let data = glob.tableData[selectedClass];
 
 	if(['armUnit', 'backUnit'].includes(selectedClass)) {
 		Object.keys(unitFilters).map(group => unitFilters[group].map(
@@ -759,14 +714,7 @@ const TablesComponent = () => {
 
 	return(
 		<>
-		<TablesHeader 
-			columnOrder={columnOrder}
-			selectedClass={selectedClass}
-			unitFilters={unitFilters}
-			setUnitFilters={setUnitFilters}
-			setSelectedClass={setSelectedClass}
-			setColumnOrder={setColumnOrder}
-		/>
+		<TablesHeader />
 		<div 
 			style={{
 				...glob.dottedBackgroundStyle(),
@@ -777,11 +725,7 @@ const TablesComponent = () => {
 		>
 			<div className='my-scrollbar' style={{height: '700px', overflow: 'auto',
 				width: 'fit-content', maxWidth: '100%', margin: '0px auto'}}>
-				<DraggableTable
-					data={data}
-					columnOrder={columnOrder}
-					setColumnOrder={setColumnOrder}
-				/>
+				<DraggableTable data={data}/>
 			</div>
 		</div>
 		</>

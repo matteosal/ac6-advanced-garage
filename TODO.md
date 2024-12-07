@@ -8,5 +8,4 @@
 * Tests
 * Create custom Plotly bundle to reduce size
 
-* Contexts to keep state of everything
 * Show game revision version
