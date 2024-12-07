@@ -322,8 +322,7 @@ const DraggableTable = ({data, columnOrder, setColumnOrder}) => {
 
 /*****************************************************************************/
 
-const tableHidddenPartStats = ['Kind', 'Manufacturer', 'AttackType', 
-	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 
+const tableHidddenPartStats = ['Kind', 'Manufacturer', 'LegType', 'GeneratorType', 'RightArm', 
 	'LeftArm', 'RightBack', 'LeftBack','ID'];
 
 const partClasses = ['armUnit', 'backUnit', 'head', 'core', 'arms', 'legs', 'booster',
@@ -428,7 +427,7 @@ const ClassSelector = ({selectedClass, setSelectedClass, setData, setColumnOrder
 	)
 }
 
-const TablesHeader = ({columnOrder, selectedClass, setSelectedClass, setColumnOrder}) => {
+const TablesHeader = ({columnOrder, selectedClass, unitFilters, setUnitFilters, setSelectedClass, setColumnOrder}) => {
 
 	const [columnFilterModal, setColumnFilterModal] = useState(false);
 	const [unitFilterModal, setUnitFilterModal] = useState(false);
@@ -474,6 +473,8 @@ const TablesHeader = ({columnOrder, selectedClass, setSelectedClass, setColumnOr
 				{
 					unitFilterModal ? 
 						<UnitFilters
+							unitFilters={unitFilters}
+							setUnitFilters={setUnitFilters}
 							closeModal={closeUnitFilterModal}
 						/> :
 						<></>
@@ -604,7 +605,7 @@ const unitFilterKeys = {
 	'AttackType': ['Explosive', 'Energy', 'Kinetic', 'Coral'],
 	'WeaponType': ['Burst', 'Charge', 'Melee', 'Homing', 'Semi-Auto', 'Full-Auto', 'Shield'],
 	'ReloadType': ['Single Shot', 'Overheat', 'Magazine'],
-	'AdditionalEffect': ['ACS Failure', 'Camera Disruption', 'Shock']
+	'AdditionalEffect': ['ACS Failure', 'Camera Disruption', 'Shock', 'NoEffect']
 };
 
 const unitFilterIcons = {};
@@ -617,10 +618,7 @@ Object.keys(unitFilterKeys).map(
 	}
 )
 
-const FilterGroup = ({group}) => {
-	const [checkboxes, setCheckboxes] = useState(
-		() => Object.fromEntries(unitFilterKeys[group].map(k => [k, true]))
-	);
+const FilterGroup = ({group, checkboxes, setGroupCheckboxes, unitFilters, setUnitFilters}) => {
 
 	const rows = partitionList(Object.entries(unitFilterIcons[group]), 2);
 
@@ -628,13 +626,13 @@ const FilterGroup = ({group}) => {
 		const newState = {...checkboxes};
 		const newVal = !newState[name];
 		newState[name] = newVal;
-		setCheckboxes(newState);
-/*		let newColumnOrder = [...columnOrder];
+		setGroupCheckboxes(newState);
+		const newFilters = {...unitFilters};
 		if(newVal)
-			newColumnOrder.push(name)
+			newFilters[group] = newFilters[group].filter(keyName => keyName !== name)
 		else
-			newColumnOrder = newColumnOrder.filter(colName => colName !== name)
-		setColumnOrder(newColumnOrder);*/
+			newFilters[group].push(name)
+		setUnitFilters(newFilters);
 	}
 
 	return(
@@ -677,11 +675,45 @@ const FilterGroup = ({group}) => {
 	)
 }
 
-const UnitFilters = ({closeModal}) => {
+const UnitFilters = ({closeModal, unitFilters, setUnitFilters}) => {
 
-	const [filters, setFilters] = useState(
-		() => Object.fromEntries(Object.keys(unitFilterKeys).map(group => [group, []]))
+	const [checkboxes, setCheckboxes] = useState(
+		() => Object.fromEntries(
+			Object.keys(unitFilterKeys).map(
+				group => [
+					group,
+					Object.fromEntries(
+						unitFilterKeys[group].map(
+							key => [key, !unitFilters[group].includes(key)]
+						)
+					)
+				]
+			)
+		)
 	);
+
+	const setGroupCheckboxes = (group, val) => {
+		const newCheckboxes = {...checkboxes};
+		newCheckboxes[group] = val;
+		setCheckboxes(newCheckboxes);
+	}
+
+	const setAll = val => {
+		if(val){
+			const newFilters = Object.fromEntries(
+				Object.keys(unitFilterKeys).map(group => [group, []])
+			);
+			setUnitFilters(newFilters);
+		} else
+			setUnitFilters(unitFilterKeys);
+
+		const newCheckboxes = {...checkboxes};
+		Object.keys(newCheckboxes).map(
+			group => Object.keys(newCheckboxes[group]).map(
+				key => newCheckboxes[group][key] = val
+			)
+		)
+	}
 
 	const cellStyle = {border: 'solid 2px ' + glob.paletteColor(4), padding: '10px'};
 
@@ -690,8 +722,8 @@ const UnitFilters = ({closeModal}) => {
 	return(
 		<>
 		<div style={{display: 'flex', justifyContent: 'space-around', marginBottom: '10px'}}>
-			<button>SELECT ALL</button>
-			<button>DESELECT ALL</button>
+			<button onClick={() => setAll(true)}>SELECT ALL</button>
+			<button onClick={() => setAll(false)}>DESELECT ALL</button>
 		</div>		
 		<table style={{borderCollapse: 'collapse'}}><tbody>
 		{
@@ -700,7 +732,13 @@ const UnitFilters = ({closeModal}) => {
 					{
 						row.map(
 							group => <td style={cellStyle}>
-								<FilterGroup group={group} setFilter={setFilters} />
+								<FilterGroup 
+									group={group}
+									unitFilters={unitFilters}
+									checkboxes={checkboxes[group]}
+									setGroupCheckboxes={val => setGroupCheckboxes(group, val)}
+									setUnitFilters={setUnitFilters}
+								/>
 							</td>
 						)
 					}
@@ -726,13 +764,31 @@ const TablesComponent = () => {
 		() => defaultDataColumns['armUnit']
 	);
 
-	const data = tableData[selectedClass];
+	const [unitFilters, setUnitFilters] = useState(
+		() => Object.fromEntries(Object.keys(unitFilterKeys).map(group => [group, []]))
+	);
+
+	let data = tableData[selectedClass];
+
+	if(['armUnit', 'backUnit'].includes(selectedClass)) {
+		Object.keys(unitFilters).map(group => unitFilters[group].map(
+			key => {
+				data = data.filter(part => 
+					key === 'NoEffect' ?
+						part[group] !== undefined :
+						part[group] !== key
+				)
+			}
+		));
+	}
 
 	return(
 		<>
 		<TablesHeader 
 			columnOrder={columnOrder}
 			selectedClass={selectedClass}
+			unitFilters={unitFilters}
+			setUnitFilters={setUnitFilters}
 			setSelectedClass={setSelectedClass}
 			setColumnOrder={setColumnOrder}
 		/>
