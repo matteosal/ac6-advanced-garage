@@ -59,10 +59,10 @@ function App() {
 			<MainSwitcher selectedSwitch={selectedSwitch} setSelectedSwitch={setSelectedSwitch}/>
 			<SwitchedComponent selectedSwitch={selectedSwitch} />
 		</div>
-		<div style={{color: 'gray', position: 'absolute', top: 10, right: 20}}>
+		<div style={{color: 'gray', position: 'absolute', top: 10, left: 20}}>
 			{'Site Version ' + process.env.REACT_APP_VERSION}
 		</div>
-		<div style={{color: 'gray', position: 'absolute', top: 30, right: 20}}>
+		<div style={{color: 'gray', position: 'absolute', top: 30, left: 20}}>
 			{'Game Version ' + gameVersion}
 		</div>
 		</div>
