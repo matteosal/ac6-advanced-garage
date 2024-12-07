@@ -42,14 +42,17 @@ function getCellStyle(pos, wide, tall, thick, bottomBorder) {
 const longDashCharacter = '\u2012';
 const doubleArrowRight = '\u00bb';
 const doubleArrowLeft = '\u00ab';
+const multChar = '\u00d7';
 
 function toCellDisplay(val) {
 	if(val === undefined)
 		return longDashCharacter;
 	else if (typeof val === 'string')
 		return val.toUpperCase();
+	else if(val.constructor === Array)
+		return val[0].toString() + multChar + val[1].toString();
 	else
-		return val
+		return val;
 }
 
 function getShowShiftSymbols(shiftInfo, pos) {
