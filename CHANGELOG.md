@@ -1,3 +1,8 @@
+## [v1.0.6](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.0.6)
+* Resolve part ordering alphabetically if two parts have the same value
+* Show pointer cursor on sorting keys
+* Show normal cursor on inactive part slots
+
 ## [v1.0.5](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.0.5)
 * Resolve part ordering alphabetically if two parts have the same value
 * Show pointer cursor on sorting keys
