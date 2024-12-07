@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ac6-advanced-garage/static/css/main.eb7f0b88.css",
-    "main.js": "/ac6-advanced-garage/static/js/main.82ff1c55.js",
+    "main.js": "/ac6-advanced-garage/static/js/main.afcdcb89.js",
     "static/media/VP-66EG.png": "/ac6-advanced-garage/static/media/VP-66EG.a7a7eeca8ae5b6ef9e14.png",
     "static/media/FURLONG.png": "/ac6-advanced-garage/static/media/FURLONG.20d10eae87184cb544f8.png",
     "static/media/TAKIGAWA.png": "/ac6-advanced-garage/static/media/TAKIGAWA.6ed69ebdb8a4a8df01d5.png",
@@ -265,10 +265,10 @@
     "static/media/aldrich-custom-webfont.woff2": "/ac6-advanced-garage/static/media/aldrich-custom-webfont.2d4367283755ea19122b.woff2",
     "index.html": "/ac6-advanced-garage/index.html",
     "main.eb7f0b88.css.map": "/ac6-advanced-garage/static/css/main.eb7f0b88.css.map",
-    "main.82ff1c55.js.map": "/ac6-advanced-garage/static/js/main.82ff1c55.js.map"
+    "main.afcdcb89.js.map": "/ac6-advanced-garage/static/js/main.afcdcb89.js.map"
   },
   "entrypoints": [
     "static/css/main.eb7f0b88.css",
-    "static/js/main.82ff1c55.js"
+    "static/js/main.afcdcb89.js"
   ]
 }
