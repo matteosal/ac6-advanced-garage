@@ -48,6 +48,8 @@ const SwitchedComponent = ({selectedSwitch}) => {
 	}
 }
 
+const gameVersion = '1.7.2';
+
 function App() {
 	const [selectedSwitch, setSelectedSwitch] = useState('BUILD');
 
@@ -57,8 +59,11 @@ function App() {
 			<MainSwitcher selectedSwitch={selectedSwitch} setSelectedSwitch={setSelectedSwitch}/>
 			<SwitchedComponent selectedSwitch={selectedSwitch} />
 		</div>
-		<div style={{color: 'gray', position: 'absolute', bottom: 15, left: 20}}>
-			{'Version ' + process.env.REACT_APP_VERSION}
+		<div style={{color: 'gray', position: 'absolute', top: 10, right: 20}}>
+			{'Site Version ' + process.env.REACT_APP_VERSION}
+		</div>
+		<div style={{color: 'gray', position: 'absolute', top: 30, right: 20}}>
+			{'Game Version ' + gameVersion}
 		</div>
 		</div>
 	);

@@ -7,5 +7,3 @@
 * Global build scores? One per AC stat groups + offense
 * Tests
 * Create custom Plotly bundle to reduce size
-
-* Show game revision version
