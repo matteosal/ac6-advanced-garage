@@ -1,11 +1,9 @@
-import {useState, useReducer, useContext, useRef} from 'react';
+import {useState, useContext} from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
 import {TablesStateContext, TablesStateDispatchContext} from 
 	'../Contexts/TablesStateContext.jsx'
-
-import ModalWrapper from './ModalWrapper.jsx'
 
 /*****************************************************************************/
 
@@ -195,6 +193,7 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 									glob.sortIcons.ascend :
 									glob.sortIcons.descend
 								}
+							alt={sortOrder ? 'ascending order' : 'descending order'}
 							style={{width: '20px', filter: 'invert(1)', position: 'absolute',
 								top: '23px', left: '85%'}} 
 						/> :
@@ -273,7 +272,7 @@ const DraggableTable = ({data}) => {
 
 	const dragHandler = (newInfo, callerPos=null) => setPreviewShiftInfo(
 		shiftInfo => {
-			const {range, posDirection} = shiftInfo;
+			const range = shiftInfo.range;
 			const newRange = newInfo.range;
 			const newPosDirection = newInfo.posDirection;
 			if(range && newRange === null && callerPos) {

@@ -1,13 +1,12 @@
-import {useState, useReducer, useContext, useRef} from 'react';
+import {useContext} from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
-import {TablesStateContext, TablesStateDispatchContext} from 
+import {TablesStateContext} from 
 	'../Contexts/TablesStateContext.jsx'
 
 import TablesHeader from './TablesHeader.jsx'
 import DraggableTable from './DraggableTable.jsx'
-import ModalWrapper from './ModalWrapper.jsx'
 
 /*****************************************************************************/
 
@@ -26,7 +25,8 @@ const TablesComponent = () => {
 					key === 'NoEffect' ?
 						part[group] !== undefined :
 						part[group] !== key
-				)
+				);
+				return null;
 			}
 		));
 	}

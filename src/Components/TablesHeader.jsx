@@ -1,4 +1,4 @@
-import {useState, useReducer, useContext, useRef} from 'react';
+import {useState, useContext} from 'react';
 
 import * as glob from '../Misc/Globals.js';
 
@@ -26,7 +26,7 @@ const ClassBox = ({partClass, selected, setter}) => {
 			onMouseLeave={() => setHighlighted(false)}
 			onClick={setter}
 		>
-			<img src={img} style={imgStyle}/>
+			<img src={img} alt={partClass} style={imgStyle}/>
 		</div>
 	)
 }
@@ -129,6 +129,7 @@ function partitionList(list, subLength) {
 			}
 			tempSubList.push(colName);
 			innerIdx++;
+			return null;
 		}
 	);
 	for(let i = tempSubList.length - 1; i < subLength - 1; i++)
@@ -237,7 +238,8 @@ Object.keys(glob.allUnitFilters).map(
 		unitFilterIcons[group] = {};
 		glob.allUnitFilters[group].map(
 			key => unitFilterIcons[group][key] = glob.unitIcons[key + '.png']
-		)
+		);
+		return null;
 	}
 )
 
@@ -279,7 +281,7 @@ const FilterGroup = ({group, checkboxes}) => {
 										style={{display: 'flex', alignItems: 'center'}}
 										key={val[0]}
 									>
-										<img src={val[1]} style={{width: '20px'}} />
+										<img src={val[1]} alt={val[0]} style={{width: '20px'}} />
 										<label 
 											style={{width: '100px', paddingLeft: '5px'}}
 											htmlFor={val[0]}

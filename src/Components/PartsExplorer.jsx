@@ -136,7 +136,10 @@ const SlotSelector = ({setSearchString, modal}) => {
 		(s, pos) => pos >= slotRange[0] && pos <= slotRange[1]
 	);
 
-	const setBackSubslot = val => stateDispatch({target: 'backSubslot', value: val});
+	const setBackSubslot = useCallback(
+		val => stateDispatch({target: 'backSubslot', value: val}),
+		[stateDispatch]
+	);
 
 	const moveSlot = useCallback(
 		delta => {
@@ -150,7 +153,7 @@ const SlotSelector = ({setSearchString, modal}) => {
 			stateDispatch({target: 'preview', slot: glob.partSlots[newPos]});
 		},
 		[acParts, previewSlot, backSubslot, slotRange, setBackSubslot, 
-			setSearchString]
+			setSearchString, stateDispatch]
 	);
 
 	const handleKeyDown = useCallback(
@@ -553,7 +556,6 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 
 const PartsExplorer = () => {
 
-	const previewSlot = useContext(BuilderStateContext).preview.slot;
 	const stateDispatch = useContext(BuilderStateDispatchContext);
 
 	const [searchString, setSearchString] = useState('');

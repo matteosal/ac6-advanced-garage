@@ -1,4 +1,4 @@
-import { useReducer, useContext } from 'react';
+import { useContext } from 'react';
 
 import * as glob from '../Misc/Globals.js';
 import {copyBuildLink} from "../Misc/BuildImportExport.js";
