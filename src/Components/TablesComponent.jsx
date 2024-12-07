@@ -511,19 +511,13 @@ const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal})
 
 	const allCols = defaultDataColumns[selectedClass].filter(colName => colName !== 'Name');
 
-	const [checkboxes, setCheckboxes] = useState(
-		() => Object.fromEntries(
-			allCols.map(
-				c => [c, columnOrder.includes(c)]
-			)
+	const checkboxes = Object.fromEntries(
+		allCols.map(
+			c => [c, columnOrder.includes(c)]
 		)
 	);
 
 	const setAll = val => {
-		const newState = Object.fromEntries(
-			Object.keys(checkboxes).map(colName => [colName, val])
-		);
-		setCheckboxes(newState);
 		if(val) {
 			const newOrder = allCols;
 			newOrder.unshift('Name');
@@ -533,10 +527,7 @@ const ColumnFilters = ({selectedClass, columnOrder, setColumnOrder, closeModal})
 	}
 
 	const toggleColumn = name => {
-		const newState = {...checkboxes};
-		const newVal = !newState[name];
-		newState[name] = newVal;
-		setCheckboxes(newState);
+		const newVal = !checkboxes[name];
 		let newColumnOrder = [...columnOrder];
 		if(newVal)
 			newColumnOrder.push(name)
@@ -618,15 +609,12 @@ Object.keys(unitFilterKeys).map(
 	}
 )
 
-const FilterGroup = ({group, checkboxes, setGroupCheckboxes, unitFilters, setUnitFilters}) => {
+const FilterGroup = ({group, checkboxes, unitFilters, setUnitFilters}) => {
 
 	const rows = partitionList(Object.entries(unitFilterIcons[group]), 2);
 
 	const toggleKey = name => {
-		const newState = {...checkboxes};
-		const newVal = !newState[name];
-		newState[name] = newVal;
-		setGroupCheckboxes(newState);
+		const newVal = !checkboxes[name];
 		const newFilters = {...unitFilters};
 		if(newVal)
 			newFilters[group] = newFilters[group].filter(keyName => keyName !== name)
@@ -642,7 +630,10 @@ const FilterGroup = ({group, checkboxes, setGroupCheckboxes, unitFilters, setUni
 			</div>
 			{
 				rows.map(
-					row => <div style={{display: 'flex', gap: '15px', marginBottom: '3px'}}>
+					row => <div 
+						style={{display: 'flex', gap: '15px', marginBottom: '3px'}}
+						key={row}
+					>
 						{
 							row.map(
 								val => val ?
@@ -677,26 +668,18 @@ const FilterGroup = ({group, checkboxes, setGroupCheckboxes, unitFilters, setUni
 
 const UnitFilters = ({closeModal, unitFilters, setUnitFilters}) => {
 
-	const [checkboxes, setCheckboxes] = useState(
-		() => Object.fromEntries(
-			Object.keys(unitFilterKeys).map(
-				group => [
-					group,
-					Object.fromEntries(
-						unitFilterKeys[group].map(
-							key => [key, !unitFilters[group].includes(key)]
-						)
+	const checkboxes = Object.fromEntries(
+		Object.keys(unitFilterKeys).map(
+			group => [
+				group,
+				Object.fromEntries(
+					unitFilterKeys[group].map(
+						key => [key, !unitFilters[group].includes(key)]
 					)
-				]
-			)
+				)
+			]
 		)
 	);
-
-	const setGroupCheckboxes = (group, val) => {
-		const newCheckboxes = {...checkboxes};
-		newCheckboxes[group] = val;
-		setCheckboxes(newCheckboxes);
-	}
 
 	const setAll = val => {
 		if(val){
@@ -706,13 +689,6 @@ const UnitFilters = ({closeModal, unitFilters, setUnitFilters}) => {
 			setUnitFilters(newFilters);
 		} else
 			setUnitFilters(unitFilterKeys);
-
-		const newCheckboxes = {...checkboxes};
-		Object.keys(newCheckboxes).map(
-			group => Object.keys(newCheckboxes[group]).map(
-				key => newCheckboxes[group][key] = val
-			)
-		)
 	}
 
 	const cellStyle = {border: 'solid 2px ' + glob.paletteColor(4), padding: '10px'};
@@ -736,7 +712,6 @@ const UnitFilters = ({closeModal, unitFilters, setUnitFilters}) => {
 									group={group}
 									unitFilters={unitFilters}
 									checkboxes={checkboxes[group]}
-									setGroupCheckboxes={val => setGroupCheckboxes(group, val)}
 									setUnitFilters={setUnitFilters}
 								/>
 							</td>
