@@ -258,7 +258,7 @@ const PartBox = ({part, highlighted, setHighlightedId}) => {
 	const acParts = state.parts;		
 	const curPart = acParts[previewSlot];
 
-	const filter = highlighted ? 'brightness(1.6)' : 'none'
+	const background = highlighted ? glob.paletteColor(4, 1, 1.6) : glob.paletteColor(4);
 
 	const img = glob.partImages[glob.toImageFileName(part.Name)];
 
@@ -285,8 +285,7 @@ const PartBox = ({part, highlighted, setHighlightedId}) => {
 			onMouseEnter = {() => {setHighlightedId(part['ID']); updatePreview();}}
 			onClick = {updateAssembly}
 		>
-			<div style={{width: '100%', height: '100%', background: glob.paletteColor(4), 
-				filter: filter}}>
+			<div style={{width: '100%', height: '100%', background: background}}>
 				{
 					img === undefined ?
 						<PartNameDisplay name={part['Name']} /> :
