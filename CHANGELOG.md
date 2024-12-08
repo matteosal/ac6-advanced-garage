@@ -1,3 +1,9 @@
+## [v1.1.0](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.0)
+* Added build compare and tables section
+* Replaced part images with versions having transparent background
+* Made the builder remember its state (e.g. slot ordering) closing and reopening it
+* Show game version together with the site version
+
 ## [v1.0.6](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.0.6)
 * Data fixes
 
@@ -5,7 +11,6 @@
 * Resolve part ordering alphabetically if two parts have the same value
 * Show pointer cursor on sorting keys
 * Show normal cursor on inactive part slots
-
 
 ## [v1.0.4](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.0.4)
 * Make keyboard commands work regardless of casing
