@@ -48,25 +48,29 @@ const Paragraphs = ({text}) => {
 			(str, i) => 
 				<>
 					<p key={i}>{str}</p>
-					{i === split.length - 1 ? <></> : <p>&nbsp;</p>}
+					{i === split.length - 1 ? <></> : <p key={i + 'newline'}>&nbsp;</p>}
 				</>
 		)
 	);
 }
 
+let anchorId = 0;
 function toAnchorName(str) {
-	return str.replace('/', '')
+	if(anchorId === 1000)
+		anchorId = 0;
+	return str.replace('/', '') + (anchorId++)
 }
 
 const InfoBox = ({name, tooltip}) => {
+	const anchorName = toAnchorName(name);
 	return(
 		<>
-		<div className={toAnchorName(name)} style={{margin: '2px 1px 0px 2px'}}>
+		<div className={anchorName} style={{margin: '2px 1px 0px 2px'}}>
 			<img src={glob.infoIcon} alt={'info icon'} width='100%'/>
 		</div>
 		<Tooltip 
 			style={{maxWidth: '20%', textAlign: 'justify'}}
-			anchorSelect={'.' + toAnchorName(name)}
+			anchorSelect={'.' + anchorName}
 			place="left" 
 		>
 			<Paragraphs text={tooltip} />
@@ -165,7 +169,7 @@ function toValueAndDisplay(name, raw) {
 
 const namePadding = '4px 0px';
 
-const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
+const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) => {
 
 	// This row is also used for unit stats such as attack power that can have
 	// form e.g. 100x3 ([100, 3] in data) so we have to account for that
@@ -188,15 +192,21 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 		leftDisplay = longDashCharacter;
 	}
 
-	// kind !== undefined indicates we are creating a row for the part stats panel and there
-	// will be a bar as well, so nameW has to shrink. barW is only used in this case
-	const nameW = kind === undefined ? '63%' : '43%';
-	const barW = '20%';
+	let infoW, nameW, barW, numW, symbolW;
+	if(buildCompareMode) {
+		[infoW, nameW, numW, symbolW] = ['15px', '65%', '20%', '5%']
+	} else {
+		// kind !== undefined indicates we are creating a row for the part stats panel and there
+		// will be a bar as well, so nameW has to shrink and barW is used. If 
+		//	buildCompareMode == true the kind is always undefined
+		nameW = kind === undefined ? '63%' : '43%';
+		[infoW, barW, numW, symbolW] = ['15px', '20%', '12%', '5%']
+	}
 
 	return (
 		<>
 		<div 
-			style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+			style={{display: 'inline-block', width: infoW, verticalAlign: 'middle'}}
 			className={name}
 		>
 			{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
@@ -211,25 +221,29 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip}) => {
 				</div> :
 				<></>
 		}
-		<div style={
-			{display: 'inline-block', color: 'gray', textAlign: 'right', 
-				width: '12%', fontWeight: 'bold'}
-		}>
-			{leftDisplay}
-		</div>
+		{
+			buildCompareMode ?
+			<></> :
+			<div style={
+				{display: 'inline-block', color: 'gray', textAlign: 'right', 
+					width: numW, fontWeight: 'bold'}
+			}>
+				{leftDisplay}
+			</div> 
+		}
 		<div style={{display: 'inline-block', textAlign: 'center', color: 'gray', 
-			width: '5%'}
+			width: symbolW}
 		}>
 			{doubleArrowChar}
 		</div>
 		<div style={
 			{display: 'inline-block', color: rightColor, textAlign: 'right', 
-				width: '12%', fontWeight: 'bold'}
+				width: numW, fontWeight: 'bold'}
 		}>
 			{rightDisplay}
 		</div>
 		<div style={{display: 'inline-block', color: rightColor, textAlign: 'center', 
-			width: '5%'}
+			width: symbolW}
 		}>
 			{triangle}
 		</div>
@@ -287,10 +301,11 @@ function proportionStyle(val, color) {
 
 const cyan = 'rgb(72, 202, 228)';
 
-const ProportionBar = ({values}) => {
+const ProportionBar = ({values, buildCompareMode}) => {
 	const [round0, round1] = [glob.round(values[0]), glob.round(values[1])];
 	const round = [round0, round1, 100 - round0 - round1];
-	const displayed = round.map(val => val > 18 ? val + '%' : null)
+	const displayLimit = buildCompareMode ? 28 : 18;
+	const displayed = round.map(val => val > displayLimit ? val + '%' : null)
 	return(
 		<div style={{borderLeft: 'solid 2px', borderRight: 'solid 2px', lineHeight: '20px'}}>
 			<div style={{width: barDivShrink, margin: '0px auto'}}>
@@ -308,31 +323,31 @@ const ProportionBar = ({values}) => {
 	)
 }
 
-const ProportionBarRow = ({name, left, right, tooltip}) => {
+const ProportionBarRow = ({name, left, right, tooltip, buildCompareMode}) => {
+	const nameW = buildCompareMode ? '60%' : '30%';
+	const leftBarW = buildCompareMode ? '0' : '30%';
 	return (
 		<>
 			<div 
-				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				style={{display: 'inline-block', width: '15px', verticalAlign: 'middle'}}
 				className={name}
 			>
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
 			</div>			
 			<div style={{display: 'inline-block', padding: namePadding, 
-				width: '30%'}
+				width: nameW}
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{display: 'inline-block', width: '30%', padding: '0px 2% 0px 3%'}}>
+			<div style={{display: 'inline-block', width: leftBarW, padding: '0px 2% 0px 3%'}}>
 				{
-					left === null ? 
+					left === null || buildCompareMode ? 
 						<></> :
 						<ProportionBar values={left}/>
 				}
 			</div>
 			<div style={{display: 'inline-block', width: '30%'}}>
-				<ProportionBar 
-					values={right}
-				/>
+				<ProportionBar values={right} buildCompareMode={buildCompareMode}/>
 			</div>
 		</>
 	)
@@ -402,16 +417,16 @@ const RangePlotRow = ({name, left, right, tooltip}) => {
 	return(
 		<>
 			<div 
-				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				style={{display: 'inline-block', width: '15px', verticalAlign: 'middle'}}
 				className={name}
 			>
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
 			</div>		
-			<div style={{display: 'inline-block', padding: namePadding, width: '40%'}
+			<div style={{display: 'inline-block', padding: namePadding}
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '60%', height: '200px', margin: '0px auto'}}>
+			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
 				<RangePlot left={left} right={right} />
 			</div>
 		</>
@@ -532,16 +547,16 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 	return(
 		<>
 			<div 
-				style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+				style={{display: 'inline-block', width: '15px', verticalAlign: 'middle'}}
 				className={name}
 			>
 				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
 			</div>		
-			<div style={{display: 'inline-block', padding: namePadding, width: '40%'}
+			<div style={{display: 'inline-block', padding: namePadding}
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '60%', height: '200px', margin: '0px auto'}}>
+			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
 				<EnergyPlot left={left} right={right} />
 			</div>
 		</>
@@ -591,6 +606,16 @@ const fireAnimationNote = '\nNOTE: all DPS/IPS related specs assume that the fir
 	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
 	'launchers that fire individual missiles in rapid sequence).'
 
+const aimAssistProfileDesc = 'Gives an indication of how well the FCS is paired with the ' +
+	'unit ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan ' +
+	'lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m.';
+
+const enRecoveryProfilesDesc = 'Shows the energy recovered over time in the normal (cyan) ' +
+	'and redlining (red) cases.';
+
+const enRecoveryProfilesNote = 'NOTE: the cyan profile is a limit case because if the ' +
+	'generator is not fully depleted energy recovery will not start from zero energy.';
+
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
@@ -600,11 +625,9 @@ const statTooltips = {
 	'LeftArmMissileLockTime': 'Missile lock time of left arm unit, modified by FCS.',
 	'RightBackMissileLockTime': 'Missile lock time of right back unit, modified by FCS.',
 	'LeftBackMissileLockTime': 'Missile lock time of left back unit, modified by FCS.',
-	'AimAssistProfile': 'Gives an indication of how well the FCS is paired with the unit ' +
-		'ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan ' +
-		'lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m. When ' +
-		'a new FCS is in preview, the current FCS ranges are shown with dashed lines and the ' +
-		'new with solid ones. When a unit is in preview only the new unit ranges are shown.',
+	'AimAssistProfile': aimAssistProfileDesc + ' When a new FCS is in preview, the current ' +
+		'FCS assist values are shown with dashed lines and the new with solid ones. When a ' +
+		'unit is in preview only the new unit ranges are shown.',
 	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of ' +
 		'energy (assuming no energy is recovered in between quick boosts).',
 	'ENRechargeDelayRedline': 'Time before energy starts recovering when the generator is ' +
@@ -620,11 +643,9 @@ const statTooltips = {
 		'energy capacity.',
 	'FullRechargeTimeRedline': 'Time to fully recover energy when the generator is fully ' +
 		'depleted',
-	'ENRecoveryProfiles': 'Shows the energy recovered over time in the normal (cyan) and ' +
-		'redlining (red) cases. When a new part is in preview, the current profiles are shown ' +
-		'with dashed lines and the new ones with solid ones.\nNOTE: the cyan profile is a ' +
-		'limit case because if the generator is not fully depleted energy recovery will not ' +
-		'start from zero energy.',
+	'ENRecoveryProfiles': enRecoveryProfilesDesc + ' When a new part is in preview, the ' +
+		'current profiles are shown with dashed lines and the new ones with solid ones.\n' + 
+		enRecoveryProfilesNote,
 	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
@@ -650,9 +671,27 @@ const statTooltips = {
 	'MagDumpTime': 'Minimum time to empty one magazine.'
 };
 
+const statTooltipsComparerMode = {
+	'AimAssistProfile': aimAssistProfileDesc + ' When two builds are compared, this build\'s ' +
+		'FCS assist values are shown with solid lines and the ones from the other build with ' +
+		'dashed lines.',
+	'ENRecoveryProfiles': enRecoveryProfilesDesc + ' When two builds are compared, this ' +
+		'build\'s profiles are shown with solid lines and the ones from the other build with ' +
+		'dashed lines.\n' + enRecoveryProfilesNote
+}
+
+function getTooltip(name, buildCompareMode) {
+	if(!buildCompareMode)
+		return statTooltips[name];
+	const comparerModeTooltip = statTooltipsComparerMode[name];
+	return comparerModeTooltip ? comparerModeTooltip : statTooltips[name]
+}
+
 const EmptyRow = () => <div style={{padding: namePadding}}>&nbsp;</div>
 
-export const StatRow = ({leftStat, rightStat, pos, kind}) => {
+export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
+
+	const tooltip = getTooltip(rightStat.name, buildCompareMode);
 
 	if(rightStat.type === 'EmptyLine')
 		return <EmptyRow key = {pos} />
@@ -672,7 +711,8 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 				name = {rightStat.name}
 				left = {leftStat.value}
 				right = {rightStat.value}
-				tooltip = {statTooltips[rightStat.name]}
+				tooltip = {tooltip}
+				buildCompareMode = {buildCompareMode}
 				key = {pos}				
 			/>		
 		)
@@ -682,7 +722,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}
-				tooltip={statTooltips[rightStat.name]}
+				tooltip={tooltip}
 				key = {pos}
 			/>		
 		)		
@@ -693,7 +733,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}
-				tooltip={statTooltips[rightStat.name]}
+				tooltip={tooltip}
 				key = {pos}
 			/>		
 		)		
@@ -704,7 +744,7 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}
-				tooltip={statTooltips[rightStat.name]}
+				tooltip={tooltip}
 				key = {pos}
 			/>		
 		)		
@@ -715,7 +755,8 @@ export const StatRow = ({leftStat, rightStat, pos, kind}) => {
 				leftRaw = {leftStat.value}
 				rightRaw = {rightStat.value}
 				kind = {kind}
-				tooltip = {statTooltips[rightStat.name]}
+				tooltip = {tooltip}
+				buildCompareMode={buildCompareMode}
 				key = {pos}
 			/>
 		)
@@ -759,7 +800,7 @@ const CollapsibleHeader = ({label, isOpen, isOverload}) => {
 	)
 }
 
-export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable}) => {
+export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable, buildCompareMode}) => {
 	const statRange = [...Array(rightGroup.length).keys()];
 	let isOverload = false;
 	if(overloadTable && Object.values(overloadTable).includes(true)) {
@@ -786,7 +827,8 @@ export const StatRowGroup = ({header, leftGroup, rightGroup, overloadTable}) => 
 							<StatRow
 								leftStat={leftGroup[innerPos]}
 								rightStat={rightGroup[innerPos]} 
-								pos={innerPos} 
+								pos={innerPos}
+								buildCompareMode={buildCompareMode}
 								/>
 						</div>
 					)

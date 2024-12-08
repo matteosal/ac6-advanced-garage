@@ -18,7 +18,7 @@ const starterACPartNames = [
 ];
 const assemblyKinds = ['Unit', 'Unit', 'Unit', 'Unit', 'Head', 'Core', 'Arms', 'Legs',
 	'Booster', 'FCS', 'Generator', 'Expansion'];
-const starterAssembly = Object.fromEntries(
+export const starterAssembly = Object.fromEntries(
 	starterACPartNames.map(
 		(name, pos) => [
 			glob.partSlots[pos],
@@ -75,9 +75,6 @@ function validateAssembly(assembly) {
 }
 
 function parseQuery(query) {
-	if(!query)
-		return starterAssembly;
-
 	const ids = query.split('-').map(n => Number(n));
 	// Check that we have 12 numeric ids
 	if(ids.length !== 12)
@@ -102,7 +99,7 @@ function parseQuery(query) {
 	return assembly
 }
 
-export function getInitialBuild(query) {
+export function parseBuildQuery(query) {
 	// The query contains parts ids so this will break if they ever change. In case
 	// that happens we should dump the original mapping between ids and parts into a
 	// file and use that mapping to create/parse links

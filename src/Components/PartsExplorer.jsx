@@ -1,14 +1,19 @@
 import { useState, useContext, useEffect, useCallback } from 'react';
 
-import { Tooltip } from 'react-tooltip'
 
 import * as glob from '../Misc/Globals.js';
-import {ACPartsContext, ACPartsDispatchContext} from "../Contexts/ACPartsContext.jsx";
+import {BuilderStateContext, BuilderStateDispatchContext} from 
+	"../Contexts/BuilderStateContext.jsx";
 import ModalWrapper from './ModalWrapper.jsx'
+import ClosableTooltip from './ClosableTooltip.jsx'
 
 /*****************************************************************************/
 
-const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubslot}) => {
+const SlotBox = ({slot, inactive, selected, updateSlot}) => {
+
+	const backSubslot = useContext(BuilderStateContext).backSubslot;
+	const stateDispatch = useContext(BuilderStateDispatchContext);
+
 	const [highlighted, setHighlighted] = useState(false);
 
 	let imgStyle = {};
@@ -18,7 +23,7 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 		borderColor = glob.paletteColor(5);
 	}
 	else if(highlighted)
-		imgStyle['filter'] = 'brightness(1.3)'
+		imgStyle['filter'] = 'brightness(1.3)';
 	else if(inactive)
 		imgStyle['filter'] = 'brightness(0.5)';
 
@@ -53,7 +58,9 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 								'gray',
 							bottom: '39px', left: '3px'
 						}}
-						onClick = {() => {if(selected) setBacksubslot(0)}}
+						onClick = {() => {
+							if(selected) stateDispatch({target: 'backSubslot', value: 0})
+						}}
 					></div>
 					<div 
 						style = {{
@@ -64,7 +71,9 @@ const SlotBox = ({slot, inactive, selected, updateSlot, backSubslot, setBacksubs
 								'gray',
 							bottom: '39px', left: '12px'
 						}}
-						onClick = {() => {if(selected) setBacksubslot(1)}}
+						onClick = {() => {
+							if(selected) stateDispatch({target: 'backSubslot', value: 1})
+						}}
 					></div>
 					</> :
 					<></>
@@ -79,24 +88,24 @@ function getInitialSlotRange(slot) {
 	return [start, start + 4]
 }
 
-function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksubslot) {
+function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBackSubslot) {
 	if ((delta === 1 && pos === maxPos) || (delta === -1 && pos === 0))
 		return [pos, range];
 	// Compute new pos ID, managing back subslots
 	if(pos === 1 && delta === 1)
-		setBacksubslot(0);
+		setBackSubslot(0);
 	else if(pos === 4 && delta === -1)
-		setBacksubslot(1);
+		setBackSubslot(1);
 	else if(pos === 2 || pos === 3) {
 		// Here we basically move by half a step and check where we land
 		const subpos = backSubslot === 0 ? pos : pos + 0.5;
 		const newSubPos = subpos + delta / 2;
 		const floor = Math.floor(newSubPos);
 		if(floor === 1 || floor === 4)
-			setBacksubslot(null);
+			setBackSubslot(0);
 		else {
 			delta = floor - pos; // This might be 0 if we are only switching subslot
-			setBacksubslot(Math.round(2 * (newSubPos - floor)))
+			setBackSubslot(Math.round(2 * (newSubPos - floor)))
 		}
 	}
 	let newPos = pos + delta;
@@ -112,13 +121,24 @@ function shiftPos(pos, range, delta, maxPos, hasTankLegs, backSubslot, setBacksu
 	return [newPos, newRange];
 }
 
-const SlotSelector = ({previewSlot, backSubslot, setBacksubslot, previewDispatch, setSearchString, modal}) => {
-	const acParts = useContext(ACPartsContext).parts;
+const SlotSelector = ({setSearchString, modal}) => {
+
+	const state = useContext(BuilderStateContext);
+	const stateDispatch = useContext(BuilderStateDispatchContext);
+
+	const acParts = state.parts;
+	const previewSlot = state.preview.slot;
+	const backSubslot = state.backSubslot;
 
 	const [slotRange, setSlotRange] = useState(getInitialSlotRange(previewSlot));
 
 	const displayedPartSlots = glob.partSlots.filter(
 		(s, pos) => pos >= slotRange[0] && pos <= slotRange[1]
+	);
+
+	const setBackSubslot = useCallback(
+		val => stateDispatch({target: 'backSubslot', value: val}),
+		[stateDispatch]
 	);
 
 	const moveSlot = useCallback(
@@ -127,14 +147,13 @@ const SlotSelector = ({previewSlot, backSubslot, setBacksubslot, previewDispatch
 			const currentPos = glob.partSlots.indexOf(previewSlot);
 			const maxPos = glob.partSlots.length - 1;			
 			const hasTankLegs = acParts.legs['LegType'] === 'Tank';
-			const [newPos, newRange] = 
-				shiftPos(currentPos, slotRange, delta, maxPos, hasTankLegs, 
-					backSubslot, setBacksubslot);
+			const [newPos, newRange] = shiftPos(currentPos, slotRange, delta, maxPos, 
+				hasTankLegs, backSubslot, setBackSubslot);
 			setSlotRange(newRange);
-			previewDispatch({slot: glob.partSlots[newPos]});
+			stateDispatch({target: 'preview', slot: glob.partSlots[newPos]});
 		},
-		[acParts, previewSlot, backSubslot, slotRange, previewDispatch, setBacksubslot, 
-			setSearchString]
+		[acParts, previewSlot, backSubslot, slotRange, setBackSubslot, 
+			setSearchString, stateDispatch]
 	);
 
 	const handleKeyDown = useCallback(
@@ -157,13 +176,11 @@ const SlotSelector = ({previewSlot, backSubslot, setBacksubslot, previewDispatch
 	);
 
 	const updateSlot = (s) => {
-		previewDispatch({slot: s});
+		stateDispatch({target: 'preview', slot: s});
 		setSearchString('');
 		if(['leftBack', 'rightBack'].includes(s)) {
-			if(backSubslot === null)
-				setBacksubslot(0)
-		} else
-			setBacksubslot(null)
+			setBackSubslot(0)
+		}
 	}
 
 	return (
@@ -194,8 +211,6 @@ const SlotSelector = ({previewSlot, backSubslot, setBacksubslot, previewDispatch
 					inactive = {s === 'booster' && acParts.legs['LegType'] === 'Tank'}
 					selected = {s === previewSlot}
 					updateSlot = {() => updateSlot(s)}
-					backSubslot = {backSubslot}
-					setBacksubslot = {setBacksubslot}
 					key = {s}
 				/>
 			)
@@ -234,11 +249,14 @@ const EquippedTag = ({imgH, background}) => {
 	</div>
 }
 
-const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) => {
+const PartBox = ({part, highlighted, setHighlightedId}) => {
 
-	const acPartsDispatch = useContext(ACPartsDispatchContext);
-	const acParts = useContext(ACPartsContext).parts;		
-	const curPart = acParts[slot];
+	const state = useContext(BuilderStateContext);
+	const stateDispatch = useContext(BuilderStateDispatchContext);
+
+	const previewSlot = state.preview.slot;
+	const acParts = state.parts;		
+	const curPart = acParts[previewSlot];
 
 	const filter = highlighted ? 'brightness(1.6)' : 'none'
 
@@ -246,19 +264,19 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 
 	const updatePreview = () => {
 		if(part['ID'] !== curPart['ID']) {
-			previewDispatch({part: part})
+			stateDispatch({target: 'preview', part: part})
 		} else {
-			previewDispatch({part: null})
+			stateDispatch({target: 'preview', part: null})
 		}
 	}
 	const updateAssembly = () => {
-		acPartsDispatch({slot: slot, id: part['ID']})				
+		stateDispatch({target: 'parts', slot: previewSlot, id: part['ID']})				
 	}
 
 	const [imgW, imgAspectRatio] = [220, 0.51];
 	const imgH = Math.round(imgW * imgAspectRatio);
 
-	const pairedPart = acParts[glob.pairedUnitSlots[slot]];
+	const pairedPart = acParts[glob.pairedUnitSlots[previewSlot]];
 
 	return (
 		<div 
@@ -292,10 +310,16 @@ const PartBox = ({part, previewDispatch, slot, highlighted, setHighlightedId}) =
 	)
 }
 
-const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
+const SortModal = ({closeModal, keys, slot}) => {
+
+	const state = useContext(BuilderStateContext);
+	const stateDispatch = useContext(BuilderStateDispatchContext);
+
+	const previewSlot = state.preview.slot;
+	const sortBy = state.sortBy;
 
 	const [highlightedKey, setHighlightedKey] = useState(keys[0]);
-	const [selectedKey, setSelectedKey] = useState(sortBy[slot].key);
+	const [selectedKey, setSelectedKey] = useState(sortBy[previewSlot].key);
 
 	const getBrightness = key => {
 		if(key === selectedKey)
@@ -307,15 +331,11 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 
 	const onClick = (key) => {
 		setSelectedKey(key);
-		if(sortBy[slot].key !== key) {
-			let newSortBy = {...sortBy};
-			newSortBy[slot] = {key: key, ascend: true};
-			setSortBy(newSortBy);
-		} else {
-			let newSortBy = {...sortBy};
-			newSortBy[slot] = {key: key, ascend: !sortBy[slot].ascend};
-			setSortBy(newSortBy);
-		}
+		if(sortBy[previewSlot].key !== key)
+			stateDispatch({target: 'sortBy', slot: previewSlot, value: {key: key, ascend: true}});
+		else 
+			stateDispatch({target: 'sortBy', slot: previewSlot, value: 
+				{key: key, ascend: !sortBy[previewSlot].ascend}});
 	}
 
 	return(
@@ -343,11 +363,11 @@ const SortModal = ({closeModal, keys, sortBy, setSortBy, slot}) => {
 						key === selectedKey ?
 							<img 
 								src={
-									sortBy[slot].ascend ? 
+									sortBy[previewSlot].ascend ? 
 										glob.sortIcons.ascend :
 										glob.sortIcons.descend
 									}
-								alt={sortBy[slot].ascend ? 'ascend' : 'descend'}
+								alt={sortBy[previewSlot].ascend ? 'ascend' : 'descend'}
 								width='25px'
 								style={{display: 'block', filter: 'invert(1)', position: 'absolute', 
 									bottom: '3px', left: '285px'}} 
@@ -410,17 +430,19 @@ function getSortingKeys(slot, backSubslot) {
 		return partSortingKeys[slot][backSubslot];
 }
 
-const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, backSubslot, modal, setModal}) => {
-	const [highlightedId, setHighlightedId] = useState(-1);
-	const [showSearchTooltip, setShowSearchTooltip] = useState(true)
+const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 
-	const [sortBy, setSortBy] = useState(
-		Object.fromEntries(
-			glob.partSlots.map(slot =>
-				{return [slot, {key: 'Name', ascend: true}]}
-			)
-		)
-	);
+	const state = useContext(BuilderStateContext);
+	const stateDispatch = useContext(BuilderStateDispatchContext);
+
+	const previewSlot = state.preview.slot;
+	const backSubslot = state.backSubslot;
+	const sortBy = state.sortBy;
+	const showSearchTooltip = state.showTooltip;
+
+	const [highlightedId, setHighlightedId] = useState(-1);
+
+	const setShowSearchTooltip = val => stateDispatch({target: 'showTooltip', value: val});
 
 	const partsForSlot = glob.getPartsForSlot(previewSlot, backSubslot);
 	const sortingKeys = getSortingKeys(previewSlot, backSubslot);
@@ -433,25 +455,7 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 	// prevent the sorting from happening every time because this component and this entire file
 	// would not depend on the preview part state.
 	displayedParts.sort(
-		(a, b) => {
-			const order = sortBy[previewSlot].ascend ? 1 : -1;
-			// Default is set so that parts without the key will always come after the others
-			const defaultVal = order === 1 ? Infinity : -Infinity;
-			let aVal = a[sortBy[previewSlot].key] || defaultVal;
-			let bVal = b[sortBy[previewSlot].key] || defaultVal;
-			// Resolve list specs
-			if (aVal.constructor === Array) aVal = aVal[0] * aVal[1];
-			if (bVal.constructor === Array) bVal = bVal[0] * bVal[1];
-			// Sort alphabetically is key is equal
-			let res;
-			if(aVal > bVal)      
-				res = order;
-			else if(aVal < bVal)
-				res = -order;
-			else
-				res = a['Name'] > b['Name'] ? order : -order;
-			return res
-		}
+		(a, b) => glob.partSortingFunction(sortBy[previewSlot].key, sortBy[previewSlot].ascend, a, b)
 	)
 
 	// If none part was there before search filter ensure it's still there and put it at
@@ -487,8 +491,6 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 			displayedParts.map(
 				(part) => <PartBox
 					part = {part}
-					previewDispatch = {previewDispatch}
-					slot = {previewSlot}
 					highlighted = {part['ID'] === highlightedId}
 					setHighlightedId = {setHighlightedId}
 					key = {part['ID']}
@@ -499,7 +501,7 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 		<div style={{width: '90%', margin: '5px auto 0px auto'}}>
 			<div style={{display: 'inline-block', width: '25%'}}>FILTER:</div>
 			<input
-				className='tooltip-anchor'
+				className='search-tooltip-anchor'
 				data-tooltip-delay-show={100}
 				style={{
 					height: '25px',
@@ -513,27 +515,13 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 
 			/>
 		</div>
-		{ 
-			showSearchTooltip ?
-			<Tooltip 
-				style={{width: '265px', padding: '0px 0px 5px 20px'}}
-				anchorSelect='.tooltip-anchor'
-				place='right'
-				clickable
-			>
-				<div 
-					style={{width: '20px', height: '20px', padding: 0, 
-						margin: '0px 0px 0px auto', cursor: 'pointer'}}
-					onClick={() => setShowSearchTooltip(false)}
-				>
-				x
-				</div>
-				<div style={{width: '95%'}}>
-					Searches both among part names (e.g. BASHO) and unit descriptions (e.g. HANDGUN)
-				</div>
-			</Tooltip> :
-			<></>
-		}
+		<ClosableTooltip
+			text='Searches both among part names (e.g. BASHO) and unit descriptions (e.g. HANDGUN)'
+			place='right'
+			anchor='search-tooltip-anchor'
+			show={showSearchTooltip}
+			setShow={setShowSearchTooltip}
+		/>
 		<div 
 			style={{position: 'relative', textAlign: 'center', padding: '5px 0px',
 				margin: '5px auto 10px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
@@ -556,8 +544,7 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 		<ModalWrapper isOpen={modal} closeModal={closeModal}>
 			{
 				modal ? 
-				<SortModal closeModal={closeModal} keys={sortingKeys} 
-					sortBy={sortBy} setSortBy={setSortBy} slot={previewSlot} /> :
+				<SortModal closeModal={closeModal} keys={sortingKeys} /> :
 				<></>
 			}
 		</ModalWrapper>
@@ -567,17 +554,16 @@ const PartSelector = ({previewSlot, previewDispatch, searchString, onSearch, bac
 
 /*****************************************************************************/
 
-const PartsExplorer = ({previewSlot, previewDispatch}) => {
+const PartsExplorer = () => {
+
+	const stateDispatch = useContext(BuilderStateDispatchContext);
 
 	const [searchString, setSearchString] = useState('');
-	const [backSubslot, setBacksubslot] = useState(
-		['leftBack', 'rightBack'].includes(previewSlot) ? 0 : null
-	);
 	const [modal, setModal] = useState(false);
 
 	const closeExplorer = useCallback(
-		() => {previewDispatch({slot: null})},
-		[previewDispatch]
+		() => {stateDispatch({target: 'preview', slot: null})},
+		[stateDispatch]
 	);
 
 	const handleKeyDown = useCallback(
@@ -614,18 +600,11 @@ const PartsExplorer = ({previewSlot, previewDispatch}) => {
 			}
 		}>
 			<SlotSelector
-				previewSlot={previewSlot}
-				backSubslot={backSubslot}
-				setBacksubslot={setBacksubslot}
-				previewDispatch={previewDispatch}
 				setSearchString={setSearchString}
 				modal={modal}
 			/>
 			<PartSelector
-				previewSlot = {previewSlot}
-				previewDispatch={previewDispatch}
 				searchString = {searchString}
-				backSubslot = {backSubslot}
 				modal = {modal}
 				setModal = {setModal}
 				onSearch = {event => setSearchString(event.target.value)}

@@ -1,7 +1,4 @@
-import { useContext } from 'react';
-
 import * as glob from '../Misc/Globals.js';
-import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
 import {StatRowGroup} from './StatRows.jsx';
 
 /**********************************************************************************/
@@ -323,41 +320,39 @@ const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
 
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
-const ACStats = ({preview}) => {
-	const acParts = useContext(ACPartsContext).parts;
+// Returns all the stats that are present in reference, taking their value from toFilter.
+// If a stat is only present in reference the value is undefined
+function filterStats(toFilter, reference) {
+	return reference.map(
+		(rGroup, rGroupPos) => rGroup.map(
+			rStat => {
+				const match = toFilter[rGroupPos].find(
+					curStat => curStat.name === rStat.name
+				);
+				if(match !== undefined)
+					return match
+				else
+					return {...rStat, ...{value: undefined}}
+			}
+		)
+	);
+}
+
+const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 
 	let leftStats, rightStats;
 	const currentStats = computeAllStats(acParts);
-	if(preview.part === null) {
+	if(comparedParts === null) {
 		const nullStats = currentStats.map(group => group.map(stat => toNullStat(stat)));
 		[leftStats, rightStats] = [nullStats, currentStats];
 	}
 	else {
-		const previewACParts = {...acParts};
-		previewACParts[preview.slot] = preview.part;
-		if(
-			previewACParts.legs['LegType'] !== 'Tank' && 
-			previewACParts.booster['ID'] === glob.noneBooster['ID']
-		) {
-			// This happens when the current AC has tank legs and the preview has non-tank legs
-			previewACParts.booster = glob.defaultBooster;
-		}
-		rightStats = computeAllStats(previewACParts);
-		// just like part stats, left stats should have all the stats from right stats in the 
-		// same order, with a value of undefined if the left stat is missing.
-		leftStats = rightStats.map(
-			(rGroup, rGroupPos) => rGroup.map(
-				rStat => {
-					const match = currentStats[rGroupPos].find(
-						curStat => curStat.name === rStat.name
-					);
-					if(match !== undefined)
-						return match
-					else
-						return {...rStat, ...{value: undefined}}
-				}
-			)
-		)
+		const comparedStats = computeAllStats(comparedParts);
+		if(buildCompareMode)
+			[leftStats, rightStats] = [comparedStats, currentStats];
+		else
+			[leftStats, rightStats] = [currentStats, comparedStats];
+		leftStats = filterStats(leftStats, rightStats);
 	}
 
 	const groupRange = [...Array(groupNames.length).keys()];
@@ -367,14 +362,14 @@ const ACStats = ({preview}) => {
 	return (
 		<div style={
 			{
-				...{height: '775px', padding: '15px 15px'},				
+				...{boxSizing: 'border-box', height: '100%', padding: '15px 15px'},				
 				...glob.dottedBackgroundStyle()
 			}
 		}>
 			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>
 				{glob.boxCharacter + ' AC SPECS'}
 			</div>
-			<div className="my-scrollbar" style={{height: '740px', overflowY: 'auto'}}>
+			<div className="my-scrollbar" style={{height: '95%', overflowY: 'auto'}}>
 				{
 					groupRange.map(
 						outerPos => <StatRowGroup
@@ -382,6 +377,7 @@ const ACStats = ({preview}) => {
 							leftGroup={leftStats[outerPos]}
 							rightGroup={rightStats[outerPos]}
 							overloadTable={outerPos === limitGroupPos ? overloadTable : null}
+							buildCompareMode={buildCompareMode}
 							key={outerPos}
 						/>
 					)

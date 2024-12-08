@@ -103,9 +103,94 @@ export function getPartsForSlot(slot, backSubslot) {
 		return rawPartsForSlot[slot][backSubslot];
 }
 
+export const partStatGroups = {
+	'Unit': [
+		[
+			'AttackPower', 'Impact', 'AccumulativeImpact', 'Damage/s', 'Impact/s',
+			'AccumulativeImpact/s', 'Damage/sInclReload', 'Impact/sInclReload', 
+			'AccImpact/sInclReload', 'ComboDamage', 'ComboImpact', 'ComboAccumulativeImpact', 
+			'DirectAttackPower', 'DirectDamage/s', 'ComboDirectDamage', 'BlastRadius', 
+			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
+		],
+		[
+			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgBlastRadius', 'ChgHeatBuildup', 
+			'FullChgAttackPower', 'FullChgImpact', 'FullChgAccumImpact', 'FullChgBlastRadius',
+			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration',
+			'DplyHeatBuildup'
+		],
+		[
+			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'Guidance', 'IdealRange', 
+			'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 'ChgENLoad', 
+			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
+			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'DeploymentRange', 
+			'Cooling', 'AmmunitionCost'
+		],
+		['Weight', 'ENLoad']
+	],
+	'Head': [
+		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
+		[
+			'AttitudeStability', 'SystemRecovery', 'ScanDistance', 'ScanEffectDuration',
+			'ScanStandbyTime'
+		],
+		['Weight', 'ENLoad']
+	],
+	'Core': [
+		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
+		['AttitudeStability', 'BoosterEfficiencyAdj', 'GeneratorOutputAdj', 'GeneratorSupplyAdj'],
+		['Weight', 'ENLoad']
+	],
+	'Arms': [
+		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
+		['ArmsLoadLimit', 'RecoilControl', 'FirearmSpecialization', 'MeleeSpecialization'],
+		['Weight', 'ENLoad']
+	],
+	'Legs': [
+		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
+		[
+			'AttitudeStability', 'LoadLimit', 'JumpDistance', 'JumpHeight', 'TravelSpeed',
+			'HighSpeedPerf'
+		],
+		[
+			'Thrust', 'UpwardThrust', 'UpwardENConsumption', 'QBThrust', 'QBJetDuration',
+			'QBENConsumption', 'QBReloadTime',
+			'QBReloadIdealWeight', 'ABThrust', 'ABENConsumption'
+		],
+		['Weight', 'ENLoad']
+	],
+	'Booster': [
+		['Thrust', 'UpwardThrust', 'UpwardENConsumption'],
+		[
+			'QBThrust', 'QBJetDuration','QBENConsumption', 'QBReloadTime','QBReloadIdealWeight'
+		],
+		['ABThrust', 'ABENConsumption'],
+		['MeleeAttackThrust', 'MeleeAtkENConsump'],
+		['Weight', 'ENLoad']
+	],
+	'FCS': [
+		['CloseRangeAssist', 'MediumRangeAssist', 'LongRangeAssist'],
+		['MissileLockCorrection', 'MultiLockCorrection'],
+		['Weight', 'ENLoad']
+	],
+	'Generator': [
+		[
+			'ENCapacity', 'ENRecharge', 'SupplyRecovery', 'PostRecoveryENSupply', 
+			'EnergyFirearmSpec',
+		],
+		['Weight', 'ENOutput']
+	],
+	'Expansion': [
+		[
+			'AttackPower', 'Impact', 'AccumulativeImpact', 'BlastRadius', 'EffectRange',
+			'Resilience', 'Duration'
+		],
+		['DirectHitAdjustment']
+	]
+};
+
 /***************************************************************************************/
 
-function capitalizeFirstLetter(str) {
+export function capitalizeFirstLetter(str) {
 	return String(str).charAt(0).toUpperCase() + String(str).slice(1);
 }
 
@@ -116,8 +201,12 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'EffectiveAPEnergy': 'Effective AP (Energy)',
 	'EffectiveAPExplosive': 'Effective AP (Explosive)',
 	'EffectiveAPAvg': 'Effective AP (Avg.)', 'QBENRechargeTime': 'QB EN Recharge Time',
-	'ENRechargeDelayRedline': 'EN Recharge Delay (Redline)',
-	'FullRechargeTimeRedline': 'Full Recharge Time (Redline)'};
+	'ENRechargeDelayRedline': 'EN Rech. Delay (Redline)',
+	'FullRechargeTimeRedline': 'Full Rech. Time (Redline)',
+	'RightBackMissileLockTime': 'R-Back Missile Lock Time',
+	'LeftBackMissileLockTime': 'L-Back Missile Lock Time',
+	'ACS Failure': 'ACS Failure', 'Semi-Auto': 'Semi-Auto', 'Full-Auto': 'Full-Auto'
+};
 
 function stringInsert(str, insert, pos) {
 	return str.substr(0, pos) + insert + str.substr(pos);
@@ -165,6 +254,26 @@ export function notify(msg) {
 	)
 }
 
+export function partSortingFunction(key, ascend, a, b) {
+	const order = ascend ? 1 : -1;
+	// Default is set so that parts without the key will always come after the others
+	const defaultVal = order === 1 ? Infinity : -Infinity;
+	let aVal = a[key] == null ? defaultVal : a[key];
+	let bVal = b[key] == null ? defaultVal : b[key];
+	// Resolve list specs
+	if (aVal.constructor === Array) aVal = aVal[0] * aVal[1];
+	if (bVal.constructor === Array) bVal = bVal[0] * bVal[1];
+	// Sort alphabetically is key is equal
+	let res;
+	if(aVal > bVal)      
+		res = order;
+	else if(aVal < bVal)
+		res = -order;
+	else
+		res = a['Name'] > b['Name'] ? order : -order;
+	return res
+}
+
 /***************************************************************************************/
 
 export function round(val, roundTarget = 1) {
@@ -183,3 +292,60 @@ export function mean(list) {
 		return undefined;
 	return total(list) / list.length
 }
+
+/***************************************************************************************/
+
+function toKind(className) {
+	if(['armUnit', 'backUnit'].includes(className))
+		return 'Unit';
+	else if(className === 'fcs')
+		return 'FCS';
+	else
+		return capitalizeFirstLetter(className);
+}
+
+export function toSlotName(className) {
+	if(className === 'armUnit')
+		return 'leftArm';
+	else if (className === 'backUnit')
+		return 'leftBack'
+	else
+		return className
+}
+
+function getDefaultDataColumns(partClass) {
+	const dataKeys = tableData[partClass].map(part => Object.keys(part)).flat();
+	const uniqueDataKeys = dataKeys.filter((col, pos, allKeys) => allKeys.indexOf(col) === pos);
+	// We could just return uniqueDataKeys, but using the global list gives us a nicer 
+	// default ordering
+	let res = partStatGroups[toKind(partClass)].flat();
+	res.unshift('Name');
+	res = res.filter(col => uniqueDataKeys.includes(col));
+	return res
+}
+
+function getTableData(partClass) {
+	const slotName = toSlotName(partClass);
+
+	const parts = getPartsForSlot(slotName, 0).filter(
+		part => part['Name'] !== '(NOTHING)'
+	);
+
+	return parts;
+}
+
+export const partClasses = ['armUnit', 'backUnit', 'head', 'core', 'arms', 'legs', 'booster',
+	'fcs', 'generator', 'expansion'];
+
+export const tableData = [];
+partClasses.map(c => {tableData[c] = getTableData(c); return null});
+
+export const defaultTableColumns = [];
+partClasses.map(c => {defaultTableColumns[c] = getDefaultDataColumns(c); return null});
+
+export const allUnitFilters = {
+	'AttackType': ['Explosive', 'Energy', 'Kinetic', 'Coral'],
+	'WeaponType': ['Burst', 'Charge', 'Melee', 'Homing', 'Semi-Auto', 'Full-Auto', 'Shield'],
+	'ReloadType': ['Single Shot', 'Overheat', 'Magazine'],
+	'AdditionalEffect': ['ACS Failure', 'Camera Disruption', 'Shock', 'NoEffect']
+};

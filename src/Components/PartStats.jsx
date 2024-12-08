@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 
-import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
+import {BuilderStateContext} from "../Contexts/BuilderStateContext.jsx";
 import {StatRow} from './StatRows.jsx';
 import * as glob from '../Misc/Globals.js';
 
@@ -48,91 +48,6 @@ const PartStatsHeader = ({part}) => {
 	)
 }
 
-const fullStatGroups = {
-	'Unit': [
-		[
-			'AttackPower', 'Impact', 'AccumulativeImpact', 'Damage/s', 'Impact/s',
-			'AccumulativeImpact/s', 'Damage/sInclReload', 'Impact/sInclReload', 
-			'AccImpact/sInclReload', 'ComboDamage', 'ComboImpact', 'ComboAccumulativeImpact', 
-			'DirectAttackPower', 'DirectDamage/s', 'ComboDirectDamage', 'BlastRadius', 
-			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
-		],
-		[
-			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgBlastRadius', 'ChgHeatBuildup', 
-			'FullChgAttackPower', 'FullChgImpact', 'FullChgAccumImpact', 'FullChgBlastRadius',
-			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration',
-			'DplyHeatBuildup'
-		],
-		[
-			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'Guidance', 'IdealRange', 
-			'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 'ChgENLoad', 
-			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
-			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'DeploymentRange', 
-			'Cooling', 'AmmunitionCost'
-		],
-		['Weight', 'ENLoad']
-	],
-	'Head': [
-		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
-		[
-			'AttitudeStability', 'SystemRecovery', 'ScanDistance', 'ScanEffectDuration',
-			'ScanStandbyTime'
-		],
-		['Weight', 'ENLoad']
-	],
-	'Core': [
-		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
-		['AttitudeStability', 'BoosterEfficiencyAdj', 'GeneratorOutputAdj', 'GeneratorSupplyAdj'],
-		['Weight', 'ENLoad']
-	],
-	'Arms': [
-		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
-		['ArmsLoadLimit', 'RecoilControl', 'FirearmSpecialization', 'MeleeSpecialization'],
-		['Weight', 'ENLoad']
-	],
-	'Legs': [
-		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
-		[
-			'AttitudeStability', 'LoadLimit', 'JumpDistance', 'JumpHeight', 'TravelSpeed',
-			'HighSpeedPerf'
-		],
-		[
-			'Thrust', 'UpwardThrust', 'UpwardENConsumption', 'QBThrust', 'QBJetDuration',
-			'QBENConsumption', 'QBReloadTime',
-			'QBReloadIdealWeight', 'ABThrust', 'ABENConsumption'
-		],
-		['Weight', 'ENLoad']
-	],
-	'Booster': [
-		['Thrust', 'UpwardThrust', 'UpwardENConsumption'],
-		[
-			'QBThrust', 'QBJetDuration','QBENConsumption', 'QBReloadTime','QBReloadIdealWeight'
-		],
-		['ABThrust', 'ABENConsumption'],
-		['MeleeAttackThrust', 'MeleeAtkENConsump'],
-		['Weight', 'ENLoad']
-	],
-	'FCS': [
-		['CloseRangeAssist', 'MediumRangeAssist', 'LongRangeAssist'],
-		['MissileLockCorrection', 'MultiLockCorrection'],
-		['Weight', 'ENLoad']
-	],
-	'Generator': [
-		[
-			'ENCapacity', 'ENRecharge', 'SupplyRecovery', 'PostRecoveryENSupply', 
-			'EnergyFirearmSpec',
-		],
-		['Weight', 'ENOutput']
-	],
-	'Expansion': [
-		[
-			'AttackPower', 'Impact', 'AccumulativeImpact', 'BlastRadius', 'EffectRange',
-			'Resilience', 'Duration'
-		],
-		['DirectHitAdjustment']
-	]
-};
-
 function toRowType(statName) {
 	return statName === 'MagDumpTime' ? 'NumericNoComparison' : 'Numeric'
 }
@@ -141,7 +56,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	const leftFiltered = filterPartKeys(leftPart)
 	const rightFiltered = filterPartKeys(rightPart)
 
-	let statGroups = fullStatGroups[rightPart['Kind']].map(
+	let statGroups = glob.partStatGroups[rightPart['Kind']].map(
 		group => group.filter(stat => rightFiltered[stat] !== undefined)
 	);
 
@@ -218,10 +133,12 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	)
 }
 
-const PartStats = ({preview}) => {
+const PartStats = () => {
 
-	const previewPart = preview.part;
-	const curPart = useContext(ACPartsContext).parts[preview.slot];
+	const state = useContext(BuilderStateContext);
+
+	const previewPart = state.preview.part;
+	const curPart = state.parts[state.preview.slot];
 
 	let leftPart, rightPart;
 	if(previewPart === null) {

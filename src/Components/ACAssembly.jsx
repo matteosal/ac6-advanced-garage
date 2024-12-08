@@ -1,14 +1,13 @@
-import { useState, useContext } from 'react';
+import { useState } from 'react';
 
 import * as glob from '../Misc/Globals.js';
-import {copyBuildLink} from "../Misc/BuildImportExport.js";
-import {ACPartsContext} from "../Contexts/ACPartsContext.jsx";
 
 const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) => {
 	const [highlighted, setHighlighted] = useState(false)
 
 	let mouseEnter, mouseLeave, mouseClick;
-	if(inactive) {
+	const isStatic = inactive || previewSetter === null;
+	if(isStatic) {
 		mouseEnter = () => {};
 		mouseLeave = () => {};
 		mouseClick = () => {};
@@ -32,7 +31,7 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 		<div
 			style = {
 				{border: 'solid 1px gray', padding: '5px', background: background, 
-					cursor: inactive ? 'auto' : 'pointer'}
+					cursor: isStatic ? 'auto' : 'pointer'}
 			}
 			onMouseEnter = {mouseEnter}
 			onMouseLeave = {mouseLeave}
@@ -55,8 +54,7 @@ const AssemblyBox = ({partName, manufacturer, slot, previewSetter, inactive}) =>
 	);
 }
 
-const AssemblyGroup = ({header, slotIds, previewSetter}) => {
-	const parts = useContext(ACPartsContext).parts;
+const AssemblyGroup = ({parts, header, slotIds, previewSetter}) => {
 
 	const slotNames = slotIds.map(id => glob.partSlots[id]);
 	return(
@@ -85,26 +83,17 @@ const AssemblyGroup = ({header, slotIds, previewSetter}) => {
 
 
 
-const ACAssembly = ({previewSetter}) => {
-	const parts = useContext(ACPartsContext).parts;
+const ACAssembly = ({parts, previewSetter}) => {
 
 	const headers = ['UNIT', 'FRAME', 'INNER', 'EXPANSION'];
 	const ids = [[0, 1, 2, 3], [4, 5, 6, 7], [8, 9, 10], [11]];
 
 	return(
 		<>
-		<div style={
-			{
-				...glob.dottedBackgroundStyle(),
-				...{display: 'flex', width: '99%', height: '45px', margin: '0px auto 5px auto', 
-					border: 'solid 2px ' + glob.paletteColor(4)}
-			}
-		}>
-			<div style={{margin: 'auto', fontSize: '20px'}}>ASSEMBLY</div>
-		</div>
 		{
 			[0, 1, 2, 3].map(
 				i => <AssemblyGroup 
+					parts={parts}
 					header={headers[i]}
 					slotIds={ids[i]}
 					previewSetter={previewSetter}
@@ -112,12 +101,6 @@ const ACAssembly = ({previewSetter}) => {
 				/>
 			)
 		}
-		<div style={{display: 'flex', width: '100%', height: '50px', 
-			background: glob.paletteColor(3)}}>
-			<button style={{margin: 'auto'}} onClick={() => copyBuildLink(parts)}>
-				CREATE BUILD LINK
-			</button>
-		</div>			
 		</>
 	)
 }

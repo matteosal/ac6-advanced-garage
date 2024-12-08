@@ -9,18 +9,22 @@ import 'react-toastify/dist/ReactToastify.css';
 
 import 'react-tooltip/dist/react-tooltip.css'
 
-import {ACPartsProvider} from "./Contexts/ACPartsContext.jsx";
+import {BuilderStateProvider} from "./Contexts/BuilderStateContext.jsx";
+import {ComparerStateProvider} from "./Contexts/ComparerStateContext.jsx";
+import {TablesStateProvider} from "./Contexts/TablesStateContext.jsx";
 
 import './reset.css'
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-	<React.StrictMode>
-		<BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
-			<ACPartsProvider>
+	<BrowserRouter future={{v7_startTransition: true, v7_relativeSplatPath: true}}>
+		<BuilderStateProvider>
+		<ComparerStateProvider>
+		<TablesStateProvider>
 			<App />
 			<ToastContainer />
-			</ACPartsProvider>
-		</BrowserRouter>
-	</React.StrictMode>
+		</TablesStateProvider>
+		</ComparerStateProvider>
+		</BuilderStateProvider>
+	</BrowserRouter>
 );
