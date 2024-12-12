@@ -1,3 +1,7 @@
+## [v1.1.1](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.1)
+* Fix jankiness of column drag highlighting in tables section
+* Data fixes
+
 ## [v1.1.0](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.0)
 * Added build compare and tables section
 * Replaced part images with versions having transparent background
