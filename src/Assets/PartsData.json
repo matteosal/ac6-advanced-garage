@@ -151,7 +151,7 @@
 		"EffectiveRange": 262,
 		"RapidFire": 1.0,
 		"TotalRounds": 165,
-		"Cooling": 146,
+		"Cooling": 145,
 		"AmmunitionCost": 100,
 		"Weight": 2010,
 		"ENLoad": 446
@@ -2145,7 +2145,7 @@
 		"ENLoad": 323
 	},
 	{
-		"Name": "SI-29:SU-TT/C",
+		"Name": "SI-29: SU-TT/C",
 		"Kind": "Unit",
 		"Manufacturer": "TAKIGAWA",
 		"Description": "Pulse Buckler",
