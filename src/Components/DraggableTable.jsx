@@ -136,25 +136,33 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 	const cellStyle = {
 		...cellBaseStyle,
 		backgroundColor: color,
-		padding: '5px 0px',
+		padding: '0px',
 		borderTop: '2px solid ' + glob.paletteColor(5),
 		borderBottom: '2px solid ' + glob.paletteColor(5),
-		filter: isBeingDragged ? 'brightness(0.6)' : 'none'
+		filter: isBeingDragged ? 'brightness(0.6)' : 'none',
+		cursor: pos === 0 ? 'default' : 'grab'
 	};
 
 	return (
 		<div 
 			style={cellStyle}
+			draggable={pos !== 0}
+			onDragStart={handleDragStart}
+			onDragEnd={handleDragEnd}
+			onDragEnter={handleDragEnter}
+			onDragLeave={handleDragLeave}
+			onDragOver={handleDragOver}
+			onDrop={handleDrop}
+			onClick={() => changeSorting(name)}
 		>
 			<div style=
-				{{display: 'flex', justifyContent: 'center', height: '100%',
-					position: 'relative'}}
+				{{width: '100%', height: '100%', position: 'relative', pointerEvents: 'none'}}
 			>
 				{
 					showLeftShift ? 
 						<div 
 							style={{fontSize: '20px', position: 'absolute', top: '21px',
-								right: '90%'}}
+								right: '90%', pointerEvents: 'none'}}
 						>
 							{doubleArrowLeft}
 						</div> :
@@ -162,16 +170,8 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 				}
 				<div 
 					style={{height: '100%', width: '70%', display: 'flex', alignItems:'center',
-						justifyContent: 'center', whiteSpace: 'normal',
-						cursor: pos === 0 ? 'default' : 'grab'}}
-					draggable={pos !== 0}
-					onDragStart={handleDragStart}
-					onDragEnd={handleDragEnd}
-					onDragEnter={handleDragEnter}
-					onDragLeave={handleDragLeave}
-					onDragOver={handleDragOver}
-					onDrop={handleDrop}
-					onClick={() => changeSorting(name)}
+						justifyContent: 'center', boxSizing: 'border-box', margin: '0px auto', 
+						padding: '5px 0px', whiteSpace: 'normal', pointerEvents: 'none'}}
 				>
 					{glob.toDisplayString(name)}
 				</div>
@@ -179,7 +179,7 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 					showRightShift ? 
 						<div 
 							style={{fontSize: '20px', position: 'absolute', top: '21px',
-								left: '90%'}}
+								left: '90%', pointerEvents: 'none'}}
 						>
 							{doubleArrowRight}
 						</div> :
@@ -195,7 +195,7 @@ const ColumnHeader = ({name, pos, sortOrder, previewShiftInfo, changeOrdering, d
 								}
 							alt={sortOrder ? 'ascending order' : 'descending order'}
 							style={{width: '20px', filter: 'invert(1)', position: 'absolute',
-								top: '23px', left: '85%'}} 
+								top: '23px', left: '85%', pointerEvents: 'none'}} 
 						/> :
 						<></>
 				}
