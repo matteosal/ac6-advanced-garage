@@ -30,7 +30,8 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
 	'CurrentENLoad', 'ENRechargeDelayRedline', 'QBENRechargeTime', 'FullRechargeTime',
 	'FullRechargeTimeRedline', 'RightArmMissileLockTime', 'LeftArmMissileLockTime',
-	'RightBackMissileLockTime', 'LeftBackMissileLockTime'];
+	'RightBackMissileLockTime', 'LeftBackMissileLockTime', 'UpwardENConsumption',
+	'MeleeAtkENConsump'];
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
