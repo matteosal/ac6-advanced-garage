@@ -12,8 +12,8 @@ const comparerStateReducer = (state, action) => {
 
 	if(action.target === 'showTooltip')
 		newState.showTooltip = !newState.showTooltip;
-	else if(action.target === 'builds')
-		newState.builds[action.pos] = action.value;
+	else if(['builds', 'inputFieldStrings'].includes(action.target))
+		newState[action.target][action.pos] = action.value;
 	else
 		newState[action.target][action.pos] = !newState[action.target][action.pos]
 
@@ -26,7 +26,8 @@ const initialComparerState = {
 	builds: new Array(4).fill(starterAssembly),
 	showTooltip: true,
 	showStats: new Array(4).fill(false),
-	checked: new Array(4).fill(false)
+	checked: new Array(4).fill(false),
+	inputFieldStrings: new Array(4).fill('')
 }
 
 export const ComparerStateProvider = ({children}) => {

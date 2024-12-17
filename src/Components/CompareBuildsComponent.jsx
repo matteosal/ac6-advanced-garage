@@ -10,8 +10,14 @@ import ACStats from './ACStats.jsx'
 import ClosableTooltip from './ClosableTooltip.jsx'
 
 const ComparerColumnHeader = ({pos, inputHandler, showStats}) => {
-	const showTooltip = useContext(ComparerStateContext).showTooltip;
+	const state = useContext(ComparerStateContext);
 	const stateDispatch = useContext(ComparerStateDispatchContext);
+	const inputFieldString = state.inputFieldStrings[pos];
+	const showTooltip = state.showTooltip;
+
+	const setInputFieldString = event => stateDispatch(
+		{target: 'inputFieldStrings', pos: pos, value: event.target.value}
+	);
 	const setShowTooltip = () => stateDispatch({target: 'showTooltip'});
 	const toggleShowStats = () => stateDispatch({target: 'showStats', pos: pos});
 
@@ -26,6 +32,8 @@ const ComparerColumnHeader = ({pos, inputHandler, showStats}) => {
 					className="link-tooltip-anchor"
 					style={{width: '170px', height: '30px', 
 						backgroundColor: glob.paletteColor(3)}}
+					value={inputFieldString}
+					onChange={setInputFieldString}
 				/>
 			<input type="submit" value="LOAD" style={{marginLeft: '10px', padding: '3px 10px'}}/>
 			</form>

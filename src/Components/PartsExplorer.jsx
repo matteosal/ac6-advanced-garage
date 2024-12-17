@@ -511,7 +511,6 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 				}}
 				value={searchString}
 				onChange={onSearch}
-
 			/>
 		</div>
 		<ClosableTooltip
