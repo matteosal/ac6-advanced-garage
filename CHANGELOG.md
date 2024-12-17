@@ -1,3 +1,8 @@
+## [v1.1.2](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.2)
+* Fix bar display for "Upward EN Consumption" and "Melee Atk EN Consump"
+* Fix pulse buckler image not showing
+* Build link input fields in the "Compare Builds" section now remember their content when loading the build or leaving the section
+
 ## [v1.1.1](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.1)
 * Fix jankiness of column drag highlighting in tables section
 * Data fixes
