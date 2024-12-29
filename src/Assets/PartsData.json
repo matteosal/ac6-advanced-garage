@@ -3068,6 +3068,7 @@
 		"AttackPower": 85.0,
 		"Impact": 3.0,
 		"AccumulativeImpact": 1.0,
+		"ATKHeatBuildup": 15,
 		"BlastRadius": 15.0,
 		"DirectHitAdjustment": 115.0,
 		"Recoil": 10.0,
