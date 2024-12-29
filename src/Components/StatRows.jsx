@@ -19,7 +19,8 @@ const roundTargets = {'AttitudeRecovery': 1, 'BoostSpeed': 1, 'QBSpeed': 1,
 	'ENSupplyEfficiency': 1, 'ENRechargeDelay': 0.01, 'QBENRechargeTime': 0.01, 
 	'ENRechargeDelayRedline': 0.01, 'FullRechargeTime': 0.01, 'FullRechargeTimeRedline': 0.01,
 	'RightArmMissileLockTime': 0.01, 'LeftArmMissileLockTime': 0.01, 
-	'RightBackMissileLockTime': 0.01,'LeftBackMissileLockTime': 0.01
+	'RightBackMissileLockTime': 0.01,'LeftBackMissileLockTime': 0.01,
+	'ReloadTimeOverheat': 0.1
 };
 
 const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'TotalWeight',
@@ -31,7 +32,7 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'CurrentENLoad', 'ENRechargeDelayRedline', 'QBENRechargeTime', 'FullRechargeTime',
 	'FullRechargeTimeRedline', 'RightArmMissileLockTime', 'LeftArmMissileLockTime',
 	'RightBackMissileLockTime', 'LeftBackMissileLockTime', 'UpwardENConsumption',
-	'MeleeAtkENConsump'];
+	'MeleeAtkENConsump', 'ReloadTimeOverheat'];
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
@@ -572,7 +573,7 @@ const NoComparisonNumericRow = ({name, left, right, tooltip}) => {
 	return (
 		<>
 		<div 
-			style={{display: 'inline-block', width: '3%', verticalAlign: 'middle'}}
+			style={{display: 'inline-block', width: '15px', verticalAlign: 'middle'}}
 			className={name}
 		>
 			{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
@@ -651,11 +652,11 @@ const statTooltips = {
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total energy load.',
-	'Damage/s': 'Raw damage dealt per second, not counting reloads and cooldowns.' + 
+	'Damage/s': 'Raw damage dealt per second, not counting reloads and cooldowns.' +
 		fireAnimationNote,
-	'Impact/s': 'Raw impact damage dealt per second, not counting reloads and cooldowns.' + 
+	'Impact/s': 'Raw impact damage dealt per second, not counting reloads and cooldowns.' +
 		fireAnimationNote,
-	'AccumulativeImpact/s': 'Raw accumulated impact damage dealt per second, not counting ' + 
+	'AccumulativeImpact/s': 'Raw accumulated impact damage dealt per second, not counting ' +
 		'reloads and cooldowns.' + fireAnimationNote,
 	'Damage/sInclReload': 'Damage per second factoring in the reload time and base homing ' +
 		'lock time when present.' + fireAnimationNote,
@@ -669,7 +670,12 @@ const statTooltips = {
 	'DirectAttackPower': 'Attack power on staggered opponents.',
 	'DirectDamage/s': 'Damage per second on staggered opponents.' + fireAnimationNote,
 	'ComboDirectDamage': 'Damage of full melee combo on staggered opponents.',
-	'MagDumpTime': 'Minimum time to empty one magazine.'
+	'MagDumpTime': 'Minimum time to empty one magazine.',
+	'MagazineRounds': 'For overheating weapons this is the number of rounds that can be ' +
+		'continously fired up to one shot away from overheating.',
+	'ReloadTime': 'For overheating weapons this is the time needed to completely cool down ' +
+		'after having continously fired a number of rounds equals to Magazine Rounds.',
+	'ReloadTimeOverheat': 'Time to completely cool down from overheating.'
 };
 
 const statTooltipsComparerMode = {

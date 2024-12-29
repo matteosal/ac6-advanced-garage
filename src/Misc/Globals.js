@@ -122,8 +122,8 @@ export const partStatGroups = {
 			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'Guidance', 'IdealRange', 
 			'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 'ChgENLoad', 
 			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
-			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'DeploymentRange', 
-			'Cooling', 'AmmunitionCost'
+			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'ReloadTimeOverheat',
+			'DeploymentRange', 'Cooling', 'AmmunitionCost'
 		],
 		['Weight', 'ENLoad']
 	],
@@ -205,7 +205,8 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'FullRechargeTimeRedline': 'Full Rech. Time (Redline)',
 	'RightBackMissileLockTime': 'R-Back Missile Lock Time',
 	'LeftBackMissileLockTime': 'L-Back Missile Lock Time',
-	'ACS Failure': 'ACS Failure', 'Semi-Auto': 'Semi-Auto', 'Full-Auto': 'Full-Auto'
+	'ACS Failure': 'ACS Failure', 'Semi-Auto': 'Semi-Auto', 'Full-Auto': 'Full-Auto',
+	'ReloadTimeOverheat': 'Reload Time (Overheat)'
 };
 
 function stringInsert(str, insert, pos) {

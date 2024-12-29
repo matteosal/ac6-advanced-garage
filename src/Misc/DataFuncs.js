@@ -19,6 +19,10 @@ const noneExpansionPre = {
 	"Kind": "Expansion"
 };
 
+function valueOrNaN(val) {
+	return val ? val : NaN
+}
+
 // The game is inconsistent in what "a*b" means in attack power and impact specs
 const takeFirstUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 'MA-E-211 SAMPU',
 	'MA-J-201 RANSETSU-AR', 'WS-5001 SOUP'];
@@ -53,14 +57,28 @@ function addAdvancedUnitStats(unit) {
 	if(unit['Description'] === 'Laser Turret')
 		return res;
 
-	const [rawAtkPwr, rawImpact, rawAccImpact, magSize, rapidFire, reloadTime, consecutiveHits,
-		lockTime] = ['AttackPower', 'Impact', 'AccumulativeImpact', 'MagazineRounds', 'RapidFire'
-			, 'ReloadTime', 'ConsecutiveHits', 'HomingLockTime'].map(
-		stat => unit[stat] ? unit[stat] : NaN
+	const [rawAtkPwr, rawImpact, rawAccImpact, rapidFire, 
+		consecutiveHits, lockTime, heatBuildup, cooling, coolingDelay, overheatReload] = 
+		['AttackPower', 'Impact', 'AccumulativeImpact', 'RapidFire', 'ConsecutiveHits', 
+			'HomingLockTime', 'ATKHeatBuildup', 'Cooling', 'CoolingDelay', 
+			'ReloadTimeOverheat'].map(
+		stat => valueOrNaN(unit[stat])
 	);
+	let [magSize, reloadTime] = ['MagazineRounds', 'ReloadTime'].map(
+		stat => valueOrNaN(unit[stat])
+	)
+
 	const [atkPwr, impact, accImpact] = [rawAtkPwr, rawImpact, rawAccImpact].map(
 		val => resolveList(unit['Name'], val)
 	);
+
+	// Overheating weapons
+	if(Number.isNaN(magSize))
+		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatBuildup) - 1);
+	if(Number.isNaN(reloadTime))
+		reloadTime = addIfValid(res, 'ReloadTime', 
+			coolingDelay + heatBuildup * magSize / cooling
+		);
 
 	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire, 0.1);
 
@@ -72,15 +90,15 @@ function addAdvancedUnitStats(unit) {
 	addIfValid(res, 'Impact/s', impact * rapidFire);
 	addIfValid(res, 'AccumulativeImpact/s', accImpact * rapidFire);
 
-
+	let den = reloadTime;
+	den = Number.isNaN(magDumpTime) ? den : den + magDumpTime;
+	den = Number.isNaN(lockTime) ? den : den + lockTime;
 	if(magDumpTime) {
-		const den = magDumpTime + reloadTime;
 		addIfValid(res, 'Damage/sInclReload', magSize * atkPwr / den);
 		addIfValid(res, 'Impact/sInclReload', magSize * impact / den);
 		addIfValid(res, 'AccImpact/sInclReload', magSize * accImpact / den)
 	} else {
 		// This is for single shot units
-		const den = Number.isNaN(lockTime) ? reloadTime : reloadTime + lockTime;
 		addIfValid(res, 'Damage/sInclReload', atkPwr / den);
 		addIfValid(res, 'Impact/sInclReload', impact / den);
 		addIfValid(res, 'AccImpact/sInclReload', accImpact / den);
