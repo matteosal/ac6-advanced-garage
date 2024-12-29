@@ -675,7 +675,8 @@ const statTooltips = {
 		'continously fired up to one shot away from overheating.',
 	'ReloadTime': 'For overheating weapons this is the time needed to completely cool down ' +
 		'after having continously fired a number of rounds equals to Magazine Rounds.',
-	'ReloadTimeOverheat': 'Time to completely cool down from overheating.'
+	'ReloadTimeOverheat': 'Time to completely cool down from overheating.',
+	'CoolingDelay': 'Time for the weapon to start cooling when not overheated.'
 };
 
 const statTooltipsComparerMode = {

@@ -123,7 +123,7 @@ export const partStatGroups = {
 			'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 'ChgENLoad', 
 			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
 			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'ReloadTimeOverheat',
-			'DeploymentRange', 'Cooling', 'AmmunitionCost'
+			'DeploymentRange', 'Cooling', 'CoolingDelay', 'AmmunitionCost'
 		],
 		['Weight', 'ENLoad']
 	],
