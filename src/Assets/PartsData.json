@@ -57,7 +57,8 @@
 		"Cooling": 177.0,
 		"AmmunitionCost": 400.0,
 		"Weight": 10120.0,
-		"ENLoad": 707.0
+		"ENLoad": 707.0,
+		"CoolingDelay": 0.7
 	},
 	{
 		"Name": "44-143 HMMR",
@@ -93,7 +94,8 @@
 		"EffectiveRange": 78.0,
 		"Cooling": 366.0,
 		"Weight": 2410.0,
-		"ENLoad": 311.0
+		"ENLoad": 311.0,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "45-091 JVLN BETA",
@@ -154,7 +156,8 @@
 		"Cooling": 145,
 		"AmmunitionCost": 100,
 		"Weight": 2010,
-		"ENLoad": 446
+		"ENLoad": 446,
+		"CoolingDelay": 1.2
 	},
 	{
 		"Name": "BML-G1/P01VTC-04",
@@ -686,7 +689,8 @@
 		"Cooling": 95,
 		"AmmunitionCost": 50,
 		"Weight": 2230,
-		"ENLoad": 435
+		"ENLoad": 435,
+		"CoolingDelay": 0.8
 	},
 	{
 		"Name": "DF-BA-06 XUAN-GE",
@@ -766,7 +770,8 @@
 		"Cooling": 220.0,
 		"AmmunitionCost": 30.0,
 		"Weight": 5800.0,
-		"ENLoad": 425.0
+		"ENLoad": 425.0,
+		"CoolingDelay": 1.0
 	},
 	{
 		"Name": "DF-GA-09 SHAO-WEI",
@@ -793,7 +798,8 @@
 		"Cooling": 650.0,
 		"AmmunitionCost": 20.0,
 		"Weight": 3960.0,
-		"ENLoad": 404.0
+		"ENLoad": 404.0,
+		"CoolingDelay": 0.12
 	},
 	{
 		"Name": "DF-GR-07 GOU-CHEN",
@@ -1021,7 +1027,8 @@
 		"Cooling": 196.0,
 		"AmmunitionCost": 540.0,
 		"Weight": 6270.0,
-		"ENLoad": 882.0
+		"ENLoad": 882.0,
+		"CoolingDelay": 1.7
 	},
 	{
 		"Name": "HG-003 COQUILLETT",
@@ -1102,7 +1109,8 @@
 		"Cooling": 623.0,
 		"AmmunitionCost": 30.0,
 		"Weight": 2110.0,
-		"ENLoad": 368.0
+		"ENLoad": 368.0,
+		"CoolingDelay": 0.4
 	},
 	{
 		"Name": "HI-18: GU-A2",
@@ -1129,7 +1137,8 @@
 		"Cooling": 295.0,
 		"AmmunitionCost": 60.0,
 		"Weight": 2650.0,
-		"ENLoad": 448.0
+		"ENLoad": 448.0,
+		"CoolingDelay": 0.4
 	},
 	{
 		"Name": "HI-32: BU-TT/A",
@@ -1154,7 +1163,8 @@
 		"PAInterference": 147.0,
 		"Cooling": 282.0,
 		"Weight": 1800.0,
-		"ENLoad": 213.0
+		"ENLoad": 213.0,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "HML-G2/P19MLT-04",
@@ -1250,7 +1260,8 @@
 		"Cooling": 238.0,
 		"AmmunitionCost": 600.0,
 		"Weight": 3890.0,
-		"ENLoad": 609.0
+		"ENLoad": 609.0,
+		"CoolingDelay": 1.2
 	},
 	{
 		"Name": "IA-C01W2: MOONLIGHT",
@@ -1276,7 +1287,8 @@
 		"EffectiveRange": 280.0,
 		"Cooling": 265.0,
 		"Weight": 2200.0,
-		"ENLoad": 544.0
+		"ENLoad": 544.0,
+		"CoolingDelay": 1.1
 	},
 	{
 		"Name": "IA-C01W3: AURORA",
@@ -1348,7 +1360,8 @@
 		"Cooling": 186.0,
 		"AmmunitionCost": 500.0,
 		"Weight": 4040.0,
-		"ENLoad": 667.0
+		"ENLoad": 667.0,
+		"CoolingDelay": 1.2
 	},
 	{
 		"Name": "IA-C01W7: ML-REDSHIFT",
@@ -1374,7 +1387,8 @@
 		"EffectiveRange": 280.0,
 		"Cooling": 209.0,
 		"Weight": 2200.0,
-		"ENLoad": 544.0
+		"ENLoad": 544.0,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "IB-C03W1: WLT 011",
@@ -1409,7 +1423,8 @@
 		"Cooling": 180.0,
 		"AmmunitionCost": 400.0,
 		"Weight": 9030.0,
-		"ENLoad": 850.0
+		"ENLoad": 850.0,
+		"CoolingDelay": 1.0
 	},
 	{
 		"Name": "IB-C03W2: WLT 101",
@@ -1434,7 +1449,8 @@
 		"PAInterference": 140.0,
 		"Cooling": 231.0,
 		"Weight": 2030.0,
-		"ENLoad": 578.0
+		"ENLoad": 578.0,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "IB-C03W3: NGI 006",
@@ -1489,7 +1505,8 @@
 		"DeploymentRange": 360,
 		"Cooling": 100,
 		"Weight": 2170,
-		"ENLoad": 800
+		"ENLoad": 800,
+		"CoolingDelay": 2.1
 	},
 	{
 		"Name": "IRIDIUM",
@@ -1541,7 +1558,8 @@
 		"Cooling": 225.0,
 		"AmmunitionCost": 40.0,
 		"Weight": 2100.0,
-		"ENLoad": 652.0
+		"ENLoad": 652.0,
+		"CoolingDelay": 0.6
 	},
 	{
 		"Name": "LITTLE GEM",
@@ -1599,7 +1617,8 @@
 		"ReloadTime": 2.2,
 		"AmmunitionCost": 100.0,
 		"Weight": 4150.0,
-		"ENLoad": 289.0
+		"ENLoad": 289.0,
+		"CoolingDelay": 0.6
 	},
 	{
 		"Name": "LR-037 HARRIS",
@@ -1632,7 +1651,8 @@
 		"ReloadTime": 3.0,
 		"AmmunitionCost": 200.0,
 		"Weight": 4840.0,
-		"ENLoad": 441.0
+		"ENLoad": 441.0,
+		"CoolingDelay": 0.6
 	},
 	{
 		"Name": "MA-E-210 ETSUJIN",
@@ -1744,7 +1764,8 @@
 		"ReloadTime": 1.8,
 		"AmmunitionCost": 100.0,
 		"Weight": 4210.0,
-		"ENLoad": 158.0
+		"ENLoad": 158.0,
+		"CoolingDelay": 0.6
 	},
 	{
 		"Name": "MA-J-201 RANSETSU-AR",
@@ -1919,7 +1940,8 @@
 		"PAInterference": 135.0,
 		"Cooling": 284.0,
 		"Weight": 4180.0,
-		"ENLoad": 225.0
+		"ENLoad": 225.0,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "PFAU/66D",
@@ -2120,7 +2142,8 @@
 		"DeploymentRange": 180,
 		"Cooling": 88,
 		"Weight": 2010,
-		"ENLoad": 220
+		"ENLoad": 220,
+		"CoolingDelay": 2.3
 	},
 	{
 		"Name": "SI-27: SU-R8",
@@ -2142,7 +2165,8 @@
 		"DeploymentRange": 180,
 		"Cooling": 110,
 		"Weight": 3150,
-		"ENLoad": 323
+		"ENLoad": 323,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "SI-29: SU-TT/C",
@@ -2164,7 +2188,8 @@
 		"DeploymentRange": 180,
 		"Cooling": 142,
 		"Weight": 3380,
-		"ENLoad": 385
+		"ENLoad": 385,
+		"CoolingDelay": 2.9
 	},
 	{
 		"Name": "SONGBIRDS",
@@ -2178,9 +2203,18 @@
 		"LeftArm": false,
 		"RightBack": true,
 		"LeftBack": true,
-		"AttackPower": [655.0, 2],
-		"Impact": [635.0, 2],
-		"AccumulativeImpact": [494.0, 2],
+		"AttackPower": [
+			655.0,
+			2
+		],
+		"Impact": [
+			635.0,
+			2
+		],
+		"AccumulativeImpact": [
+			494.0,
+			2
+		],
 		"BlastRadius": 60.0,
 		"DirectHitAdjustment": 140.0,
 		"Recoil": 60.0,
@@ -2216,9 +2250,18 @@
 			3
 		],
 		"ATKHeatBuildup": 700,
-		"ChgAttackPower": [1015, 3],
-		"ChgImpact": [330, 3],
-		"ChgAccumImpact": [185, 3],
+		"ChgAttackPower": [
+			1015,
+			3
+		],
+		"ChgImpact": [
+			330,
+			3
+		],
+		"ChgAccumImpact": [
+			185,
+			3
+		],
 		"ChgHeatBuildup": 1000,
 		"DirectHitAdjustment": 145,
 		"Recoil": 70,
@@ -2232,7 +2275,8 @@
 		"Cooling": 155,
 		"AmmunitionCost": 450,
 		"Weight": 14820,
-		"ENLoad": 1200
+		"ENLoad": 1200,
+		"CoolingDelay": 2.6
 	},
 	{
 		"Name": "VE-60LCB",
@@ -2266,7 +2310,8 @@
 		"Cooling": 172,
 		"AmmunitionCost": 1000,
 		"Weight": 9270,
-		"ENLoad": 803
+		"ENLoad": 803,
+		"CoolingDelay": 3.5
 	},
 	{
 		"Name": "VE-60SNA",
@@ -2315,7 +2360,8 @@
 		"DeploymentRange": 180,
 		"Cooling": 113,
 		"Weight": 4100,
-		"ENLoad": 480
+		"ENLoad": 480,
+		"CoolingDelay": 5.3
 	},
 	{
 		"Name": "VE-66LRA",
@@ -2349,7 +2395,8 @@
 		"Cooling": 281.0,
 		"AmmunitionCost": 250.0,
 		"Weight": 4940.0,
-		"ENLoad": 532.0
+		"ENLoad": 532.0,
+		"CoolingDelay": 1.0
 	},
 	{
 		"Name": "VE-66LRB",
@@ -2383,7 +2430,8 @@
 		"Cooling": 246.0,
 		"AmmunitionCost": 400.0,
 		"Weight": 7760.0,
-		"ENLoad": 604.0
+		"ENLoad": 604.0,
+		"CoolingDelay": 1.7
 	},
 	{
 		"Name": "VE-67LLA",
@@ -2408,7 +2456,8 @@
 		"PAInterference": 138.0,
 		"Cooling": 263.0,
 		"Weight": 4520.0,
-		"ENLoad": 460.0
+		"ENLoad": 460.0,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "VP-60LCD",
@@ -2443,7 +2492,8 @@
 		"Cooling": 232.0,
 		"AmmunitionCost": 650.0,
 		"Weight": 7620.0,
-		"ENLoad": 784.0
+		"ENLoad": 784.0,
+		"CoolingDelay": 1.7
 	},
 	{
 		"Name": "VP-60LCS",
@@ -2477,7 +2527,8 @@
 		"Cooling": 210.0,
 		"AmmunitionCost": 450.0,
 		"Weight": 5190.0,
-		"ENLoad": 683.0
+		"ENLoad": 683.0,
+		"CoolingDelay": 1.7
 	},
 	{
 		"Name": "VP-60LT",
@@ -2534,7 +2585,8 @@
 		"DeploymentRange": 180,
 		"Cooling": 132,
 		"Weight": 1920,
-		"ENLoad": 285
+		"ENLoad": 285,
+		"CoolingDelay": 1.7
 	},
 	{
 		"Name": "VP-61PS",
@@ -2556,7 +2608,8 @@
 		"DeploymentRange": 180,
 		"Cooling": 144,
 		"Weight": 2700,
-		"ENLoad": 310
+		"ENLoad": 310,
+		"CoolingDelay": 1.9
 	},
 	{
 		"Name": "VP-66EG",
@@ -2626,7 +2679,8 @@
 		"Cooling": 315.0,
 		"AmmunitionCost": 80.0,
 		"Weight": 2800.0,
-		"ENLoad": 395.0
+		"ENLoad": 395.0,
+		"CoolingDelay": 0.5
 	},
 	{
 		"Name": "VP-66LR",
@@ -2660,7 +2714,8 @@
 		"Cooling": 413.0,
 		"AmmunitionCost": 150.0,
 		"Weight": 3560.0,
-		"ENLoad": 480.0
+		"ENLoad": 480.0,
+		"CoolingDelay": 0.7
 	},
 	{
 		"Name": "VP-66LS",
@@ -2695,7 +2750,8 @@
 		"Cooling": 263.0,
 		"AmmunitionCost": 300.0,
 		"Weight": 3540.0,
-		"ENLoad": 510.0
+		"ENLoad": 510.0,
+		"CoolingDelay": 1.4
 	},
 	{
 		"Name": "VP-67EB",
@@ -2720,7 +2776,8 @@
 		"PAInterference": 140.0,
 		"Cooling": 1156.0,
 		"Weight": 1720.0,
-		"ENLoad": 198.0
+		"ENLoad": 198.0,
+		"CoolingDelay": 1.1
 	},
 	{
 		"Name": "VP-67LD",
@@ -2745,7 +2802,8 @@
 		"PAInterference": 118.0,
 		"Cooling": 1308.0,
 		"Weight": 1350.0,
-		"ENLoad": 150.0
+		"ENLoad": 150.0,
+		"CoolingDelay": 1.1
 	},
 	{
 		"Name": "Vvc-700LD",
@@ -2909,7 +2967,8 @@
 		"Cooling": 254.0,
 		"AmmunitionCost": 360.0,
 		"Weight": 3330.0,
-		"ENLoad": 490.0
+		"ENLoad": 490.0,
+		"CoolingDelay": 1.6
 	},
 	{
 		"Name": "Vvc-770LB",
@@ -2943,7 +3002,8 @@
 		"PAInterference": 127.0,
 		"Cooling": 402.0,
 		"Weight": 2060.0,
-		"ENLoad": 245.0
+		"ENLoad": 245.0,
+		"CoolingDelay": 1.1
 	},
 	{
 		"Name": "Vvc-774LS",
@@ -2968,7 +3028,8 @@
 		"PAInterference": 122.0,
 		"Cooling": 267.0,
 		"Weight": 3260.0,
-		"ENLoad": 328.0
+		"ENLoad": 328.0,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "WB-0000 BAD COOK",
@@ -2995,7 +3056,8 @@
 		"Cooling": 250.0,
 		"AmmunitionCost": 40.0,
 		"Weight": 5370.0,
-		"ENLoad": 403.0
+		"ENLoad": 403.0,
+		"CoolingDelay": 0.8
 	},
 	{
 		"Name": "WB-0010 DOUBLE TROUBLE",
@@ -3020,7 +3082,8 @@
 		"PAInterference": 119.0,
 		"Cooling": 302.0,
 		"Weight": 5090.0,
-		"ENLoad": 108.0
+		"ENLoad": 108.0,
+		"CoolingDelay": 1.5
 	},
 	{
 		"Name": "WR-0555 ATTACHE",
@@ -3250,7 +3313,8 @@
 		"Cooling": 291.0,
 		"AmmunitionCost": 200.0,
 		"Weight": 2880.0,
-		"ENLoad": 440.0
+		"ENLoad": 440.0,
+		"CoolingDelay": 1.0
 	},
 	{
 		"Name": "20-081 MIND ALPHA",
