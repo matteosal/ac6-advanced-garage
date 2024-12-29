@@ -58,7 +58,8 @@
 		"AmmunitionCost": 400.0,
 		"Weight": 10120.0,
 		"ENLoad": 707.0,
-		"CoolingDelay": 0.7
+		"CoolingDelay": 0.7,
+		"ReloadTimeOverheat": 8.93
 	},
 	{
 		"Name": "44-143 HMMR",
@@ -771,7 +772,8 @@
 		"AmmunitionCost": 30.0,
 		"Weight": 5800.0,
 		"ENLoad": 425.0,
-		"CoolingDelay": 1.0
+		"CoolingDelay": 1.0,
+		"ReloadTimeOverheat": 6.58
 	},
 	{
 		"Name": "DF-GA-09 SHAO-WEI",
@@ -799,7 +801,8 @@
 		"AmmunitionCost": 20.0,
 		"Weight": 3960.0,
 		"ENLoad": 404.0,
-		"CoolingDelay": 0.12
+		"CoolingDelay": 0.12,
+		"ReloadTimeOverheat": 2.52
 	},
 	{
 		"Name": "DF-GR-07 GOU-CHEN",
@@ -1028,7 +1031,8 @@
 		"AmmunitionCost": 540.0,
 		"Weight": 6270.0,
 		"ENLoad": 882.0,
-		"CoolingDelay": 1.7
+		"CoolingDelay": 1.7,
+		"ReloadTimeOverheat": 7.95
 	},
 	{
 		"Name": "HG-003 COQUILLETT",
@@ -1110,7 +1114,8 @@
 		"AmmunitionCost": 30.0,
 		"Weight": 2110.0,
 		"ENLoad": 368.0,
-		"CoolingDelay": 0.4
+		"CoolingDelay": 0.4,
+		"ReloadTimeOverheat": 3.18
 	},
 	{
 		"Name": "HI-18: GU-A2",
@@ -1138,7 +1143,8 @@
 		"AmmunitionCost": 60.0,
 		"Weight": 2650.0,
 		"ENLoad": 448.0,
-		"CoolingDelay": 0.4
+		"CoolingDelay": 0.4,
+		"ReloadTimeOverheat": 5.25
 	},
 	{
 		"Name": "HI-32: BU-TT/A",
@@ -1261,7 +1267,8 @@
 		"AmmunitionCost": 600.0,
 		"Weight": 3890.0,
 		"ENLoad": 609.0,
-		"CoolingDelay": 1.2
+		"CoolingDelay": 1.2,
+		"ReloadTimeOverheat": 6.47
 	},
 	{
 		"Name": "IA-C01W2: MOONLIGHT",
@@ -1361,7 +1368,8 @@
 		"AmmunitionCost": 500.0,
 		"Weight": 4040.0,
 		"ENLoad": 667.0,
-		"CoolingDelay": 1.2
+		"CoolingDelay": 1.2,
+		"ReloadTimeOverheat": 7.82
 	},
 	{
 		"Name": "IA-C01W7: ML-REDSHIFT",
@@ -1424,7 +1432,8 @@
 		"AmmunitionCost": 400.0,
 		"Weight": 9030.0,
 		"ENLoad": 850.0,
-		"CoolingDelay": 1.0
+		"CoolingDelay": 1.0,
+		"ReloadTimeOverheat": 8.0
 	},
 	{
 		"Name": "IB-C03W2: WLT 101",
@@ -1559,7 +1568,8 @@
 		"AmmunitionCost": 40.0,
 		"Weight": 2100.0,
 		"ENLoad": 652.0,
-		"CoolingDelay": 0.6
+		"CoolingDelay": 0.6,
+		"ReloadTimeOverheat": 6.78
 	},
 	{
 		"Name": "LITTLE GEM",
@@ -1618,7 +1628,8 @@
 		"AmmunitionCost": 100.0,
 		"Weight": 4150.0,
 		"ENLoad": 289.0,
-		"CoolingDelay": 0.6
+		"CoolingDelay": 0.6,
+		"ReloadTimeOverheat": 5.68
 	},
 	{
 		"Name": "LR-037 HARRIS",
@@ -1652,7 +1663,8 @@
 		"AmmunitionCost": 200.0,
 		"Weight": 4840.0,
 		"ENLoad": 441.0,
-		"CoolingDelay": 0.6
+		"CoolingDelay": 0.6,
+		"ReloadTimeOverheat": 3.63
 	},
 	{
 		"Name": "MA-E-210 ETSUJIN",
@@ -1764,8 +1776,7 @@
 		"ReloadTime": 1.8,
 		"AmmunitionCost": 100.0,
 		"Weight": 4210.0,
-		"ENLoad": 158.0,
-		"CoolingDelay": 0.6
+		"ENLoad": 158.0
 	},
 	{
 		"Name": "MA-J-201 RANSETSU-AR",
@@ -2276,7 +2287,8 @@
 		"AmmunitionCost": 450,
 		"Weight": 14820,
 		"ENLoad": 1200,
-		"CoolingDelay": 2.6
+		"CoolingDelay": 2.6,
+		"ReloadTimeOverheat": 9.5
 	},
 	{
 		"Name": "VE-60LCB",
@@ -2311,7 +2323,8 @@
 		"AmmunitionCost": 1000,
 		"Weight": 9270,
 		"ENLoad": 803,
-		"CoolingDelay": 3.5
+		"CoolingDelay": 3.5,
+		"ReloadTimeOverheat": 9.65
 	},
 	{
 		"Name": "VE-60SNA",
@@ -2396,7 +2409,8 @@
 		"AmmunitionCost": 250.0,
 		"Weight": 4940.0,
 		"ENLoad": 532.0,
-		"CoolingDelay": 1.0
+		"CoolingDelay": 1.0,
+		"ReloadTimeOverheat": 5.73
 	},
 	{
 		"Name": "VE-66LRB",
@@ -2431,7 +2445,8 @@
 		"AmmunitionCost": 400.0,
 		"Weight": 7760.0,
 		"ENLoad": 604.0,
-		"CoolingDelay": 1.7
+		"CoolingDelay": 1.7,
+		"ReloadTimeOverheat": 6.43
 	},
 	{
 		"Name": "VE-67LLA",
@@ -2493,7 +2508,8 @@
 		"AmmunitionCost": 650.0,
 		"Weight": 7620.0,
 		"ENLoad": 784.0,
-		"CoolingDelay": 1.7
+		"CoolingDelay": 1.7,
+		"ReloadTimeOverheat": 6.62
 	},
 	{
 		"Name": "VP-60LCS",
@@ -2528,7 +2544,8 @@
 		"AmmunitionCost": 450.0,
 		"Weight": 5190.0,
 		"ENLoad": 683.0,
-		"CoolingDelay": 1.7
+		"CoolingDelay": 1.7,
+		"ReloadTimeOverheat": 7.13
 	},
 	{
 		"Name": "VP-60LT",
@@ -2680,7 +2697,8 @@
 		"AmmunitionCost": 80.0,
 		"Weight": 2800.0,
 		"ENLoad": 395.0,
-		"CoolingDelay": 0.5
+		"CoolingDelay": 0.5,
+		"ReloadTimeOverheat": 4.98
 	},
 	{
 		"Name": "VP-66LR",
@@ -2715,7 +2733,8 @@
 		"AmmunitionCost": 150.0,
 		"Weight": 3560.0,
 		"ENLoad": 480.0,
-		"CoolingDelay": 0.7
+		"CoolingDelay": 0.7,
+		"ReloadTimeOverheat": 4.12
 	},
 	{
 		"Name": "VP-66LS",
@@ -2751,7 +2770,8 @@
 		"AmmunitionCost": 300.0,
 		"Weight": 3540.0,
 		"ENLoad": 510.0,
-		"CoolingDelay": 1.4
+		"CoolingDelay": 1.4,
+		"ReloadTimeOverheat": 6.0
 	},
 	{
 		"Name": "VP-67EB",
@@ -2968,7 +2988,8 @@
 		"AmmunitionCost": 360.0,
 		"Weight": 3330.0,
 		"ENLoad": 490.0,
-		"CoolingDelay": 1.6
+		"CoolingDelay": 1.6,
+		"ReloadTimeOverheat": 6.17
 	},
 	{
 		"Name": "Vvc-770LB",
@@ -3057,7 +3078,8 @@
 		"AmmunitionCost": 40.0,
 		"Weight": 5370.0,
 		"ENLoad": 403.0,
-		"CoolingDelay": 0.8
+		"CoolingDelay": 0.8,
+		"ReloadTimeOverheat": 5.93
 	},
 	{
 		"Name": "WB-0010 DOUBLE TROUBLE",
@@ -3314,7 +3336,8 @@
 		"AmmunitionCost": 200.0,
 		"Weight": 2880.0,
 		"ENLoad": 440.0,
-		"CoolingDelay": 1.0
+		"CoolingDelay": 1.0,
+		"ReloadTimeOverheat": 4.98
 	},
 	{
 		"Name": "20-081 MIND ALPHA",
