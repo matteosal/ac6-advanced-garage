@@ -578,10 +578,6 @@ const NoComparisonNumericRow = ({name, leftRaw, rightRaw, tooltip}) => {
 
 /**********************************************************************************/
 
-const fireAnimationNote = '\nNOTE: all DPS/IPS related specs assume that the fire animation ' +
-	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
-	'launchers that fire individual missiles in rapid sequence).'
-
 const aimAssistProfileDesc = 'Gives an indication of how well the FCS is paired with the ' +
 	'unit ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan ' +
 	'lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m.';
@@ -589,8 +585,16 @@ const aimAssistProfileDesc = 'Gives an indication of how well the FCS is paired 
 const enRecoveryProfilesDesc = 'Shows the energy recovered over time in the normal (cyan) ' +
 	'and redlining (red) cases.';
 
+const fireAnimationNote = 'NOTE: all DPS/IPS related specs assume that the fire animation ' +
+	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
+	'launchers that fire individual missiles in rapid sequence).'
+
 const enRecoveryProfilesNote = 'NOTE: the cyan profile is a limit case because if the ' +
 	'generator is not fully depleted energy recovery will not start from zero energy.';
+
+const overheatUnitsReloadNote = 'NOTE: when comparing this stat between a unit with true ' +
+	'reload and a unit with heating/cooling mechanics, keep in mind that heating/cooling ' +
+	'is an inherently superior reload mechanism that generally allows for less downtime.'
 
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
@@ -626,29 +630,31 @@ const statTooltips = {
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total energy load.',
-	'Damage/s': 'Damage dealt per second, not counting reload / cooldown / lock time.' +
+	'Damage/s': 'Damage dealt per second, not counting reload / cooldown / lock time.\n' +
 		fireAnimationNote,
 	'Impact/s': 'Impact damage dealt per second, not counting reload / cooldown / lock ' +
-		'time.' + fireAnimationNote,
+		'time.\n' + fireAnimationNote,
 	'AccumulativeImpact/s': 'Accumulated impact damage dealt per second, not counting ' +
-		'reload / cooldown / lock time.' + fireAnimationNote,
+		'reload / cooldown / lock time.\n' + fireAnimationNote,
 	'Damage/sInclReload': 'Damage per second factoring in reload / cooldown / lock time, ' +
-		'whichever is applicable.' + fireAnimationNote,
+		'whichever is applicable.\n' + fireAnimationNote + '\n' + overheatUnitsReloadNote,
 	'Impact/sInclReload': 'Impact per second factoring in reload / cooldown / lock time, ' +
-		'whichever is applicable.' + fireAnimationNote,
+		'whichever is applicable.\n' + fireAnimationNote + '\n' + overheatUnitsReloadNote,
 	'AccImpact/sInclReload': 'Accumulative impact per second factoring in ' + 
-		'reload / cooldown / lock time, whichever is applicable.' + fireAnimationNote,
+		'reload / cooldown / lock time, whichever is applicable.\n' + fireAnimationNote + 
+		'\n' + overheatUnitsReloadNote,
 	'ComboDamage': 'Damage of full melee combo',
 	'ComboImpact': 'Impact of full melee combo',
 	'ComboAccumulativeImpact': 'Accumulative impact of full melee combo',
 	'DirectAttackPower': 'Attack power on staggered opponents.',
-	'DirectDamage/s': 'Damage per second on staggered opponents.' + fireAnimationNote,
+	'DirectDamage/s': 'Damage per second on staggered opponents.\n' + fireAnimationNote,
 	'ComboDirectDamage': 'Damage of full melee combo on staggered opponents.',
 	'MagDumpTime': 'Time to continously fire a number of rounds equals to Magazine Rounds.',
-	'MagazineRounds': 'For overheating weapons this is the number of rounds that can be ' +
-		'continously fired up to one shot away from overheating.',
-	'ReloadTime': 'For overheating weapons this is the time needed to completely cool down ' +
-		'after having continously fired a number of rounds equals to Magazine Rounds.',
+	'MagazineRounds': 'For units with heating/cooling mechanics this is the number of ' +
+		'rounds that can be continously fired up to one shot away from overheating.',
+	'ReloadTime': 'For units with heating/cooling mechanics this is the time needed to ' +
+		'completely cool down after having continously fired a number of rounds equals ' +
+		'to Magazine Rounds.\n' + overheatUnitsReloadNote,
 	'ReloadTimeOverheat': 'Time to completely cool down from overheating.',
 	'CoolingDelay': 'Time for the weapon to start cooling when not overheated.'
 };
