@@ -72,8 +72,10 @@ function addAdvancedUnitStats(unit) {
 		magSize = 1;
 	else if(unit['ReloadType'] === 'Overheat') {
 		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatBuildup) - 1);
-		reloadTime = addIfValid(res, 'ReloadTime', 
-			coolingDelay + heatBuildup * magSize / cooling
+		reloadTime = addIfValid(res, 
+			'ReloadTime', 
+			coolingDelay + heatBuildup * magSize / cooling,
+			0.1
 		);		
 	}
 
