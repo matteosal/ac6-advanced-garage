@@ -652,25 +652,25 @@ const statTooltips = {
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total energy load.',
-	'Damage/s': 'Raw damage dealt per second, not counting reloads and cooldowns.' +
+	'Damage/s': 'Damage dealt per second, not counting reload / cooldown / lock time.' +
 		fireAnimationNote,
-	'Impact/s': 'Raw impact damage dealt per second, not counting reloads and cooldowns.' +
-		fireAnimationNote,
-	'AccumulativeImpact/s': 'Raw accumulated impact damage dealt per second, not counting ' +
-		'reloads and cooldowns.' + fireAnimationNote,
-	'Damage/sInclReload': 'Damage per second factoring in the reload time and base homing ' +
-		'lock time when present.' + fireAnimationNote,
-	'Impact/sInclReload': 'Impact per second factoring in the reload time and base homing ' +
-		'lock time when present.' + fireAnimationNote,
-	'AccImpact/sInclReload': 'Accumulative impact per second factoring in the reload time and '
-		+ 'base homing lock time when present.' + fireAnimationNote,
+	'Impact/s': 'Impact damage dealt per second, not counting reload / cooldown / lock ' +
+		'time.' + fireAnimationNote,
+	'AccumulativeImpact/s': 'Accumulated impact damage dealt per second, not counting ' +
+		'reload / cooldown / lock time.' + fireAnimationNote,
+	'Damage/sInclReload': 'Damage per second factoring in reload / cooldown / lock time, ' +
+		'whichever is applicable.' + fireAnimationNote,
+	'Impact/sInclReload': 'Impact per second factoring in reload / cooldown / lock time, ' +
+		'whichever is applicable.' + fireAnimationNote,
+	'AccImpact/sInclReload': 'Accumulative impact per second factoring in ' + 
+		'reload / cooldown / lock time, whichever is applicable.' + fireAnimationNote,
 	'ComboDamage': 'Damage of full melee combo',
 	'ComboImpact': 'Impact of full melee combo',
 	'ComboAccumulativeImpact': 'Accumulative impact of full melee combo',
 	'DirectAttackPower': 'Attack power on staggered opponents.',
 	'DirectDamage/s': 'Damage per second on staggered opponents.' + fireAnimationNote,
 	'ComboDirectDamage': 'Damage of full melee combo on staggered opponents.',
-	'MagDumpTime': 'Minimum time to empty one magazine.',
+	'MagDumpTime': 'Time to continously fire a number of rounds equals to Magazine Rounds.',
 	'MagazineRounds': 'For overheating weapons this is the number of rounds that can be ' +
 		'continously fired up to one shot away from overheating.',
 	'ReloadTime': 'For overheating weapons this is the time needed to completely cool down ' +
