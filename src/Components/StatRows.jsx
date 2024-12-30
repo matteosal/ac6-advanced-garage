@@ -74,7 +74,10 @@ const InfoBox = ({name, tooltip}) => {
 /***************************************************************************************/
 
 function toScore(val, min, max) {
-	return Math.max((val - min) / (max - min) * 100, 2);
+	if(max === min)
+		return 100
+	else
+		return Math.max((val - min) / (max - min) * 100, 2);
 }
 
 const barDivShrink = '96%';
@@ -168,8 +171,8 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) 
 	if(buildCompareMode) {
 		[infoW, nameW, numW, symbolW] = ['15px', '65%', '20%', '5%']
 	} else {
-		// kind !== undefined indicates we are creating a row for the part stats panel and there
-		// will be a bar as well, so nameW has to shrink and barW is used. If 
+		// kind !== undefined indicates we are creating a row for the part stats panel and
+		// there will be a bar as well, so nameW has to shrink and barW is used. If 
 		//	buildCompareMode == true the kind is always undefined
 		nameW = kind === undefined ? '63%' : '43%';
 		[infoW, barW, numW, symbolW] = ['15px', '20%', '12%', '5%']
@@ -189,7 +192,13 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) 
 		{
 			kind !== undefined ?
 				<div style={{display: 'inline-block', width: barW}}>
-					<StatBar kind={kind} name={name} left={left} right={right} color={rightColor}/>
+					<StatBar 
+						kind={kind}
+						name={name}
+						left={left}
+						right={right}
+						color={rightColor}
+					/>
 				</div> :
 				<></>
 		}
