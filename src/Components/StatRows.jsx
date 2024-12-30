@@ -155,7 +155,7 @@ const longDashCharacter = '\u2012';
 function toValueAndDisplay(name, raw) {
 	let value;
 	let display;
-	if(raw !== null && raw !== undefined && raw.constructor === Array) {
+	if(raw && raw.constructor === Array) {
 		value = raw[0] * raw[1];
 		display = raw[0].toString() + multChar + raw[1].toString()
 	} else {

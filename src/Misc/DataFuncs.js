@@ -66,19 +66,20 @@ function addAdvancedUnitStats(unit) {
 	);
 	let [magSize, reloadTime] = ['MagazineRounds', 'ReloadTime'].map(
 		stat => valueOrNaN(unit[stat])
-	)
+	);
+
+	if(unit['ReloadType'] === 'Single Shot')
+		magSize = 1;
+	else if(unit['ReloadType'] === 'Overheat') {
+		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatBuildup) - 1);
+		reloadTime = addIfValid(res, 'ReloadTime', 
+			coolingDelay + heatBuildup * magSize / cooling
+		);		
+	}
 
 	const [atkPwr, impact, accImpact] = [rawAtkPwr, rawImpact, rawAccImpact].map(
 		val => resolveList(unit['Name'], val)
 	);
-
-	// Overheating weapons
-	if(Number.isNaN(magSize))
-		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatBuildup) - 1);
-	if(Number.isNaN(reloadTime))
-		reloadTime = addIfValid(res, 'ReloadTime', 
-			coolingDelay + heatBuildup * magSize / cooling
-		);
 
 	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire, 0.1);
 
@@ -93,16 +94,9 @@ function addAdvancedUnitStats(unit) {
 	let den = reloadTime;
 	den = Number.isNaN(magDumpTime) ? den : den + magDumpTime;
 	den = Number.isNaN(lockTime) ? den : den + lockTime;
-	if(magDumpTime) {
-		addIfValid(res, 'Damage/sInclReload', magSize * atkPwr / den);
-		addIfValid(res, 'Impact/sInclReload', magSize * impact / den);
-		addIfValid(res, 'AccImpact/sInclReload', magSize * accImpact / den)
-	} else {
-		// This is for single shot units
-		addIfValid(res, 'Damage/sInclReload', atkPwr / den);
-		addIfValid(res, 'Impact/sInclReload', impact / den);
-		addIfValid(res, 'AccImpact/sInclReload', accImpact / den);
-	};
+	addIfValid(res, 'Damage/sInclReload', magSize * atkPwr / den);
+	addIfValid(res, 'Impact/sInclReload', magSize * impact / den);
+	addIfValid(res, 'AccImpact/sInclReload', magSize * accImpact / den)
 
 	const comboDmg = addIfValid(res, 'ComboDamage', atkPwr * consecutiveHits);
 	addIfValid(res, 'ComboImpact', impact * consecutiveHits);
