@@ -39,8 +39,8 @@ const Paragraphs = ({text}) => {
 		split.map(
 			(str, i) => 
 				<>
-					<p key={i}>{str}</p>
-					{i === split.length - 1 ? <></> : <p key={i + 'newline'}>&nbsp;</p>}
+					<p key={2*i}>{str}</p>
+					{i === split.length - 1 ? <></> : <p key={2*i + 1}>&nbsp;</p>}
 				</>
 		)
 	);
