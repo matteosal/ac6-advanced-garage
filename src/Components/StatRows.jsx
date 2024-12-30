@@ -13,16 +13,6 @@ const PlotlyPlot = createPlotlyComponent(Plotly);
 
 /***************************************************************************************/
 
-const roundTargets = {'AttitudeRecovery': 1, 'BoostSpeed': 1, 'QBSpeed': 1, 
-	'QBENConsumption': 1, 'EffectiveAPKinetic': 1, 'EffectiveAPEnergy': 1, 
-	'EffectiveAPExplosive': 1, 'EffectiveAPAvg': 1, 'QBReloadTime': 0.01, 
-	'ENSupplyEfficiency': 1, 'ENRechargeDelay': 0.01, 'QBENRechargeTime': 0.01, 
-	'ENRechargeDelayRedline': 0.01, 'FullRechargeTime': 0.01, 'FullRechargeTimeRedline': 0.01,
-	'RightArmMissileLockTime': 0.01, 'LeftArmMissileLockTime': 0.01, 
-	'RightBackMissileLockTime': 0.01,'LeftBackMissileLockTime': 0.01,
-	'ReloadTimeOverheat': 0.1
-};
-
 const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'TotalWeight',
 	'TotalArmsLoad', 'TotalLoad', 'TotalENLoad', 'ATKHeatBuildup', 'ChgHeatBuildup', 
 	'Recoil', 'ChgENLoad', 'ChgAmmoConsumption', 'FullChgTime', 'FullChgAmmoConsump', 
@@ -146,41 +136,21 @@ const StatBar = ({kind, name, left, right, limit, color}) => {
 	)
 }
 
-const multChar = '\u00d7'
 const doubleArrowChar = '\u00bb';
 const upwardsTriangleChar = '\u23f6';
 const downwardsTriangleChar = '\u23f7';
 const longDashCharacter = '\u2012';
 
-function toValueAndDisplay(name, raw) {
-	let value;
-	let display;
-	if(raw && raw.constructor === Array) {
-		value = raw[0] * raw[1];
-		display = raw[0].toString() + multChar + raw[1].toString()
-	} else {
-		value = raw;
-		const roundTarget = roundTargets[name];
-		if(roundTarget !== undefined)
-			display = glob.round(raw, roundTarget)
-		else
-			display = raw
-	}
-	return [value, display]
-}
-
 const namePadding = '4px 0px';
 
 const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) => {
 
-	// This row is also used for unit stats such as attack power that can have
-	// form e.g. 100x3 ([100, 3] in data) so we have to account for that
-	let [left, leftDisplay] = toValueAndDisplay(name, leftRaw);
-	let [right, rightDisplay] = toValueAndDisplay(name, rightRaw);
+	let [left, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
+	let [right, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
 
 	let rightColor = 'white';
 	let triangle = '';
-	if(left !== null && left !== undefined) { // Comparison with left field present
+	if(left) { // Comparison with left field present
 	// Set colors and triangle if needed
 		if(isBetter(name, left, right)) {
 			triangle = downwardsTriangleChar;
@@ -567,8 +537,12 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 
 /**********************************************************************************/
 
-const NoComparisonNumericRow = ({name, left, right, tooltip}) => {
-	if(left === undefined)
+const NoComparisonNumericRow = ({name, leftRaw, rightRaw, tooltip}) => {
+
+	let [left, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
+	let [right, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
+
+	if(!left)
 		left = longDashCharacter
 	return (
 		<>
@@ -585,7 +559,7 @@ const NoComparisonNumericRow = ({name, left, right, tooltip}) => {
 			{display: 'inline-block', color: 'gray', textAlign: 'right', 
 				width: '12%', fontWeight: 'bold'}
 		}>
-			{left}
+			{leftDisplay}
 		</div>
 		<div style={{display: 'inline-block', textAlign: 'center', color: 'gray', 
 			width: '5%'}
@@ -596,7 +570,7 @@ const NoComparisonNumericRow = ({name, left, right, tooltip}) => {
 			{display: 'inline-block', color: 'white', textAlign: 'right', 
 				width: '12%', fontWeight: 'bold'}
 		}>
-			{right}
+			{rightDisplay}
 		</div>
 	</>
 	);
@@ -750,8 +724,8 @@ export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
 		return(
 			<NoComparisonNumericRow
 				name={rightStat.name}
-				left={leftStat.value}	
-				right={rightStat.value}
+				leftRaw={leftStat.value}	
+				rightRaw={rightStat.value}
 				tooltip={tooltip}
 				key = {pos}
 			/>		

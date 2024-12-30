@@ -46,15 +46,13 @@ const doubleArrowRight = '\u00bb';
 const doubleArrowLeft = '\u00ab';
 const multChar = '\u00d7';
 
-function toCellDisplay(val) {
+function toCellDisplay(val, colName) {
 	if(val === undefined)
 		return longDashCharacter;
 	else if (typeof val === 'string')
 		return val.toUpperCase();
-	else if(val.constructor === Array)
-		return val[0].toString() + multChar + val[1].toString();
-	else
-		return val;
+	else 
+		return glob.toValueAndDisplayNumber(colName, val)[1]
 }
 
 function getShowShiftSymbols(shiftInfo, pos) {
@@ -233,7 +231,7 @@ const TableCell = ({content, rowPos, colPos, colName, rangeEndpoint, bottomBorde
 			}
 			key={colName}
 		>
-			{toCellDisplay(content)}
+			{content}
 		</div>
 	)
 }
@@ -316,7 +314,7 @@ const DraggableTable = ({data}) => {
 						{
 							columnOrder.map(
 								(name, colPos) => <TableCell
-									content={toCellDisplay(row[name])}
+									content={toCellDisplay(row[name], name)}
 									rowPos={rowPos}
 									colPos={colPos}
 									colName={name}

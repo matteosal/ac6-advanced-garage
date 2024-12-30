@@ -246,6 +246,33 @@ export function toDisplayString(str) {
 	return capitalizeFirstLetter(res);
 }
 
+const multChar = '\u00d7'
+
+const roundTargets = {'QBReloadTime': 0.01, 
+	'ENSupplyEfficiency': 1, 'ENRechargeDelay': 0.01, 'QBENRechargeTime': 0.01, 
+	'ENRechargeDelayRedline': 0.01, 'FullRechargeTime': 0.01, 'FullRechargeTimeRedline': 0.01,
+	'RightArmMissileLockTime': 0.01, 'LeftArmMissileLockTime': 0.01, 
+	'RightBackMissileLockTime': 0.01,'LeftBackMissileLockTime': 0.01,
+	'ReloadTime': 0.1, 'ReloadTimeOverheat': 0.01, 'RapidFire': 0.1, 'FullChgTime': 0.1,
+	'MagDumpTime': 0.1, 'CoolingDelay': 0.01, 'HomingLockTime': 0.1, 'IGDuration': 0.1,
+	'ChargeTime': 0.1, 'ScanEffectDuration': 0.1, 'ScanStandbyTime': 0.1, 
+	'QBJetDuration': 0.01, 
+};
+
+export function toValueAndDisplayNumber(name, raw) {
+	let value;
+	let display;
+	const roundTarget = roundTargets[name] || 1;
+	if(raw && raw.constructor === Array) {
+		value = raw[0] * raw[1];
+		display = round(raw[0], roundTarget).toString() + multChar + raw[1].toString()
+	} else {
+		value = raw;
+		display = round(raw, roundTarget);
+	}
+	return [value, display]
+}
+
 export const boxCharacter = '\u25a0';
 
 export function notify(msg) {

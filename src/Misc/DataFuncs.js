@@ -37,16 +37,9 @@ function resolveList(name, spec) {
 		return spec;
 }
 
-function round(val, roundTarget = 1) {
-	if(val === null)
-		return val;
-	const roundFactor = 1 / roundTarget;
-	return Math.round(val * roundFactor) / roundFactor;
-}
-
-function addIfValid(obj, key, val, roundTo = 1) {
+function addIfValid(obj, key, val) {
 	if(!Number.isNaN(val))
-		obj[key] = round(val, roundTo);
+		obj[key] = val;
 	return val;
 }
 
@@ -74,8 +67,7 @@ function addAdvancedUnitStats(unit) {
 		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatBuildup) - 1);
 		reloadTime = addIfValid(res, 
 			'ReloadTime', 
-			coolingDelay + heatBuildup * magSize / cooling,
-			0.1
+			coolingDelay + heatBuildup * magSize / cooling
 		);		
 	}
 
@@ -83,7 +75,7 @@ function addAdvancedUnitStats(unit) {
 		val => resolveList(unit['Name'], val)
 	);
 
-	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire, 0.1);
+	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire);
 
 	// DPS/IPS related stats don't make sense for this
 	if(unit['Description'] === 'Pulse Shield Launcher')
@@ -106,7 +98,7 @@ function addAdvancedUnitStats(unit) {
 
 	if(rawAtkPwr.constructor === Array) 
 		res['DirectAttackPower'] = [
-			round(rawAtkPwr[0] * res['DirectHitAdjustment'] / 100),
+			rawAtkPwr[0] * res['DirectHitAdjustment'] / 100,
 			rawAtkPwr[1]
 		]
 	else
