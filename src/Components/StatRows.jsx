@@ -548,11 +548,11 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 
 const NoComparisonNumericRow = ({name, leftRaw, rightRaw, tooltip}) => {
 
-	let [left, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
-	let [right, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
+	let [, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
+	let [, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
 
-	if(!left)
-		left = longDashCharacter
+	if(!leftDisplay)
+		leftDisplay = longDashCharacter
 	return (
 		<>
 		<div 
