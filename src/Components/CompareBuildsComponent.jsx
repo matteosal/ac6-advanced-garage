@@ -29,7 +29,7 @@ const ComparerColumnHeader = ({pos, inputHandler, showStats}) => {
 			<div style={{width: 'auto'}}>BUILD LINK:</div>
 			<form onSubmit={inputHandler}>
 				<input
-					className="link-tooltip-anchor"
+					className='link-tooltip-anchor'
 					style={{width: '170px', height: '30px', 
 						backgroundColor: glob.paletteColor(3)}}
 					value={inputFieldString}
@@ -66,7 +66,7 @@ const ComparerColumnFooter = ({pos, disabled}) => {
 			alignItems: 'center', backgroundColor: glob.paletteColor(3), padding: '10px 0px'}}>
 			COMPARE
 			<input
-				type="checkbox"
+				type='checkbox'
 				style={{transform: 'scale(1.25)'}}
 				disabled={disabled}
 				checked={checked}

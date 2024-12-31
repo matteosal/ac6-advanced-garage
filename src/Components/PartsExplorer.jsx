@@ -437,11 +437,11 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 	const previewSlot = state.preview.slot;
 	const backSubslot = state.backSubslot;
 	const sortBy = state.sortBy;
-	const showSearchTooltip = state.showTooltip;
+	const showSearchTooltip = state.showSearchTooltip;
 
 	const [highlightedId, setHighlightedId] = useState(-1);
 
-	const setShowSearchTooltip = val => stateDispatch({target: 'showTooltip', value: val});
+	const setShowSearchTooltip = val => stateDispatch({target: 'showSearchTooltip', value: val});
 
 	const partsForSlot = glob.getPartsForSlot(previewSlot, backSubslot);
 	const sortingKeys = getSortingKeys(previewSlot, backSubslot);

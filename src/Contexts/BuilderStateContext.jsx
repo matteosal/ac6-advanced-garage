@@ -42,7 +42,7 @@ const builderPartsReducer = (builderParts, action) => {
 	}
 	newParts[action.slot] = newPart;
 
-	return {parts: newParts, msg: newMsg}
+	return {parts: newParts, toastMsg: newMsg}
 }
 
 const previewReducer = (preview, action) => {
@@ -61,7 +61,7 @@ const builderStateReducer = (builderState, action) => {
 	if(action.target === 'parts') {
 		const res = builderPartsReducer(builderState.parts, action);
 		newState.parts = res.parts;
-		newState.msg = res.msg;
+		newState.toastMsg = res.toastMsg;
 	} else if(action.target === 'preview') {
 		const res = previewReducer(builderState.preview, action);
 		newState.preview = res;
@@ -84,8 +84,8 @@ const initialBuilderState = {
 			{return [slot, {key: 'Name', ascend: true}]}
 		)
 	),
-	showTooltip: true,
-	msg: null
+	showSearchTooltip: true,
+	toastMsg: null
 }
 
 export const BuilderStateProvider = ({children}) => {
@@ -109,10 +109,10 @@ export const BuilderStateProvider = ({children}) => {
 	// of this component
 	useEffect(() => 
 		{
-			if(builderState.msg)
-				glob.notify(builderState.msg)
+			if(builderState.toastMsg)
+				glob.notify(builderState.toastMsg)
 		},
-		[builderState.msg]
+		[builderState.toastMsg]
 	);
 
 	return (
