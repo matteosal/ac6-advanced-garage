@@ -1,7 +1,9 @@
 import { useContext } from 'react';
 
-import {BuilderStateContext} from "../Contexts/BuilderStateContext.jsx";
+import {BuilderStateContext, BuilderStateDispatchContext} from 
+	"../Contexts/BuilderStateContext.jsx";
 import {StatRow} from './StatRows.jsx';
+import ClosableTooltip from './ClosableTooltip.jsx';
 import * as glob from '../Misc/Globals.js';
 
 function filterPartKeys(part) {
@@ -23,16 +25,30 @@ const UnitIcon = ({img}) => {
 		style={{margin: '0px 2px', border: 'solid 1px gray'}} />
 }
 
-const PartStatsHeader = ({part}) => {
-	let desc;
+const modifiedSpecsTooltipText = 'Shows the effect of other currently equipped parts on ' +
+	'the relevant unit specs: Melee Specialization from the arms, Energy Firearm ' + 
+	'Specialization from the generator and Missile Lock Correction from the FCS.';
 
+const PartStatsHeader = ({part}) => {
+
+	const state = useContext(BuilderStateContext);
+	const stateDispatch = useContext(BuilderStateDispatchContext);
+
+	let desc;
 	if(part['Kind'] === 'Unit' && part['ID'] !== glob.noneUnit['ID']) {
 		desc = part['Description']
 	}
 	else
 		desc = part['Kind']
 
-	const manufacturerLogo = glob.manufacturerLogos[part['Manufacturer'] + '.png']
+	const manufacturerLogo = glob.manufacturerLogos[part['Manufacturer'] + '.png'];
+
+	const toggleShowModifiedSpecs = () => stateDispatch(
+		{target: 'showModifiedSpecs', value: !state.showModifiedSpecs}
+	);
+	const setShowModifiedSpecsTooltip = val => stateDispatch(
+		{target: 'showModifiedSpecsTooltip', value: val}
+	);
 
 	return(
 		<div style={{...glob.dottedBackgroundStyle(), ...{height: 100}}}>
@@ -62,8 +78,8 @@ const PartStatsHeader = ({part}) => {
 					/>
 				</div>
 				<ClosableTooltip
-					text='Afangulle'
-					place='bottom'
+					text={modifiedSpecsTooltipText}
+					place='right'
 					anchor='checkbox-tooltip-anchor'
 					show={state.showModifiedSpecsTooltip}
 					setShow={setShowModifiedSpecsTooltip}
@@ -83,30 +99,79 @@ const PartStatsHeader = ({part}) => {
 	)
 }
 
+const meleeSpecializationStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
+	'ComboDirectDamage', 'ChgAttackPower'];
+const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
+	'Impact/sInclReload', 'AccImpact/sInclReload'];
+const energyFirearmSpecStats = ['AttackPower', 'Damage/s', 'Damage/sInclReload', 
+	'DirectAttackPower', 'DirectDamage/s', 'ChargeTime', 'FullChgTime'];
+
+function getModifiedDmgSpec(baseValue, modifyingSpec) {
+	const correction = 1 + (modifyingSpec - 100) / 200.;
+
+	if(baseValue.constructor === Array)
+		return [baseValue[0] * correction, baseValue[1]]
+	else
+		return baseValue * correction	
+}
+
+function getSpec(part, name, showModifiedSpecs, assembly) {
+	if(part['Kind'] !== 'Unit' || !showModifiedSpecs) {
+		return part[name];
+	} else if(part['WeaponType'] === 'Melee' && meleeSpecializationStats.includes(name)) {
+		// Melee specialization
+		return getModifiedDmgSpec(part[name], (assembly.arms)['MeleeSpecialization']);
+	} else if(part['WeaponType'] === 'Homing' && missileLockCorrectionStats.includes(name)) {
+		// Missile lock correction
+		const baseLockTime = part['HomingLockTime'];
+		const correction = 2 - (assembly.fcs)['MissileLockCorrection'] / 100.;
+		const newLockTime = baseLockTime * correction;
+		if(name === 'HomingLockTime')
+			return newLockTime;
+
+		let oldDen = part['ReloadTime'] + baseLockTime;
+		if(part['MagDumpTime'])
+			oldDen += part['MagDumpTime'];
+
+		return part[name] * oldDen / (oldDen - baseLockTime + newLockTime);
+	} else if(
+		part['AttackType'] === 'Energy' &&
+		part['WeaponType'] !== 'Melee' &&
+		energyFirearmSpecStats.includes(name)
+	) {
+		// Energy firearm specialization		
+		if(['ChargeTime', 'FullChgTime'].includes(name)) {
+			const correction = 2 - (assembly.generator)['EnergyFirearmSpec'] / 100.;
+			return part[name] * correction;
+		}
+		return getModifiedDmgSpec(part[name], (assembly.generator)['EnergyFirearmSpec']);
+	} else
+		return part[name]
+}
+
 function toRowType(statName) {
 	return statName === 'MagDumpTime' ? 'NumericNoComparison' : 'Numeric'
 }
 
 const PartStatsBody = ({leftPart, rightPart}) => {
-	const leftFiltered = filterPartKeys(leftPart)
-	const rightFiltered = filterPartKeys(rightPart)
+
+	const state = useContext(BuilderStateContext);
+	const assembly = state.parts;
+	const showModifiedSpecs = state.showModifiedSpecs;
 
 	let statGroups = glob.partStatGroups[rightPart['Kind']].map(
-		group => group.filter(stat => rightFiltered[stat] !== undefined)
+		group => group.filter(stat => rightPart[stat] !== undefined)
 	);
-
-	// Consistency check
-/*	if(statGroups.flat().length !== Object.keys(rightFiltered).length) {
-		window.alert(statGroups.flat().length + '|' + Object.keys(rightFiltered).length)
-	}*/
 
 	let leftStats = [];
 	let rightStats = [];
 	for(let i = 0; i < statGroups.length; i++) {
 		statGroups[i].map(
 			stat => {
-				leftStats.push({name: stat, value: leftFiltered[stat], type: toRowType(stat)});
-				rightStats.push({name: stat, value: rightFiltered[stat], type: toRowType(stat)});
+				const leftVal = getSpec(leftPart, stat, showModifiedSpecs, assembly);
+				const rightVal = getSpec(rightPart, stat, showModifiedSpecs, assembly);
+				leftStats.push({name: stat, value: leftVal, type: toRowType(stat)});
+				rightStats.push({name: stat, value: rightVal, type: toRowType(stat)});
 				return null;
 			}
 		);

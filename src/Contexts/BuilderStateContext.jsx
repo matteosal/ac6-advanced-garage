@@ -85,7 +85,9 @@ const initialBuilderState = {
 		)
 	),
 	showSearchTooltip: true,
-	toastMsg: null
+	toastMsg: null,
+	showModifiedSpecs: false,
+	showModifiedSpecsTooltip: true
 }
 
 export const BuilderStateProvider = ({children}) => {

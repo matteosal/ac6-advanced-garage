@@ -4,7 +4,7 @@ const ClosableTooltip = ({text, anchor, place, show, setShow}) => {
 	return(
 			show ?
 			<Tooltip 
-				style={{width: '250px', padding: '4px 15px 10px 15px'}}
+				style={{width: '350px', padding: '4px 15px 10px 15px'}}
 				anchorSelect={'.' + anchor}
 				place={place}
 				clickable
