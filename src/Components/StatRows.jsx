@@ -596,7 +596,8 @@ const enRecoveryProfilesDesc = 'Shows the energy recovered over time in the norm
 
 const fireAnimationNote = 'NOTE: all DPS/IPS related specs assume that the fire animation ' +
 	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
-	'launchers that fire individual missiles in rapid sequence).'
+	'launchers that fire individual missiles in rapid sequence or heavy back weapons with ' +
+	'delayed fire).'
 
 const enRecoveryProfilesNote = 'NOTE: the cyan profile is a limit case because if the ' +
 	'generator is not fully depleted energy recovery will not start from zero energy.';

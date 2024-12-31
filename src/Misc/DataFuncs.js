@@ -64,6 +64,9 @@ function addAdvancedUnitStats(unit) {
 	if(unit['ReloadType'] === 'Single Shot')
 		magSize = 1;
 	else if(unit['ReloadType'] === 'Overheat') {
+		// These are the mag size and cooldown time without overheat (1 shot away from 
+		// overheating) which is the best case scenario. This means that Damage/sInclReload 
+		// and related stats refer to this case
 		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatBuildup) - 1);
 		reloadTime = addIfValid(res, 
 			'ReloadTime', 
@@ -90,7 +93,7 @@ function addAdvancedUnitStats(unit) {
 	den = Number.isNaN(lockTime) ? den : den + lockTime;
 	addIfValid(res, 'Damage/sInclReload', magSize * atkPwr / den);
 	addIfValid(res, 'Impact/sInclReload', magSize * impact / den);
-	addIfValid(res, 'AccImpact/sInclReload', magSize * accImpact / den)
+	addIfValid(res, 'AccImpact/sInclReload', magSize * accImpact / den);
 
 	const comboDmg = addIfValid(res, 'ComboDamage', atkPwr * consecutiveHits);
 	addIfValid(res, 'ComboImpact', impact * consecutiveHits);

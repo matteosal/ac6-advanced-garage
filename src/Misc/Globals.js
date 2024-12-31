@@ -137,7 +137,10 @@ export const partStatGroups = {
 	],
 	'Core': [
 		['AP', 'AntiKineticDefense', 'AntiEnergyDefense', 'AntiExplosiveDefense'],
-		['AttitudeStability', 'BoosterEfficiencyAdj', 'GeneratorOutputAdj', 'GeneratorSupplyAdj'],
+		[
+			'AttitudeStability', 'BoosterEfficiencyAdj', 'GeneratorOutputAdj', 
+			'GeneratorSupplyAdj'
+		],
 		['Weight', 'ENLoad']
 	],
 	'Arms': [
