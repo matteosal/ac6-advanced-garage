@@ -403,8 +403,9 @@ function searchFilter(parts, searchString) {
 function computeSortingKeys(slot, backSubslot) {
 	const partsForSlot = glob.getPartsForSlot(slot, backSubslot);
 	const allStats = partsForSlot.map(p => Object.keys(p)).flat();
+	const displayedStats = Object.values(glob.partStatGroups).flat().flat();
 	let sortingKeys = [...new Set(allStats)].filter(
-		stat => !glob.hidddenPartStats.includes(stat)
+		stat => displayedStats.includes(stat)
 	).sort();
 	sortingKeys.unshift('Name');
 	return sortingKeys;	

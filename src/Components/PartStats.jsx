@@ -6,14 +6,6 @@ import {StatRow} from './StatRows.jsx';
 import ClosableTooltip from './ClosableTooltip.jsx';
 import * as glob from '../Misc/Globals.js';
 
-function filterPartKeys(part) {
-	let entries = Object.entries(part);
-	let filteredEntries = entries.filter(
-		([prop, val]) => !glob.hidddenPartStats.includes(prop)
-	);
-	return Object.fromEntries(filteredEntries)
-}
-
 function toNullStats(part) {
 	return Object.fromEntries(
 		Object.entries(part).map(([k, v]) => [k, null])

@@ -89,10 +89,6 @@ export const partSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack', 'head'
 export const pairedUnitSlots = {'rightArm': 'rightBack', 'rightBack': 'rightArm', 
 	'leftArm': 'leftBack', 'leftBack': 'leftArm'};
 
-export const hidddenPartStats = ['Name', 'Kind', 'Manufacturer', 'Description', 'AttackType', 
-	'WeaponType', 'ReloadType', 'AdditionalEffect', 'LegType', 'GeneratorType', 'RightArm', 
-	'LeftArm', 'RightBack', 'LeftBack','ID'];
-
 // Precompute the list of parts that can go into each slot
 let rawPartsForSlot = dataFuncs.getRawPartsForSlot(partSlots, partsData, pairedUnitSlots);
 
