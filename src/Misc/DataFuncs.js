@@ -51,10 +51,9 @@ function addAdvancedUnitStats(unit) {
 		return res;
 
 	const [rawAtkPwr, rawImpact, rawAccImpact, rapidFire, 
-		consecutiveHits, lockTime, heatBuildup, cooling, coolingDelay, overheatReload] = 
+		consecutiveHits, lockTime, heatBuildup, cooling, coolingDelay] = 
 		['AttackPower', 'Impact', 'AccumulativeImpact', 'RapidFire', 'ConsecutiveHits', 
-			'HomingLockTime', 'ATKHeatBuildup', 'Cooling', 'CoolingDelay', 
-			'ReloadTimeOverheat'].map(
+			'HomingLockTime', 'ATKHeatBuildup', 'Cooling', 'CoolingDelay'].map(
 		stat => valueOrNaN(unit[stat])
 	);
 	let [magSize, reloadTime] = ['MagazineRounds', 'ReloadTime'].map(
@@ -67,7 +66,8 @@ function addAdvancedUnitStats(unit) {
 		// These are the mag size and cooldown time without overheat (1 shot away from 
 		// overheating) which is the best case scenario. This means that Damage/sInclReload 
 		// and related stats refer to this case
-		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatBuildup) - 1);
+		const heatPerShot = heatBuildup - Math.max(0, 1 / rapidFire - coolingDelay) * cooling;
+		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatPerShot) - 1);
 		reloadTime = addIfValid(res, 
 			'ReloadTime', 
 			coolingDelay + heatBuildup * magSize / cooling
