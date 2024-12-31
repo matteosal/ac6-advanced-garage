@@ -35,14 +35,49 @@ const PartStatsHeader = ({part}) => {
 	const manufacturerLogo = glob.manufacturerLogos[part['Manufacturer'] + '.png']
 
 	return(
-		<div style={{...glob.dottedBackgroundStyle(), ...{height: 70}}}>
-			<div style={{display: 'inline-block', paddingTop: 10, paddingLeft: 20}}>
+		<div style={{...glob.dottedBackgroundStyle(), ...{height: 100}}}>
+			<div style={{display: 'inline-block', paddingTop: 10, paddingLeft: 20, 
+				paddingBottom: 11}}>
 				<div>{desc.toUpperCase()}</div>
 				<div style={{fontSize: '160%'}}>{part['Name']}</div>
 			</div>
 			<div style={{display: 'inline-block', float: 'right', paddingRight: 10}}>
 				<img style={{display: 'block'}} alt={part['Manufacturer']} 
 					src={manufacturerLogo} width='70px' />
+			</div>
+			<div 
+				style={{display: 'flex', justifyContent: 'space-evenly', width: '100%'}}
+			>
+				<div>
+					<label style={{fontSize: '12px'}} className='checkbox-tooltip-anchor' htmlFor='modified-stats-checkbox'>
+						SHOW MODIFIED SPECS
+					</label>
+					<input
+						type='checkbox'
+						id='modified-stats-checkbox'
+						className='checkbox-tooltip-anchor'
+						style={{marginLeft: 10, position: 'relative', top: 2}}
+					checked={state.showModifiedSpecs}
+					onChange={toggleShowModifiedSpecs}
+					/>
+				</div>
+				<ClosableTooltip
+					text='Afangulle'
+					place='bottom'
+					anchor='checkbox-tooltip-anchor'
+					show={state.showModifiedSpecsTooltip}
+					setShow={setShowModifiedSpecsTooltip}
+				/>					
+				<div>
+					<label style={{fontSize: '12px'}} htmlFor='normalize-dropdown'>
+						NORMALIZE SPECS:
+					</label>
+					<select style={{marginLeft: 10, fontSize: '12px'}} id='normalize-dropdown'>
+						<option value="feature1">None</option>
+						<option value="feature2">Weight</option>
+						<option value="feature2">EN Load</option>
+					</select>
+				</div>
 			</div>
 		</div>
 	)
@@ -96,7 +131,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	const range = [...Array(rightStats.length).keys()];
 
 	return(
-		<div style={{...glob.dottedBackgroundStyle(), ...{padding: '10px 15px'}}}>
+		<div style={{...glob.dottedBackgroundStyle(), padding: '10px 15px'}}>
 			<div style={{display: 'inline-block', fontSize: '12px', 
 				padding: '0px 0px 10px 10px'}}>
 				{glob.boxCharacter + ' PART SPECS'}
@@ -111,7 +146,7 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 					</div> :
 				<></>
 			}
-		<div className="my-scrollbar" style={{maxHeight: '670px', overflowY: 'auto'}}>
+		<div className="my-scrollbar" style={{maxHeight: '640px', overflowY: 'auto'}}>
 			{
 				range.map(
 					(pos) => {

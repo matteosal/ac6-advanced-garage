@@ -85,7 +85,7 @@ input:focus {
 		outline-offset: 2px;
 }
 
-/* BUTTON  */
+/* BUTTON */
 button, input[type=submit] {
 	margin: 0;
 	vertical-align: baseline;
@@ -106,6 +106,15 @@ button:active, input[type=submit]:active {
 	background-color:rgb(204, 234, 248);
 }
 
+/* DIALOG  */
 dialog::backdrop {
   backdrop-filter: brightness(40%);
+}
+
+/* SELECT  */
+select {
+	font-family: inherit;
+	text-align: center;
+	color: white;
+	background-color: rgb(84, 105, 130);
 }
