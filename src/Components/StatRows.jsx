@@ -283,7 +283,7 @@ function proportionStyle(val, color) {
 const cyan = 'rgb(72, 202, 228)';
 
 const ProportionBar = ({values, buildCompareMode}) => {
-	const [round0, round1] = [glob.round(values[0]), glob.round(values[1])];
+	const [round0, round1] = [Math.round(values[0]), Math.round(values[1])];
 	const round = [round0, round1, 100 - round0 - round1];
 	const displayLimit = buildCompareMode ? 28 : 18;
 	const displayed = round.map(val => val > displayLimit ? val + '%' : null)
