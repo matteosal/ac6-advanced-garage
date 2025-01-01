@@ -34,9 +34,11 @@ function validateAssembly(assembly) {
 	for(let pos = 0; pos < glob.partSlots.length; pos++) {
 		const slot = glob.partSlots[pos];
 		const partId = assembly[slot]['ID'];
-		let allowedParts = glob.getPartsForSlot(slot, 0);
+		let allowedParts = glob.getPartIdsForSlot(slot, 0).map(id => glob.partsData[id]);
 		if(['rightBack', 'leftBack'].includes(slot))
-			allowedParts = allowedParts.concat(glob.getPartsForSlot(slot, 1));
+			allowedParts = allowedParts.concat(
+				glob.getPartIdsForSlot(slot, 1).map(id => glob.partsData[id])
+			);
 
 		const match = allowedParts.find(part => part['ID'] === partId);
 		const isNoneBooster = slot === 'booster' && partId === glob.noneBooster['ID'];

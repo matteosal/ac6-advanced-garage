@@ -26,10 +26,10 @@ function valueOrNaN(val) {
 // The game is inconsistent in what "a*b" means in attack power and impact specs
 const takeFirstUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 'MA-E-211 SAMPU',
 	'MA-J-201 RANSETSU-AR', 'WS-5001 SOUP'];
-function resolveList(name, spec) {
+function resolveList(partName, spec) {
 	if(Number.isNaN(spec))
 		return NaN;
-	else if(spec.constructor === Array && takeFirstUnits.includes(name))
+	else if(spec.constructor === Array && takeFirstUnits.includes(partName))
 		return spec[0];
 	else if(spec.constructor === Array)
 		return spec[0] * spec[1];
@@ -132,7 +132,7 @@ export function normalizeData(data, key) {
 				([spec, val]) => {
 					const normFactor = part[key] / factor;
 					let newVal;
-					if(normFactor === 0. || spec === 'ID') {
+					if(!normFactor || normFactor === 0. || spec === 'ID') {
 						newVal = val;
 					} else if(typeof val === 'number') {
 						newVal = val / normFactor;
@@ -150,19 +150,23 @@ export function normalizeData(data, key) {
 
 /***************************************************************************************/
 
-function updateRange(kind, partEntry, res) {
-	const [name, val] = partEntry;
-	if(typeof val === 'number') {
-		if(res[kind][name] === undefined) {
-			res[kind][name] = [val, val];
-			return;
-		}
+function updateRange(kind, partName, dataEntry, res) {
+	let [name, val] = dataEntry;
+	if(typeof val !== 'number' && val.constructor !== Array)
+		return;
 
-		if(val > res[kind][name][1])
-			res[kind][name][1] = val;
-		else if(val < res[kind][name][0])
-			res[kind][name][0] = val;
+	val = resolveList(partName, val);
+
+	if(res[kind][name] === undefined) {
+		res[kind][name] = [val, val];
+		return;
 	}
+
+	if(val > res[kind][name][1])
+		res[kind][name][1] = val;
+	else if(val < res[kind][name][0])
+		res[kind][name][0] = val;
+
 	return;
 }
 
@@ -173,7 +177,9 @@ export function getPartStatsRanges(data) {
 	// Fills res
 	data.map(
 		part => {
-			Object.entries(part).map(entry => updateRange(part['Kind'], entry, res));
+			Object.entries(part).map(
+				entry => updateRange(part['Kind'], part['Name'], entry, res)
+			);
 			return null;
 		}
 	);
@@ -214,7 +220,7 @@ function capitalizeFirstLetter(str) {
 	return String(str).charAt(0).toUpperCase() + String(str).slice(1);
 }
 
-function computePartsForSlot(slot, backSubslot, partsData, pairedUnitSlots) {
+function computePartIdsForSlot(slot, backSubslot, partsData, pairedUnitSlots) {
 
 	const noneUnit = partsData.find(p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Unit');
 	const noneBooster = partsData.find(
@@ -252,21 +258,21 @@ function computePartsForSlot(slot, backSubslot, partsData, pairedUnitSlots) {
 	} else {
 		slotFilterFunc = part => (part.Kind === slotCapitalized);
 	}
-	return partsData.filter(slotFilterFunc);	
+	return partsData.filter(slotFilterFunc).map(part => part['ID']);
 }
 
 // Precompute the list of parts that can go into each slot
-export function getRawPartsForSlot(partSlots, partsData, pairedUnitSlots) {
+export function getRawPartIdsForSlot(partSlots, partsData, pairedUnitSlots) {
 	let res = {};
 	partSlots.map(
 		(slot) => {
 			if(!['leftBack', 'rightBack'].includes(slot))
 				// 2nd arg is irrelevant
-				res[slot] = computePartsForSlot(slot, 0, partsData, pairedUnitSlots); 
+				res[slot] = computePartIdsForSlot(slot, 0, partsData, pairedUnitSlots); 
 			else // This looks like shit
 				res[slot] = {
-					0: computePartsForSlot(slot, 0, partsData, pairedUnitSlots),
-					1: computePartsForSlot(slot, 1, partsData, pairedUnitSlots)
+					0: computePartIdsForSlot(slot, 0, partsData, pairedUnitSlots),
+					1: computePartIdsForSlot(slot, 1, partsData, pairedUnitSlots)
 				}
 			return null;
 		}

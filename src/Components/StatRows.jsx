@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useContext } from 'react';
 
 import { Tooltip } from 'react-tooltip'
 import Collapsible from 'react-collapsible';
@@ -7,6 +7,7 @@ import createPlotlyComponent from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-basic-dist';
 
 import * as glob from '../Misc/Globals.js';
+import {BuilderStateContext} from "../Contexts/BuilderStateContext.jsx";
 
 const PlotlyPlot = createPlotlyComponent(Plotly);
 
@@ -86,11 +87,23 @@ const barDivShrink = '96%';
 const avoidInvertingBar = ['CurrentLoad', 'CurrentArmsLoad', 'CurrentENLoad']
 
 const StatBar = ({kind, name, left, right, limit, color}) => {
+
+	const normalizationKey = useContext(BuilderStateContext).normalizationKey;
+
 	let min, max;
-	if(kind !== undefined)
-		[min, max] = glob.partStatsRanges[kind][name];
+	if(kind !== undefined) {
+		let source;
+		if(normalizationKey === '')
+			source = glob.partStatsRanges;
+		else
+			source = glob.normalizedStatsRanges[normalizationKey];
+		[min, max] = source[kind][name];
+	}
 	else
 		[min, max] = glob.acStatsRanges[name];
+
+	if(name === 'AttackPower')
+		console.log(glob.normalizedStatsRanges[normalizationKey]);
 
 	if(isBetter(name, min, max) && !avoidInvertingBar.includes(name))
 		[min, max] = [max, min]

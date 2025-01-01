@@ -83,6 +83,10 @@ export const defaultBooster = partsData.find(p => p['Name'] === 'BST-G1/P10');
 
 // Stores min and max val for every stat, broken down by kinds
 export const partStatsRanges = dataFuncs.getPartStatsRanges(partsData);
+export const normalizedStatsRanges = {
+	'Weight': dataFuncs.getPartStatsRanges(normalizedPartsData['Weight']),
+	'ENLoad': dataFuncs.getPartStatsRanges(normalizedPartsData['ENLoad'])
+}
 
 // Stores min and max for CurrentLoad, CurrentArmsLoad and CurrentENLoad
 export const acStatsRanges = dataFuncs.getACStatRanges(partStatsRanges)
@@ -94,13 +98,14 @@ export const pairedUnitSlots = {'rightArm': 'rightBack', 'rightBack': 'rightArm'
 	'leftArm': 'leftBack', 'leftBack': 'leftArm'};
 
 // Precompute the list of parts that can go into each slot
-let rawPartsForSlot = dataFuncs.getRawPartsForSlot(partSlots, partsData, pairedUnitSlots);
+let rawPartsIdsForSlot = 
+	dataFuncs.getRawPartIdsForSlot(partSlots, partsData, pairedUnitSlots);
 
-export function getPartsForSlot(slot, backSubslot) {
+export function getPartIdsForSlot(slot, backSubslot) {
 	if(!['leftBack', 'rightBack'].includes(slot))
-		return rawPartsForSlot[slot];
+		return rawPartsIdsForSlot[slot];
 	else
-		return rawPartsForSlot[slot][backSubslot];
+		return rawPartsIdsForSlot[slot][backSubslot];
 }
 
 export const partStatGroups = {
@@ -349,11 +354,10 @@ function getDefaultDataColumns(partClass) {
 
 function getTableData(partClass) {
 	const slotName = toSlotName(partClass);
-
-	const parts = getPartsForSlot(slotName, 0).filter(
+	const ids = getPartIdsForSlot(slotName, 0);
+	const parts = ids.map(id => partsData[id]).filter(
 		part => part['Name'] !== '(NOTHING)'
 	);
-
 	return parts;
 }
 

@@ -401,7 +401,9 @@ function searchFilter(parts, searchString) {
 }
 
 function computeSortingKeys(slot, backSubslot) {
-	const partsForSlot = glob.getPartsForSlot(slot, backSubslot);
+	const partsForSlot = glob.getPartIdsForSlot(slot, backSubslot).map(
+		id => glob.partsData[id]
+	);
 	const allStats = partsForSlot.map(p => Object.keys(p)).flat();
 	const displayedStats = Object.values(glob.partStatGroups).flat().flat();
 	let sortingKeys = [...new Set(allStats)].filter(
@@ -439,12 +441,18 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 	const backSubslot = state.backSubslot;
 	const sortBy = state.sortBy;
 	const showSearchTooltip = state.showSearchTooltip;
+	const normKey = state.normalizationKey;
 
 	const [highlightedId, setHighlightedId] = useState(-1);
 
-	const setShowSearchTooltip = val => stateDispatch({target: 'showSearchTooltip', value: val});
+	const setShowSearchTooltip = val => stateDispatch(
+		{target: 'showSearchTooltip', value: val}
+	);
 
-	const partsForSlot = glob.getPartsForSlot(previewSlot, backSubslot);
+	const partsIdForSlot = glob.getPartIdsForSlot(previewSlot, backSubslot);
+	const partsSource = normKey === '' ? glob.partsData : glob.normalizedPartsData[normKey];
+	const partsForSlot = partsIdForSlot.map(id => partsSource[id]);
+
 	const sortingKeys = getSortingKeys(previewSlot, backSubslot);
 
 	const nonePart = partsForSlot.find(part => part['Name'] === '(NOTHING)');
@@ -452,11 +460,16 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 
 	// This sorting happens everytime a part is hovered on, because it changes preview.part
 	// and this component depends on preview.slot. Separating the part and slot states should
-	// prevent the sorting from happening every time because this component and this entire file
-	// would not depend on the preview part state.
+	// prevent the sorting from happening every time because this component and this entire 
+	// file would not depend on the preview part state.
 	displayedParts.sort(
-		(a, b) => glob.partSortingFunction(sortBy[previewSlot].key, sortBy[previewSlot].ascend, a, b)
-	)
+		(a, b) => glob.partSortingFunction(
+			sortBy[previewSlot].key,
+			sortBy[previewSlot].ascend,
+			a,
+			b
+		)
+	);
 
 	// If none part was there before search filter ensure it's still there and put it at
 	// the top
