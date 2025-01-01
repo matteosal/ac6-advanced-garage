@@ -62,6 +62,7 @@ const builderStateReducer = (builderState, action) => {
 		const res = builderPartsReducer(builderState.parts, action);
 		newState.parts = res.parts;
 		newState.toastMsg = res.toastMsg;
+		newState.preview = {slot: builderState.preview.slot, part: null};
 	} else if(action.target === 'preview') {
 		const res = previewReducer(builderState.preview, action);
 		newState.preview = res;
