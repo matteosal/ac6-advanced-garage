@@ -68,13 +68,17 @@ export function tableRowBackground(pos) {
 /***************************************************************************************/
 
 export const partsData = dataFuncs.postprocessData(rawPartsData);
+export const normalizedPartsData = {
+	'Weight': dataFuncs.normalizeData(partsData, 'Weight'),
+	'ENLoad': dataFuncs.normalizeData(partsData, 'ENLoad')
+}
 
 export const noneUnit = partsData.find(p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Unit');
 export const noneBooster = partsData.find(
 	p => p['Name'] === '(NOTHING)' && p['Kind'] === 'Booster'
 );
 
-// Used when removing tank leks
+// Used when removing tank legs
 export const defaultBooster = partsData.find(p => p['Name'] === 'BST-G1/P10');
 
 // Stores min and max val for every stat, broken down by kinds

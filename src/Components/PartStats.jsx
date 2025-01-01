@@ -41,6 +41,9 @@ const PartStatsHeader = ({part}) => {
 	const setShowModifiedSpecsTooltip = val => stateDispatch(
 		{target: 'showModifiedSpecsTooltip', value: val}
 	);
+	const setNormalizationKey = event => stateDispatch(
+		{target: 'normalizationKey', value: event.target.value}
+	);
 
 	return(
 		<div style={{...glob.dottedBackgroundStyle(), ...{height: 100}}}>
@@ -80,10 +83,15 @@ const PartStatsHeader = ({part}) => {
 					<label style={{fontSize: '12px'}} htmlFor='normalize-dropdown'>
 						NORMALIZE SPECS:
 					</label>
-					<select style={{marginLeft: 10, fontSize: '12px'}} id='normalize-dropdown'>
-						<option value="feature1">None</option>
-						<option value="feature2">Weight</option>
-						<option value="feature2">EN Load</option>
+					<select 
+						style={{marginLeft: 10, fontSize: '12px'}}
+						id='normalize-dropdown'
+						value={state.normalizationKey}
+						onChange={setNormalizationKey}
+					>
+						<option value=''>None</option>
+						<option value='Weight'>Weight</option>
+						<option value='ENLoad'>EN Load</option>
 					</select>
 				</div>
 			</div>
@@ -226,6 +234,10 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	)
 }
 
+function getNormalizedPartData(part, key) {
+	return glob.normalizedPartsData[key][Number(part['ID'])];	
+}
+
 const PartStats = () => {
 
 	const state = useContext(BuilderStateContext);
@@ -240,6 +252,12 @@ const PartStats = () => {
 	}
 	else {
 		[leftPart, rightPart] = [curPart, previewPart];
+	}
+
+	if(['Weight', 'ENLoad'].includes(state.normalizationKey)) {
+		if(previewPart !== null)
+			leftPart = getNormalizedPartData(leftPart, state.normalizationKey);
+		rightPart = getNormalizedPartData(rightPart, state.normalizationKey);
 	}
 
 	return (

@@ -124,6 +124,30 @@ export function postprocessData(data) {
 	return res;
 }
 
+export function normalizeData(data, key) {
+	const factor = key === 'Weight' ? 1000 : 100; // 1000 for Weight, 100 for EN Load
+	return data.map(
+		part => Object.fromEntries(
+			Object.entries(part).map(
+				([spec, val]) => {
+					const normFactor = part[key] / factor;
+					let newVal;
+					if(normFactor === 0. || spec === 'ID') {
+						newVal = val;
+					} else if(typeof val === 'number') {
+						newVal = val / normFactor;
+					} else if(val.constructor === Array) {
+						newVal = [val[0] / normFactor, val[1]];
+					} else {
+						newVal = val;
+					}
+					return [spec, newVal];
+				}
+			)
+		)
+	)
+}
+
 /***************************************************************************************/
 
 function updateRange(kind, partEntry, res) {
