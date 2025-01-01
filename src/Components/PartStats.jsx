@@ -96,7 +96,8 @@ const meleeSpecializationStats = ['AttackPower', 'ComboDamage', 'DirectAttackPow
 const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
 	'Impact/sInclReload', 'AccImpact/sInclReload'];
 const energyFirearmSpecStats = ['AttackPower', 'Damage/s', 'Damage/sInclReload', 
-	'DirectAttackPower', 'DirectDamage/s', 'ChargeTime', 'FullChgTime'];
+	'DirectAttackPower', 'DirectDamage/s', 'ChgAttackPower', 'FullChgAttackPower', 
+	'ChargeTime', 'FullChgTime'];
 
 function getModifiedDmgSpec(baseValue, modifyingSpec) {
 	const correction = 1 + (modifyingSpec - 100) / 200.;
