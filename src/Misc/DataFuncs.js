@@ -132,7 +132,11 @@ export function normalizeData(data, key) {
 				([spec, val]) => {
 					const normFactor = part[key] / factor;
 					let newVal;
-					if(!normFactor || normFactor === 0. || spec === 'ID') {
+					if(
+						!normFactor ||
+						normFactor === 0. ||
+						['ID', 'Weight', 'ENLoad'].includes(spec)
+					) {
 						newVal = val;
 					} else if(typeof val === 'number') {
 						newVal = val / normFactor;

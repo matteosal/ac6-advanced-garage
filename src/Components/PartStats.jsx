@@ -22,7 +22,8 @@ const modifiedSpecsTooltipText = 'Shows the effect of other currently equipped p
 	'Specialization from the generator and Missile Lock Correction from the FCS.';
 const normalizeSpecsTooltipText = 'Can be set to divide specs by the current part\'s ' +
 	'Weight and multiply them by 1000 or by the current part\'s EN Load and multiply them ' +
-	'by 100. In other words, gives the spec values for 1000 Weight or for 100 EN.';
+	'by 100. In other words, gives the spec values for 1000 Weight or for 100 EN. Weight ' +
+	'and EN Load specs are left unchanged.';
 
 const PartStatsHeader = ({part}) => {
 
