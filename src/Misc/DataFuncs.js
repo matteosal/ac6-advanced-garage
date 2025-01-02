@@ -181,9 +181,10 @@ export function getPartStatsRanges(data) {
 	// Fills res
 	data.map(
 		part => {
-			Object.entries(part).map(
-				entry => updateRange(part['Kind'], part['Name'], entry, res)
-			);
+			if(part['Name'] !== '(NOTHING)')
+				Object.entries(part).map(
+					entry => updateRange(part['Kind'], part['Name'], entry, res)
+				);
 			return null;
 		}
 	);
