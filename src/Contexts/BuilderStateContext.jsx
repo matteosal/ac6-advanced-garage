@@ -88,8 +88,7 @@ const initialBuilderState = {
 	showSearchTooltip: true,
 	toastMsg: null,
 	showModifiedSpecs: false,
-	normalizationKey: '',
-	showModifiedSpecsTooltip: true
+	normalizationKey: ''
 }
 
 export const BuilderStateProvider = ({children}) => {
