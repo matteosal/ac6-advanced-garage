@@ -1,3 +1,11 @@
+## [v1.1.3](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.3)
+* Added reload time stats for units with heating/cooling mechanics and all the stats that derive from that ("Damage/s Incl Reload", etc)
+* Added a checkbox in the central part spec panel to show the effect of equipped parts on some unit specs ("Melee Specialization" from the arms, "Energy Firearm Specialization" from the generator and "Missile Lock Correction" from the FCS)
+* Added a dropdown menu in the central part spec panel to normalize spec values to Weight or
+ EN Load
+* Removed modified missile lock times from AC specs panel
+* Updated rounding logic to show more digits on certain stats
+
 ## [v1.1.2](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.2)
 * Fix bar display for "Upward EN Consumption" and "Melee Atk EN Consump"
 * Fix pulse buckler image not showing
