@@ -194,63 +194,6 @@ function getNormalizedPartData(part, key) {
 	return glob.normalizedPartsData[key][Number(part['ID'])];	
 }
 
-const meleeSpecializationStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
-	'ComboDirectDamage', 'ChgAttackPower'];
-const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
-	'Impact/sInclReload', 'AccImpact/sInclReload'];
-const energyFirearmSpecStats = ['AttackPower', 'Damage/s', 'Damage/sInclReload', 
-	'DirectAttackPower', 'DirectDamage/s', 'ChgAttackPower', 'FullChgAttackPower', 
-	'ChargeTime', 'FullChgTime'];
-
-function getModifiedDmgSpec(baseValue, modifyingSpec) {
-	const correction = 1 + (modifyingSpec - 100) / 200.;
-
-	if(baseValue.constructor === Array)
-		return [baseValue[0] * correction, baseValue[1]]
-	else
-		return baseValue * correction	
-}
-
-function modifyUnitSpec(part, name, assembly) {
-	if(part['WeaponType'] === 'Melee' && meleeSpecializationStats.includes(name)) {
-		// Melee specialization
-		return getModifiedDmgSpec(part[name], (assembly.arms)['MeleeSpecialization']);
-	} else if(part['WeaponType'] === 'Homing' && missileLockCorrectionStats.includes(name)) {
-		// Missile lock correction
-		const baseLockTime = part['HomingLockTime'];
-		const correction = 2 - (assembly.fcs)['MissileLockCorrection'] / 100.;
-		const newLockTime = baseLockTime * correction;
-		if(name === 'HomingLockTime')
-			return newLockTime;
-
-		let oldDen = part['ReloadTime'] + baseLockTime;
-		if(part['MagDumpTime'])
-			oldDen += part['MagDumpTime'];
-
-		return part[name] * oldDen / (oldDen - baseLockTime + newLockTime);
-	} else if(
-		part['AttackType'] === 'Energy' &&
-		part['WeaponType'] !== 'Melee' &&
-		energyFirearmSpecStats.includes(name)
-	) {
-		// Energy firearm specialization		
-		if(['ChargeTime', 'FullChgTime'].includes(name)) {
-			const correction = 2 - (assembly.generator)['EnergyFirearmSpec'] / 100.;
-			return part[name] * correction;
-		}
-		return getModifiedDmgSpec(part[name], (assembly.generator)['EnergyFirearmSpec']);
-	} else
-		return part[name]
-}
-
-function getModifiedPartsData(part, assembly) {
-	return Object.fromEntries(
-		Object.keys(part).map(
-			key => [key, modifyUnitSpec(part, key, assembly)]
-		)
-	)
-}
-
 const PartStats = () => {
 
 	const state = useContext(BuilderStateContext);
@@ -277,8 +220,8 @@ const PartStats = () => {
 	// Stat modification checkbox
 	if(state.showModifiedSpecs && rightPart['Kind'] === 'Unit') {
 		if(previewPart !== null)
-			leftPart = getModifiedPartsData(leftPart, state.parts);
-		rightPart = getModifiedPartsData(rightPart, state.parts);
+			leftPart = glob.getModifiedPartsData(leftPart, state.parts);
+		rightPart = glob.getModifiedPartsData(rightPart, state.parts);
 	}
 
 	return (

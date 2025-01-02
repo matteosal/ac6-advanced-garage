@@ -453,16 +453,25 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 	const partsSource = normKey === '' ? glob.partsData : glob.normalizedPartsData[normKey];
 	const partsForSlot = partsIdForSlot.map(id => partsSource[id]);
 
-	const sortingKeys = getSortingKeys(previewSlot, backSubslot);
-
 	const nonePart = partsForSlot.find(part => part['Name'] === '(NOTHING)');
 	let displayedParts = searchFilter(partsForSlot, searchString);
+
+	let displayedPartsModified;
+	if(
+		state.showModifiedSpecs && 
+		['rightArm', 'leftArm', 'rightBack', 'leftBack'].includes(previewSlot)
+	) {
+		displayedPartsModified = displayedParts.map(
+			part => glob.getModifiedPartsData(part, state.parts)
+		)
+	} else 
+		displayedPartsModified = [...displayedParts]
 
 	// This sorting happens everytime a part is hovered on, because it changes preview.part
 	// and this component depends on preview.slot. Separating the part and slot states should
 	// prevent the sorting from happening every time because this component and this entire 
 	// file would not depend on the preview part state.
-	displayedParts.sort(
+	displayedPartsModified.sort(
 		(a, b) => glob.partSortingFunction(
 			sortBy[previewSlot].key,
 			sortBy[previewSlot].ascend,
@@ -474,9 +483,13 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 	// If none part was there before search filter ensure it's still there and put it at
 	// the top
 	if(nonePart !== undefined) {
-		displayedParts = displayedParts.filter(part => part['Name'] !== '(NOTHING)');
-		displayedParts.unshift(nonePart);
-	}	
+		displayedPartsModified = displayedPartsModified.filter(
+			part => part['Name'] !== '(NOTHING)'
+		);
+		displayedPartsModified.unshift(nonePart);
+	}
+
+	const partOrdering = displayedPartsModified.map(part => part['ID']);
 
 	const closeModal = () => setModal(false);
 
@@ -501,12 +514,12 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 		<>
 		<div className="my-scrollbar" style={{height: '580px', overflowY: 'auto'}}>
 		{
-			displayedParts.map(
-				(part) => <PartBox
-					part = {part}
-					highlighted = {part['ID'] === highlightedId}
+			partOrdering.map(
+				(id) => <PartBox
+					part = {glob.partsData[id]}
+					highlighted = {id === highlightedId}
 					setHighlightedId = {setHighlightedId}
-					key = {part['ID']}
+					key = {id}
 				/>
 			)
 		}
@@ -556,7 +569,10 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 		<ModalWrapper isOpen={modal} closeModal={closeModal}>
 			{
 				modal ? 
-				<SortModal closeModal={closeModal} keys={sortingKeys} /> :
+				<SortModal 
+					closeModal={closeModal}
+					keys={getSortingKeys(previewSlot, backSubslot)} 
+				/> :
 				<></>
 			}
 		</ModalWrapper>
