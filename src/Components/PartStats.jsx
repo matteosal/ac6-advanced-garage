@@ -2,8 +2,8 @@ import { useContext } from 'react';
 
 import {BuilderStateContext, BuilderStateDispatchContext} from 
 	"../Contexts/BuilderStateContext.jsx";
+import InfoBox from './InfoBox.jsx';
 import {StatRow} from './StatRows.jsx';
-import ClosableTooltip from './ClosableTooltip.jsx';
 import * as glob from '../Misc/Globals.js';
 
 function toNullStats(part) {
@@ -20,6 +20,9 @@ const UnitIcon = ({img}) => {
 const modifiedSpecsTooltipText = 'Shows the effect of other currently equipped parts on ' +
 	'the relevant unit specs: Melee Specialization from the arms, Energy Firearm ' + 
 	'Specialization from the generator and Missile Lock Correction from the FCS.';
+const normalizeSpecsTooltipText = 'Can be set to divide specs by the current part\'s ' +
+	'Weight and multiply them by 1000 or by the current part\'s EN Load and multiply them ' +
+	'by 100. In other words, gives the spec values for 1000 Weight or for 100 EN.';
 
 const PartStatsHeader = ({part}) => {
 
@@ -37,9 +40,6 @@ const PartStatsHeader = ({part}) => {
 
 	const toggleShowModifiedSpecs = () => stateDispatch(
 		{target: 'showModifiedSpecs', value: !state.showModifiedSpecs}
-	);
-	const setShowModifiedSpecsTooltip = val => stateDispatch(
-		{target: 'showModifiedSpecsTooltip', value: val}
 	);
 	const setNormalizationKey = event => stateDispatch(
 		{target: 'normalizationKey', value: event.target.value}
@@ -60,31 +60,43 @@ const PartStatsHeader = ({part}) => {
 				style={{display: 'flex', justifyContent: 'space-evenly', width: '100%'}}
 			>
 				<div>
-					<label style={{fontSize: '12px'}} className='checkbox-tooltip-anchor' htmlFor='modified-stats-checkbox'>
-						SHOW MODIFIED SPECS
+					<div style={{display: 'inline-block', width: '15px', marginRight: 3}}>
+						<InfoBox
+							name='checkbox-tooltip'
+							tooltip={modifiedSpecsTooltipText}
+						/>
+					</div>
+					<label 
+						style={{fontSize: '12px', position: 'relative', bottom: 2}}
+						className='checkbox-tooltip-anchor'
+						htmlFor='modified-stats-checkbox'
+					>
+						SHOW MODIFIED UNIT SPECS
 					</label>
 					<input
 						type='checkbox'
 						id='modified-stats-checkbox'
 						className='checkbox-tooltip-anchor'
-						style={{marginLeft: 10, position: 'relative', top: 2}}
+						style={{marginLeft: 5}}
 					checked={state.showModifiedSpecs}
 					onChange={toggleShowModifiedSpecs}
 					/>
 				</div>
-				<ClosableTooltip
-					text={modifiedSpecsTooltipText}
-					place='right'
-					anchor='checkbox-tooltip-anchor'
-					show={state.showModifiedSpecsTooltip}
-					setShow={setShowModifiedSpecsTooltip}
-				/>					
 				<div>
-					<label style={{fontSize: '12px'}} htmlFor='normalize-dropdown'>
+					<div style={{display: 'inline-block', width: '15px', marginRight: 3}}>
+						<InfoBox
+							name='checkbox-tooltip'
+							tooltip={normalizeSpecsTooltipText}
+						/>
+					</div>				
+					<label
+						style={{fontSize: '12px', position: 'relative', bottom: 2}}
+						htmlFor='normalize-dropdown'
+					>
 						NORMALIZE SPECS:
 					</label>
 					<select 
-						style={{marginLeft: 10, fontSize: '12px'}}
+						style={{marginLeft: 5, fontSize: '12px', position: 'relative', bottom: 4}}
 						id='normalize-dropdown'
 						value={state.normalizationKey}
 						onChange={setNormalizationKey}
