@@ -63,9 +63,6 @@ const StatBar = ({kind, name, left, right, limit, color}) => {
 	else
 		[min, max] = glob.acStatsRanges[name];
 
-	if(name === 'AttackPower')
-		console.log(glob.normalizedStatsRanges[normalizationKey]);
-
 	if(isBetter(name, min, max) && !avoidInvertingBar.includes(name))
 		[min, max] = [max, min]
 	const limitPos = toScore(limit, min, max);

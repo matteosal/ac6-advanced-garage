@@ -70,7 +70,7 @@ function addAdvancedUnitStats(unit) {
 		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatPerShot) - 1);
 		reloadTime = addIfValid(res, 
 			'ReloadTime', 
-			coolingDelay + heatBuildup * magSize / cooling
+			coolingDelay + heatPerShot * magSize / cooling
 		);		
 	}
 
