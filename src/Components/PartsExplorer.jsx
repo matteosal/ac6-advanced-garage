@@ -270,7 +270,7 @@ const PartBox = ({part, highlighted, setHighlightedId}) => {
 		}
 	}
 	const updateAssembly = () => {
-		stateDispatch({target: 'parts', slot: previewSlot, id: part['ID']})				
+		stateDispatch({target: 'part', slot: previewSlot, id: part['ID']})				
 	}
 
 	const [imgW, imgAspectRatio] = [220, 0.51];
