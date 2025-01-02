@@ -17,13 +17,15 @@ const UnitIcon = ({img}) => {
 		style={{margin: '0px 2px', border: 'solid 1px gray'}} />
 }
 
+const sortingNote = 'Part sorting will use these modified values.';
 const modifiedSpecsTooltipText = 'Shows the effect of other currently equipped parts on ' +
 	'the relevant unit specs: Melee Specialization from the arms, Energy Firearm ' + 
-	'Specialization from the generator and Missile Lock Correction from the FCS.';
+	'Specialization from the generator and Missile Lock Correction from the FCS. ' + 
+	sortingNote;
 const normalizeSpecsTooltipText = 'Can be set to divide specs by the current part\'s ' +
 	'Weight and multiply them by 1000 or by the current part\'s EN Load and multiply them ' +
 	'by 100. In other words, gives the spec values for 1000 Weight or for 100 EN. Weight ' +
-	'and EN Load specs are left unchanged.';
+	'and EN Load specs are left unchanged. ' + sortingNote;
 
 const PartStatsHeader = ({part}) => {
 
