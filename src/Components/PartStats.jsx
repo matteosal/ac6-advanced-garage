@@ -112,66 +112,11 @@ const PartStatsHeader = ({part}) => {
 	)
 }
 
-const meleeSpecializationStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
-	'ComboDirectDamage', 'ChgAttackPower'];
-const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
-	'Impact/sInclReload', 'AccImpact/sInclReload'];
-const energyFirearmSpecStats = ['AttackPower', 'Damage/s', 'Damage/sInclReload', 
-	'DirectAttackPower', 'DirectDamage/s', 'ChgAttackPower', 'FullChgAttackPower', 
-	'ChargeTime', 'FullChgTime'];
-
-function getModifiedDmgSpec(baseValue, modifyingSpec) {
-	const correction = 1 + (modifyingSpec - 100) / 200.;
-
-	if(baseValue.constructor === Array)
-		return [baseValue[0] * correction, baseValue[1]]
-	else
-		return baseValue * correction	
-}
-
-function getSpec(part, name, showModifiedSpecs, assembly) {
-	if(part['Kind'] !== 'Unit' || !showModifiedSpecs) {
-		return part[name];
-	} else if(part['WeaponType'] === 'Melee' && meleeSpecializationStats.includes(name)) {
-		// Melee specialization
-		return getModifiedDmgSpec(part[name], (assembly.arms)['MeleeSpecialization']);
-	} else if(part['WeaponType'] === 'Homing' && missileLockCorrectionStats.includes(name)) {
-		// Missile lock correction
-		const baseLockTime = part['HomingLockTime'];
-		const correction = 2 - (assembly.fcs)['MissileLockCorrection'] / 100.;
-		const newLockTime = baseLockTime * correction;
-		if(name === 'HomingLockTime')
-			return newLockTime;
-
-		let oldDen = part['ReloadTime'] + baseLockTime;
-		if(part['MagDumpTime'])
-			oldDen += part['MagDumpTime'];
-
-		return part[name] * oldDen / (oldDen - baseLockTime + newLockTime);
-	} else if(
-		part['AttackType'] === 'Energy' &&
-		part['WeaponType'] !== 'Melee' &&
-		energyFirearmSpecStats.includes(name)
-	) {
-		// Energy firearm specialization		
-		if(['ChargeTime', 'FullChgTime'].includes(name)) {
-			const correction = 2 - (assembly.generator)['EnergyFirearmSpec'] / 100.;
-			return part[name] * correction;
-		}
-		return getModifiedDmgSpec(part[name], (assembly.generator)['EnergyFirearmSpec']);
-	} else
-		return part[name]
-}
-
 function toRowType(statName) {
 	return statName === 'MagDumpTime' ? 'NumericNoComparison' : 'Numeric'
 }
 
 const PartStatsBody = ({leftPart, rightPart}) => {
-
-	const state = useContext(BuilderStateContext);
-	const assembly = state.parts;
-	const showModifiedSpecs = state.showModifiedSpecs;
 
 	let statGroups = glob.partStatGroups[rightPart['Kind']].map(
 		group => group.filter(stat => rightPart[stat] !== undefined)
@@ -182,10 +127,8 @@ const PartStatsBody = ({leftPart, rightPart}) => {
 	for(let i = 0; i < statGroups.length; i++) {
 		statGroups[i].map(
 			stat => {
-				const leftVal = getSpec(leftPart, stat, showModifiedSpecs, assembly);
-				const rightVal = getSpec(rightPart, stat, showModifiedSpecs, assembly);
-				leftStats.push({name: stat, value: leftVal, type: toRowType(stat)});
-				rightStats.push({name: stat, value: rightVal, type: toRowType(stat)});
+				leftStats.push({name: stat, value: leftPart[stat], type: toRowType(stat)});
+				rightStats.push({name: stat, value: rightPart[stat], type: toRowType(stat)});
 				return null;
 			}
 		);
@@ -251,6 +194,63 @@ function getNormalizedPartData(part, key) {
 	return glob.normalizedPartsData[key][Number(part['ID'])];	
 }
 
+const meleeSpecializationStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
+	'ComboDirectDamage', 'ChgAttackPower'];
+const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
+	'Impact/sInclReload', 'AccImpact/sInclReload'];
+const energyFirearmSpecStats = ['AttackPower', 'Damage/s', 'Damage/sInclReload', 
+	'DirectAttackPower', 'DirectDamage/s', 'ChgAttackPower', 'FullChgAttackPower', 
+	'ChargeTime', 'FullChgTime'];
+
+function getModifiedDmgSpec(baseValue, modifyingSpec) {
+	const correction = 1 + (modifyingSpec - 100) / 200.;
+
+	if(baseValue.constructor === Array)
+		return [baseValue[0] * correction, baseValue[1]]
+	else
+		return baseValue * correction	
+}
+
+function modifyUnitSpec(part, name, assembly) {
+	if(part['WeaponType'] === 'Melee' && meleeSpecializationStats.includes(name)) {
+		// Melee specialization
+		return getModifiedDmgSpec(part[name], (assembly.arms)['MeleeSpecialization']);
+	} else if(part['WeaponType'] === 'Homing' && missileLockCorrectionStats.includes(name)) {
+		// Missile lock correction
+		const baseLockTime = part['HomingLockTime'];
+		const correction = 2 - (assembly.fcs)['MissileLockCorrection'] / 100.;
+		const newLockTime = baseLockTime * correction;
+		if(name === 'HomingLockTime')
+			return newLockTime;
+
+		let oldDen = part['ReloadTime'] + baseLockTime;
+		if(part['MagDumpTime'])
+			oldDen += part['MagDumpTime'];
+
+		return part[name] * oldDen / (oldDen - baseLockTime + newLockTime);
+	} else if(
+		part['AttackType'] === 'Energy' &&
+		part['WeaponType'] !== 'Melee' &&
+		energyFirearmSpecStats.includes(name)
+	) {
+		// Energy firearm specialization		
+		if(['ChargeTime', 'FullChgTime'].includes(name)) {
+			const correction = 2 - (assembly.generator)['EnergyFirearmSpec'] / 100.;
+			return part[name] * correction;
+		}
+		return getModifiedDmgSpec(part[name], (assembly.generator)['EnergyFirearmSpec']);
+	} else
+		return part[name]
+}
+
+function getModifiedPartsData(part, assembly) {
+	return Object.fromEntries(
+		Object.keys(part).map(
+			key => [key, modifyUnitSpec(part, key, assembly)]
+		)
+	)
+}
+
 const PartStats = () => {
 
 	const state = useContext(BuilderStateContext);
@@ -267,10 +267,18 @@ const PartStats = () => {
 		[leftPart, rightPart] = [curPart, previewPart];
 	}
 
+	// Stat normalization dropdown
 	if(['Weight', 'ENLoad'].includes(state.normalizationKey)) {
 		if(previewPart !== null)
 			leftPart = getNormalizedPartData(leftPart, state.normalizationKey);
 		rightPart = getNormalizedPartData(rightPart, state.normalizationKey);
+	}
+
+	// Stat modification checkbox
+	if(state.showModifiedSpecs && rightPart['Kind'] === 'Unit') {
+		if(previewPart !== null)
+			leftPart = getModifiedPartsData(leftPart, state.parts);
+		rightPart = getModifiedPartsData(rightPart, state.parts);
 	}
 
 	return (

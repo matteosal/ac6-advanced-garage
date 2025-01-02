@@ -260,7 +260,7 @@ const PartBox = ({part, highlighted, setHighlightedId}) => {
 
 	const background = highlighted ? glob.paletteColor(4, 1, 1.6) : glob.paletteColor(4);
 
-	const img = glob.partImages[glob.toImageFileName(part.Name)];
+	const img = glob.partImages[glob.toImageFileName(part['Name'])];
 
 	const updatePreview = () => {
 		if(part['ID'] !== curPart['ID']) {
