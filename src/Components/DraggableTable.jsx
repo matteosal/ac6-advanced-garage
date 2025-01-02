@@ -44,7 +44,6 @@ function getCellStyle(pos, wide, tall, thick, bottomBorder) {
 const longDashCharacter = '\u2012';
 const doubleArrowRight = '\u00bb';
 const doubleArrowLeft = '\u00ab';
-const multChar = '\u00d7';
 
 function toCellDisplay(val, colName) {
 	if(val === undefined)

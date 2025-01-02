@@ -39,7 +39,9 @@ function toScore(val, min, max) {
 	if(max === min)
 		return 100
 	else
-		return Math.max((val - min) / (max - min) * 100, 2);
+		// When using modified part stats (from e.g. Melee Specialization) val might be larger
+		// than max so we clip it. In principle we could recompute the max but it's a pain
+		return Math.min(100, Math.max((val - min) / (max - min) * 100, 2));
 }
 
 const barDivShrink = '96%';
