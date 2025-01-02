@@ -85,7 +85,6 @@ const initialBuilderState = {
 			{return [slot, {key: 'Name', ascend: true}]}
 		)
 	),
-	showSearchTooltip: true,
 	toastMsg: null,
 	showModifiedSpecs: false,
 	normalizationKey: ''
