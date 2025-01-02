@@ -21,9 +21,8 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'AmmunitionCost', 'ScanStandbyTime', 'QBReloadTime', 'ABENConsumption', 
 	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
 	'CurrentENLoad', 'ENRechargeDelayRedline', 'QBENRechargeTime', 'FullRechargeTime',
-	'FullRechargeTimeRedline', 'RightArmMissileLockTime', 'LeftArmMissileLockTime',
-	'RightBackMissileLockTime', 'LeftBackMissileLockTime', 'UpwardENConsumption',
-	'MeleeAtkENConsump', 'ReloadTimeOverheat'];
+	'FullRechargeTimeRedline', 'UpwardENConsumption','MeleeAtkENConsump', 
+	'ReloadTimeOverheat'];
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
@@ -624,10 +623,6 @@ const statTooltips = {
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
 	'EffectiveAPExplosive': 'Amount of raw explosive damage that can be sustained.',
 	'EffectiveAPAvg': 'Average of all effective AP values.',
-	'RightArmMissileLockTime': 'Missile lock time of right arm unit, modified by FCS.',
-	'LeftArmMissileLockTime': 'Missile lock time of left arm unit, modified by FCS.',
-	'RightBackMissileLockTime': 'Missile lock time of right back unit, modified by FCS.',
-	'LeftBackMissileLockTime': 'Missile lock time of left back unit, modified by FCS.',
 	'AimAssistProfile': aimAssistProfileDesc + ' When a new FCS is in preview, the current ' +
 		'FCS assist values are shown with dashed lines and the new with solid ones. When a ' +
 		'unit is in preview only the new unit ranges are shown.',

@@ -198,18 +198,6 @@ function computeAllStats(parts) {
 			getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])}
 	];
 
-	const lockTimeNames = ['RightArmMissileLockTime', 'LeftArmMissileLockTime', 
-		'RightBackMissileLockTime', 'LeftBackMissileLockTime'];
-	units.map((unit, pos) => unit['HomingLockTime'] ?
-		targetingStats.push(
-			{
-				name: lockTimeNames[pos],
-				value: unit['HomingLockTime'] * (2 - fcs['MissileLockCorrection'] / 100.)
-			}
-		) : 
-		null
-	);
-
 	targetingStats.push(
 		{name: 'AimAssistProfile',
 			value: getUnitRangesData(units, fcs),
