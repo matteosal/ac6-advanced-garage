@@ -7,12 +7,11 @@
 		* AB/upwards/hover/melee attack speed
 		* QB distance, ground and aerial
 		* EN efficiency (EN/m) for all movements
-	* Firing animation times are not factored into DPS calculations, so DPS is skewed when those are 
-	  large (fireAnimationNote tooltip)
-* SOUP DPS stats don't take into account that a single fire cycle has 3 missle locks, it only counts one
+	* Firing animation times are not factored into DPS calculations, so DPS is skewed when 
+	  those are large (fireAnimationNote tooltip)
+* SOUP DPS stats don't take into account that a single fire cycle has 3 missle locks, it 
+  only counts one
 * Direct Chg/FullChg Attack Power
-* Replace RapidFire with rapidFireDelay from Smithbox for more precise calculations. Compute RapidFire
-  from it.
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
 * Build image using parts
 * Tests

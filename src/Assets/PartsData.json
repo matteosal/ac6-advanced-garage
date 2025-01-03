@@ -59,7 +59,8 @@
 		"Weight": 10120.0,
 		"ENLoad": 707.0,
 		"CoolingDelay": 0.7,
-		"ReloadTimeOverheat": 8.93
+		"ReloadTimeOverheat": 8.93,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "44-143 HMMR",
@@ -96,7 +97,8 @@
 		"Cooling": 366.0,
 		"Weight": 2410.0,
 		"ENLoad": 311.0,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "45-091 JVLN BETA",
@@ -1032,7 +1034,8 @@
 		"Weight": 6270.0,
 		"ENLoad": 882.0,
 		"CoolingDelay": 1.7,
-		"ReloadTimeOverheat": 7.95
+		"ReloadTimeOverheat": 7.95,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "HG-003 COQUILLETT",
@@ -1115,7 +1118,8 @@
 		"Weight": 2110.0,
 		"ENLoad": 368.0,
 		"CoolingDelay": 0.4,
-		"ReloadTimeOverheat": 3.18
+		"ReloadTimeOverheat": 3.18,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "HI-18: GU-A2",
@@ -1144,7 +1148,8 @@
 		"Weight": 2650.0,
 		"ENLoad": 448.0,
 		"CoolingDelay": 0.4,
-		"ReloadTimeOverheat": 5.25
+		"ReloadTimeOverheat": 5.25,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "HI-32: BU-TT/A",
@@ -1170,7 +1175,8 @@
 		"Cooling": 282.0,
 		"Weight": 1800.0,
 		"ENLoad": 213.0,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "HML-G2/P19MLT-04",
@@ -1268,7 +1274,8 @@
 		"Weight": 3890.0,
 		"ENLoad": 609.0,
 		"CoolingDelay": 1.2,
-		"ReloadTimeOverheat": 6.47
+		"ReloadTimeOverheat": 6.47,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "IA-C01W2: MOONLIGHT",
@@ -1295,7 +1302,9 @@
 		"Cooling": 265.0,
 		"Weight": 2200.0,
 		"ENLoad": 544.0,
-		"CoolingDelay": 1.1
+		"CoolingDelay": 1.1,
+		"IsEnergyFirearmSpec": true,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "IA-C01W3: AURORA",
@@ -1331,7 +1340,8 @@
 		"ReloadTime": 5.5,
 		"AmmunitionCost": 80,
 		"Weight": 3330,
-		"ENLoad": 390
+		"ENLoad": 390,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "IA-C01W6: NB-REDSHIFT",
@@ -1396,7 +1406,8 @@
 		"Cooling": 209.0,
 		"Weight": 2200.0,
 		"ENLoad": 544.0,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "IB-C03W1: WLT 011",
@@ -1459,7 +1470,8 @@
 		"Cooling": 231.0,
 		"Weight": 2030.0,
 		"ENLoad": 578.0,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "IB-C03W3: NGI 006",
@@ -1569,7 +1581,8 @@
 		"Weight": 2100.0,
 		"ENLoad": 652.0,
 		"CoolingDelay": 0.6,
-		"ReloadTimeOverheat": 6.78
+		"ReloadTimeOverheat": 6.78,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "LITTLE GEM",
@@ -1952,7 +1965,8 @@
 		"Cooling": 284.0,
 		"Weight": 4180.0,
 		"ENLoad": 225.0,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "PFAU/66D",
@@ -2288,7 +2302,8 @@
 		"Weight": 14820,
 		"ENLoad": 1200,
 		"CoolingDelay": 2.6,
-		"ReloadTimeOverheat": 9.5
+		"ReloadTimeOverheat": 9.5,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VE-60LCB",
@@ -2324,7 +2339,8 @@
 		"Weight": 9270,
 		"ENLoad": 803,
 		"CoolingDelay": 3.5,
-		"ReloadTimeOverheat": 9.65
+		"ReloadTimeOverheat": 9.65,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VE-60SNA",
@@ -2410,7 +2426,8 @@
 		"Weight": 4940.0,
 		"ENLoad": 532.0,
 		"CoolingDelay": 1.0,
-		"ReloadTimeOverheat": 5.73
+		"ReloadTimeOverheat": 5.73,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VE-66LRB",
@@ -2446,7 +2463,8 @@
 		"Weight": 7760.0,
 		"ENLoad": 604.0,
 		"CoolingDelay": 1.7,
-		"ReloadTimeOverheat": 6.43
+		"ReloadTimeOverheat": 6.43,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VE-67LLA",
@@ -2472,7 +2490,8 @@
 		"Cooling": 263.0,
 		"Weight": 4520.0,
 		"ENLoad": 460.0,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "VP-60LCD",
@@ -2509,7 +2528,8 @@
 		"Weight": 7620.0,
 		"ENLoad": 784.0,
 		"CoolingDelay": 1.7,
-		"ReloadTimeOverheat": 6.62
+		"ReloadTimeOverheat": 6.62,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VP-60LCS",
@@ -2545,7 +2565,8 @@
 		"Weight": 5190.0,
 		"ENLoad": 683.0,
 		"CoolingDelay": 1.7,
-		"ReloadTimeOverheat": 7.13
+		"ReloadTimeOverheat": 7.13,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VP-60LT",
@@ -2698,7 +2719,8 @@
 		"Weight": 2800.0,
 		"ENLoad": 395.0,
 		"CoolingDelay": 0.5,
-		"ReloadTimeOverheat": 4.98
+		"ReloadTimeOverheat": 4.98,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VP-66LR",
@@ -2734,7 +2756,8 @@
 		"Weight": 3560.0,
 		"ENLoad": 480.0,
 		"CoolingDelay": 0.7,
-		"ReloadTimeOverheat": 4.12
+		"ReloadTimeOverheat": 4.12,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VP-66LS",
@@ -2771,7 +2794,8 @@
 		"Weight": 3540.0,
 		"ENLoad": 510.0,
 		"CoolingDelay": 1.4,
-		"ReloadTimeOverheat": 6.0
+		"ReloadTimeOverheat": 6.0,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "VP-67EB",
@@ -2797,7 +2821,8 @@
 		"Cooling": 1156.0,
 		"Weight": 1720.0,
 		"ENLoad": 198.0,
-		"CoolingDelay": 1.1
+		"CoolingDelay": 1.1,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "VP-67LD",
@@ -2823,7 +2848,8 @@
 		"Cooling": 1308.0,
 		"Weight": 1350.0,
 		"ENLoad": 150.0,
-		"CoolingDelay": 1.1
+		"CoolingDelay": 1.1,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "Vvc-700LD",
@@ -2989,7 +3015,8 @@
 		"Weight": 3330.0,
 		"ENLoad": 490.0,
 		"CoolingDelay": 1.6,
-		"ReloadTimeOverheat": 6.17
+		"ReloadTimeOverheat": 6.17,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "Vvc-770LB",
@@ -3024,7 +3051,8 @@
 		"Cooling": 402.0,
 		"Weight": 2060.0,
 		"ENLoad": 245.0,
-		"CoolingDelay": 1.1
+		"CoolingDelay": 1.1,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "Vvc-774LS",
@@ -3050,7 +3078,8 @@
 		"Cooling": 267.0,
 		"Weight": 3260.0,
 		"ENLoad": 328.0,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "WB-0000 BAD COOK",
@@ -3106,7 +3135,8 @@
 		"Cooling": 302.0,
 		"Weight": 5090.0,
 		"ENLoad": 108.0,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"IsMeleeSpec": true
 	},
 	{
 		"Name": "WR-0555 ATTACHE",
@@ -3338,7 +3368,8 @@
 		"Weight": 2880.0,
 		"ENLoad": 440.0,
 		"CoolingDelay": 1.0,
-		"ReloadTimeOverheat": 4.98
+		"ReloadTimeOverheat": 4.98,
+		"IsEnergyFirearmSpec": true
 	},
 	{
 		"Name": "20-081 MIND ALPHA",
