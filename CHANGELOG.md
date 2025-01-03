@@ -1,3 +1,12 @@
+## [v1.1.4](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.4)
+* Removed intrusive tooltips, using info boxes everywhere
+* Added a build loader input field to the main builder
+* Fixed stat bar ranges for boosters and units
+* Fixed units affected by "Energy Firearm Specialization"
+* Added "Chg Direct Attack Power" and "Full Chg Direct Attack Power"
+* Fixed Arquebus ADD logo not showing
+* Data fixes
+
 ## [v1.1.3](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.3)
 * Added reload time stats for units with heating/cooling mechanics and all the stats that derive from that ("Damage/s Incl Reload", etc)
 * Added a checkbox in the central part spec panel to show the effect of equipped parts on some unit specs ("Melee Specialization" from the arms, "Energy Firearm Specialization" from the generator and "Missile Lock Correction" from the FCS)
