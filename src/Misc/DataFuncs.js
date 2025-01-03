@@ -78,7 +78,11 @@ function addAdvancedUnitStats(unit) {
 		val => resolveList(unit['Name'], val)
 	);
 
-	const magDumpTime = addIfValid(res, 'MagDumpTime', magSize / rapidFire);
+	let magDumpTime = magSize / rapidFire;
+	if(unit['Name'] === 'WS-5001 SOUP')
+	// SOUP is the only unit with a magazine and a lock time
+		magDumpTime += 3 * lockTime
+	addIfValid(res, 'MagDumpTime', magDumpTime);
 
 	// DPS/IPS related stats don't make sense for this
 	if(unit['Description'] === 'Pulse Shield Launcher')
@@ -90,7 +94,8 @@ function addAdvancedUnitStats(unit) {
 
 	let den = reloadTime;
 	den = Number.isNaN(magDumpTime) ? den : den + magDumpTime;
-	den = Number.isNaN(lockTime) ? den : den + lockTime;
+	den = Number.isNaN(lockTime) || unit['Name'] === 'WS-5001 SOUP' ? den : den + lockTime;
+	// ^ Lock time is already into magDumpTime for SOUP
 	addIfValid(res, 'Damage/sInclReload', magSize * atkPwr / den);
 	addIfValid(res, 'Impact/sInclReload', magSize * impact / den);
 	addIfValid(res, 'AccImpact/sInclReload', magSize * accImpact / den);
