@@ -39,7 +39,9 @@ const PartStatsHeader = ({part}) => {
 	else
 		desc = part['Kind']
 
-	const manufacturerLogo = glob.manufacturerLogos[part['Manufacturer'] + '.png'];
+	const manufacturerLogo = part['Manufacturer'] ? 
+		glob.manufacturerLogos[glob.toImageFileName(part['Manufacturer'])] :
+		null;
 
 	const toggleShowModifiedSpecs = () => stateDispatch(
 		{target: 'showModifiedSpecs', value: !state.showModifiedSpecs}
