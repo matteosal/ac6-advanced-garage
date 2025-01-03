@@ -438,7 +438,6 @@ const searchTooltip = 'Searches both among part names (e.g. BASHO) and unit desc
 const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 
 	const state = useContext(BuilderStateContext);
-	const stateDispatch = useContext(BuilderStateDispatchContext);
 
 	const previewSlot = state.preview.slot;
 	const backSubslot = state.backSubslot;
