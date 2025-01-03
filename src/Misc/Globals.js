@@ -27,7 +27,7 @@ export const sortIcons = {
 export const expandIcon = require("../Assets/Images/expand_icon.png");
 
 export function toImageFileName(name) {
-	return name.replaceAll(' ', '_').replaceAll('/', '_') + '.png'
+	return name.replaceAll(' ', '_').replaceAll('/', '_').replaceAll(':', '') + '.png'
 }
 
 /***************************************************************************************/
