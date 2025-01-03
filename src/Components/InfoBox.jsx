@@ -22,7 +22,7 @@ function toAnchorName(str) {
 	return str.replace('/', '') + (anchorId++)
 }
 
-const InfoBox = ({name, tooltip}) => {
+const InfoBox = ({name, tooltip, place = 'left'}) => {
 	const anchorName = toAnchorName(name);
 	return(
 		<>
@@ -30,9 +30,9 @@ const InfoBox = ({name, tooltip}) => {
 			<img src={glob.infoIcon} alt={'info icon'} width='100%'/>
 		</div>
 		<Tooltip 
-			style={{maxWidth: '20%', textAlign: 'justify'}}
+			style={{maxWidth: '20%', textAlign: 'justify', zIndex: 1}}
 			anchorSelect={'.' + anchorName}
-			place="left" 
+			place={place}
 		>
 			<Paragraphs text={tooltip} />
 		</Tooltip>

@@ -58,11 +58,13 @@ const previewReducer = (preview, action) => {
 const builderStateReducer = (builderState, action) => {
 	const newState = {...builderState};
 
-	if(action.target === 'parts') {
+	if(action.target === 'part') {
 		const res = builderPartsReducer(builderState.parts, action);
 		newState.parts = res.parts;
 		newState.toastMsg = res.toastMsg;
 		newState.preview = {slot: builderState.preview.slot, part: null};
+	} else if(action.target === 'allParts') {
+		newState.parts = action.value;
 	} else if(action.target === 'preview') {
 		const res = previewReducer(builderState.preview, action);
 		newState.preview = res;
@@ -85,10 +87,10 @@ const initialBuilderState = {
 			{return [slot, {key: 'Name', ascend: true}]}
 		)
 	),
-	showSearchTooltip: true,
 	toastMsg: null,
 	showModifiedSpecs: false,
-	normalizationKey: ''
+	normalizationKey: '',
+	inputFieldString: ''
 }
 
 export const BuilderStateProvider = ({children}) => {

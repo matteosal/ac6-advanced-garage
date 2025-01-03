@@ -67,6 +67,7 @@ const PartStatsHeader = ({part}) => {
 						<InfoBox
 							name='checkbox-tooltip'
 							tooltip={modifiedSpecsTooltipText}
+							place='bottom-start'
 						/>
 					</div>
 					<label 
@@ -90,6 +91,7 @@ const PartStatsHeader = ({part}) => {
 						<InfoBox
 							name='checkbox-tooltip'
 							tooltip={normalizeSpecsTooltipText}
+							place='bottom-start'
 						/>
 					</div>				
 					<label

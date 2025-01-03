@@ -5,7 +5,7 @@ import * as glob from '../Misc/Globals.js';
 import {BuilderStateContext, BuilderStateDispatchContext} from 
 	"../Contexts/BuilderStateContext.jsx";
 import ModalWrapper from './ModalWrapper.jsx'
-import ClosableTooltip from './ClosableTooltip.jsx'
+import InfoBox from './InfoBox.jsx'
 
 /*****************************************************************************/
 
@@ -270,7 +270,7 @@ const PartBox = ({part, highlighted, setHighlightedId}) => {
 		}
 	}
 	const updateAssembly = () => {
-		stateDispatch({target: 'parts', slot: previewSlot, id: part['ID']})				
+		stateDispatch({target: 'part', slot: previewSlot, id: part['ID']})				
 	}
 
 	const [imgW, imgAspectRatio] = [220, 0.51];
@@ -432,6 +432,9 @@ function getSortingKeys(slot, backSubslot) {
 		return partSortingKeys[slot][backSubslot];
 }
 
+const searchTooltip = 'Searches both among part names (e.g. BASHO) and unit descriptions ' +
+	'(e.g. HANDGUN)';
+
 const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 
 	const state = useContext(BuilderStateContext);
@@ -440,14 +443,9 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 	const previewSlot = state.preview.slot;
 	const backSubslot = state.backSubslot;
 	const sortBy = state.sortBy;
-	const showSearchTooltip = state.showSearchTooltip;
 	const normKey = state.normalizationKey;
 
 	const [highlightedId, setHighlightedId] = useState(-1);
-
-	const setShowSearchTooltip = val => stateDispatch(
-		{target: 'showSearchTooltip', value: val}
-	);
 
 	const partsIdForSlot = glob.getPartIdsForSlot(previewSlot, backSubslot);
 	const partsSource = normKey === '' ? glob.partsData : glob.normalizedPartsData[normKey];
@@ -525,13 +523,17 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 		}
 		</div>
 		<div style={{width: '90%', margin: '5px auto 0px auto'}}>
-			<div style={{display: 'inline-block', width: '25%'}}>FILTER:</div>
+			<div style={{display: 'inline-block', width: '16px', marginRight: '5px'}}>
+				<InfoBox name={'search-infobox'} tooltip={searchTooltip}
+					place='top-start'/>
+			</div>		
+			<div style={{display: 'inline-block', marginRight: '5px'}}>FILTER:</div>
 			<input
 				className='search-tooltip-anchor'
 				data-tooltip-delay-show={100}
 				style={{
 					height: '25px',
-					width: '75%',
+					width: '175px',
 					margin: '5px 0px 5px 0px',
 					textTransform: 'uppercase',
 					backgroundColor: glob.paletteColor(3)
@@ -540,13 +542,6 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 				onChange={onSearch}
 			/>
 		</div>
-		<ClosableTooltip
-			text='Searches both among part names (e.g. BASHO) and unit descriptions (e.g. HANDGUN)'
-			place='right'
-			anchor='search-tooltip-anchor'
-			show={showSearchTooltip}
-			setShow={setShowSearchTooltip}
-		/>
 		<div 
 			style={{position: 'relative', textAlign: 'center', padding: '5px 0px',
 				margin: '5px auto 10px auto', backgroundColor: glob.paletteColor(3), width: '90%'}}
