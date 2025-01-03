@@ -309,7 +309,7 @@ export function partSortingFunction(key, ascend, a, b) {
 	return res
 }
 
-const meleeSpecializationStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
+const meleeSpecStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
 	'ComboDirectDamage', 'ChgAttackPower'];
 const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
 	'Impact/sInclReload', 'AccImpact/sInclReload'];
@@ -327,7 +327,7 @@ function getModifiedDmgSpec(baseValue, modifyingSpec) {
 }
 
 function modifyUnitSpec(part, name, assembly) {
-	if(part['WeaponType'] === 'Melee' && meleeSpecializationStats.includes(name)) {
+	if(part['IsMeleeSpec'] && meleeSpecStats.includes(name)) {
 		// Melee specialization
 		return getModifiedDmgSpec(part[name], (assembly.arms)['MeleeSpecialization']);
 	} else if(part['WeaponType'] === 'Homing' && missileLockCorrectionStats.includes(name)) {
@@ -343,11 +343,7 @@ function modifyUnitSpec(part, name, assembly) {
 			oldDen += part['MagDumpTime'];
 
 		return part[name] * oldDen / (oldDen - baseLockTime + newLockTime);
-	} else if(
-		part['AttackType'] === 'Energy' &&
-		part['WeaponType'] !== 'Melee' &&
-		energyFirearmSpecStats.includes(name)
-	) {
+	} else if(part['IsEnergyFirearmSpec'] && energyFirearmSpecStats.includes(name)) {
 		// Energy firearm specialization		
 		if(['ChargeTime', 'FullChgTime'].includes(name)) {
 			const correction = 2 - (assembly.generator)['EnergyFirearmSpec'] / 100.;
