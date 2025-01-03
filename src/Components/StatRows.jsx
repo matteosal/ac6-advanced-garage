@@ -635,7 +635,9 @@ const statTooltips = {
 		'completely cool down after having continously fired a number of rounds equals ' +
 		'to Magazine Rounds.\n' + overheatUnitsReloadNote,
 	'ReloadTimeOverheat': 'Time to completely cool down from overheating.',
-	'CoolingDelay': 'Time for the weapon to start cooling when not overheated.'
+	'CoolingDelay': 'Time for the weapon to start cooling when not overheated.',
+	'ChgDirectAttackPower': 'Charged attack power on staggered opponents.',
+	'FullChgDirectAttackPower': 'Fully charged attack power on staggered opponents.'
 };
 
 const statTooltipsComparerMode = {

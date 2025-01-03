@@ -118,9 +118,10 @@ export const partStatGroups = {
 			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
 		],
 		[
-			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgBlastRadius', 'ChgHeatBuildup', 
-			'FullChgAttackPower', 'FullChgImpact', 'FullChgAccumImpact', 'FullChgBlastRadius',
-			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration',
+			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgDirectAttackPower', 
+			'ChgBlastRadius', 'ChgHeatBuildup', 'FullChgAttackPower', 'FullChgImpact', 
+			'FullChgAccumImpact', 'FullChgDirectAttackPower', 'FullChgBlastRadius', 
+			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration', 
 			'DplyHeatBuildup'
 		],
 		[
@@ -310,12 +311,12 @@ export function partSortingFunction(key, ascend, a, b) {
 }
 
 const meleeSpecStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
-	'ComboDirectDamage', 'ChgAttackPower'];
+	'ComboDirectDamage', 'ChgAttackPower', 'ChgDirectAttackPower'];
 const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
 	'Impact/sInclReload', 'AccImpact/sInclReload'];
 const energyFirearmSpecStats = ['AttackPower', 'Damage/s', 'Damage/sInclReload', 
 	'DirectAttackPower', 'DirectDamage/s', 'ChgAttackPower', 'FullChgAttackPower', 
-	'ChargeTime', 'FullChgTime'];
+	'ChargeTime', 'FullChgTime', 'ChgDirectAttackPower', 'FullChgDirectAttackPower'];
 
 function getModifiedDmgSpec(baseValue, modifyingSpec) {
 	const correction = 1 + (modifyingSpec - 100) / 200.;

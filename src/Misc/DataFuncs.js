@@ -38,9 +38,19 @@ function resolveList(partName, spec) {
 }
 
 function addIfValid(obj, key, val) {
-	if(!Number.isNaN(val))
+	if(
+		!Number.isNaN(val) ||
+		(val.constructor === Array && !Number.isNaN(val[0]))
+	)
 		obj[key] = val;
 	return val;
+}
+
+function getDirectAtkPwrStat(rawStat, directHitAdj) {
+	if(rawStat.constructor === Array)
+		return [rawStat[0] * directHitAdj / 100, rawStat[1]]
+	else
+		return rawStat * directHitAdj / 100
 }
 
 function addAdvancedUnitStats(unit) {
@@ -51,9 +61,11 @@ function addAdvancedUnitStats(unit) {
 		return res;
 
 	const [rawAtkPwr, rawImpact, rawAccImpact, rapidFire, 
-		consecutiveHits, lockTime, heatBuildup, cooling, coolingDelay] = 
+		consecutiveHits, lockTime, heatBuildup, cooling, coolingDelay, rawChgAtkPwr,
+			rawFullChgAtkPwr] = 
 		['AttackPower', 'Impact', 'AccumulativeImpact', 'RapidFire', 'ConsecutiveHits', 
-			'HomingLockTime', 'ATKHeatBuildup', 'Cooling', 'CoolingDelay'].map(
+			'HomingLockTime', 'ATKHeatBuildup', 'Cooling', 'CoolingDelay', 
+			'ChgAttackPower', 'FullChgAttackPower'].map(
 		stat => valueOrNaN(unit[stat])
 	);
 	let [magSize, reloadTime] = ['MagazineRounds', 'ReloadTime'].map(
@@ -104,13 +116,16 @@ function addAdvancedUnitStats(unit) {
 	addIfValid(res, 'ComboImpact', impact * consecutiveHits);
 	addIfValid(res, 'ComboAccumulativeImpact', accImpact * consecutiveHits)
 
-	if(rawAtkPwr.constructor === Array) 
-		res['DirectAttackPower'] = [
-			rawAtkPwr[0] * res['DirectHitAdjustment'] / 100,
-			rawAtkPwr[1]
-		]
-	else
-		addIfValid(res, 'DirectAttackPower', atkPwr * res['DirectHitAdjustment'] / 100);
+	const directAtkStatsData = [
+		['DirectAttackPower', rawAtkPwr], ['ChgDirectAttackPower', rawChgAtkPwr],
+			['FullChgDirectAttackPower', rawFullChgAtkPwr]
+	];
+	directAtkStatsData.map(
+		([name, val]) => {
+			addIfValid(res, name, getDirectAtkPwrStat(val, res['DirectHitAdjustment']));
+			return null;
+		}
+	);
 
 	addIfValid(res, 'DirectDamage/s', dps * res['DirectHitAdjustment'] / 100);
 	addIfValid(res, 'ComboDirectDamage', comboDmg * res['DirectHitAdjustment'] / 100);
