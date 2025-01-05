@@ -45,7 +45,8 @@ function validateAssembly(assembly) {
 		if(match === undefined && !isNoneBooster)
 			throw Object.assign(
 				new Error(
-					'part ' + assembly[slot]['Name'] + ' is not allowed for slot \'' + slot + '\''
+					'part ' + assembly[slot]['Name'] + ' of kind \'' + assembly[slot]['Kind'] + 
+					'\' is not allowed for slot \'' + slot + '\''
 				),
 				{ parts: assembly }
 			);
