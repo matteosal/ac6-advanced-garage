@@ -9,6 +9,7 @@
 		* EN efficiency (EN/m) for all movements
 		* All speeds when overburdened
 	* Target tracking value when arms are overburdened and firearm spec generically
+	* Kick stats (damage, impact, range, ...)
 	* Firing animation times are not factored into DPS calculations, so DPS is skewed when 
 	  those are large (fireAnimationNote tooltip)
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
