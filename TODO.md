@@ -1,7 +1,6 @@
 * Mechanics to figure out
 	* Ricochet distance calculation
 	* Heating/Cooling for orbits. BehaviorParamPC -> Active Orbit Continous Heat in Smithbox
-	* Recoil buildup vs recoil control, for related advanced targeting stat
 	* Bullet speed
 	* Several mobility stats (CalcCorrectGraph in Smithbox)
 		* AB/upwards/hover/melee attack speed
