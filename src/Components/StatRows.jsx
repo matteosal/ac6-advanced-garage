@@ -126,7 +126,7 @@ const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) 
 
 	let rightColor = 'white';
 	let triangle = '';
-	if(left) { // Comparison with left field present
+	if(typeof left === 'number') { // Comparison with left field present
 	// Set colors and triangle if needed
 		if(isBetter(name, left, right)) {
 			triangle = downwardsTriangleChar;
