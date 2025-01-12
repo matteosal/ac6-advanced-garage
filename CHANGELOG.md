@@ -1,3 +1,9 @@
+## [v1.1.5](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.5)
+* Added recoil buildup AC spec 
+* Added max recoil angle unit spec
+* Improved error message when loading an invalid build
+* Data fixes
+
 ## [v1.1.4](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.4)
 * Removed intrusive tooltips, using info boxes everywhere
 * Added a build loader input field to the main builder
