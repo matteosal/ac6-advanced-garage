@@ -22,7 +22,7 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
 	'CurrentENLoad', 'ENRechargeDelayRedline', 'QBENRechargeTime', 'FullRechargeTime',
 	'FullRechargeTimeRedline', 'UpwardENConsumption','MeleeAtkENConsump', 
-	'CoolingDelay', 'ReloadTimeOverheat'];
+	'CoolingDelay', 'ReloadTimeOverheat', 'RecoilBuildup'];
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
@@ -637,7 +637,9 @@ const statTooltips = {
 	'ReloadTimeOverheat': 'Time to completely cool down from overheating.',
 	'CoolingDelay': 'Time for the weapon to start cooling when not overheated.',
 	'ChgDirectAttackPower': 'Charged attack power on staggered opponents.',
-	'FullChgDirectAttackPower': 'Fully charged attack power on staggered opponents.'
+	'FullChgDirectAttackPower': 'Fully charged attack power on staggered opponents.',
+	'RecoilBuildup': 'Estimate of the average recoil buildup per second when firing all ' +
+		'units having a rapid fire spec simultaneously. Recoil caps at 100.'
 };
 
 const statTooltipsComparerMode = {

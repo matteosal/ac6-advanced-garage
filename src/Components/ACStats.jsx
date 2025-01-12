@@ -63,6 +63,65 @@ function getTargetTracking(firearmSpec, load, limit) {
 		return firearmSpecMapping[firearmSpec];
 }
 
+const simulationShots = 25;
+const simulationShotOffset = 0.05;
+// ^ setting this longer than the reduction delay can break the simulation because
+// accumulated recoil can go back to zero immediately after the first shot when other
+// weapons haven't even fired, which would make getRecoilBuildup return 0 immediately
+function getRecoilBuildup(recoils, fireRates, recoilControl) {
+
+	const recoilMult = piecewiseLinear(recoilControl, [[0, 1.2], [150, 0.9], [235, 0.8]]);
+	const reductionRate = piecewiseLinear(recoilControl,
+		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
+	);
+	const reductionDelay = recoilControl == 45 ? 0.095 : 0.05;
+
+	const maxTime = simulationShots / glob.total(fireRates);
+	const nShotsByUnit = fireRates.map(r => Math.ceil(r * maxTime));
+	// shotsByUnit has dimensions [nUnits, nShots(unit), 2] where the last dimension contains
+	// pairs [shotTime, shotRecoil]. Shot times for different units are arbitrarily offset by 
+	// multiples of simulationShotOffset to mimic the fact that triggers are not pressed at
+	// the exact same time
+	const shotsByUnit = nShotsByUnit.map(
+		(nShots, pos) => [...Array(nShots).keys()].map(
+			i => [
+				i / fireRates[pos] + pos * simulationShotOffset,
+				recoils[pos] * recoilMult
+			]
+		)
+	);
+	let mergedShots = shotsByUnit.flat();
+	mergedShots.sort((a, b) => a[0] - b[0]);
+
+	// Time windows between shots with recoil added by the shot:
+	// [[timeBetweenShot1And2, recoilShot1], [timeBetweenShot2And3, recoilShot2], ...]
+	let shotWindows = Array(mergedShots.length - 1);
+	for(let i = 0; i < shotWindows.length; i++) {
+		shotWindows[i] = [mergedShots[i + 1][0] - mergedShots[i][0], mergedShots[i][1]]
+	}
+
+	let time, accumulatedRecoil, maxRecoil;
+	time = accumulatedRecoil = maxRecoil = 0;
+	for(let i = 0; i < shotWindows.length; i++) {
+		accumulatedRecoil = Math.min(100, accumulatedRecoil + shotWindows[i][1]);
+		if(accumulatedRecoil > maxRecoil) {
+			maxRecoil = accumulatedRecoil;
+		}
+		if(accumulatedRecoil == 100)
+			break;
+
+		const windowSize = shotWindows[i][0];
+		const reduction = Math.max(0, windowSize - reductionDelay) * reductionRate;
+		accumulatedRecoil = Math.max(0, accumulatedRecoil - reduction);
+		time += windowSize;
+		if(accumulatedRecoil == 0) {
+			maxRecoil = 0
+			break;		
+		}
+	}
+	return maxRecoil / time;
+}
+
 function getBoostSpeed(baseSpeed, weight, limit) {
 	if(weight > limit) 
 		// Still need to figure out what's the penalty in this case
@@ -193,16 +252,11 @@ function computeAllStats(parts) {
 	const armsLoad = sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']);
 	const legsLoad = sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'));
 
-	let targetingStats = [
-		{name: 'TargetTracking', value: 
-			getTargetTracking(arms['FirearmSpecialization'], armsLoad, arms['ArmsLoadLimit'])}
-	];
-
-	targetingStats.push(
-		{name: 'AimAssistProfile',
-			value: getUnitRangesData(units, fcs),
-			type: 'RangePlot'
-		}
+	const recoilUnits = units.filter(u => u['Recoil'] && u['RapidFire'])
+	const recoilBuildup = getRecoilBuildup(
+		recoilUnits.map(u => u['Recoil']),
+		recoilUnits.map(u => u['RapidFire']),
+		arms['RecoilControl']
 	);
 
 	return [
@@ -219,7 +273,17 @@ function computeAllStats(parts) {
 			{name: 'EffectiveAPExplosive', value: effectiveAP.explosive},
 			{name: 'EffectiveAPAvg', value: glob.mean(Object.values(effectiveAP))}
 		],
-		targetingStats,
+		[
+			{name: 'TargetTracking',
+				value: getTargetTracking(
+					arms['FirearmSpecialization'],
+					armsLoad, 
+					arms['ArmsLoadLimit']
+				)
+			},
+			{name: 'AimAssistProfile', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
+			{name: 'RecoilBuildup', value: recoilBuildup}
+		],
 		[
 			{name: 'BoostSpeed', value: 
 				getBoostSpeed(baseSpeed, weight, legs['LoadLimit'] + legs['Weight'])},
