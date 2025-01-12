@@ -70,6 +70,9 @@ const simulationShotOffset = 0.05;
 // weapons haven't even fired, which would make getRecoilBuildup return 0 immediately
 function getRecoilBuildup(recoils, fireRates, recoilControl) {
 
+	if(recoils.length === 0)
+		return 0;
+
 	const recoilMult = piecewiseLinear(recoilControl, [[0, 1.2], [150, 0.9], [235, 0.8]]);
 	const reductionRate = piecewiseLinear(recoilControl,
 		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
