@@ -60,7 +60,8 @@
 		"ENLoad": 707.0,
 		"CoolingDelay": 0.7,
 		"ReloadTimeOverheat": 8.93,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "44-143 HMMR",
@@ -775,7 +776,8 @@
 		"Weight": 5800.0,
 		"ENLoad": 425.0,
 		"CoolingDelay": 1.0,
-		"ReloadTimeOverheat": 6.58
+		"ReloadTimeOverheat": 6.58,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "DF-GA-09 SHAO-WEI",
@@ -804,7 +806,8 @@
 		"Weight": 3960.0,
 		"ENLoad": 404.0,
 		"CoolingDelay": 0.12,
-		"ReloadTimeOverheat": 2.52
+		"ReloadTimeOverheat": 2.52,
+		"MaxRecoilAngle": 9.0
 	},
 	{
 		"Name": "DF-GR-07 GOU-CHEN",
@@ -829,7 +832,8 @@
 		"ReloadTime": 5.9,
 		"AmmunitionCost": 1200.0,
 		"Weight": 4841.0,
-		"ENLoad": 308.0
+		"ENLoad": 308.0,
+		"MaxRecoilAngle": 25.0
 	},
 	{
 		"Name": "DF-MG-02 CHANG-CHEN",
@@ -856,7 +860,8 @@
 		"ReloadTime": 2.2,
 		"AmmunitionCost": 20.0,
 		"Weight": 3280.0,
-		"ENLoad": 143.0
+		"ENLoad": 143.0,
+		"MaxRecoilAngle": 9.0
 	},
 	{
 		"Name": "DIZZY",
@@ -881,7 +886,8 @@
 		"ReloadTime": 6.3,
 		"AmmunitionCost": 1500.0,
 		"Weight": 5590.0,
-		"ENLoad": 364.0
+		"ENLoad": 364.0,
+		"MaxRecoilAngle": 25.0
 	},
 	{
 		"Name": "EARSHOT",
@@ -1062,7 +1068,8 @@
 		"ReloadTime": 2.1,
 		"AmmunitionCost": 100.0,
 		"Weight": 1200.0,
-		"ENLoad": 122.0
+		"ENLoad": 122.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "HG-004 DUCKETT",
@@ -1089,7 +1096,8 @@
 		"ReloadTime": 3,
 		"AmmunitionCost": 120.0,
 		"Weight": 1650.0,
-		"ENLoad": 158.0
+		"ENLoad": 158.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "HI-16: GU-Q1",
@@ -1119,7 +1127,8 @@
 		"ENLoad": 368.0,
 		"CoolingDelay": 0.4,
 		"ReloadTimeOverheat": 3.18,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 15.0
 	},
 	{
 		"Name": "HI-18: GU-A2",
@@ -1149,7 +1158,8 @@
 		"ENLoad": 448.0,
 		"CoolingDelay": 0.4,
 		"ReloadTimeOverheat": 5.25,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 15.0
 	},
 	{
 		"Name": "HI-32: BU-TT/A",
@@ -1275,7 +1285,8 @@
 		"ENLoad": 609.0,
 		"CoolingDelay": 1.2,
 		"ReloadTimeOverheat": 6.47,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "IA-C01W2: MOONLIGHT",
@@ -1379,7 +1390,8 @@
 		"Weight": 4040.0,
 		"ENLoad": 667.0,
 		"CoolingDelay": 1.2,
-		"ReloadTimeOverheat": 7.82
+		"ReloadTimeOverheat": 7.82,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "IA-C01W7: ML-REDSHIFT",
@@ -1444,7 +1456,8 @@
 		"Weight": 9030.0,
 		"ENLoad": 850.0,
 		"CoolingDelay": 1.0,
-		"ReloadTimeOverheat": 8.0
+		"ReloadTimeOverheat": 8.0,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "IB-C03W2: WLT 101",
@@ -1552,7 +1565,8 @@
 		"ReloadTime": 3.8,
 		"AmmunitionCost": 800.0,
 		"Weight": 2020.0,
-		"ENLoad": 290.0
+		"ENLoad": 290.0,
+		"MaxRecoilAngle": 25.0
 	},
 	{
 		"Name": "KRANICH/60Z",
@@ -1582,7 +1596,8 @@
 		"ENLoad": 652.0,
 		"CoolingDelay": 0.6,
 		"ReloadTimeOverheat": 6.78,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 9.0
 	},
 	{
 		"Name": "LITTLE GEM",
@@ -1642,7 +1657,8 @@
 		"Weight": 4150.0,
 		"ENLoad": 289.0,
 		"CoolingDelay": 0.6,
-		"ReloadTimeOverheat": 5.68
+		"ReloadTimeOverheat": 5.68,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "LR-037 HARRIS",
@@ -1677,7 +1693,8 @@
 		"Weight": 4840.0,
 		"ENLoad": 441.0,
 		"CoolingDelay": 0.6,
-		"ReloadTimeOverheat": 3.63
+		"ReloadTimeOverheat": 3.63,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "MA-E-210 ETSUJIN",
@@ -1713,7 +1730,8 @@
 		"ReloadTime": 1.5,
 		"AmmunitionCost": 30.0,
 		"Weight": 2810.0,
-		"ENLoad": 98.0
+		"ENLoad": 98.0,
+		"MaxRecoilAngle": 9.0
 	},
 	{
 		"Name": "MA-E-211 SAMPU",
@@ -1749,7 +1767,8 @@
 		"ReloadTime": 1.9,
 		"AmmunitionCost": 40.0,
 		"Weight": 960.0,
-		"ENLoad": 62.0
+		"ENLoad": 62.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "MA-J-200 RANSETSU-RF",
@@ -1789,7 +1808,8 @@
 		"ReloadTime": 1.8,
 		"AmmunitionCost": 100.0,
 		"Weight": 4210.0,
-		"ENLoad": 158.0
+		"ENLoad": 158.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "MA-J-201 RANSETSU-AR",
@@ -1825,7 +1845,8 @@
 		"ReloadTime": 1.9,
 		"AmmunitionCost": 40.0,
 		"Weight": 3620.0,
-		"ENLoad": 132.0
+		"ENLoad": 132.0,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "MAJESTIC",
@@ -1912,7 +1933,8 @@
 		"ReloadTime": 5.5,
 		"AmmunitionCost": 100.0,
 		"Weight": 2600.0,
-		"ENLoad": 52.0
+		"ENLoad": 52.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "MG-014 LUDLOW",
@@ -1939,7 +1961,8 @@
 		"ReloadTime": 1.5,
 		"AmmunitionCost": 20.0,
 		"Weight": 2450.0,
-		"ENLoad": 82.0
+		"ENLoad": 82.0,
+		"MaxRecoilAngle": 9.0
 	},
 	{
 		"Name": "PB-033M ASHMEAD",
@@ -2043,7 +2066,8 @@
 		"ReloadTime": 2.2,
 		"AmmunitionCost": 40.0,
 		"Weight": 3560.0,
-		"ENLoad": 102.0
+		"ENLoad": 102.0,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "RF-025 SCUDDER",
@@ -2070,7 +2094,8 @@
 		"ReloadTime": 2.4,
 		"AmmunitionCost": 50.0,
 		"Weight": 3830.0,
-		"ENLoad": 153.0
+		"ENLoad": 153.0,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "SB-033M MORLEY",
@@ -2120,7 +2145,8 @@
 		"ReloadTime": 1.3,
 		"AmmunitionCost": 200.0,
 		"Weight": 3660.0,
-		"ENLoad": 185.0
+		"ENLoad": 185.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "SG-027 ZIMMERMAN",
@@ -2145,7 +2171,8 @@
 		"ReloadTime": 2.0,
 		"AmmunitionCost": 350.0,
 		"Weight": 4400.0,
-		"ENLoad": 242.0
+		"ENLoad": 242.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "SI-24: SU-Q5",
@@ -2427,7 +2454,8 @@
 		"ENLoad": 532.0,
 		"CoolingDelay": 1.0,
 		"ReloadTimeOverheat": 5.73,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "VE-66LRB",
@@ -2464,7 +2492,8 @@
 		"ENLoad": 604.0,
 		"CoolingDelay": 1.7,
 		"ReloadTimeOverheat": 6.43,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "VE-67LLA",
@@ -2675,7 +2704,8 @@
 		"ReloadTime": 1.8,
 		"AmmunitionCost": 150.0,
 		"Weight": 980.0,
-		"ENLoad": 247.0
+		"ENLoad": 247.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "VP-66LH",
@@ -2720,7 +2750,8 @@
 		"ENLoad": 395.0,
 		"CoolingDelay": 0.5,
 		"ReloadTimeOverheat": 4.98,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "VP-66LR",
@@ -2757,7 +2788,8 @@
 		"ENLoad": 480.0,
 		"CoolingDelay": 0.7,
 		"ReloadTimeOverheat": 4.12,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "VP-66LS",
@@ -2795,7 +2827,8 @@
 		"ENLoad": 510.0,
 		"CoolingDelay": 1.4,
 		"ReloadTimeOverheat": 6.0,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "VP-67EB",
@@ -3016,7 +3049,8 @@
 		"ENLoad": 490.0,
 		"CoolingDelay": 1.6,
 		"ReloadTimeOverheat": 6.17,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "Vvc-770LB",
@@ -3109,7 +3143,8 @@
 		"Weight": 5370.0,
 		"ENLoad": 403.0,
 		"CoolingDelay": 0.8,
-		"ReloadTimeOverheat": 5.93
+		"ReloadTimeOverheat": 5.93,
+		"MaxRecoilAngle": 7.0
 	},
 	{
 		"Name": "WB-0010 DOUBLE TROUBLE",
@@ -3163,7 +3198,8 @@
 		"ReloadTime": 2.1,
 		"AmmunitionCost": 40.0,
 		"Weight": 5110.0,
-		"ENLoad": 303.0
+		"ENLoad": 303.0,
+		"MaxRecoilAngle": 9.0
 	},
 	{
 		"Name": "WR-0777 SWEET SIXTEEN",
@@ -3197,7 +3233,8 @@
 		"ReloadTime": 3.0,
 		"AmmunitionCost": 30.0,
 		"Weight": 1640.0,
-		"ENLoad": 268.0
+		"ENLoad": 268.0,
+		"MaxRecoilAngle": 12.0
 	},
 	{
 		"Name": "WR-0999 DELIVERY BOY",
@@ -3369,7 +3406,8 @@
 		"ENLoad": 440.0,
 		"CoolingDelay": 1.0,
 		"ReloadTimeOverheat": 4.98,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"MaxRecoilAngle": 6.0
 	},
 	{
 		"Name": "20-081 MIND ALPHA",

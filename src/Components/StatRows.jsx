@@ -639,7 +639,8 @@ const statTooltips = {
 	'ChgDirectAttackPower': 'Charged attack power on staggered opponents.',
 	'FullChgDirectAttackPower': 'Fully charged attack power on staggered opponents.',
 	'RecoilBuildup': 'Estimate of the average recoil buildup per second when firing all ' +
-		'units having a rapid fire spec simultaneously. Recoil caps at 100.'
+		'units with a rapid fire spec simultaneously. Recoil caps at 100.',
+	'MaxRecoilAngle': 'Maximum firing direction error at maximum accumulated recoil (100).'
 };
 
 const statTooltipsComparerMode = {

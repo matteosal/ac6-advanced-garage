@@ -125,11 +125,11 @@ export const partStatGroups = {
 			'DplyHeatBuildup'
 		],
 		[
-			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'Guidance', 'IdealRange', 
-			'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 'ChgENLoad', 
-			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
-			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'ReloadTimeOverheat',
-			'DeploymentRange', 'Cooling', 'CoolingDelay', 'AmmunitionCost'
+			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'MaxRecoilAngle', 'Guidance', 
+			'IdealRange',  'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 
+			'ChgENLoad', 'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 
+			'FullChgAmmoConsump', 'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 
+			'ReloadTimeOverheat', 'DeploymentRange', 'Cooling', 'CoolingDelay', 'AmmunitionCost'
 		],
 		['Weight', 'ENLoad']
 	],
