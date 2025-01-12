@@ -77,7 +77,7 @@ function getRecoilBuildup(recoils, fireRates, recoilControl) {
 	const reductionRate = piecewiseLinear(recoilControl,
 		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
 	);
-	const reductionDelay = recoilControl == 45 ? 0.095 : 0.05;
+	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05;
 
 	const maxTime = simulationShots / glob.total(fireRates);
 	const nShotsByUnit = fireRates.map(r => Math.ceil(r * maxTime));
@@ -110,14 +110,14 @@ function getRecoilBuildup(recoils, fireRates, recoilControl) {
 		if(accumulatedRecoil > maxRecoil) {
 			maxRecoil = accumulatedRecoil;
 		}
-		if(accumulatedRecoil == 100)
+		if(accumulatedRecoil === 100)
 			break;
 
 		const windowSize = shotWindows[i][0];
 		const reduction = Math.max(0, windowSize - reductionDelay) * reductionRate;
 		accumulatedRecoil = Math.max(0, accumulatedRecoil - reduction);
 		time += windowSize;
-		if(accumulatedRecoil == 0) {
+		if(accumulatedRecoil === 0) {
 			maxRecoil = 0
 			break;		
 		}
