@@ -63,14 +63,18 @@ function getTargetTracking(firearmSpec, load, limit) {
 		return firearmSpecMapping[firearmSpec];
 }
 
+const mod = (a, b) => ((a % b) + b) % b;
+const generateShots = (nShots, interval, offset, recoil) => [...Array(nShots).keys()].map(
+	i => [i * interval + offset, recoil]
+);
 const simulationTime = 5;
 const simulationShotOffset = 0.05;
 const recoilExcludedUnits = ['FASAN/60E', 'VE-60LCA', 'VE-60LCB', 'VP-60LCD', 'VP-60LCS'];
 // ^ These have both RapidFire and Recoil but arm weapons stop firing when they fire so they
 // mess things up in the simulation
-function getAverageRecoil(recoils, fireRates, recoilControl) {
+function getAverageRecoil(units, recoilControl) {
 
-	if(recoils.length === 0)
+	if(units.length === 0)
 		return 0;
 
 	const recoilMult = piecewiseLinear(recoilControl, [[0, 1.2], [150, 0.9], [235, 0.8]]);
@@ -78,19 +82,39 @@ function getAverageRecoil(recoils, fireRates, recoilControl) {
 		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
 	);
 	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05;
-	const nShotsByUnit = fireRates.map(r => Math.ceil(r * simulationTime));
+
 	// shotsByUnit has dimensions [nUnits, nShots(unit), 2] where the last dimension contains
 	// pairs [shotTime, shotRecoil]. Shot times for different units are arbitrarily offset by 
 	// multiples of simulationShotOffset to mimic the fact that triggers are not pressed at
 	// the exact same time
-	const shotsByUnit = nShotsByUnit.map(
-		(nShots, pos) => [...Array(nShots).keys()].map(
-			i => [
-				i / fireRates[pos] + pos * simulationShotOffset,
-				recoils[pos] * recoilMult
-			]
+	const shotsByUnit = Array(units.length);
+	for(let i = 0; i < units.length; i++) {
+		const cycleTime = units[i]['MagDumpTime'] + units[i]['ReloadTime'];
+		const nFullCycles = Math.floor(simulationTime / cycleTime);
+		const lastCycleNShots = Math.min(
+			units[i]['MagazineRounds'],
+			Math.floor(units[i]['RapidFire'] * mod(simulationTime, cycleTime))
+		);
+		shotsByUnit[i] = [];
+		for(let cycle = 0; cycle < nFullCycles; cycle++) {
+			shotsByUnit[i] = shotsByUnit[i].concat(
+				generateShots(
+					units[i]['MagazineRounds'],
+					1 / units[i]['RapidFire'],
+					cycle * cycleTime + i * simulationShotOffset,
+					units[i]['Recoil'] * recoilMult
+				)
+			);
+		}
+		shotsByUnit[i] = shotsByUnit[i].concat(
+			generateShots(
+				lastCycleNShots,
+				1 / units[i]['RapidFire'],
+				nFullCycles * cycleTime + i * simulationShotOffset,
+				units[i]['Recoil'] * recoilMult
+			)
 		)
-	);
+	}
 	let mergedShots = shotsByUnit.flat();
 	mergedShots.sort((a, b) => a[0] - b[0]);
 
@@ -262,11 +286,7 @@ function computeAllStats(parts) {
 	const recoilUnits = units.filter(u => 
 		u['Recoil'] && u['RapidFire'] && !recoilExcludedUnits.includes(u['Name'])
 	);
-	const avgRecoil = getAverageRecoil(
-		recoilUnits.map(u => u['Recoil']),
-		recoilUnits.map(u => u['RapidFire']),
-		arms['RecoilControl']
-	);
+	const avgRecoil = getAverageRecoil(recoilUnits, arms['RecoilControl']);
 
 	return [
 		[
