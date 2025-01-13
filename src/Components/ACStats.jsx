@@ -63,7 +63,7 @@ function getTargetTracking(firearmSpec, load, limit) {
 		return firearmSpecMapping[firearmSpec];
 }
 
-const simulationShots = 25;
+const simulationTime = 5;
 const simulationShotOffset = 0.05;
 function getAverageRecoil(recoils, fireRates, recoilControl) {
 
@@ -75,9 +75,7 @@ function getAverageRecoil(recoils, fireRates, recoilControl) {
 		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
 	);
 	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05;
-
-	const maxTime = simulationShots / glob.total(fireRates);
-	const nShotsByUnit = fireRates.map(r => Math.ceil(r * maxTime));
+	const nShotsByUnit = fireRates.map(r => Math.ceil(r * simulationTime));
 	// shotsByUnit has dimensions [nUnits, nShots(unit), 2] where the last dimension contains
 	// pairs [shotTime, shotRecoil]. Shot times for different units are arbitrarily offset by 
 	// multiples of simulationShotOffset to mimic the fact that triggers are not pressed at
