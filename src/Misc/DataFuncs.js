@@ -90,7 +90,7 @@ function addAdvancedUnitStats(unit) {
 		val => resolveList(unit['Name'], val)
 	);
 
-	let magDumpTime = magSize / rapidFire;
+	let magDumpTime = (magSize - 1) / rapidFire;
 	if(unit['Name'] === 'WS-5001 SOUP')
 	// SOUP is the only unit with a magazine and a lock time
 		magDumpTime += 3 * lockTime
