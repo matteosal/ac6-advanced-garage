@@ -22,7 +22,7 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
 	'CurrentENLoad', 'ENRechargeDelayRedline', 'QBENRechargeTime', 'FullRechargeTime',
 	'FullRechargeTimeRedline', 'UpwardENConsumption','MeleeAtkENConsump', 
-	'CoolingDelay', 'ReloadTimeOverheat', 'RecoilBuildup', 'MaxRecoilAngle'];
+	'CoolingDelay', 'ReloadTimeOverheat', 'AverageRecoil', 'MaxRecoilAngle'];
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
@@ -638,7 +638,7 @@ const statTooltips = {
 	'CoolingDelay': 'Time for the weapon to start cooling when not overheated.',
 	'ChgDirectAttackPower': 'Charged attack power on staggered opponents.',
 	'FullChgDirectAttackPower': 'Fully charged attack power on staggered opponents.',
-	'RecoilBuildup': 'Estimate of the average recoil buildup per second when firing all ' +
+	'AverageRecoil': 'Estimate of the average accumulated recoil when firing all ' +
 		'units with a rapid fire spec simultaneously at maximum fire rate. Recoil caps ' +
 		'at 100.',
 	'MaxRecoilAngle': 'Maximum firing direction error at maximum accumulated recoil (100).'

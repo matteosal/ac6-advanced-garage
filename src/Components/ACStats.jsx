@@ -65,10 +65,7 @@ function getTargetTracking(firearmSpec, load, limit) {
 
 const simulationShots = 25;
 const simulationShotOffset = 0.05;
-// ^ setting this longer than the reduction delay can break the simulation because
-// accumulated recoil can go back to zero immediately after the first shot when other
-// weapons haven't even fired, which would make getRecoilBuildup return 0 immediately
-function getRecoilBuildup(recoils, fireRates, recoilControl) {
+function getAverageRecoil(recoils, fireRates, recoilControl) {
 
 	if(recoils.length === 0)
 		return 0;
@@ -96,33 +93,39 @@ function getRecoilBuildup(recoils, fireRates, recoilControl) {
 	let mergedShots = shotsByUnit.flat();
 	mergedShots.sort((a, b) => a[0] - b[0]);
 
-	// Time windows between shots with recoil added by the shot:
+	// shotWindows contains time windows between shots with recoil added by the shot:
 	// [[timeBetweenShot1And2, recoilShot1], [timeBetweenShot2And3, recoilShot2], ...]
 	let shotWindows = Array(mergedShots.length - 1);
 	for(let i = 0; i < shotWindows.length; i++) {
 		shotWindows[i] = [mergedShots[i + 1][0] - mergedShots[i][0], mergedShots[i][1]]
 	}
 
-	let time, accumulatedRecoil, maxRecoil;
-	time = accumulatedRecoil = maxRecoil = 0;
-	for(let i = 0; i < shotWindows.length; i++) {
-		accumulatedRecoil = Math.min(100, accumulatedRecoil + shotWindows[i][1]);
-		if(accumulatedRecoil > maxRecoil) {
-			maxRecoil = accumulatedRecoil;
-		}
-		if(accumulatedRecoil === 100)
-			break;
+	// Compute the integral mean of the accumulated recoil across all the shot windows
+	const recoilIntegrals = Array(shotWindows.length);
+	shotWindows.reduce(
+		(startRecoil, val, pos) => {
+			// Compute value of recoil at the end of the window
+			const fullWindow = shotWindows[pos][0];
+			const postShotRecoil = Math.min(100, startRecoil + shotWindows[pos][1]);
+			const reductionWindow = Math.max(0, fullWindow - reductionDelay);
+			const endRecoil = Math.max(0, 
+				postShotRecoil - reductionWindow * reductionRate
+			);
 
-		const windowSize = shotWindows[i][0];
-		const reduction = Math.max(0, windowSize - reductionDelay) * reductionRate;
-		accumulatedRecoil = Math.max(0, accumulatedRecoil - reduction);
-		time += windowSize;
-		if(accumulatedRecoil === 0) {
-			maxRecoil = 0
-			break;		
-		}
-	}
-	return maxRecoil / time;
+			// Save the integral of the recoil across the window
+			const decreaseWindow = Math.min(reductionWindow, postShotRecoil / reductionRate);
+			// ^ window where recoil is actually decreasing (might hit 0 before the end of
+			// reductionWindow)
+			recoilIntegrals[pos] =
+				postShotRecoil * Math.min(reductionDelay, fullWindow) + decreaseWindow * 
+				(postShotRecoil - 0.5 * reductionRate * decreaseWindow)
+
+			return endRecoil;
+		},
+		0
+	);
+	const realMaxTime = mergedShots[mergedShots.length - 1][0];
+	return glob.total(recoilIntegrals) / realMaxTime;
 }
 
 function getBoostSpeed(baseSpeed, weight, limit) {
@@ -256,7 +259,7 @@ function computeAllStats(parts) {
 	const legsLoad = sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'));
 
 	const recoilUnits = units.filter(u => u['Recoil'] && u['RapidFire'])
-	const recoilBuildup = getRecoilBuildup(
+	const avgRecoil = getAverageRecoil(
 		recoilUnits.map(u => u['Recoil']),
 		recoilUnits.map(u => u['RapidFire']),
 		arms['RecoilControl']
@@ -285,7 +288,7 @@ function computeAllStats(parts) {
 				)
 			},
 			{name: 'AimAssistProfile', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
-			{name: 'RecoilBuildup', value: recoilBuildup}
+			{name: 'AverageRecoil', value: avgRecoil}
 		],
 		[
 			{name: 'BoostSpeed', value: 
