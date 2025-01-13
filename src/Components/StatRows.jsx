@@ -638,9 +638,10 @@ const statTooltips = {
 	'CoolingDelay': 'Time for the weapon to start cooling when not overheated.',
 	'ChgDirectAttackPower': 'Charged attack power on staggered opponents.',
 	'FullChgDirectAttackPower': 'Fully charged attack power on staggered opponents.',
-	'AverageRecoil': 'Estimate of the average accumulated recoil when firing all ' +
-		'units with a rapid fire spec simultaneously at maximum fire rate. Recoil caps ' +
-		'at 100.',
+	'AverageRecoil': 'Estimate of the average accumulated recoil from firing all ' +
+		'units with a rapid fire spec simultaneously at maximum fire rate for 5 seconds, ' +
+		'taking reload times into account. Back units which interrupt arm units are ' +
+		'excluded. Recoil caps at 100.',
 	'MaxRecoilAngle': 'Maximum firing direction error at maximum accumulated recoil (100).'
 };
 
