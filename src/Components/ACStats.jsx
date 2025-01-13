@@ -65,6 +65,9 @@ function getTargetTracking(firearmSpec, load, limit) {
 
 const simulationTime = 5;
 const simulationShotOffset = 0.05;
+const recoilExcludedUnits = ['FASAN/60E', 'VE-60LCA', 'VE-60LCB', 'VP-60LCD', 'VP-60LCS'];
+// ^ These have both RapidFire and Recoil but arm weapons stop firing when they fire so they
+// mess things up in the simulation
 function getAverageRecoil(recoils, fireRates, recoilControl) {
 
 	if(recoils.length === 0)
@@ -256,7 +259,9 @@ function computeAllStats(parts) {
 	const armsLoad = sumKeyOver(parts, 'Weight', ['rightArm', 'leftArm']);
 	const legsLoad = sumKeyOver(parts, 'Weight', complement(allSlots, 'legs'));
 
-	const recoilUnits = units.filter(u => u['Recoil'] && u['RapidFire'])
+	const recoilUnits = units.filter(u => 
+		u['Recoil'] && u['RapidFire'] && !recoilExcludedUnits.includes(u['Name'])
+	);
 	const avgRecoil = getAverageRecoil(
 		recoilUnits.map(u => u['Recoil']),
 		recoilUnits.map(u => u['RapidFire']),
