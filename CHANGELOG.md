@@ -1,3 +1,8 @@
+## [v1.1.6](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.6)
+* Changed recoil buildup spec into average accumulated recoil over time
+* Excluded back weapons which stop arm weapons from firing from recoil calculations
+* Fixed Mag Dump Time spec
+
 ## [v1.1.5](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.5)
 * Added recoil buildup AC spec 
 * Added max recoil angle unit spec
