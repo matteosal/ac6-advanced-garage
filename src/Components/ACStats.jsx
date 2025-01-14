@@ -131,7 +131,7 @@ function getAverageRecoil(units, recoilControl) {
 	}
 
 	// Compute the integral mean of the accumulated recoil across all the shot windows
-	const recoilIntegrals = Array(shotWindows.length);
+	let recoilIntegral = 0;
 	shotWindows.reduce(
 		(startRecoil, val, pos) => {
 			// Compute value of recoil at the end of the window
@@ -146,7 +146,7 @@ function getAverageRecoil(units, recoilControl) {
 			const decreaseWindow = Math.min(reductionWindow, postShotRecoil / reductionRate);
 			// ^ window where recoil is actually decreasing (might hit 0 before the end of
 			// reductionWindow)
-			recoilIntegrals[pos] =
+			recoilIntegral +=
 				postShotRecoil * Math.min(reductionDelay, fullWindow) + decreaseWindow * 
 				(postShotRecoil - 0.5 * reductionRate * decreaseWindow);
 
@@ -155,7 +155,7 @@ function getAverageRecoil(units, recoilControl) {
 		0
 	);
 	const realMaxTime = mergedShots[mergedShots.length - 1][0];
-	return glob.total(recoilIntegrals) / realMaxTime;
+	return recoilIntegral / realMaxTime;
 }
 
 function getBoostSpeed(baseSpeed, weight, limit) {
