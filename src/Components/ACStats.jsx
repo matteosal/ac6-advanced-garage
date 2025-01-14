@@ -67,7 +67,7 @@ const mod = (a, b) => ((a % b) + b) % b;
 const generateShots = (nShots, interval, offset, recoil) => [...Array(nShots).keys()].map(
 	i => [i * interval + offset, recoil]
 );
-const simulationTime = 5;
+const maxSimulationTime = 5;
 const simulationShotOffset = 0.05;
 const recoilExcludedUnits = ['FASAN/60E', 'VE-60LCA', 'VE-60LCB', 'VP-60LCD', 'VP-60LCS'];
 // ^ These have both RapidFire and Recoil but arm weapons stop firing when they fire so they
@@ -82,6 +82,11 @@ function getAverageRecoil(units, recoilControl) {
 		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
 	);
 	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05;
+
+	const simulationTime = Math.min(
+		Math.max.apply(Math, units.map(u => u['MagDumpTime'])),
+		maxSimulationTime
+	);
 
 	// shotsByUnit has dimensions [nUnits, nShots(unit), 2] where the last dimension contains
 	// pairs [shotTime, shotRecoil]. Shot times for different units are arbitrarily offset by 
@@ -143,7 +148,7 @@ function getAverageRecoil(units, recoilControl) {
 			// reductionWindow)
 			recoilIntegrals[pos] =
 				postShotRecoil * Math.min(reductionDelay, fullWindow) + decreaseWindow * 
-				(postShotRecoil - 0.5 * reductionRate * decreaseWindow)
+				(postShotRecoil - 0.5 * reductionRate * decreaseWindow);
 
 			return endRecoil;
 		},
