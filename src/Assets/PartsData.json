@@ -4500,6 +4500,7 @@
 		"QBReloadIdealWeight": 69300,
 		"ABThrust": 8668,
 		"ABENConsumption": 408,
+		"MeleeAttackThrust": 9071,
 		"Weight": 24650,
 		"ENLoad": 620
 	},
@@ -4623,6 +4624,7 @@
 		"QBReloadIdealWeight": 100300,
 		"ABThrust": 7768,
 		"ABENConsumption": 360,
+		"MeleeAttackThrust": 8141,
 		"Weight": 49800,
 		"ENLoad": 455
 	},
@@ -4714,6 +4716,7 @@
 		"QBReloadIdealWeight": 91000,
 		"ABThrust": 10502,
 		"ABENConsumption": 430,
+		"MeleeAttackThrust": 9913,
 		"Weight": 46600,
 		"ENLoad": 824
 	},

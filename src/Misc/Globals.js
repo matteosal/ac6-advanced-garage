@@ -163,7 +163,7 @@ export const partStatGroups = {
 		[
 			'Thrust', 'UpwardThrust', 'UpwardENConsumption', 'QBThrust', 'QBJetDuration',
 			'QBENConsumption', 'QBReloadTime',
-			'QBReloadIdealWeight', 'ABThrust', 'ABENConsumption'
+			'QBReloadIdealWeight', 'ABThrust', 'ABENConsumption', 'MeleeAttackThrust'
 		],
 		['Weight', 'ENLoad']
 	],
