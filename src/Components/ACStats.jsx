@@ -298,11 +298,12 @@ function computeAllStats(parts) {
 	const baseMeleeSpeed = boosterSrcPart['MeleeAttackThrust'] * 6.3 / 100;
 	const baseQBSpeed = boosterSrcPart['QBThrust'] / 50.;
 
-	let groundBoostSpeed, aerialBoostSpeed, upwardSpeed, abSpeed, meleeSpeed, qbSpeed;
+	let groundBoostSpeed, aerialBoostSpeed, upwardSpeed, abSpeed, meleeSpeed, hoverSpeed,
+		qbSpeed;
 	if(weight - legs['Weight'] > legs['LoadLimit']) {
 		// Need to figure out penalties in this case
 		groundBoostSpeed =  aerialBoostSpeed = upwardSpeed = abSpeed = meleeSpeed = 
-			qbSpeed = 0;
+			hoverSpeed = qbSpeed = 0;
 	} else {
 		groundBoostSpeed = getGroundedBoostSpeed(baseBoostSpeed, weight, legs['Name']);
 		aerialBoostSpeed = getAerialBoostSpeed(baseBoostSpeed, weight);
@@ -310,10 +311,9 @@ function computeAllStats(parts) {
 		abSpeed = getAssaultBoostSpeed(baseABSpeed, weight);
 		meleeSpeed = getMeleeBoostSpeed(baseMeleeSpeed, weight);
 		qbSpeed = getQBSpeed(baseQBSpeed, weight);
+		hoverSpeed = legs['BaseHoverSpeed'] ? 
+			getHoverSpeed(legs['BaseHoverSpeed'], weight) : 0;
 	}
-
-	const hoverSpeed = legs['BaseHoverSpeed'] ? 
-		getHoverSpeed(legs['BaseHoverSpeed'], weight) : 0;
 
 	const [baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption, qbJetDuration] = 
 		['QBReloadTime', 'QBReloadIdealWeight', 'QBENConsumption', 'QBJetDuration'].map(
