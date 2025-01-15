@@ -1,3 +1,7 @@
+## [v1.1.7](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.7)
+* Replaced boost speed with grounded and aerial versions
+* Added upwards, assault boost, melee and hover speed
+
 ## [v1.1.6](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.6)
 * Changed recoil buildup spec into average accumulated recoil over time
 * Excluded back weapons which stop arm weapons from firing from recoil calculations
