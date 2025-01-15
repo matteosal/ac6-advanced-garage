@@ -215,7 +215,9 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'RightBackMissileLockTime': 'R-Back Missile Lock Time',
 	'LeftBackMissileLockTime': 'L-Back Missile Lock Time',
 	'ACS Failure': 'ACS Failure', 'Semi-Auto': 'Semi-Auto', 'Full-Auto': 'Full-Auto',
-	'ReloadTimeOverheat': 'Reload Time (Overheat)'
+	'ReloadTimeOverheat': 'Reload Time (Overheat)',
+	'GroundedBoostSpeed': 'Boost Speed (Grounded)',
+	'AerialBoostSpeed': 'Boost Speed (Aerial)'
 };
 
 function stringInsert(str, insert, pos) {

@@ -641,7 +641,15 @@ const statTooltips = {
 	'AverageRecoil': 'Estimate of the average accumulated recoil from firing all ' +
 		'units with a rapid fire spec simultaneously at maximum fire rate. Back units ' +
 		'which interrupt arm units are excluded. Recoil caps at 100.',
-	'MaxRecoilAngle': 'Maximum firing direction error at maximum accumulated recoil (100).'
+	'MaxRecoilAngle': 'Maximum firing direction error at maximum accumulated recoil (100).',
+	'GroundedBoostSpeed': 'Boost speed on the ground. Same as aerial boost speed except ' +
+		'for tank legs.',
+	'AerialBoostSpeed': 'Horizontal boost speed in the air. Same as grounded boost speed ' +
+		'except for tank legs.',
+	'UpwardSpeed': 'Speed when flying upwards.',
+	'AssaultBoostSpeed': 'Stable assault boost speed.',
+	'MeleeBoostSpeed': 'Initial melee boost speed.',
+	'HoverSpeed': 'Tetrapod hover speed'
 };
 
 const statTooltipsComparerMode = {
