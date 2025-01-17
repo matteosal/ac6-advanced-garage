@@ -158,63 +158,48 @@ function getAverageRecoil(units, recoilControl) {
 	return recoilIntegral / realMaxTime;
 }
 
-function getGroundedBoostSpeed(baseSpeed, weight, legsName) {
-	if(!['EL-TL-11 FORTALEZA', 'VE-42B', 'LG-022T BORNEMISSZA'].includes(legsName))
-		return getAerialBoostSpeed(baseSpeed, weight)
+const boostBreakpoints = [[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.65]];
+const overweightBreakpoints = 
+	[[1., 1.], [1.05, 0.95], [1.1, 0.8], [1.3, 0.75], [1.5, 0.7]];
 
-	const breakpoints = legsName === 'EL-TL-11 FORTALEZA' ?
-		[[5, 1], [6.25, 0.94], [7.5, 0.86], [10, 0.75], [15, 0.6]] :
-		[[5, 1], [7.5,  0.9],  [10,  0.85], [12, 0.8],  [14, 0.7]];
-	const multiplier = piecewiseLinear(weight / 10000., breakpoints);
-	return baseSpeed * multiplier;
+const speedBreakpoints = {
+	boostGrounded: [boostBreakpoints, overweightBreakpoints],
+	boostGroundedFortaleza: [
+		[[5, 1], [6.25, 0.94], [7.5, 0.86], [10, 0.75], [15, 0.6]],
+		overweightBreakpoints
+	],
+	boostGroundedTank: [
+		[[5, 1], [7.5, 0.9], [10, 0.85], [12, 0.8], [14, 0.7]],
+		overweightBreakpoints
+	],
+	boostAerial: [boostBreakpoints, overweightBreakpoints],
+	quickBoost: [
+		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
+		overweightBreakpoints
+	],
+	upwards: [
+		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
+		overweightBreakpoints
+	],
+	assaultBoost: [
+		[[4., 1.], [5, 0.95], [7.5, 0.9], [10, 0.7], [15, 0.55]],
+		overweightBreakpoints
+	],
+	meleeBoost: [
+		[[4., 1.], [6.25, 0.95], [7.5, 0.85], [8, 0.75], [12, 0.65]],
+		overweightBreakpoints
+	],
+	hover: [
+		[[7., 1.], [9, 0.9], [10, 0.85], [11, 0.75], [12, 0.7]],
+		[[1., 1.], [1.05, 0.9], [1.1, 0.8], [1.3, 0.7], [1.5, 0.6]]
+	]
 }
 
-function getAerialBoostSpeed(baseSpeed, weight) {
-	const multiplier = piecewiseLinear(
-		weight / 10000., 
-		[[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.65]]
-	);
-	return baseSpeed * multiplier;
-}
-
-function getUpwardSpeed(baseSpeed, weight) {
-	const multiplier = piecewiseLinear(
-		weight / 10000., 
-		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]]
-	);
-	return baseSpeed * multiplier;
-}
-
-function getAssaultBoostSpeed(baseSpeed, weight) {
-	const multiplier = piecewiseLinear(
-		weight / 10000., 
-		[[4., 1.], [5, 0.95], [7.5, 0.9], [10, 0.7], [15, 0.55]]
-	);
-	return baseSpeed * multiplier;
-}
-
-function getMeleeBoostSpeed(baseSpeed, weight) {
-	const multiplier = piecewiseLinear(
-		weight / 10000., 
-		[[4., 1.], [62.5, 0.95], [7.5, 0.85], [8, 0.75], [12, 0.65]]
-	);
-	return baseSpeed * multiplier;
-}
-
-function getHoverSpeed(baseSpeed, weight) {
-	const multiplier = piecewiseLinear(
-		weight / 10000., 
-		[[7., 1.], [9, 0.9], [10, 0.85], [11, 0.75], [12, 0.7]]
-	);
-	return baseSpeed * multiplier;
-}
-
-function getQBSpeed(baseQBSpeed, weight) {
-	const multiplier = piecewiseLinear(
-		weight / 10000., 
-		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]]
-	);
-	return baseQBSpeed * multiplier;
+function getSpeedSpec(base, weight, loadRatio, breakpointsMult, breakpointsOver) {
+	let multiplier = piecewiseLinear(weight / 10000., breakpointsMult);
+	if(loadRatio > 1)
+		multiplier *= piecewiseLinear(loadRatio, breakpointsOver);
+	return base * multiplier
 }
 
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
@@ -293,27 +278,32 @@ function computeAllStats(parts) {
 		baseBoostSpeed = booster['Thrust'] * 6 / 100.;
 		boosterSrcPart = booster;
 	}
-	const baseUpwardSpeed = boosterSrcPart['UpwardThrust'] * 6 / 100;
-	const baseABSpeed = boosterSrcPart['ABThrust'] * 6 / 100;
-	const baseMeleeSpeed = boosterSrcPart['MeleeAttackThrust'] * 6.3 / 100;
-	const baseQBSpeed = boosterSrcPart['QBThrust'] / 50.;
 
-	let groundBoostSpeed, aerialBoostSpeed, upwardSpeed, abSpeed, meleeSpeed, hoverSpeed,
-		qbSpeed;
-	if(weight - legs['Weight'] > legs['LoadLimit']) {
-		// Need to figure out penalties in this case
-		groundBoostSpeed =  aerialBoostSpeed = upwardSpeed = abSpeed = meleeSpeed = 
-			hoverSpeed = qbSpeed = 0;
-	} else {
-		groundBoostSpeed = getGroundedBoostSpeed(baseBoostSpeed, weight, legs['Name']);
-		aerialBoostSpeed = getAerialBoostSpeed(baseBoostSpeed, weight);
-		upwardSpeed = getUpwardSpeed(baseUpwardSpeed, weight);
-		abSpeed = getAssaultBoostSpeed(baseABSpeed, weight);
-		meleeSpeed = getMeleeBoostSpeed(baseMeleeSpeed, weight);
-		qbSpeed = getQBSpeed(baseQBSpeed, weight);
-		hoverSpeed = legs['BaseHoverSpeed'] ? 
-			getHoverSpeed(legs['BaseHoverSpeed'], weight) : 0;
-	}
+	const baseSpeedValues = {
+		boostAerial: baseBoostSpeed,
+		quickBoost: boosterSrcPart['QBThrust'] / 50.,
+		upwards: boosterSrcPart['UpwardThrust'] * 6 / 100,
+		assaultBoost: boosterSrcPart['ABThrust'] * 6 / 100,
+		meleeBoost: boosterSrcPart['MeleeAttackThrust'] * 6.3 / 100,
+		hover: legs['BaseHoverSpeed'] ? legs['BaseHoverSpeed'] : 0
+	};
+	let boostSpeedKey;
+	if(legs['Name'] === 'EL-TL-11 FORTALEZA')
+		boostSpeedKey = 'boostGroundedFortaleza';
+	else if(['VE-42B', 'LG-022T BORNEMISSZA'].includes(legs['Name']))
+		boostSpeedKey = 'boostGroundedTank';
+	else
+		boostSpeedKey = 'boostGrounded';
+	baseSpeedValues[boostSpeedKey] = baseBoostSpeed;
+
+	const loadRatio = (weight - legs['Weight']) / legs['LoadLimit'];
+	const speedValues = Object.fromEntries(
+		Object.keys(baseSpeedValues).map(key => {
+			const [bpMult, bpOver] = speedBreakpoints[key];
+			const val = getSpeedSpec(baseSpeedValues[key], weight, loadRatio, bpMult, bpOver);
+			return [key, val]
+		})
+	);
 
 	const [baseQBReloadTime, baseQBIdealWeight, baseQBENConsumption, qbJetDuration] = 
 		['QBReloadTime', 'QBReloadIdealWeight', 'QBENConsumption', 'QBJetDuration'].map(
@@ -377,13 +367,13 @@ function computeAllStats(parts) {
 			{name: 'AverageRecoil', value: avgRecoil}
 		],
 		[
-			{name: 'GroundedBoostSpeed', value: groundBoostSpeed},
-			{name: 'AerialBoostSpeed', value: aerialBoostSpeed},
-			{name: 'UpwardSpeed', value: upwardSpeed},
-			{name: 'AssaultBoostSpeed', value: abSpeed},
-			{name: 'MeleeBoostSpeed', value: meleeSpeed},
-			{name: 'HoverSpeed', value: hoverSpeed},
-			{name: 'QBSpeed', value: qbSpeed},
+			{name: 'GroundedBoostSpeed', value: speedValues[boostSpeedKey]},
+			{name: 'AerialBoostSpeed', value: speedValues.boostAerial},
+			{name: 'QBSpeed', value: speedValues.quickBoost},
+			{name: 'UpwardSpeed', value: speedValues.upwards},
+			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
+			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},
+			{name: 'HoverSpeed', value: speedValues.hover},
 			{name: 'QBENConsumption', value: qbENConsumption},
 			{name: 'QBReloadTime', value: qbReloadTime},
 			{name: 'MaxConsecutiveQB', value: 
