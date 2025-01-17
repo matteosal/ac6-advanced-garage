@@ -51,16 +51,13 @@ function getAttitudeRecovery(weight) {
 	return base * multiplier;
 }
 
-const firearmSpecMapping = {26:41, 45:72, 53:80, 76:85, 80:86, 87:87, 88:87, 92:88, 95:89, 
-	96:89, 100:90, 102:90, 103:90, 104:90, 122:94, 123:94, 128:95, 133:96, 135:97, 136:97, 
-	140:98, 160:104};
-
-function getTargetTracking(firearmSpec, load, limit) {
-	if(load > limit)
-		// Still need to figure out what's the penalty in this case
-		return 0;
-	else
-		return firearmSpecMapping[firearmSpec];
+function getTargetTracking(firearmSpec, loadRatio) {
+	let result = 100 * piecewiseLinear(firearmSpec,
+		[[0., 0.], [50., 0.8], [100., 0.9], [150., 1.], [200., 1.2]]
+	)
+	if(loadRatio > 1)
+		result *= piecewiseLinear(loadRatio, [[1., 1.], [1.2, 0.5], [1.21, 0.3], [2., 0.05]]);
+	return result;
 }
 
 const mod = (a, b) => ((a % b) + b) % b;
@@ -359,8 +356,7 @@ function computeAllStats(parts) {
 			{name: 'TargetTracking',
 				value: getTargetTracking(
 					arms['FirearmSpecialization'],
-					armsLoad, 
-					arms['ArmsLoadLimit']
+					armsLoad / arms['ArmsLoadLimit']
 				)
 			},
 			{name: 'AimAssistProfile', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
