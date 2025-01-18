@@ -170,10 +170,6 @@ const speedBreakpoints = {
 		overweightBreakpoints
 	],
 	boostAerial: [boostBreakpoints, overweightBreakpoints],
-	quickBoost: [
-		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
-		overweightBreakpoints
-	],
 	upwards: [
 		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
 		overweightBreakpoints
@@ -189,6 +185,10 @@ const speedBreakpoints = {
 	hover: [
 		[[7., 1.], [9, 0.9], [10, 0.85], [11, 0.75], [12, 0.7]],
 		[[1., 1.], [1.05, 0.9], [1.1, 0.8], [1.3, 0.7], [1.5, 0.6]]
+	],
+	quickBoost: [
+		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
+		overweightBreakpoints
 	]
 }
 
@@ -293,11 +293,11 @@ function computeAllStats(parts) {
 
 	const baseSpeedValues = {
 		boostAerial: baseBoostSpeed,
-		quickBoost: boosterSrcPart['QBThrust'] / 50.,
 		upwards: boosterSrcPart['UpwardThrust'] * 6 / 100,
 		assaultBoost: boosterSrcPart['ABThrust'] * 6 / 100,
 		meleeBoost: boosterSrcPart['MeleeAttackThrust'] * 6.3 / 100,
-		hover: legs['BaseHoverSpeed'] ? legs['BaseHoverSpeed'] : 0
+		hover: legs['BaseHoverSpeed'] ? legs['BaseHoverSpeed'] : 0,
+		quickBoost: boosterSrcPart['QBThrust'] / 50.,
 	};
 	let boostSpeedKey;
 	if(legs['Name'] === 'EL-TL-11 FORTALEZA')
@@ -383,12 +383,12 @@ function computeAllStats(parts) {
 		[
 			{name: 'GroundedBoostSpeed', value: speedValues[boostSpeedKey]},
 			{name: 'AerialBoostSpeed', value: speedValues.boostAerial},
-			{name: 'QBSpeed', value: avgQBSpeed},
-			{name: 'QBDistance', value: qbDistance},
 			{name: 'UpwardSpeed', value: speedValues.upwards},
 			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
 			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},
 			{name: 'HoverSpeed', value: speedValues.hover},
+			{name: 'QBSpeed', value: avgQBSpeed},
+			{name: 'QBDistance', value: qbDistance},
 			{name: 'QBENConsumption', value: qbENConsumption},
 			{name: 'QBReloadTime', value: qbReloadTime},
 			{name: 'MaxConsecutiveQB', value: 
