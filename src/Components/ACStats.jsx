@@ -199,6 +199,21 @@ function getSpeedSpec(base, weight, loadRatio, breakpointsMult, breakpointsOver)
 	return base * multiplier
 }
 
+// QB speed first ramps up quickly (~2 frames) to 1.1x the nominal speed, then decreases 
+// non-linearly for its duration. If the duration was long enough it would reach about 
+// 0.77x the nominal speed and stay constant for the remaining time, but in-game boosters
+// durations don't allow it. Here we neglect the first part where speed ramps up quickly.
+function getQBDistance(nominalSpeed, duration) {
+	console.log(nominalSpeed); console.log(duration);
+	const startSpeed = 1.1 * nominalSpeed;
+	// This equation is was obtained by fitting a velocity curve from frame measurements and
+	// integrating it. It's probably not what the game actually uses but it's very accurate 
+	// for the duration ranges allowed by the boosters
+	const normalizedDistance = 0.756 * duration - 0.071 / (0.961 + duration) ** 3 + 0.08;
+	// Divide by 3.6 to convert km/h into m/s
+	return startSpeed / 3.6 * normalizedDistance
+}
+
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 	const multiplier = piecewiseLinear(
 		(weight - idealWeight) / 10000., 
@@ -307,6 +322,9 @@ function computeAllStats(parts) {
 			name => boosterSrcPart[name]
 		);
 
+	const qbDistance = getQBDistance(speedValues.quickBoost, qbJetDuration);
+	const avgQBSpeed = qbDistance / qbJetDuration * 3.6;
+
 	const qbReloadTime = getQBReloadTime(baseQBReloadTime, baseQBIdealWeight, weight);
 	const qbENConsumption = baseQBENConsumption * (2 - core['BoosterEfficiencyAdj'] / 100.);
 
@@ -365,7 +383,8 @@ function computeAllStats(parts) {
 		[
 			{name: 'GroundedBoostSpeed', value: speedValues[boostSpeedKey]},
 			{name: 'AerialBoostSpeed', value: speedValues.boostAerial},
-			{name: 'QBSpeed', value: speedValues.quickBoost},
+			{name: 'QBSpeed', value: avgQBSpeed},
+			{name: 'QBDistance', value: qbDistance},
 			{name: 'UpwardSpeed', value: speedValues.upwards},
 			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
 			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},

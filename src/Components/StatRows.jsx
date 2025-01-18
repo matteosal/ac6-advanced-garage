@@ -649,7 +649,12 @@ const statTooltips = {
 	'UpwardSpeed': 'Speed when flying upwards.',
 	'AssaultBoostSpeed': 'Stable assault boost speed.',
 	'MeleeBoostSpeed': 'Initial melee boost speed.',
-	'HoverSpeed': 'Tetrapod hover speed'
+	'HoverSpeed': 'Tetrapod hover speed',
+	'QBSpeed': 'This is a more indicative value than what the in-game one provides. ' +
+		'Quick boost speed starts high then decreases during the window given by the ' +
+		'booster\'s QB jet duration, and this is its average value.',
+	'QBDistance': 'Distance covered by one quick boost. Depends on QB speed and QB jet ' +
+		'duration from the booster.'
 };
 
 const statTooltipsComparerMode = {
