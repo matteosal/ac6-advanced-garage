@@ -199,19 +199,19 @@ function getSpeedSpec(base, weight, loadRatio, breakpointsMult, breakpointsOver)
 	return base * multiplier
 }
 
-// QB speed first ramps up quickly (~2 frames) to 1.1x the nominal speed, then decreases 
-// non-linearly for its duration. If the duration was long enough it would reach about 
-// 0.77x the nominal speed and stay constant for the remaining time, but in-game boosters
-// durations don't allow it. Here we neglect the first part where speed ramps up quickly.
+// QB speed first ramps up quickly (~2 frames) to about 1.13x the nominal speed (this is
+// an estimate, is seems to depend on weight but it's very hard to measure from frame data, 
+// it seems to jump around from 1.11 to 1.15), then decreases non-linearly for its duration.
+// If the duration was long enough it would reach about 0.77x the nominal speed and stay 
+// constant for the remaining time, but in-game boosters durations don't allow it. Here we 
+// neglect the first part where speed ramps up quickly.
 function getQBDistance(nominalSpeed, duration) {
-	console.log(nominalSpeed); console.log(duration);
-	const startSpeed = 1.1 * nominalSpeed;
-	// This equation is was obtained by fitting a velocity curve from frame measurements and
-	// integrating it. It's probably not what the game actually uses but it's very accurate 
-	// for the duration ranges allowed by the boosters
+	const startSpeed = 1.13 * nominalSpeed;
+	// This equation was obtained by fitting a velocity curve from frame measurements and
+	// integrating it. It's probably not what the game actually uses but it seems to be
+	// accurate for the duration ranges allowed by the boosters
 	const normalizedDistance = 0.756 * duration - 0.071 / (0.961 + duration) ** 3 + 0.08;
-	// Divide by 3.6 to convert km/h into m/s
-	return startSpeed / 3.6 * normalizedDistance
+	return startSpeed / 3.6 * normalizedDistance // 3.6 to convert km/h into m/s
 }
 
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
