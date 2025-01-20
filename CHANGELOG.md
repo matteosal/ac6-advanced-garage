@@ -1,3 +1,9 @@
+## [v1.1.8](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.8)
+* Added correct speed values when overburdened
+* Added correct target tracking when arms are overburdened
+* Added tetrapod QB hover speed
+* Fixed melee boost speed
+
 ## [v1.1.7](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.7)
 * Replaced boost speed with grounded and aerial versions
 * Added upwards, assault boost, melee and hover speed
