@@ -4567,7 +4567,8 @@
 		"JumpHeight": 42,
 		"Weight": 22430,
 		"ENLoad": 790,
-		"BaseHoverSpeed": 380
+		"BaseHoverSpeed": 380,
+		"BaseHoverQBSpeed": 382
 	},
 	{
 		"Name": "LG-011 MELANDER",
@@ -4643,7 +4644,8 @@
 		"JumpHeight": 15,
 		"Weight": 36200,
 		"ENLoad": 675,
-		"BaseHoverSpeed": 320
+		"BaseHoverSpeed": 320,
+		"BaseHoverQBSpeed": 265
 	},
 	{
 		"Name": "NACHTREIHER/42E",
@@ -4751,7 +4753,8 @@
 		"JumpHeight": 18,
 		"Weight": 31600,
 		"ENLoad": 760,
-		"BaseHoverSpeed": 350
+		"BaseHoverSpeed": 350,
+		"BaseHoverQBSpeed": 330
 	},
 	{
 		"Name": "AB-J-137 KIKAKU",

@@ -156,6 +156,7 @@ function getAverageRecoil(units, recoilControl) {
 }
 
 const boostBreakpoints = [[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.65]];
+const qbBreakpoints = [[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]];
 const overweightBreakpoints = 
 	[[1., 1.], [1.05, 0.95], [1.1, 0.8], [1.3, 0.75], [1.5, 0.7]];
 
@@ -170,10 +171,7 @@ const speedBreakpoints = {
 		overweightBreakpoints
 	],
 	boostAerial: [boostBreakpoints, overweightBreakpoints],
-	quickBoost: [
-		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
-		overweightBreakpoints
-	],
+	quickBoost: [qbBreakpoints, overweightBreakpoints],
 	upwards: [
 		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
 		overweightBreakpoints
@@ -189,6 +187,10 @@ const speedBreakpoints = {
 	hover: [
 		[[7., 1.], [9, 0.9], [10, 0.85], [11, 0.75], [12, 0.7]],
 		[[1., 1.], [1.05, 0.9], [1.1, 0.8], [1.3, 0.7], [1.5, 0.6]]
+	],
+	hoverQuickBoost: [
+		qbBreakpoints,
+		[[1., 1.], [1.05, 0.75], [1.1, 0.5], [1.3, 0.25], [1.5, 0.]]
 	]
 }
 
@@ -282,7 +284,8 @@ function computeAllStats(parts) {
 		upwards: boosterSrcPart['UpwardThrust'] * 6 / 100,
 		assaultBoost: boosterSrcPart['ABThrust'] * 6 / 100,
 		meleeBoost: boosterSrcPart['MeleeAttackThrust'] * 6.3 / 100,
-		hover: legs['BaseHoverSpeed'] ? legs['BaseHoverSpeed'] : 0
+		hover: legs['BaseHoverSpeed'] ? legs['BaseHoverSpeed'] : 0,
+		hoverQuickBoost: legs['BaseHoverQBSpeed'] ? legs['BaseHoverQBSpeed'] : 0
 	};
 	let boostSpeedKey;
 	if(legs['Name'] === 'EL-TL-11 FORTALEZA')
@@ -372,7 +375,8 @@ function computeAllStats(parts) {
 			{name: 'UpwardSpeed', value: speedValues.upwards},
 			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
 			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},
-			{name: 'HoverSpeed', value: speedValues.hover}
+			{name: 'HoverSpeed', value: speedValues.hover},
+			{name: 'HoverQBSpeed', value: speedValues.hoverQuickBoost}
 		],
 		[
 			{name: 'ENCapacity', value: enCapacity},

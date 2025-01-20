@@ -649,7 +649,8 @@ const statTooltips = {
 	'UpwardSpeed': 'Speed when flying upwards.',
 	'AssaultBoostSpeed': 'Stable assault boost speed.',
 	'MeleeBoostSpeed': 'Initial melee boost speed.',
-	'HoverSpeed': 'Tetrapod hover speed'
+	'HoverSpeed': 'Tetrapod hover speed.',
+	'HoverQBSpeed': 'Tetrapod quick boost speed while hovering.'
 };
 
 const statTooltipsComparerMode = {
