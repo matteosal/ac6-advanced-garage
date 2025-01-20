@@ -366,14 +366,13 @@ function computeAllStats(parts) {
 			{name: 'GroundedBoostSpeed', value: speedValues[boostSpeedKey]},
 			{name: 'AerialBoostSpeed', value: speedValues.boostAerial},
 			{name: 'QBSpeed', value: speedValues.quickBoost},
+			{name: 'QBENConsumption', value: qbENConsumption},
+			{name: 'QBReloadTime', value: qbReloadTime},
+			{name: 'MaxConsecutiveQB', value: Math.ceil(enCapacity / qbENConsumption)},
 			{name: 'UpwardSpeed', value: speedValues.upwards},
 			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
 			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},
-			{name: 'HoverSpeed', value: speedValues.hover},
-			{name: 'QBENConsumption', value: qbENConsumption},
-			{name: 'QBReloadTime', value: qbReloadTime},
-			{name: 'MaxConsecutiveQB', value: 
-				Math.ceil(enCapacity / qbENConsumption)}
+			{name: 'HoverSpeed', value: speedValues.hover}
 		],
 		[
 			{name: 'ENCapacity', value: enCapacity},
