@@ -283,7 +283,7 @@ function computeAllStats(parts) {
 		quickBoost: boosterSrcPart['QBThrust'] / 50.,
 		upwards: boosterSrcPart['UpwardThrust'] * 6 / 100,
 		assaultBoost: boosterSrcPart['ABThrust'] * 6 / 100,
-		meleeBoost: boosterSrcPart['MeleeAttackThrust'] * 6.3 / 100,
+		meleeBoost: boosterSrcPart['MeleeAttackThrust'] * 6 / 100,
 		hover: legs['BaseHoverSpeed'] ? legs['BaseHoverSpeed'] : 0,
 		hoverQuickBoost: legs['BaseHoverQBSpeed'] ? legs['BaseHoverQBSpeed'] : 0
 	};
