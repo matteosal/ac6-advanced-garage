@@ -22,7 +22,8 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
 	'CurrentENLoad', 'ENRechargeDelayRedline', 'QBENRechargeTime', 'FullRechargeTime',
 	'FullRechargeTimeRedline', 'UpwardENConsumption','MeleeAtkENConsump', 
-	'CoolingDelay', 'ReloadTimeOverheat', 'AverageRecoil', 'MaxRecoilAngle'];
+	'CoolingDelay', 'ReloadTimeOverheat', 'AverageRecoil', 'MaxRecoilAngle',
+	'UpwardEconomy', 'AssaultBoostEconomy'];
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
@@ -650,7 +651,9 @@ const statTooltips = {
 	'AssaultBoostSpeed': 'Stable assault boost speed.',
 	'MeleeBoostSpeed': 'Melee boost speed.',
 	'HoverSpeed': 'Tetrapod hover speed.',
-	'HoverQBSpeed': 'Tetrapod quick boost speed while hovering.'
+	'HoverQBSpeed': 'Tetrapod quick boost speed while hovering.',
+	'UpwardEconomy': 'Energy spent to travel 1m upwards.',
+	'AssaultBoostEconomy': 'Energy spent to travel 1m when assault boosting.'
 };
 
 const statTooltipsComparerMode = {

@@ -373,7 +373,11 @@ function computeAllStats(parts) {
 			{name: 'QBReloadTime', value: qbReloadTime},
 			{name: 'MaxConsecutiveQB', value: Math.ceil(enCapacity / qbENConsumption)},
 			{name: 'UpwardSpeed', value: speedValues.upwards},
+			{name: 'UpwardEconomy', 
+				value: 3.6 * booster['UpwardENConsumption'] / speedValues.upwards},
 			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
+			{name: 'AssaultBoostEconomy', 
+				value: 3.6 * booster['ABENConsumption'] / speedValues.assaultBoost},
 			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},
 			{name: 'HoverSpeed', value: speedValues.hover},
 			{name: 'HoverQBSpeed', value: speedValues.hoverQuickBoost}
