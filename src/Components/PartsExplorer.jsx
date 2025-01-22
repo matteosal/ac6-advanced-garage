@@ -410,6 +410,7 @@ function computeSortingKeys(slot, backSubslot) {
 		stat => displayedStats.includes(stat)
 	).sort();
 	sortingKeys.unshift('Name');
+	sortingKeys.unshift('DefaultOrdering');
 	return sortingKeys;	
 }
 
@@ -419,8 +420,10 @@ glob.partSlots.map(
 		if(!['leftBack', 'rightBack'].includes(slot))
 			partSortingKeys[slot] = computeSortingKeys(slot, 0); // 2nd arg is irrelevant
 		else // This looks like shit
-			partSortingKeys[slot] = {0: computeSortingKeys(slot, 0), 1: 
-				computeSortingKeys(slot, 1)}
+			partSortingKeys[slot] = {
+				0: computeSortingKeys(slot, 0), 
+				1: computeSortingKeys(slot, 1)
+			}
 		return null;
 	}
 )

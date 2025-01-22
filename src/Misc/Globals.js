@@ -217,7 +217,8 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'ACS Failure': 'ACS Failure', 'Semi-Auto': 'Semi-Auto', 'Full-Auto': 'Full-Auto',
 	'ReloadTimeOverheat': 'Reload Time (Overheat)',
 	'GroundedBoostSpeed': 'Boost Speed (Grounded)',
-	'AerialBoostSpeed': 'Boost Speed (Aerial)'
+	'AerialBoostSpeed': 'Boost Speed (Aerial)',
+	'DefaultOrdering': 'Default'
 };
 
 function stringInsert(str, insert, pos) {

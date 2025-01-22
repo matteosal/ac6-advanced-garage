@@ -22,7 +22,8 @@
 		"ReloadTime": 4.3,
 		"AmmunitionCost": 750.0,
 		"Weight": 5920.0,
-		"ENLoad": 299.0
+		"ENLoad": 299.0,
+		"DefaultOrdering": 36
 	},
 	{
 		"Name": "44-142 KRSV",
@@ -61,7 +62,8 @@
 		"CoolingDelay": 0.7,
 		"ReloadTimeOverheat": 8.93,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 54
 	},
 	{
 		"Name": "44-143 HMMR",
@@ -99,7 +101,8 @@
 		"Weight": 2410.0,
 		"ENLoad": 311.0,
 		"CoolingDelay": 1.5,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "45-091 JVLN BETA",
@@ -126,7 +129,8 @@
 		"ReloadTime": 4.1,
 		"AmmunitionCost": 450,
 		"Weight": 4250,
-		"ENLoad": 425
+		"ENLoad": 425,
+		"DefaultOrdering": 38
 	},
 	{
 		"Name": "45-091 ORBT",
@@ -161,7 +165,8 @@
 		"AmmunitionCost": 100,
 		"Weight": 2010,
 		"ENLoad": 446,
-		"CoolingDelay": 1.2
+		"CoolingDelay": 1.2,
+		"DefaultOrdering": 45
 	},
 	{
 		"Name": "BML-G1/P01VTC-04",
@@ -196,7 +201,8 @@
 		"ReloadTime": 4.8,
 		"AmmunitionCost": 120,
 		"Weight": 2240,
-		"ENLoad": 258
+		"ENLoad": 258,
+		"DefaultOrdering": 30
 	},
 	{
 		"Name": "BML-G1/P03VTC-08",
@@ -231,7 +237,8 @@
 		"ReloadTime": 6,
 		"AmmunitionCost": 120,
 		"Weight": 3920,
-		"ENLoad": 380
+		"ENLoad": 380,
+		"DefaultOrdering": 31
 	},
 	{
 		"Name": "BML-G1/P07VTC-12",
@@ -266,7 +273,8 @@
 		"ReloadTime": 7.5,
 		"AmmunitionCost": 120,
 		"Weight": 5010,
-		"ENLoad": 525
+		"ENLoad": 525,
+		"DefaultOrdering": 32
 	},
 	{
 		"Name": "BML-G1/P20MLT-04",
@@ -301,7 +309,8 @@
 		"ReloadTime": 4,
 		"AmmunitionCost": 80,
 		"Weight": 2120,
-		"ENLoad": 154
+		"ENLoad": 154,
+		"DefaultOrdering": 21
 	},
 	{
 		"Name": "BML-G1/P29CNT",
@@ -325,7 +334,8 @@
 		"ReloadTime": 12.0,
 		"AmmunitionCost": 800,
 		"Weight": 6370,
-		"ENLoad": 150
+		"ENLoad": 150,
+		"DefaultOrdering": 35
 	},
 	{
 		"Name": "BML-G1/P31DUO-02",
@@ -360,7 +370,8 @@
 		"ReloadTime": 2.8,
 		"AmmunitionCost": 70,
 		"Weight": 1900,
-		"ENLoad": 182
+		"ENLoad": 182,
+		"DefaultOrdering": 27
 	},
 	{
 		"Name": "BML-G1/P32DUO-03",
@@ -395,7 +406,8 @@
 		"ReloadTime": 3.5,
 		"AmmunitionCost": 70,
 		"Weight": 3450,
-		"ENLoad": 262
+		"ENLoad": 262,
+		"DefaultOrdering": 28
 	},
 	{
 		"Name": "BML-G2/P03MLT-06",
@@ -430,7 +442,8 @@
 		"ReloadTime": 5,
 		"AmmunitionCost": 80,
 		"Weight": 3610,
-		"ENLoad": 241
+		"ENLoad": 241,
+		"DefaultOrdering": 22
 	},
 	{
 		"Name": "BML-G2/P05MLT-10",
@@ -465,7 +478,8 @@
 		"ReloadTime": 6.4,
 		"AmmunitionCost": 80,
 		"Weight": 5220,
-		"ENLoad": 320
+		"ENLoad": 320,
+		"DefaultOrdering": 23
 	},
 	{
 		"Name": "BML-G2/P08DUO-03",
@@ -500,7 +514,8 @@
 		"ReloadTime": 5.4,
 		"AmmunitionCost": 100,
 		"Weight": 4020,
-		"ENLoad": 332
+		"ENLoad": 332,
+		"DefaultOrdering": 29
 	},
 	{
 		"Name": "BML-G2/P16SPL-08",
@@ -526,7 +541,8 @@
 		"ReloadTime": 4.5,
 		"AmmunitionCost": 500,
 		"Weight": 2800,
-		"ENLoad": 228
+		"ENLoad": 228,
+		"DefaultOrdering": 25
 	},
 	{
 		"Name": "BML-G2/P17SPL-16",
@@ -561,7 +577,8 @@
 		"ReloadTime": 7.7,
 		"AmmunitionCost": 500,
 		"Weight": 5010,
-		"ENLoad": 510
+		"ENLoad": 510,
+		"DefaultOrdering": 26
 	},
 	{
 		"Name": "BML-G2/P19SPL-12",
@@ -596,7 +613,8 @@
 		"ReloadTime": 6,
 		"AmmunitionCost": 400,
 		"Weight": 3580,
-		"ENLoad": 325
+		"ENLoad": 325,
+		"DefaultOrdering": 24
 	},
 	{
 		"Name": "BML-G3/P04ACT-01",
@@ -623,7 +641,8 @@
 		"ReloadTime": 2.4,
 		"AmmunitionCost": 450,
 		"Weight": 2270,
-		"ENLoad": 213
+		"ENLoad": 213,
+		"DefaultOrdering": 33
 	},
 	{
 		"Name": "BML-G3/P05ACT-02",
@@ -659,7 +678,8 @@
 		"ReloadTime": 4.2,
 		"AmmunitionCost": 450,
 		"Weight": 4320,
-		"ENLoad": 424
+		"ENLoad": 424,
+		"DefaultOrdering": 34
 	},
 	{
 		"Name": "BO-044 HUXLEY",
@@ -694,7 +714,8 @@
 		"AmmunitionCost": 50,
 		"Weight": 2230,
 		"ENLoad": 435,
-		"CoolingDelay": 0.8
+		"CoolingDelay": 0.8,
+		"DefaultOrdering": 44
 	},
 	{
 		"Name": "DF-BA-06 XUAN-GE",
@@ -719,7 +740,8 @@
 		"ReloadTime": 3.4,
 		"AmmunitionCost": 450.0,
 		"Weight": 5480.0,
-		"ENLoad": 240.0
+		"ENLoad": 240.0,
+		"DefaultOrdering": 33
 	},
 	{
 		"Name": "DF-ET09 TAI-YANG-SHOU",
@@ -747,7 +769,8 @@
 		"ReloadTime": 3.1,
 		"AmmunitionCost": 600.0,
 		"Weight": 3790.0,
-		"ENLoad": 160.0
+		"ENLoad": 160.0,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "DF-GA-08 HU-BEN",
@@ -777,7 +800,8 @@
 		"ENLoad": 425.0,
 		"CoolingDelay": 1.0,
 		"ReloadTimeOverheat": 6.58,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 24
 	},
 	{
 		"Name": "DF-GA-09 SHAO-WEI",
@@ -807,7 +831,8 @@
 		"ENLoad": 404.0,
 		"CoolingDelay": 0.12,
 		"ReloadTimeOverheat": 2.52,
-		"MaxRecoilAngle": 9.0
+		"MaxRecoilAngle": 9.0,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "DF-GR-07 GOU-CHEN",
@@ -833,7 +858,8 @@
 		"AmmunitionCost": 1200.0,
 		"Weight": 4841.0,
 		"ENLoad": 308.0,
-		"MaxRecoilAngle": 25.0
+		"MaxRecoilAngle": 25.0,
+		"DefaultOrdering": 37
 	},
 	{
 		"Name": "DF-MG-02 CHANG-CHEN",
@@ -861,7 +887,8 @@
 		"AmmunitionCost": 20.0,
 		"Weight": 3280.0,
 		"ENLoad": 143.0,
-		"MaxRecoilAngle": 9.0
+		"MaxRecoilAngle": 9.0,
+		"DefaultOrdering": 21
 	},
 	{
 		"Name": "DIZZY",
@@ -887,7 +914,8 @@
 		"AmmunitionCost": 1500.0,
 		"Weight": 5590.0,
 		"ENLoad": 364.0,
-		"MaxRecoilAngle": 25.0
+		"MaxRecoilAngle": 25.0,
+		"DefaultOrdering": 38
 	},
 	{
 		"Name": "EARSHOT",
@@ -912,7 +940,8 @@
 		"ReloadTime": 9.3,
 		"AmmunitionCost": 1600.0,
 		"Weight": 7230.0,
-		"ENLoad": 386.0
+		"ENLoad": 386.0,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "EL-PW-00 VIENTO",
@@ -939,7 +968,8 @@
 		"ReloadTime": 2.4,
 		"AmmunitionCost": 80.0,
 		"Weight": 1180.0,
-		"ENLoad": 215.0
+		"ENLoad": 215.0,
+		"DefaultOrdering": 31
 	},
 	{
 		"Name": "EL-PW-01 TRUENO",
@@ -975,7 +1005,8 @@
 		"ReloadTime": 4.2,
 		"AmmunitionCost": 300,
 		"Weight": 3100,
-		"ENLoad": 420
+		"ENLoad": 420,
+		"DefaultOrdering": 39
 	},
 	{
 		"Name": "EULE/60D",
@@ -1003,7 +1034,8 @@
 		"ReloadTime": 6.0,
 		"AmmunitionCost": 400.0,
 		"Weight": 2760.0,
-		"ENLoad": 382.0
+		"ENLoad": 382.0,
+		"DefaultOrdering": 19
 	},
 	{
 		"Name": "FASAN/60E",
@@ -1041,7 +1073,8 @@
 		"ENLoad": 882.0,
 		"CoolingDelay": 1.7,
 		"ReloadTimeOverheat": 7.95,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"DefaultOrdering": 17
 	},
 	{
 		"Name": "HG-003 COQUILLETT",
@@ -1069,7 +1102,8 @@
 		"AmmunitionCost": 100.0,
 		"Weight": 1200.0,
 		"ENLoad": 122.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 28
 	},
 	{
 		"Name": "HG-004 DUCKETT",
@@ -1097,7 +1131,8 @@
 		"AmmunitionCost": 120.0,
 		"Weight": 1650.0,
 		"ENLoad": 158.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 29
 	},
 	{
 		"Name": "HI-16: GU-Q1",
@@ -1128,7 +1163,8 @@
 		"CoolingDelay": 0.4,
 		"ReloadTimeOverheat": 3.18,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 15.0
+		"MaxRecoilAngle": 15.0,
+		"DefaultOrdering": 55
 	},
 	{
 		"Name": "HI-18: GU-A2",
@@ -1159,7 +1195,8 @@
 		"CoolingDelay": 0.4,
 		"ReloadTimeOverheat": 5.25,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 15.0
+		"MaxRecoilAngle": 15.0,
+		"DefaultOrdering": 56
 	},
 	{
 		"Name": "HI-32: BU-TT/A",
@@ -1186,7 +1223,8 @@
 		"Weight": 1800.0,
 		"ENLoad": 213.0,
 		"CoolingDelay": 1.5,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "HML-G2/P19MLT-04",
@@ -1221,7 +1259,8 @@
 		"ReloadTime": 3.6,
 		"AmmunitionCost": 150.0,
 		"Weight": 3250.0,
-		"ENLoad": 165.0
+		"ENLoad": 165.0,
+		"DefaultOrdering": 57
 	},
 	{
 		"Name": "HML-G3/P08SPL-06",
@@ -1247,7 +1286,8 @@
 		"ReloadTime": 4.0,
 		"AmmunitionCost": 650.0,
 		"Weight": 4630.0,
-		"ENLoad": 180.0
+		"ENLoad": 180.0,
+		"DefaultOrdering": 58
 	},
 	{
 		"Name": "IA-C01W1: NEBULA",
@@ -1286,7 +1326,8 @@
 		"CoolingDelay": 1.2,
 		"ReloadTimeOverheat": 6.47,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 51
 	},
 	{
 		"Name": "IA-C01W2: MOONLIGHT",
@@ -1315,7 +1356,8 @@
 		"ENLoad": 544.0,
 		"CoolingDelay": 1.1,
 		"IsEnergyFirearmSpec": true,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 11
 	},
 	{
 		"Name": "IA-C01W3: AURORA",
@@ -1352,7 +1394,8 @@
 		"AmmunitionCost": 80,
 		"Weight": 3330,
 		"ENLoad": 390,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"DefaultOrdering": 20
 	},
 	{
 		"Name": "IA-C01W6: NB-REDSHIFT",
@@ -1391,7 +1434,8 @@
 		"ENLoad": 667.0,
 		"CoolingDelay": 1.2,
 		"ReloadTimeOverheat": 7.82,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 52
 	},
 	{
 		"Name": "IA-C01W7: ML-REDSHIFT",
@@ -1419,7 +1463,8 @@
 		"Weight": 2200.0,
 		"ENLoad": 544.0,
 		"CoolingDelay": 1.5,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 12
 	},
 	{
 		"Name": "IB-C03W1: WLT 011",
@@ -1457,7 +1502,8 @@
 		"ENLoad": 850.0,
 		"CoolingDelay": 1.0,
 		"ReloadTimeOverheat": 8.0,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 53
 	},
 	{
 		"Name": "IB-C03W2: WLT 101",
@@ -1484,7 +1530,8 @@
 		"Weight": 2030.0,
 		"ENLoad": 578.0,
 		"CoolingDelay": 1.5,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 13
 	},
 	{
 		"Name": "IB-C03W3: NGI 006",
@@ -1517,7 +1564,8 @@
 		"ReloadTime": 8.6,
 		"AmmunitionCost": 650,
 		"Weight": 4200,
-		"ENLoad": 783
+		"ENLoad": 783,
+		"DefaultOrdering": 43
 	},
 	{
 		"Name": "IB-C03W4: NGI 028",
@@ -1540,7 +1588,8 @@
 		"Cooling": 100,
 		"Weight": 2170,
 		"ENLoad": 800,
-		"CoolingDelay": 2.1
+		"CoolingDelay": 2.1,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "IRIDIUM",
@@ -1566,7 +1615,8 @@
 		"AmmunitionCost": 800.0,
 		"Weight": 2020.0,
 		"ENLoad": 290.0,
-		"MaxRecoilAngle": 25.0
+		"MaxRecoilAngle": 25.0,
+		"DefaultOrdering": 39
 	},
 	{
 		"Name": "KRANICH/60Z",
@@ -1597,7 +1647,8 @@
 		"CoolingDelay": 0.6,
 		"ReloadTimeOverheat": 6.78,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 9.0
+		"MaxRecoilAngle": 9.0,
+		"DefaultOrdering": 18
 	},
 	{
 		"Name": "LITTLE GEM",
@@ -1622,7 +1673,8 @@
 		"ReloadTime": 4.4,
 		"AmmunitionCost": 450.0,
 		"Weight": 2940.0,
-		"ENLoad": 169.0
+		"ENLoad": 169.0,
+		"DefaultOrdering": 35
 	},
 	{
 		"Name": "LR-036 CURTIS",
@@ -1658,7 +1710,8 @@
 		"ENLoad": 289.0,
 		"CoolingDelay": 0.6,
 		"ReloadTimeOverheat": 5.68,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 15
 	},
 	{
 		"Name": "LR-037 HARRIS",
@@ -1694,7 +1747,8 @@
 		"ENLoad": 441.0,
 		"CoolingDelay": 0.6,
 		"ReloadTimeOverheat": 3.63,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 16
 	},
 	{
 		"Name": "MA-E-210 ETSUJIN",
@@ -1731,7 +1785,8 @@
 		"AmmunitionCost": 30.0,
 		"Weight": 2810.0,
 		"ENLoad": 98.0,
-		"MaxRecoilAngle": 9.0
+		"MaxRecoilAngle": 9.0,
+		"DefaultOrdering": 23
 	},
 	{
 		"Name": "MA-E-211 SAMPU",
@@ -1768,7 +1823,8 @@
 		"AmmunitionCost": 40.0,
 		"Weight": 960.0,
 		"ENLoad": 62.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 30
 	},
 	{
 		"Name": "MA-J-200 RANSETSU-RF",
@@ -1809,7 +1865,8 @@
 		"AmmunitionCost": 100.0,
 		"Weight": 4210.0,
 		"ENLoad": 158.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 14
 	},
 	{
 		"Name": "MA-J-201 RANSETSU-AR",
@@ -1846,7 +1903,8 @@
 		"AmmunitionCost": 40.0,
 		"Weight": 3620.0,
 		"ENLoad": 132.0,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 19
 	},
 	{
 		"Name": "MAJESTIC",
@@ -1871,7 +1929,8 @@
 		"ReloadTime": 4.2,
 		"AmmunitionCost": 600.0,
 		"Weight": 4660.0,
-		"ENLoad": 178.0
+		"ENLoad": 178.0,
+		"DefaultOrdering": 34
 	},
 	{
 		"Name": "MA-T-222 KYORAI",
@@ -1907,7 +1966,8 @@
 		"ReloadTime": 2.3,
 		"AmmunitionCost": 200.0,
 		"Weight": 2890.0,
-		"ENLoad": 60.0
+		"ENLoad": 60.0,
+		"DefaultOrdering": 40
 	},
 	{
 		"Name": "MA-T-223 KYORIKU",
@@ -1934,7 +1994,8 @@
 		"AmmunitionCost": 100.0,
 		"Weight": 2600.0,
 		"ENLoad": 52.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 41
 	},
 	{
 		"Name": "MG-014 LUDLOW",
@@ -1962,7 +2023,8 @@
 		"AmmunitionCost": 20.0,
 		"Weight": 2450.0,
 		"ENLoad": 82.0,
-		"MaxRecoilAngle": 9.0
+		"MaxRecoilAngle": 9.0,
+		"DefaultOrdering": 20
 	},
 	{
 		"Name": "PB-033M ASHMEAD",
@@ -1989,7 +2051,8 @@
 		"Weight": 4180.0,
 		"ENLoad": 225.0,
 		"CoolingDelay": 1.5,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "PFAU/66D",
@@ -2039,7 +2102,8 @@
 		"ReloadTime": 3.7,
 		"AmmunitionCost": 330,
 		"Weight": 3630,
-		"ENLoad": 392
+		"ENLoad": 392,
+		"DefaultOrdering": 60
 	},
 	{
 		"Name": "RF-024 TURNER",
@@ -2067,7 +2131,8 @@
 		"AmmunitionCost": 40.0,
 		"Weight": 3560.0,
 		"ENLoad": 102.0,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 17
 	},
 	{
 		"Name": "RF-025 SCUDDER",
@@ -2095,7 +2160,8 @@
 		"AmmunitionCost": 50.0,
 		"Weight": 3830.0,
 		"ENLoad": 153.0,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 18
 	},
 	{
 		"Name": "SB-033M MORLEY",
@@ -2120,7 +2186,8 @@
 		"ReloadTime": 5.0,
 		"AmmunitionCost": 800.0,
 		"Weight": 6580.0,
-		"ENLoad": 465.0
+		"ENLoad": 465.0,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "SG-026 HALDEMAN",
@@ -2146,7 +2213,8 @@
 		"AmmunitionCost": 200.0,
 		"Weight": 3660.0,
 		"ENLoad": 185.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 25
 	},
 	{
 		"Name": "SG-027 ZIMMERMAN",
@@ -2172,7 +2240,8 @@
 		"AmmunitionCost": 350.0,
 		"Weight": 4400.0,
 		"ENLoad": 242.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 26
 	},
 	{
 		"Name": "SI-24: SU-Q5",
@@ -2195,7 +2264,8 @@
 		"Cooling": 88,
 		"Weight": 2010,
 		"ENLoad": 220,
-		"CoolingDelay": 2.3
+		"CoolingDelay": 2.3,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "SI-27: SU-R8",
@@ -2218,7 +2288,8 @@
 		"Cooling": 110,
 		"Weight": 3150,
 		"ENLoad": 323,
-		"CoolingDelay": 1.5
+		"CoolingDelay": 1.5,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "SI-29: SU-TT/C",
@@ -2241,7 +2312,8 @@
 		"Cooling": 142,
 		"Weight": 3380,
 		"ENLoad": 385,
-		"CoolingDelay": 2.9
+		"CoolingDelay": 2.9,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "SONGBIRDS",
@@ -2275,7 +2347,8 @@
 		"ReloadTime": 6.4,
 		"AmmunitionCost": 600.0,
 		"Weight": 5500.0,
-		"ENLoad": 285.0
+		"ENLoad": 285.0,
+		"DefaultOrdering": 11
 	},
 	{
 		"Name": "VE-60LCA",
@@ -2330,7 +2403,8 @@
 		"ENLoad": 1200,
 		"CoolingDelay": 2.6,
 		"ReloadTimeOverheat": 9.5,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"DefaultOrdering": 14
 	},
 	{
 		"Name": "VE-60LCB",
@@ -2367,7 +2441,8 @@
 		"ENLoad": 803,
 		"CoolingDelay": 3.5,
 		"ReloadTimeOverheat": 9.65,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"DefaultOrdering": 15
 	},
 	{
 		"Name": "VE-60SNA",
@@ -2394,7 +2469,8 @@
 		"ReloadTime": 5.0,
 		"AmmunitionCost": 800.0,
 		"Weight": 6150.0,
-		"ENLoad": 825.0
+		"ENLoad": 825.0,
+		"DefaultOrdering": 12
 	},
 	{
 		"Name": "VE-61PSA",
@@ -2417,7 +2493,8 @@
 		"Cooling": 113,
 		"Weight": 4100,
 		"ENLoad": 480,
-		"CoolingDelay": 5.3
+		"CoolingDelay": 5.3,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "VE-66LRA",
@@ -2455,7 +2532,8 @@
 		"CoolingDelay": 1.0,
 		"ReloadTimeOverheat": 5.73,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 45
 	},
 	{
 		"Name": "VE-66LRB",
@@ -2493,7 +2571,8 @@
 		"CoolingDelay": 1.7,
 		"ReloadTimeOverheat": 6.43,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 46
 	},
 	{
 		"Name": "VE-67LLA",
@@ -2520,7 +2599,8 @@
 		"Weight": 4520.0,
 		"ENLoad": 460.0,
 		"CoolingDelay": 1.5,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "VP-60LCD",
@@ -2558,7 +2638,8 @@
 		"ENLoad": 784.0,
 		"CoolingDelay": 1.7,
 		"ReloadTimeOverheat": 6.62,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"DefaultOrdering": 16
 	},
 	{
 		"Name": "VP-60LCS",
@@ -2595,7 +2676,8 @@
 		"ENLoad": 683.0,
 		"CoolingDelay": 1.7,
 		"ReloadTimeOverheat": 7.13,
-		"IsEnergyFirearmSpec": true
+		"IsEnergyFirearmSpec": true,
+		"DefaultOrdering": 13
 	},
 	{
 		"Name": "VP-60LT",
@@ -2630,7 +2712,8 @@
 		"ReloadTime": 5.0,
 		"AmmunitionCost": 500,
 		"Weight": 2800,
-		"ENLoad": 560
+		"ENLoad": 560,
+		"DefaultOrdering": 46
 	},
 	{
 		"Name": "VP-61PB",
@@ -2653,7 +2736,8 @@
 		"Cooling": 132,
 		"Weight": 1920,
 		"ENLoad": 285,
-		"CoolingDelay": 1.7
+		"CoolingDelay": 1.7,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "VP-61PS",
@@ -2676,7 +2760,8 @@
 		"Cooling": 144,
 		"Weight": 2700,
 		"ENLoad": 310,
-		"CoolingDelay": 1.9
+		"CoolingDelay": 1.9,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "VP-66EG",
@@ -2705,7 +2790,8 @@
 		"AmmunitionCost": 150.0,
 		"Weight": 980.0,
 		"ENLoad": 247.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 32
 	},
 	{
 		"Name": "VP-66LH",
@@ -2751,7 +2837,8 @@
 		"CoolingDelay": 0.5,
 		"ReloadTimeOverheat": 4.98,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 49
 	},
 	{
 		"Name": "VP-66LR",
@@ -2789,7 +2876,8 @@
 		"CoolingDelay": 0.7,
 		"ReloadTimeOverheat": 4.12,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 44
 	},
 	{
 		"Name": "VP-66LS",
@@ -2828,7 +2916,8 @@
 		"CoolingDelay": 1.4,
 		"ReloadTimeOverheat": 6.0,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 47
 	},
 	{
 		"Name": "VP-67EB",
@@ -2855,7 +2944,8 @@
 		"Weight": 1720.0,
 		"ENLoad": 198.0,
 		"CoolingDelay": 1.1,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "VP-67LD",
@@ -2882,7 +2972,8 @@
 		"Weight": 1350.0,
 		"ENLoad": 150.0,
 		"CoolingDelay": 1.1,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "Vvc-700LD",
@@ -2930,7 +3021,8 @@
 		"ReloadTime": 10.0,
 		"AmmunitionCost": 150,
 		"Weight": 3800,
-		"ENLoad": 570
+		"ENLoad": 570,
+		"DefaultOrdering": 47
 	},
 	{
 		"Name": "Vvc-703PM",
@@ -2957,7 +3049,8 @@
 		"ReloadTime": 4.0,
 		"AmmunitionCost": 100,
 		"Weight": 2310,
-		"ENLoad": 210
+		"ENLoad": 210,
+		"DefaultOrdering": 40
 	},
 	{
 		"Name": "Vvc-706PM",
@@ -2984,7 +3077,8 @@
 		"ReloadTime": 6.0,
 		"AmmunitionCost": 100,
 		"Weight": 3650,
-		"ENLoad": 276
+		"ENLoad": 276,
+		"DefaultOrdering": 41
 	},
 	{
 		"Name": "Vvc-70VPM",
@@ -3011,7 +3105,8 @@
 		"ReloadTime": 6.2,
 		"AmmunitionCost": 150.0,
 		"Weight": 3760.0,
-		"ENLoad": 268.0
+		"ENLoad": 268.0,
+		"DefaultOrdering": 42
 	},
 	{
 		"Name": "Vvc-760PR",
@@ -3050,7 +3145,8 @@
 		"CoolingDelay": 1.6,
 		"ReloadTimeOverheat": 6.17,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 50
 	},
 	{
 		"Name": "Vvc-770LB",
@@ -3086,7 +3182,8 @@
 		"Weight": 2060.0,
 		"ENLoad": 245.0,
 		"CoolingDelay": 1.1,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "Vvc-774LS",
@@ -3113,7 +3210,8 @@
 		"Weight": 3260.0,
 		"ENLoad": 328.0,
 		"CoolingDelay": 1.5,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "WB-0000 BAD COOK",
@@ -3144,7 +3242,8 @@
 		"ENLoad": 403.0,
 		"CoolingDelay": 0.8,
 		"ReloadTimeOverheat": 5.93,
-		"MaxRecoilAngle": 7.0
+		"MaxRecoilAngle": 7.0,
+		"DefaultOrdering": 43
 	},
 	{
 		"Name": "WB-0010 DOUBLE TROUBLE",
@@ -3171,7 +3270,8 @@
 		"Weight": 5090.0,
 		"ENLoad": 108.0,
 		"CoolingDelay": 1.5,
-		"IsMeleeSpec": true
+		"IsMeleeSpec": true,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "WR-0555 ATTACHE",
@@ -3199,7 +3299,8 @@
 		"AmmunitionCost": 40.0,
 		"Weight": 5110.0,
 		"ENLoad": 303.0,
-		"MaxRecoilAngle": 9.0
+		"MaxRecoilAngle": 9.0,
+		"DefaultOrdering": 22
 	},
 	{
 		"Name": "WR-0777 SWEET SIXTEEN",
@@ -3234,7 +3335,8 @@
 		"AmmunitionCost": 30.0,
 		"Weight": 1640.0,
 		"ENLoad": 268.0,
-		"MaxRecoilAngle": 12.0
+		"MaxRecoilAngle": 12.0,
+		"DefaultOrdering": 27
 	},
 	{
 		"Name": "WR-0999 DELIVERY BOY",
@@ -3261,7 +3363,8 @@
 		"ReloadTime": 9.0,
 		"AmmunitionCost": 600,
 		"Weight": 6890,
-		"ENLoad": 499
+		"ENLoad": 499,
+		"DefaultOrdering": 36
 	},
 	{
 		"Name": "WS-1200 THERAPIST",
@@ -3297,7 +3400,8 @@
 		"ReloadTime": 2.5,
 		"AmmunitionCost": 150.0,
 		"Weight": 3180.0,
-		"ENLoad": 82.0
+		"ENLoad": 82.0,
+		"DefaultOrdering": 42
 	},
 	{
 		"Name": "WS-5000 APERITIF",
@@ -3332,7 +3436,8 @@
 		"ReloadTime": 6.5,
 		"AmmunitionCost": 70.0,
 		"Weight": 4600.0,
-		"ENLoad": 165.0
+		"ENLoad": 165.0,
+		"DefaultOrdering": 59
 	},
 	{
 		"Name": "WS-5001 SOUP",
@@ -3369,7 +3474,8 @@
 		"ReloadTime": 8.0,
 		"AmmunitionCost": 50,
 		"Weight": 5620,
-		"ENLoad": 680
+		"ENLoad": 680,
+		"DefaultOrdering": 37
 	},
 	{
 		"Name": "WUERGER/66E",
@@ -3407,7 +3513,8 @@
 		"CoolingDelay": 1.0,
 		"ReloadTimeOverheat": 4.98,
 		"IsEnergyFirearmSpec": true,
-		"MaxRecoilAngle": 6.0
+		"MaxRecoilAngle": 6.0,
+		"DefaultOrdering": 48
 	},
 	{
 		"Name": "20-081 MIND ALPHA",
@@ -3423,7 +3530,8 @@
 		"ScanEffectDuration": 6.0,
 		"ScanStandbyTime": 4.8,
 		"Weight": 3350.0,
-		"ENLoad": 142.0
+		"ENLoad": 142.0,
+		"DefaultOrdering": 20
 	},
 	{
 		"Name": "20-082 MIND BETA",
@@ -3439,7 +3547,8 @@
 		"ScanEffectDuration": 12.0,
 		"ScanStandbyTime": 9.0,
 		"Weight": 3460.0,
-		"ENLoad": 128.0
+		"ENLoad": 128.0,
+		"DefaultOrdering": 21
 	},
 	{
 		"Name": "AH-J-124 BASHO",
@@ -3455,7 +3564,8 @@
 		"ScanEffectDuration": 14.4,
 		"ScanStandbyTime": 10.8,
 		"Weight": 4600,
-		"ENLoad": 95
+		"ENLoad": 95,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "AH-J-124/RC JAILBREAK",
@@ -3471,7 +3581,8 @@
 		"ScanEffectDuration": 6.0,
 		"ScanStandbyTime": 10.8,
 		"Weight": 4250.0,
-		"ENLoad": 95.0
+		"ENLoad": 95.0,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "DF-HD-08 TIAN-QIANG",
@@ -3487,7 +3598,8 @@
 		"ScanEffectDuration": 7.0,
 		"ScanStandbyTime": 11.4,
 		"Weight": 1230.0,
-		"ENLoad": 88.0
+		"ENLoad": 88.0,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "EL-PH-00 ALBA",
@@ -3503,7 +3615,8 @@
 		"ScanEffectDuration": 3.6,
 		"ScanStandbyTime": 5.4,
 		"Weight": 2800.0,
-		"ENLoad": 205.0
+		"ENLoad": 205.0,
+		"DefaultOrdering": 19
 	},
 	{
 		"Name": "EL-TH-10 FIRMEZA",
@@ -3519,7 +3632,8 @@
 		"ScanEffectDuration": 15.0,
 		"ScanStandbyTime": 9.6,
 		"Weight": 2370.0,
-		"ENLoad": 134.0
+		"ENLoad": 134.0,
+		"DefaultOrdering": 18
 	},
 	{
 		"Name": "HC-2000/BC SHADE EYE",
@@ -3535,7 +3649,8 @@
 		"ScanEffectDuration": 10.8,
 		"ScanStandbyTime": 9.0,
 		"Weight": 3090.0,
-		"ENLoad": 163.0
+		"ENLoad": 163.0,
+		"DefaultOrdering": 15
 	},
 	{
 		"Name": "HC-2000 FINDER EYE",
@@ -3551,7 +3666,8 @@
 		"ScanEffectDuration": 4.2,
 		"ScanStandbyTime": 3.6,
 		"Weight": 2670.0,
-		"ENLoad": 84.0
+		"ENLoad": 84.0,
+		"DefaultOrdering": 14
 	},
 	{
 		"Name": "HC-3000 WRECKER",
@@ -3567,7 +3683,8 @@
 		"ScanEffectDuration": 3.0,
 		"ScanStandbyTime": 12.0,
 		"Weight": 3800.0,
-		"ENLoad": 102.0
+		"ENLoad": 102.0,
+		"DefaultOrdering": 16
 	},
 	{
 		"Name": "HD-011 MELANDER",
@@ -3583,7 +3700,8 @@
 		"ScanEffectDuration": 4.8,
 		"ScanStandbyTime": 4.2,
 		"Weight": 3160.0,
-		"ENLoad": 135.0
+		"ENLoad": 135.0,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "HD-012 MELANDER C3",
@@ -3599,7 +3717,8 @@
 		"ScanEffectDuration": 12.0,
 		"ScanStandbyTime": 10.8,
 		"Weight": 3300.0,
-		"ENLoad": 165.0
+		"ENLoad": 165.0,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "HD-033M VERRILL",
@@ -3615,7 +3734,8 @@
 		"ScanEffectDuration": 7.8,
 		"ScanStandbyTime": 5.4,
 		"Weight": 3830.0,
-		"ENLoad": 240.0
+		"ENLoad": 240.0,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "HS-5000 APPETIZER",
@@ -3631,7 +3751,8 @@
 		"ScanEffectDuration": 6.0,
 		"ScanStandbyTime": 4.8,
 		"Weight": 3000.0,
-		"ENLoad": 103.0
+		"ENLoad": 103.0,
+		"DefaultOrdering": 17
 	},
 	{
 		"Name": "IA-C01H: EPHEMERA",
@@ -3647,7 +3768,8 @@
 		"ScanEffectDuration": 4.8,
 		"ScanStandbyTime": 6.0,
 		"Weight": 4330.0,
-		"ENLoad": 233.0
+		"ENLoad": 233.0,
+		"DefaultOrdering": 22
 	},
 	{
 		"Name": "IB-C03H: HAL 826",
@@ -3663,7 +3785,8 @@
 		"ScanEffectDuration": 16.8,
 		"ScanStandbyTime": 11.4,
 		"Weight": 3760.0,
-		"ENLoad": 215.0
+		"ENLoad": 215.0,
+		"DefaultOrdering": 23
 	},
 	{
 		"Name": "KASUAR/44Z",
@@ -3679,7 +3802,8 @@
 		"ScanEffectDuration": 5.4,
 		"ScanStandbyTime": 3.6,
 		"Weight": 2590.0,
-		"ENLoad": 254.0
+		"ENLoad": 254.0,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "LAMMERGEIER/44F",
@@ -3695,7 +3819,8 @@
 		"ScanEffectDuration": 6.6,
 		"ScanStandbyTime": 8.0,
 		"Weight": 1050.0,
-		"ENLoad": 220.0
+		"ENLoad": 220.0,
+		"DefaultOrdering": 11
 	},
 	{
 		"Name": "NACHTREIHER/44E",
@@ -3711,7 +3836,8 @@
 		"ScanEffectDuration": 13.2,
 		"ScanStandbyTime": 9.6,
 		"Weight": 2320.0,
-		"ENLoad": 210.0
+		"ENLoad": 210.0,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "VE-44A",
@@ -3727,7 +3853,8 @@
 		"ScanEffectDuration": 12.6,
 		"ScanStandbyTime": 9.9,
 		"Weight": 3640.0,
-		"ENLoad": 182.0
+		"ENLoad": 182.0,
+		"DefaultOrdering": 12
 	},
 	{
 		"Name": "VE-44B",
@@ -3743,7 +3870,8 @@
 		"ScanEffectDuration": 18.0,
 		"ScanStandbyTime": 4.8,
 		"Weight": 4320.0,
-		"ENLoad": 265.0
+		"ENLoad": 265.0,
+		"DefaultOrdering": 13
 	},
 	{
 		"Name": "VP-44D",
@@ -3759,7 +3887,8 @@
 		"ScanEffectDuration": 14.4,
 		"ScanStandbyTime": 10.2,
 		"Weight": 3260.0,
-		"ENLoad": 177.0
+		"ENLoad": 177.0,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "VP-44S",
@@ -3775,7 +3904,8 @@
 		"ScanEffectDuration": 7.2,
 		"ScanStandbyTime": 5.1,
 		"Weight": 3080.0,
-		"ENLoad": 148.0
+		"ENLoad": 148.0,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "07-061 MIND ALPHA",
@@ -3790,7 +3920,8 @@
 		"GeneratorOutputAdj": 112,
 		"GeneratorSupplyAdj": 104,
 		"Weight": 16510,
-		"ENLoad": 364
+		"ENLoad": 364,
+		"DefaultOrdering": 15
 	},
 	{
 		"Name": "AC-J-120 BASHO",
@@ -3805,7 +3936,8 @@
 		"GeneratorOutputAdj": 85,
 		"GeneratorSupplyAdj": 94,
 		"Weight": 16100,
-		"ENLoad": 300
+		"ENLoad": 300,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "AC-J-120/RC JAILBREAK",
@@ -3820,7 +3952,8 @@
 		"GeneratorOutputAdj": 83,
 		"GeneratorSupplyAdj": 94,
 		"Weight": 12350,
-		"ENLoad": 300
+		"ENLoad": 300,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "BD-011 MELANDER",
@@ -3835,7 +3968,8 @@
 		"GeneratorOutputAdj": 105,
 		"GeneratorSupplyAdj": 97,
 		"Weight": 15200,
-		"ENLoad": 304
+		"ENLoad": 304,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "BD-012 MELANDER C3",
@@ -3850,7 +3984,8 @@
 		"GeneratorOutputAdj": 102,
 		"GeneratorSupplyAdj": 106,
 		"Weight": 13700,
-		"ENLoad": 322
+		"ENLoad": 322,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "CC-2000 ORBITER",
@@ -3865,7 +4000,8 @@
 		"GeneratorOutputAdj": 103,
 		"GeneratorSupplyAdj": 93,
 		"Weight": 12650,
-		"ENLoad": 267
+		"ENLoad": 267,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "CC-3000 WRECKER",
@@ -3880,7 +4016,8 @@
 		"GeneratorOutputAdj": 96,
 		"GeneratorSupplyAdj": 100,
 		"Weight": 19000,
-		"ENLoad": 310
+		"ENLoad": 310,
+		"DefaultOrdering": 11
 	},
 	{
 		"Name": "CS-5000 MAIN DISH",
@@ -3895,7 +4032,8 @@
 		"GeneratorOutputAdj": 97,
 		"GeneratorSupplyAdj": 112,
 		"Weight": 23600,
-		"ENLoad": 413
+		"ENLoad": 413,
+		"DefaultOrdering": 12
 	},
 	{
 		"Name": "DF-BD-08 TIAN-QIANG",
@@ -3910,7 +4048,8 @@
 		"GeneratorOutputAdj": 114,
 		"GeneratorSupplyAdj": 70,
 		"Weight": 20650,
-		"ENLoad": 388
+		"ENLoad": 388,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "EL-PC-00 ALBA",
@@ -3925,7 +4064,8 @@
 		"GeneratorOutputAdj": 101,
 		"GeneratorSupplyAdj": 105,
 		"Weight": 12000,
-		"ENLoad": 315
+		"ENLoad": 315,
+		"DefaultOrdering": 14
 	},
 	{
 		"Name": "EL-TC-10 FIRMEZA",
@@ -3940,7 +4080,8 @@
 		"GeneratorOutputAdj": 109,
 		"GeneratorSupplyAdj": 89,
 		"Weight": 10890,
-		"ENLoad": 351
+		"ENLoad": 351,
+		"DefaultOrdering": 13
 	},
 	{
 		"Name": "IA-C01C: EPHEMERA",
@@ -3955,7 +4096,8 @@
 		"GeneratorOutputAdj": 126,
 		"GeneratorSupplyAdj": 96,
 		"Weight": 13200,
-		"ENLoad": 412
+		"ENLoad": 412,
+		"DefaultOrdering": 16
 	},
 	{
 		"Name": "IB-C03C: HAL 826",
@@ -3970,7 +4112,8 @@
 		"GeneratorOutputAdj": 120,
 		"GeneratorSupplyAdj": 108,
 		"Weight": 18520,
-		"ENLoad": 366
+		"ENLoad": 366,
+		"DefaultOrdering": 17
 	},
 	{
 		"Name": "LAMMERGEIER/40F",
@@ -3985,7 +4128,8 @@
 		"GeneratorOutputAdj": 117,
 		"GeneratorSupplyAdj": 110,
 		"Weight": 9700,
-		"ENLoad": 341
+		"ENLoad": 341,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "NACHTREIHER/40E",
@@ -4000,7 +4144,8 @@
 		"GeneratorOutputAdj": 91,
 		"GeneratorSupplyAdj": 109,
 		"Weight": 9820,
-		"ENLoad": 330
+		"ENLoad": 330,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "VE-40A",
@@ -4015,7 +4160,8 @@
 		"GeneratorOutputAdj": 122,
 		"GeneratorSupplyAdj": 95,
 		"Weight": 21100,
-		"ENLoad": 432
+		"ENLoad": 432,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "VP-40S",
@@ -4030,7 +4176,8 @@
 		"GeneratorOutputAdj": 111,
 		"GeneratorSupplyAdj": 102,
 		"Weight": 15030,
-		"ENLoad": 337
+		"ENLoad": 337,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "04-101 MIND ALPHA",
@@ -4045,7 +4192,8 @@
 		"FirearmSpecialization": 103,
 		"MeleeSpecialization": 88,
 		"Weight": 16960,
-		"ENLoad": 358
+		"ENLoad": 358,
+		"DefaultOrdering": 17
 	},
 	{
 		"Name": "AA-J-123 BASHO",
@@ -4060,7 +4208,8 @@
 		"FirearmSpecialization": 53,
 		"MeleeSpecialization": 158,
 		"Weight": 10480,
-		"ENLoad": 210
+		"ENLoad": 210,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "AA-J-123/RC JAILBREAK",
@@ -4075,7 +4224,8 @@
 		"FirearmSpecialization": 45,
 		"MeleeSpecialization": 112,
 		"Weight": 8480,
-		"ENLoad": 210
+		"ENLoad": 210,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "AC-2000 TOOL ARM",
@@ -4090,7 +4240,8 @@
 		"FirearmSpecialization": 96,
 		"MeleeSpecialization": 100,
 		"Weight": 11300,
-		"ENLoad": 216
+		"ENLoad": 216,
+		"DefaultOrdering": 12
 	},
 	{
 		"Name": "AC-3000 WRECKER",
@@ -4105,7 +4256,8 @@
 		"FirearmSpecialization": 26,
 		"MeleeSpecialization": 72,
 		"Weight": 14150,
-		"ENLoad": 220
+		"ENLoad": 220,
+		"DefaultOrdering": 13
 	},
 	{
 		"Name": "AR-011 MELANDER",
@@ -4120,7 +4272,8 @@
 		"FirearmSpecialization": 100,
 		"MeleeSpecialization": 124,
 		"Weight": 13650,
-		"ENLoad": 265
+		"ENLoad": 265,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "AR-012 MELANDER C3",
@@ -4135,7 +4288,8 @@
 		"FirearmSpecialization": 135,
 		"MeleeSpecialization": 110,
 		"Weight": 12000,
-		"ENLoad": 232
+		"ENLoad": 232,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "AS-5000 SALAD",
@@ -4150,7 +4304,8 @@
 		"FirearmSpecialization": 88,
 		"MeleeSpecialization": 131,
 		"Weight": 20940,
-		"ENLoad": 218
+		"ENLoad": 218,
+		"DefaultOrdering": 14
 	},
 	{
 		"Name": "DF-AR-08 TIAN-QIANG",
@@ -4165,7 +4320,8 @@
 		"FirearmSpecialization": 92,
 		"MeleeSpecialization": 94,
 		"Weight": 20020,
-		"ENLoad": 295
+		"ENLoad": 295,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "DF-AR-09 TIAN-LAO",
@@ -4180,7 +4336,8 @@
 		"FirearmSpecialization": 76,
 		"MeleeSpecialization": 81,
 		"Weight": 26740,
-		"ENLoad": 266
+		"ENLoad": 266,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "EL-PA-00 ALBA",
@@ -4195,7 +4352,8 @@
 		"FirearmSpecialization": 140,
 		"MeleeSpecialization": 91,
 		"Weight": 9810,
-		"ENLoad": 315
+		"ENLoad": 315,
+		"DefaultOrdering": 16
 	},
 	{
 		"Name": "EL-TA-10 FIRMEZA",
@@ -4210,7 +4368,8 @@
 		"FirearmSpecialization": 122,
 		"MeleeSpecialization": 120,
 		"Weight": 11220,
-		"ENLoad": 270
+		"ENLoad": 270,
+		"DefaultOrdering": 15
 	},
 	{
 		"Name": "IA-C01A: EPHEMERA",
@@ -4225,7 +4384,8 @@
 		"FirearmSpecialization": 104,
 		"MeleeSpecialization": 106,
 		"Weight": 12700,
-		"ENLoad": 312
+		"ENLoad": 312,
+		"DefaultOrdering": 18
 	},
 	{
 		"Name": "IB-C03A: HAL 826",
@@ -4240,7 +4400,8 @@
 		"FirearmSpecialization": 123,
 		"MeleeSpecialization": 114,
 		"Weight": 14160,
-		"ENLoad": 300
+		"ENLoad": 300,
+		"DefaultOrdering": 19
 	},
 	{
 		"Name": "LAMMERGEIER/46F",
@@ -4255,7 +4416,8 @@
 		"FirearmSpecialization": 87,
 		"MeleeSpecialization": 115,
 		"Weight": 9700,
-		"ENLoad": 328
+		"ENLoad": 328,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "NACHTREIHER/46E",
@@ -4270,7 +4432,8 @@
 		"FirearmSpecialization": 160,
 		"MeleeSpecialization": 95,
 		"Weight": 11420,
-		"ENLoad": 290
+		"ENLoad": 290,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "VE-46A",
@@ -4285,7 +4448,8 @@
 		"FirearmSpecialization": 80,
 		"MeleeSpecialization": 98,
 		"Weight": 22210,
-		"ENLoad": 380
+		"ENLoad": 380,
+		"DefaultOrdering": 11
 	},
 	{
 		"Name": "VP-46D",
@@ -4300,7 +4464,8 @@
 		"FirearmSpecialization": 133,
 		"MeleeSpecialization": 139,
 		"Weight": 10990,
-		"ENLoad": 248
+		"ENLoad": 248,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "VP-46S",
@@ -4315,7 +4480,8 @@
 		"FirearmSpecialization": 102,
 		"MeleeSpecialization": 138,
 		"Weight": 14020,
-		"ENLoad": 278
+		"ENLoad": 278,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "06-041 MIND ALPHA",
@@ -4331,7 +4497,8 @@
 		"JumpDistance": 103,
 		"JumpHeight": 25,
 		"Weight": 20810,
-		"ENLoad": 412
+		"ENLoad": 412,
+		"DefaultOrdering": 14
 	},
 	{
 		"Name": "06-042 MIND BETA",
@@ -4347,7 +4514,8 @@
 		"JumpDistance": 334,
 		"JumpHeight": 60,
 		"Weight": 19750,
-		"ENLoad": 426
+		"ENLoad": 426,
+		"DefaultOrdering": 19
 	},
 	{
 		"Name": "2C-2000 CRAWLER",
@@ -4363,7 +4531,8 @@
 		"JumpDistance": 100,
 		"JumpHeight": 27,
 		"Weight": 16300,
-		"ENLoad": 280
+		"ENLoad": 280,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "2C-3000 WRECKER",
@@ -4379,7 +4548,8 @@
 		"JumpDistance": 86,
 		"JumpHeight": 17,
 		"Weight": 23230,
-		"ENLoad": 680
+		"ENLoad": 680,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "2S-5000 DESSERT",
@@ -4395,7 +4565,8 @@
 		"JumpDistance": 80,
 		"JumpHeight": 19,
 		"Weight": 27180,
-		"ENLoad": 420
+		"ENLoad": 420,
+		"DefaultOrdering": 11
 	},
 	{
 		"Name": "AL-J-121 BASHO",
@@ -4411,7 +4582,8 @@
 		"JumpDistance": 152,
 		"JumpHeight": 29,
 		"Weight": 19720,
-		"ENLoad": 300
+		"ENLoad": 300,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "AL-J-121/RC JAILBREAK",
@@ -4427,7 +4599,8 @@
 		"JumpDistance": 132,
 		"JumpHeight": 25,
 		"Weight": 18560,
-		"ENLoad": 300
+		"ENLoad": 300,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "DF-LG-08 TIAN-QIANG",
@@ -4443,7 +4616,8 @@
 		"JumpDistance": 90,
 		"JumpHeight": 20,
 		"Weight": 26950,
-		"ENLoad": 400
+		"ENLoad": 400,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "EL-PL-00 ALBA",
@@ -4459,7 +4633,8 @@
 		"JumpDistance": 130,
 		"JumpHeight": 37,
 		"Weight": 13150,
-		"ENLoad": 360
+		"ENLoad": 360,
+		"DefaultOrdering": 13
 	},
 	{
 		"Name": "EL-TL-10 FIRMEZA",
@@ -4475,7 +4650,8 @@
 		"JumpDistance": 155,
 		"JumpHeight": 31,
 		"Weight": 11200,
-		"ENLoad": 378
+		"ENLoad": 378,
+		"DefaultOrdering": 12
 	},
 	{
 		"Name": "EL-TL-11 FORTALEZA",
@@ -4502,7 +4678,8 @@
 		"ABENConsumption": 408,
 		"MeleeAttackThrust": 9071,
 		"Weight": 24650,
-		"ENLoad": 620
+		"ENLoad": 620,
+		"DefaultOrdering": 25
 	},
 	{
 		"Name": "IA-C01L: EPHEMERA",
@@ -4518,7 +4695,8 @@
 		"JumpDistance": 144,
 		"JumpHeight": 30,
 		"Weight": 15200,
-		"ENLoad": 398
+		"ENLoad": 398,
+		"DefaultOrdering": 15
 	},
 	{
 		"Name": "IB-C03L: HAL 826",
@@ -4534,7 +4712,8 @@
 		"JumpDistance": 115,
 		"JumpHeight": 31,
 		"Weight": 20590,
-		"ENLoad": 385
+		"ENLoad": 385,
+		"DefaultOrdering": 16
 	},
 	{
 		"Name": "KASUAR/42Z",
@@ -4550,7 +4729,8 @@
 		"JumpDistance": 386,
 		"JumpHeight": 80,
 		"Weight": 16510,
-		"ENLoad": 388
+		"ENLoad": 388,
+		"DefaultOrdering": 17
 	},
 	{
 		"Name": "LAMMERGEIER/42F",
@@ -4568,7 +4748,8 @@
 		"Weight": 22430,
 		"ENLoad": 790,
 		"BaseHoverSpeed": 380,
-		"BaseHoverQBSpeed": 382
+		"BaseHoverQBSpeed": 382,
+		"DefaultOrdering": 22
 	},
 	{
 		"Name": "LG-011 MELANDER",
@@ -4584,7 +4765,8 @@
 		"JumpDistance": 107,
 		"JumpHeight": 28,
 		"Weight": 17960,
-		"ENLoad": 365
+		"ENLoad": 365,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "LG-012 MELANDER C3",
@@ -4600,7 +4782,8 @@
 		"JumpDistance": 138,
 		"JumpHeight": 30,
 		"Weight": 16520,
-		"ENLoad": 355
+		"ENLoad": 355,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "LG-022T BORNEMISSZA",
@@ -4627,7 +4810,8 @@
 		"ABENConsumption": 360,
 		"MeleeAttackThrust": 8141,
 		"Weight": 49800,
-		"ENLoad": 455
+		"ENLoad": 455,
+		"DefaultOrdering": 23
 	},
 	{
 		"Name": "LG-033M VERRILL",
@@ -4645,7 +4829,8 @@
 		"Weight": 36200,
 		"ENLoad": 675,
 		"BaseHoverSpeed": 320,
-		"BaseHoverQBSpeed": 265
+		"BaseHoverQBSpeed": 265,
+		"DefaultOrdering": 20
 	},
 	{
 		"Name": "NACHTREIHER/42E",
@@ -4661,7 +4846,8 @@
 		"JumpDistance": 228,
 		"JumpHeight": 52,
 		"Weight": 14030,
-		"ENLoad": 462
+		"ENLoad": 462,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "RC-2000 SPRING CHICKEN",
@@ -4677,7 +4863,8 @@
 		"JumpDistance": 317,
 		"JumpHeight": 70,
 		"Weight": 25340,
-		"ENLoad": 402
+		"ENLoad": 402,
+		"DefaultOrdering": 18
 	},
 	{
 		"Name": "VE-42A",
@@ -4693,7 +4880,8 @@
 		"JumpDistance": 56,
 		"JumpHeight": 14,
 		"Weight": 31580,
-		"ENLoad": 465
+		"ENLoad": 465,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "VE-42B",
@@ -4720,7 +4908,8 @@
 		"ABENConsumption": 430,
 		"MeleeAttackThrust": 9913,
 		"Weight": 46600,
-		"ENLoad": 824
+		"ENLoad": 824,
+		"DefaultOrdering": 24
 	},
 	{
 		"Name": "VP-422",
@@ -4736,7 +4925,8 @@
 		"JumpDistance": 112,
 		"JumpHeight": 29,
 		"Weight": 17170,
-		"ENLoad": 387
+		"ENLoad": 387,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "VP-424",
@@ -4754,7 +4944,8 @@
 		"Weight": 31600,
 		"ENLoad": 760,
 		"BaseHoverSpeed": 350,
-		"BaseHoverQBSpeed": 330
+		"BaseHoverQBSpeed": 330,
+		"DefaultOrdering": 21
 	},
 	{
 		"Name": "AB-J-137 KIKAKU",
@@ -4773,7 +4964,8 @@
 		"MeleeAttackThrust": 14019,
 		"MeleeAtkENConsump": 425,
 		"Weight": 1820,
-		"ENLoad": 266
+		"ENLoad": 266,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "ALULA/21E",
@@ -4792,7 +4984,8 @@
 		"MeleeAttackThrust": 10868,
 		"MeleeAtkENConsump": 575,
 		"Weight": 1900,
-		"ENLoad": 410
+		"ENLoad": 410,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "BC-0200 GRIDWALKER",
@@ -4811,7 +5004,8 @@
 		"MeleeAttackThrust": 12535,
 		"MeleeAtkENConsump": 520,
 		"Weight": 2010,
-		"ENLoad": 244
+		"ENLoad": 244,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "BC-0400 MULE",
@@ -4830,7 +5024,8 @@
 		"MeleeAttackThrust": 7018,
 		"MeleeAtkENConsump": 390,
 		"Weight": 970,
-		"ENLoad": 200
+		"ENLoad": 200,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "BC-0600 12345",
@@ -4849,7 +5044,8 @@
 		"MeleeAttackThrust": 8118,
 		"MeleeAtkENConsump": 496,
 		"Weight": 1360,
-		"ENLoad": 180
+		"ENLoad": 180,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "BST-G1/P10",
@@ -4868,7 +5064,8 @@
 		"MeleeAttackThrust": 8218,
 		"MeleeAtkENConsump": 529,
 		"Weight": 1300,
-		"ENLoad": 130
+		"ENLoad": 130,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "BST-G2/P04",
@@ -4887,7 +5084,8 @@
 		"MeleeAttackThrust": 9668,
 		"MeleeAtkENConsump": 470,
 		"Weight": 1710,
-		"ENLoad": 250
+		"ENLoad": 250,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "BST-G2/P06SPD",
@@ -4906,7 +5104,8 @@
 		"MeleeAttackThrust": 11585,
 		"MeleeAtkENConsump": 507,
 		"Weight": 1420,
-		"ENLoad": 390
+		"ENLoad": 390,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "BUERZEL/21D",
@@ -4925,7 +5124,8 @@
 		"MeleeAttackThrust": 10402,
 		"MeleeAtkENConsump": 588,
 		"Weight": 2240,
-		"ENLoad": 480
+		"ENLoad": 480,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "FLUEGEL/21Z",
@@ -4944,7 +5144,8 @@
 		"MeleeAttackThrust": 13002,
 		"MeleeAtkENConsump": 485,
 		"Weight": 1980,
-		"ENLoad": 282
+		"ENLoad": 282,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "IA-C01B: GILLS",
@@ -4963,7 +5164,8 @@
 		"MeleeAttackThrust": 6184,
 		"MeleeAtkENConsump": 630,
 		"Weight": 1590,
-		"ENLoad": 400
+		"ENLoad": 400,
+		"DefaultOrdering": 11
 	},
 	{
 		"Name": "IB-C03B: NGI 001",
@@ -4982,7 +5184,8 @@
 		"MeleeAttackThrust": 10535,
 		"MeleeAtkENConsump": 558,
 		"Weight": 1930,
-		"ENLoad": 342
+		"ENLoad": 342,
+		"DefaultOrdering": 12
 	},
 	{
 		"Name": "FC-006 ABBOT",
@@ -4994,7 +5197,8 @@
 		"MissileLockCorrection": 74,
 		"MultiLockCorrection": 46,
 		"Weight": 90,
-		"ENLoad": 266
+		"ENLoad": 266,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "FC-008 TALBOT",
@@ -5006,7 +5210,8 @@
 		"MissileLockCorrection": 103,
 		"MultiLockCorrection": 62,
 		"Weight": 140,
-		"ENLoad": 312
+		"ENLoad": 312,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "FCS-G1/P01",
@@ -5018,7 +5223,8 @@
 		"MissileLockCorrection": 79,
 		"MultiLockCorrection": 40,
 		"Weight": 80,
-		"ENLoad": 198
+		"ENLoad": 198,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "FCS-G2/P05",
@@ -5030,7 +5236,8 @@
 		"MissileLockCorrection": 105,
 		"MultiLockCorrection": 60,
 		"Weight": 100,
-		"ENLoad": 232
+		"ENLoad": 232,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "FCS-G2/P10SLT",
@@ -5042,7 +5249,8 @@
 		"MissileLockCorrection": 128,
 		"MultiLockCorrection": 90,
 		"Weight": 120,
-		"ENLoad": 209
+		"ENLoad": 209,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "FCS-G2/P12SML",
@@ -5054,7 +5262,8 @@
 		"MissileLockCorrection": 118,
 		"MultiLockCorrection": 120,
 		"Weight": 130,
-		"ENLoad": 278
+		"ENLoad": 278,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "IA-C01F: OCELLUS",
@@ -5066,7 +5275,8 @@
 		"MissileLockCorrection": 45,
 		"MultiLockCorrection": 50,
 		"Weight": 130,
-		"ENLoad": 292
+		"ENLoad": 292,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "IB-C03F: WLT 001",
@@ -5078,7 +5288,8 @@
 		"MissileLockCorrection": 102,
 		"MultiLockCorrection": 66,
 		"Weight": 150,
-		"ENLoad": 486
+		"ENLoad": 486,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "VE-21A",
@@ -5090,7 +5301,8 @@
 		"MissileLockCorrection": 65,
 		"MultiLockCorrection": 79,
 		"Weight": 85,
-		"ENLoad": 320
+		"ENLoad": 320,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "VE-21B",
@@ -5102,7 +5314,8 @@
 		"MissileLockCorrection": 97,
 		"MultiLockCorrection": 70,
 		"Weight": 160,
-		"ENLoad": 388
+		"ENLoad": 388,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "AG-E-013 YABA",
@@ -5115,7 +5328,8 @@
 		"PostRecoveryENSupply": 1000,
 		"EnergyFirearmSpec": 95,
 		"Weight": 5080,
-		"ENOutput": 3000
+		"ENOutput": 3000,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "AG-J-098 JOSO",
@@ -5128,7 +5342,8 @@
 		"PostRecoveryENSupply": 400,
 		"EnergyFirearmSpec": 72,
 		"Weight": 3420,
-		"ENOutput": 2600
+		"ENOutput": 2600,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "AG-T-005 HOKUSHI",
@@ -5141,7 +5356,8 @@
 		"PostRecoveryENSupply": 1020,
 		"EnergyFirearmSpec": 90,
 		"Weight": 7080,
-		"ENOutput": 3810
+		"ENOutput": 3810,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "DF-GN-02 LING-TAI",
@@ -5154,7 +5370,8 @@
 		"PostRecoveryENSupply": 280,
 		"EnergyFirearmSpec": 61,
 		"Weight": 3860,
-		"ENOutput": 2340
+		"ENOutput": 2340,
+		"DefaultOrdering": 4
 	},
 	{
 		"Name": "DF-GN-06 MING-TANG",
@@ -5167,7 +5384,8 @@
 		"PostRecoveryENSupply": 440,
 		"EnergyFirearmSpec": 76,
 		"Weight": 6320,
-		"ENOutput": 3310
+		"ENOutput": 3310,
+		"DefaultOrdering": 5
 	},
 	{
 		"Name": "DF-GN-08 SAN-TAI",
@@ -5180,7 +5398,8 @@
 		"PostRecoveryENSupply": 620,
 		"EnergyFirearmSpec": 88,
 		"Weight": 10060,
-		"ENOutput": 3210
+		"ENOutput": 3210,
+		"DefaultOrdering": 6
 	},
 	{
 		"Name": "IA-C01G: AORTA",
@@ -5193,7 +5412,8 @@
 		"PostRecoveryENSupply": 2000,
 		"EnergyFirearmSpec": 105,
 		"Weight": 4330,
-		"ENOutput": 3500
+		"ENOutput": 3500,
+		"DefaultOrdering": 13
 	},
 	{
 		"Name": "IB-C03G: NGI 000",
@@ -5206,7 +5426,8 @@
 		"PostRecoveryENSupply": 3100,
 		"EnergyFirearmSpec": 102,
 		"Weight": 8950,
-		"ENOutput": 4340
+		"ENOutput": 4340,
+		"DefaultOrdering": 14
 	},
 	{
 		"Name": "VE-20A",
@@ -5219,7 +5440,8 @@
 		"PostRecoveryENSupply": 600,
 		"EnergyFirearmSpec": 120,
 		"Weight": 3590,
-		"ENOutput": 3180
+		"ENOutput": 3180,
+		"DefaultOrdering": 10
 	},
 	{
 		"Name": "VE-20B",
@@ -5232,7 +5454,8 @@
 		"PostRecoveryENSupply": 800,
 		"EnergyFirearmSpec": 150,
 		"Weight": 5860,
-		"ENOutput": 2890
+		"ENOutput": 2890,
+		"DefaultOrdering": 11
 	},
 	{
 		"Name": "VE-20C",
@@ -5245,7 +5468,8 @@
 		"PostRecoveryENSupply": 720,
 		"EnergyFirearmSpec": 128,
 		"Weight": 10130,
-		"ENOutput": 4090
+		"ENOutput": 4090,
+		"DefaultOrdering": 12
 	},
 	{
 		"Name": "VP-20C",
@@ -5258,7 +5482,8 @@
 		"PostRecoveryENSupply": 1230,
 		"EnergyFirearmSpec": 100,
 		"Weight": 5320,
-		"ENOutput": 3670
+		"ENOutput": 3670,
+		"DefaultOrdering": 8
 	},
 	{
 		"Name": "VP-20D",
@@ -5271,7 +5496,8 @@
 		"PostRecoveryENSupply": 1400,
 		"EnergyFirearmSpec": 108,
 		"Weight": 11030,
-		"ENOutput": 4430
+		"ENOutput": 4430,
+		"DefaultOrdering": 9
 	},
 	{
 		"Name": "VP-20S",
@@ -5284,7 +5510,8 @@
 		"PostRecoveryENSupply": 1200,
 		"EnergyFirearmSpec": 94,
 		"Weight": 3800,
-		"ENOutput": 3400
+		"ENOutput": 3400,
+		"DefaultOrdering": 7
 	},
 	{
 		"Name": "ASSAULT ARMOR",
@@ -5294,24 +5521,28 @@
 		"AccumulativeImpact": 1380,
 		"BlastRadius": 60,
 		"EffectRange": 200,
-		"DirectHitAdjustment": 230
+		"DirectHitAdjustment": 230,
+		"DefaultOrdering": 1
 	},
 	{
 		"Name": "PULSE ARMOR",
 		"Kind": "Expansion",
 		"Resilience": 3300,
-		"Duration": 10
+		"Duration": 10,
+		"DefaultOrdering": 2
 	},
 	{
 		"Name": "PULSE PROTECTION",
 		"Kind": "Expansion",
 		"Resilience": 7000,
-		"Duration": 25
+		"Duration": 25,
+		"DefaultOrdering": 3
 	},
 	{
 		"Name": "TERMINAL ARMOR",
 		"Kind": "Expansion",
 		"Resilience": 20000,
-		"Duration": 5
+		"Duration": 5,
+		"DefaultOrdering": 4
 	}
 ]
