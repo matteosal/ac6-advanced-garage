@@ -60,7 +60,11 @@ function getTargetTracking(firearmSpec, loadRatio) {
 	return result;
 }
 
-const mod = (a, b) => ((a % b) + b) % b;
+const mod = (a, b) => {
+	const res = ((a % b) + b) % b;
+	// res can sometimes be x.99999999 when it should be x+1 so we round to 3 decimals
+	return Math.round(res * 1000) / 1000;
+}
 const generateShots = (nShots, interval, offset, recoil) => [...Array(nShots).keys()].map(
 	i => [i * interval + offset, recoil]
 );
@@ -92,7 +96,7 @@ function recoilSimulation(units, recoilControl) {
 		const nFullCycles = Math.floor(simulationTime / cycleTime);
 		const lastCycleNShots = Math.min(
 			units[i]['MagazineRounds'],
-			Math.floor(units[i]['RapidFire'] * mod(simulationTime, cycleTime))
+			Math.floor(units[i]['RapidFire'] * mod(simulationTime, cycleTime) + 1)
 		);
 		shotsByUnit[i] = [];
 		for(let cycle = 0; cycle < nFullCycles; cycle++) {
