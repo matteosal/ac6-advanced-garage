@@ -733,7 +733,8 @@ const statTooltips = {
 		'interrupt arm units are excluded. Recoil caps at 100. When a new part that changes ' +
 		'the simulation is in preview, the old graph is shown with dashed lines and the new ' +
 		'one with solid lines.',
-	'AverageRecoil': 'Average recoil incurred by each shot during the recoil accumulation ' +
+	'AverageRecoil': 'Average recoil incurred by each shot (immediately before it is ' +
+		'fired) during the recoil accumulation ' +
 		'simulation. An average of 0 indicates that recoil is always completely reabsorbed ' +
 		'before the next shot. Recoil caps at 100.'
 };
