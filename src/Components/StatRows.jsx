@@ -329,13 +329,13 @@ const RangePlot = ({left, right}) => {
 		})
 	);
 
-	if(left !== null)
+	if(left)
 		data.push(
 			{
 			x: [0, 130, 130, 260, 260, 320],
 			y: [left[4], left[4], left[5], left[5], left[6], left[6]],
 				mode: 'lines',
-				line: {dash: 'dash', color: cyan}
+				line: {dash: '3px,2px', color: cyan}
 			}
 		)
 
@@ -407,7 +407,7 @@ const RecoilPlot = ({left, right}) => {
 				x: left.map(([x, y]) => x),
 				y: left.map(([x, y]) => y),
 				mode: 'lines',
-				line: {dash: '2px,2px', color: cyan}
+				line: {dash: '3px,2px', color: cyan}
 			}
 		)
 
@@ -528,7 +528,7 @@ const EnergyPlot = ({left, right}) => {
 				x: leftPoints.normal.t,
 				y: leftPoints.normal.en,
 				mode: 'lines',
-				line: {dash: 'dash', color: cyan}
+				line: {dash: '3px,2px', color: cyan}
 			}
 		);
 		data.push(
@@ -536,7 +536,7 @@ const EnergyPlot = ({left, right}) => {
 				x: leftPoints.redline.t,
 				y: leftPoints.redline.en,
 				mode: 'lines',
-				line: {dash: 'dash', color: red}
+				line: {dash: '3px,2px', color: red}
 			}
 		);
 	}
