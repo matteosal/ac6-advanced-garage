@@ -64,26 +64,23 @@ const mod = (a, b) => ((a % b) + b) % b;
 const generateShots = (nShots, interval, offset, recoil) => [...Array(nShots).keys()].map(
 	i => [i * interval + offset, recoil]
 );
-const maxSimulationTime = 5;
+const simulationTime = 5;
 const simulationShotOffset = 0.05;
 const recoilExcludedUnits = ['FASAN/60E', 'VE-60LCA', 'VE-60LCB', 'VP-60LCD', 'VP-60LCS'];
 // ^ These have both RapidFire and Recoil but arm weapons stop firing when they fire so they
 // mess things up in the simulation
-function getAverageRecoil(units, recoilControl) {
+
+// Simulates firing all selected weapons simultaneously and tracks the accumulated recoil
+function recoilSimulation(units, recoilControl) {
 
 	if(units.length === 0)
-		return 0;
+		return [0, []];
 
 	const recoilMult = piecewiseLinear(recoilControl, [[0, 1.2], [150, 0.9], [235, 0.8]]);
 	const reductionRate = piecewiseLinear(recoilControl,
 		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
 	);
 	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05;
-
-	const simulationTime = Math.min(
-		Math.max.apply(Math, units.map(u => u['MagDumpTime'])),
-		maxSimulationTime
-	);
 
 	// shotsByUnit has dimensions [nUnits, nShots(unit), 2] where the last dimension contains
 	// pairs [shotTime, shotRecoil]. Shot times for different units are arbitrarily offset by 
@@ -117,42 +114,45 @@ function getAverageRecoil(units, recoilControl) {
 			)
 		)
 	}
-	let mergedShots = shotsByUnit.flat();
-	mergedShots.sort((a, b) => a[0] - b[0]);
+	// allShots is a list of pairs [shotTime, shotRecoil] for all the shots in the
+	// simulation
+	let allShots = shotsByUnit.flat();
+	allShots.sort((a, b) => a[0] - b[0]);
 
-	// shotWindows contains time windows between shots with recoil added by the shot:
-	// [[timeBetweenShot1And2, recoilShot1], [timeBetweenShot2And3, recoilShot2], ...]
-	let shotWindows = Array(mergedShots.length - 1);
-	for(let i = 0; i < shotWindows.length; i++) {
-		shotWindows[i] = [mergedShots[i + 1][0] - mergedShots[i][0], mergedShots[i][1]]
-	}
+	// Run the simulation
+	let recoilSum = 0;
+	let time = 0;
+	let plotPoints = [];
+	allShots.reduce(
+		(startRecoil, shot, pos) => {
+			const [shotTime, shotRecoil] = shot;
+			recoilSum += startRecoil;
 
-	// Compute the integral mean of the accumulated recoil across all the shot windows
-	let recoilIntegral = 0;
-	shotWindows.reduce(
-		(startRecoil, val, pos) => {
-			// Compute value of recoil at the end of the window
-			const fullWindow = shotWindows[pos][0];
-			const postShotRecoil = Math.min(100, startRecoil + shotWindows[pos][1]);
-			const reductionWindow = Math.max(0, fullWindow - reductionDelay);
+			const nextShotTime = pos < allShots.length - 1 ? 
+				allShots[pos + 1][0] : simulationTime;
+			const shotWindow = nextShotTime - shotTime;
+			const postShotRecoil = Math.min(100, startRecoil + shotRecoil);
+			const reductionWindow = Math.max(0, shotWindow - reductionDelay);
 			const endRecoil = Math.max(0, 
 				postShotRecoil - reductionWindow * reductionRate
 			);
 
-			// Save the integral of the recoil across the window
-			const decreaseWindow = Math.min(reductionWindow, postShotRecoil / reductionRate);
-			// ^ window where recoil is actually decreasing (might hit 0 before the end of
-			// reductionWindow)
-			recoilIntegral +=
-				postShotRecoil * Math.min(reductionDelay, fullWindow) + decreaseWindow * 
-				(postShotRecoil - 0.5 * reductionRate * decreaseWindow);
+			plotPoints.push([time, postShotRecoil]);
+			if(reductionWindow > 0) {
+				plotPoints.push([time + reductionDelay, postShotRecoil]);
+				if(endRecoil === 0) {
+					plotPoints.push([time + reductionDelay + postShotRecoil / reductionRate, 0])
+				}
+			}
+			plotPoints.push([time + shotWindow, endRecoil]);
+			time += shotWindow;
 
 			return endRecoil;
 		},
 		0
 	);
-	const realMaxTime = mergedShots[mergedShots.length - 1][0];
-	return recoilIntegral / realMaxTime;
+
+	return [recoilSum / allShots.length, plotPoints];
 }
 
 const boostBreakpoints = [[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.65]];
@@ -339,7 +339,10 @@ function computeAllStats(parts) {
 	const recoilUnits = units.filter(u => 
 		u['Recoil'] && u['RapidFire'] && !recoilExcludedUnits.includes(u['Name'])
 	);
-	const avgRecoil = getAverageRecoil(recoilUnits, arms['RecoilControl']);
+	const [avgRecoil, recoilPlotPoints] = recoilSimulation(
+		recoilUnits,
+		arms['RecoilControl']
+	);
 
 	return [
 		[
@@ -362,7 +365,8 @@ function computeAllStats(parts) {
 					armsLoad / arms['ArmsLoadLimit']
 				)
 			},
-			{name: 'AimAssistProfile', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
+			{name: 'AimAssistGraph', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
+			{name: 'RecoilAccumulationGraph', value: recoilPlotPoints, type: 'RecoilPlot'},
 			{name: 'AverageRecoil', value: avgRecoil}
 		],
 		[
@@ -390,7 +394,7 @@ function computeAllStats(parts) {
 			{name: 'QBENRechargeTime', value: qbENRechargeTime},
 			{name: 'FullRechargeTime', value: fullRechargeTime},
 			{name: 'FullRechargeTimeRedline', value: fullRechargeTimeRedline},
-			{name: 'ENRecoveryProfiles', 
+			{name: 'ENRecoveryGraph', 
 				value: {
 					normal: 
 						[enRechargeDelay.normal, 0, enSupplyEfficiency, enCapacity],
