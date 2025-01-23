@@ -34,6 +34,8 @@ function isBetter(name, a, b) {
 
 const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
 
+const plotWidth = '350px';
+
 /***************************************************************************************/
 
 function toScore(val, min, max) {
@@ -346,7 +348,7 @@ const RangePlot = ({left, right}) => {
 			style={{width: '100%', height: '100%'}}
 			data={data}
 			layout={{
-				margin: {l: 30, r: 25, t: 25, b: 45},
+				margin: {l: 60, r: 25, t: 25, b: 45},
 				xaxis: {
 					range: [0, 320],
 					title: {text: 'Distance', font: font, standoff: 5},
@@ -355,9 +357,9 @@ const RangePlot = ({left, right}) => {
 				},
 				yaxis: {
 					range: [0, 95],
-					title: {text: 'Assist', font: font, standoff: 1},
-					color: 'white',
-					showticklabels: false
+					title: {text: 'Assist', font: font, standoff: 5},
+					tickfont: font,
+					color: 'white'
 				},
 				showlegend: false,
 				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
@@ -381,7 +383,7 @@ const RangePlotRow = ({name, left, right, tooltip}) => {
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
+			<div style={{width: plotWidth, height: '200px', margin: '0px auto'}}>
 				<RangePlot left={left} right={right} />
 			</div>
 		</>
@@ -418,7 +420,7 @@ const RecoilPlot = ({left, right}) => {
 			style={{width: '100%', height: '100%'}}
 			data={data}
 			layout={{
-				margin: {l: 30, r: 25, t: 25, b: 45},
+				margin: {l: 60, r: 25, t: 25, b: 45},
 				xaxis: {
 					range: [0, 5],
 					title: {text: 'Time', font: font, standoff: 5},
@@ -427,9 +429,11 @@ const RecoilPlot = ({left, right}) => {
 				},
 				yaxis: {
 					range: [0, 105],
-					title: {text: 'Recoil', font: font, standoff: 1},
+					title: {text: 'Recoil', font: font, standoff: 5},
+					tickfont: font,
 					color: 'white',
-					showticklabels: false
+					tick0: 0,
+					dtick: 25
 				},
 				showlegend: false,
 				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
@@ -453,7 +457,7 @@ const RecoilPlotRow = ({name, left, right, tooltip}) => {
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
+			<div style={{width: plotWidth, height: '200px', margin: '0px auto'}}>
 				<RecoilPlot left={left} right={right} />
 			</div>
 		</>
@@ -548,7 +552,7 @@ const EnergyPlot = ({left, right}) => {
 			style={{width: '100%', height: '100%'}}
 			data={data}
 			layout={{
-				margin: {l: 30, r: 25, t: 25, b: 45},
+				margin: {l: 60, r: 25, t: 25, b: 45},
 				xaxis: {
 					range: [0, plotW],
 					title: {text: 'Time', font: font, standoff: 5},
@@ -557,9 +561,9 @@ const EnergyPlot = ({left, right}) => {
 				},
 				yaxis: {
 					range: [0, plotH],
-					title: {text: 'EN', font: font, standoff: 1},
-					color: 'white',
-					showticklabels: false
+					title: {text: 'EN', font: font, standoff: 5},
+					tickfont: font,
+					color: 'white'
 				},
 				showlegend: false,
 				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
@@ -583,7 +587,7 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
+			<div style={{width: plotWidth, height: '200px', margin: '0px auto'}}>
 				<EnergyPlot left={left} right={right} />
 			</div>
 		</>
