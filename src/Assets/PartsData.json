@@ -1855,7 +1855,7 @@
 		],
 		"DirectHitAdjustment": 220.0,
 		"Recoil": 12.0,
-		"IdealRange": 190.0,
+		"IdealRange": 180.0,
 		"EffectiveRange": 321.0,
 		"RapidFire": 1.5,
 		"ChargeTime": 0.7,
