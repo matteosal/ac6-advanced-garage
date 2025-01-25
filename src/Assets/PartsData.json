@@ -63,9 +63,7 @@
 		"ReloadTimeOverheat": 8.93,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 54,
-		"ChgIdealRange": 300,
-		"ChgEffectiveRange": 458
+		"DefaultOrdering": 54
 	},
 	{
 		"Name": "44-143 HMMR",
@@ -168,7 +166,8 @@
 		"Weight": 2010,
 		"ENLoad": 446,
 		"CoolingDelay": 1.2,
-		"DefaultOrdering": 45
+		"DefaultOrdering": 45,
+		"MaxRicochetRange": 412
 	},
 	{
 		"Name": "BML-G1/P01VTC-04",
@@ -717,7 +716,8 @@
 		"Weight": 2230,
 		"ENLoad": 435,
 		"CoolingDelay": 0.8,
-		"DefaultOrdering": 44
+		"DefaultOrdering": 44,
+		"MaxRicochetRange": 380
 	},
 	{
 		"Name": "DF-BA-06 XUAN-GE",
@@ -803,7 +803,8 @@
 		"CoolingDelay": 1.0,
 		"ReloadTimeOverheat": 6.58,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 24
+		"DefaultOrdering": 24,
+		"MaxRicochetRange": 450
 	},
 	{
 		"Name": "DF-GA-09 SHAO-WEI",
@@ -834,7 +835,8 @@
 		"CoolingDelay": 0.12,
 		"ReloadTimeOverheat": 2.52,
 		"MaxRecoilAngle": 9.0,
-		"DefaultOrdering": 8
+		"DefaultOrdering": 8,
+		"MaxRicochetRange": 601
 	},
 	{
 		"Name": "DF-GR-07 GOU-CHEN",
@@ -890,7 +892,8 @@
 		"Weight": 3280.0,
 		"ENLoad": 143.0,
 		"MaxRecoilAngle": 9.0,
-		"DefaultOrdering": 21
+		"DefaultOrdering": 21,
+		"MaxRicochetRange": 516
 	},
 	{
 		"Name": "DIZZY",
@@ -1008,7 +1011,8 @@
 		"AmmunitionCost": 300,
 		"Weight": 3100,
 		"ENLoad": 420,
-		"DefaultOrdering": 39
+		"DefaultOrdering": 39,
+		"MaxRicochetRange": 645
 	},
 	{
 		"Name": "EULE/60D",
@@ -1105,7 +1109,8 @@
 		"Weight": 1200.0,
 		"ENLoad": 122.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 28
+		"DefaultOrdering": 28,
+		"MaxRicochetRange": 360
 	},
 	{
 		"Name": "HG-004 DUCKETT",
@@ -1134,7 +1139,8 @@
 		"Weight": 1650.0,
 		"ENLoad": 158.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 29
+		"DefaultOrdering": 29,
+		"MaxRicochetRange": 385
 	},
 	{
 		"Name": "HI-16: GU-Q1",
@@ -1715,7 +1721,9 @@
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 15,
 		"ChgIdealRange": 220,
-		"ChgEffectiveRange": 364
+		"ChgEffectiveRange": 364,
+		"MaxRicochetRange": 680,
+		"MaxChgRicochetRange": 700
 	},
 	{
 		"Name": "LR-037 HARRIS",
@@ -1754,7 +1762,9 @@
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 16,
 		"ChgIdealRange": 248,
-		"ChgEffectiveRange": 480
+		"ChgEffectiveRange": 480,
+		"MaxRicochetRange": 800,
+		"MaxChgRicochetRange": 1020
 	},
 	{
 		"Name": "MA-E-210 ETSUJIN",
@@ -1792,7 +1802,8 @@
 		"Weight": 2810.0,
 		"ENLoad": 98.0,
 		"MaxRecoilAngle": 9.0,
-		"DefaultOrdering": 23
+		"DefaultOrdering": 23,
+		"MaxRicochetRange": 515
 	},
 	{
 		"Name": "MA-E-211 SAMPU",
@@ -1830,7 +1841,8 @@
 		"Weight": 960.0,
 		"ENLoad": 62.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 30
+		"DefaultOrdering": 30,
+		"MaxRicochetRange": 365
 	},
 	{
 		"Name": "MA-J-200 RANSETSU-RF",
@@ -1874,7 +1886,9 @@
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 14,
 		"ChgIdealRange": 200,
-		"ChgEffectiveRange": 335
+		"ChgEffectiveRange": 335,
+		"MaxRicochetRange": 650,
+		"MaxChgRicochetRange": 650
 	},
 	{
 		"Name": "MA-J-201 RANSETSU-AR",
@@ -1912,7 +1926,8 @@
 		"Weight": 3620.0,
 		"ENLoad": 132.0,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 19
+		"DefaultOrdering": 19,
+		"MaxRicochetRange": 625
 	},
 	{
 		"Name": "MAJESTIC",
@@ -2032,7 +2047,8 @@
 		"Weight": 2450.0,
 		"ENLoad": 82.0,
 		"MaxRecoilAngle": 9.0,
-		"DefaultOrdering": 20
+		"DefaultOrdering": 20,
+		"MaxRicochetRange": 536
 	},
 	{
 		"Name": "PB-033M ASHMEAD",
@@ -2140,7 +2156,8 @@
 		"Weight": 3560.0,
 		"ENLoad": 102.0,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 17
+		"DefaultOrdering": 17,
+		"MaxRicochetRange": 629
 	},
 	{
 		"Name": "RF-025 SCUDDER",
@@ -2169,7 +2186,8 @@
 		"Weight": 3830.0,
 		"ENLoad": 153.0,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 18
+		"DefaultOrdering": 18,
+		"MaxRicochetRange": 656
 	},
 	{
 		"Name": "SB-033M MORLEY",
@@ -2222,7 +2240,8 @@
 		"Weight": 3660.0,
 		"ENLoad": 185.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 25
+		"DefaultOrdering": 25,
+		"MaxRicochetRange": 360
 	},
 	{
 		"Name": "SG-027 ZIMMERMAN",
@@ -2249,7 +2268,8 @@
 		"Weight": 4400.0,
 		"ENLoad": 242.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 26
+		"DefaultOrdering": 26,
+		"MaxRicochetRange": 376
 	},
 	{
 		"Name": "SI-24: SU-Q5",
@@ -2414,7 +2434,9 @@
 		"IsEnergyFirearmSpec": true,
 		"DefaultOrdering": 14,
 		"ChgIdealRange": 300,
-		"ChgEffectiveRange": 450
+		"ChgEffectiveRange": 450,
+		"MaxRicochetRange": 780,
+		"MaxChgRicochetRange": 800
 	},
 	{
 		"Name": "VE-60LCB",
@@ -2480,7 +2502,8 @@
 		"AmmunitionCost": 800.0,
 		"Weight": 6150.0,
 		"ENLoad": 825.0,
-		"DefaultOrdering": 12
+		"DefaultOrdering": 12,
+		"MaxRicochetRange": 980
 	},
 	{
 		"Name": "VE-61PSA",
@@ -2545,7 +2568,9 @@
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 45,
 		"ChgIdealRange": 280,
-		"ChgEffectiveRange": 433
+		"ChgEffectiveRange": 433,
+		"MaxRicochetRange": 760,
+		"MaxChgRicochetRange": 790
 	},
 	{
 		"Name": "VE-66LRB",
@@ -2586,7 +2611,9 @@
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 46,
 		"ChgIdealRange": 265,
-		"ChgEffectiveRange": 411
+		"ChgEffectiveRange": 411,
+		"MaxRicochetRange": 600,
+		"MaxChgRicochetRange": 752
 	},
 	{
 		"Name": "VE-67LLA",
@@ -2653,7 +2680,8 @@
 		"CoolingDelay": 1.7,
 		"ReloadTimeOverheat": 6.62,
 		"IsEnergyFirearmSpec": true,
-		"DefaultOrdering": 16
+		"DefaultOrdering": 16,
+		"MaxRicochetRange": 420
 	},
 	{
 		"Name": "VP-60LCS",
@@ -2693,7 +2721,9 @@
 		"IsEnergyFirearmSpec": true,
 		"DefaultOrdering": 13,
 		"ChgIdealRange": 300,
-		"ChgEffectiveRange": 447
+		"ChgEffectiveRange": 447,
+		"MaxRicochetRange": 660,
+		"MaxChgRicochetRange": 790
 	},
 	{
 		"Name": "VP-60LT",
@@ -2729,7 +2759,8 @@
 		"AmmunitionCost": 500,
 		"Weight": 2800,
 		"ENLoad": 560,
-		"DefaultOrdering": 46
+		"DefaultOrdering": 46,
+		"MaxRicochetRange": 430
 	},
 	{
 		"Name": "VP-61PB",
@@ -2807,7 +2838,8 @@
 		"Weight": 980.0,
 		"ENLoad": 247.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 32
+		"DefaultOrdering": 32,
+		"MaxRicochetRange": 298
 	},
 	{
 		"Name": "VP-66LH",
@@ -2856,7 +2888,9 @@
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 49,
 		"ChgIdealRange": 190,
-		"ChgEffectiveRange": 247
+		"ChgEffectiveRange": 247,
+		"MaxRicochetRange": 380,
+		"MaxChgRicochetRange": 380
 	},
 	{
 		"Name": "VP-66LR",
@@ -2897,7 +2931,9 @@
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 44,
 		"ChgIdealRange": 250,
-		"ChgEffectiveRange": 364
+		"ChgEffectiveRange": 364,
+		"MaxRicochetRange": 412,
+		"MaxChgRicochetRange": 630
 	},
 	{
 		"Name": "VP-66LS",
@@ -2937,7 +2973,8 @@
 		"ReloadTimeOverheat": 6.0,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 47
+		"DefaultOrdering": 47,
+		"MaxRicochetRange": 560
 	},
 	{
 		"Name": "VP-67EB",
@@ -3320,7 +3357,8 @@
 		"Weight": 5110.0,
 		"ENLoad": 303.0,
 		"MaxRecoilAngle": 9.0,
-		"DefaultOrdering": 22
+		"DefaultOrdering": 22,
+		"MaxRicochetRange": 575
 	},
 	{
 		"Name": "WR-0777 SWEET SIXTEEN",
@@ -3356,7 +3394,8 @@
 		"Weight": 1640.0,
 		"ENLoad": 268.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 27
+		"DefaultOrdering": 27,
+		"MaxRicochetRange": 340
 	},
 	{
 		"Name": "WR-0999 DELIVERY BOY",
@@ -3534,7 +3573,8 @@
 		"ReloadTimeOverheat": 4.98,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 48
+		"DefaultOrdering": 48,
+		"MaxRicochetRange": 480
 	},
 	{
 		"Name": "20-081 MIND ALPHA",

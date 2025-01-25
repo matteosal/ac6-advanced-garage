@@ -656,8 +656,8 @@ const overheatUnitsReloadNote = 'NOTE: when comparing this stat between a unit w
 	'reload and a unit with heating/cooling mechanics, keep in mind that heating/cooling ' +
 	'is an inherently superior reload mechanism that generally allows for less downtime.'
 
-const effectiveRangeDesc = 'Effective range is the ricochet threshold for an enemy ' +
-	'defense of 1100.'
+const effectiveRangeDesc = 'For units with a ricochet mechanic, effective range is the ' +
+	'ricochet threshold for an enemy defense of 1100.'
 
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
