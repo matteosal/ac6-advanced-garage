@@ -656,6 +656,9 @@ const overheatUnitsReloadNote = 'NOTE: when comparing this stat between a unit w
 	'reload and a unit with heating/cooling mechanics, keep in mind that heating/cooling ' +
 	'is an inherently superior reload mechanism that generally allows for less downtime.'
 
+const effectiveRangeDesc = 'Effective range is the ricochet threshold for an enemy ' +
+	'defense of 1100.'
+
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
@@ -736,7 +739,10 @@ const statTooltips = {
 	'AverageRecoil': 'Average recoil incurred by each shot (immediately before it is ' +
 		'fired) during the recoil accumulation ' +
 		'simulation. An average of 0 indicates that recoil is always completely reabsorbed ' +
-		'before the next shot. Recoil caps at 100.'
+		'before the next shot. Recoil caps at 100.',
+	'EffectiveRange': effectiveRangeDesc,
+	'ChgIdealRange': 'Ideal range of charged shot.',
+	'ChgEffectiveRange': 'Effective range of charged shot. ' + effectiveRangeDesc
 };
 
 const statTooltipsComparerMode = {

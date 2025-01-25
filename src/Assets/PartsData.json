@@ -63,7 +63,9 @@
 		"ReloadTimeOverheat": 8.93,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 54
+		"DefaultOrdering": 54,
+		"ChgIdealRange": 300,
+		"ChgEffectiveRange": 458
 	},
 	{
 		"Name": "44-143 HMMR",
@@ -1711,7 +1713,9 @@
 		"CoolingDelay": 0.6,
 		"ReloadTimeOverheat": 5.68,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 15
+		"DefaultOrdering": 15,
+		"ChgIdealRange": 220,
+		"ChgEffectiveRange": 364
 	},
 	{
 		"Name": "LR-037 HARRIS",
@@ -1748,7 +1752,9 @@
 		"CoolingDelay": 0.6,
 		"ReloadTimeOverheat": 3.63,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 16
+		"DefaultOrdering": 16,
+		"ChgIdealRange": 248,
+		"ChgEffectiveRange": 480
 	},
 	{
 		"Name": "MA-E-210 ETSUJIN",
@@ -1866,7 +1872,9 @@
 		"Weight": 4210.0,
 		"ENLoad": 158.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 14
+		"DefaultOrdering": 14,
+		"ChgIdealRange": 200,
+		"ChgEffectiveRange": 335
 	},
 	{
 		"Name": "MA-J-201 RANSETSU-AR",
@@ -2404,7 +2412,9 @@
 		"CoolingDelay": 2.6,
 		"ReloadTimeOverheat": 9.5,
 		"IsEnergyFirearmSpec": true,
-		"DefaultOrdering": 14
+		"DefaultOrdering": 14,
+		"ChgIdealRange": 300,
+		"ChgEffectiveRange": 450
 	},
 	{
 		"Name": "VE-60LCB",
@@ -2533,7 +2543,9 @@
 		"ReloadTimeOverheat": 5.73,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 45
+		"DefaultOrdering": 45,
+		"ChgIdealRange": 280,
+		"ChgEffectiveRange": 433
 	},
 	{
 		"Name": "VE-66LRB",
@@ -2572,7 +2584,9 @@
 		"ReloadTimeOverheat": 6.43,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 46
+		"DefaultOrdering": 46,
+		"ChgIdealRange": 265,
+		"ChgEffectiveRange": 411
 	},
 	{
 		"Name": "VE-67LLA",
@@ -2677,7 +2691,9 @@
 		"CoolingDelay": 1.7,
 		"ReloadTimeOverheat": 7.13,
 		"IsEnergyFirearmSpec": true,
-		"DefaultOrdering": 13
+		"DefaultOrdering": 13,
+		"ChgIdealRange": 300,
+		"ChgEffectiveRange": 447
 	},
 	{
 		"Name": "VP-60LT",
@@ -2838,7 +2854,9 @@
 		"ReloadTimeOverheat": 4.98,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 49
+		"DefaultOrdering": 49,
+		"ChgIdealRange": 190,
+		"ChgEffectiveRange": 247
 	},
 	{
 		"Name": "VP-66LR",
@@ -2877,7 +2895,9 @@
 		"ReloadTimeOverheat": 4.12,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 44
+		"DefaultOrdering": 44,
+		"ChgIdealRange": 250,
+		"ChgEffectiveRange": 364
 	},
 	{
 		"Name": "VP-66LS",
