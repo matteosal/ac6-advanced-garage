@@ -39,6 +39,36 @@ ricochetUnits.sort(
 ricochetUnits = ricochetUnits.map(unit => unit.name);
 ricochetUnits.unshift('');
 
+const DefenseInput = ({type}) => {
+
+	const state = useContext(RicochetStateContext);
+	const stateDispatch = useContext(RicochetStateDispatchContext);
+
+	const setDefense = event => stateDispatch(
+		{target: 'defense', pos: type, value: event.target.value}
+	);	
+
+	const filterKeys = event => {
+		if(!/[0-9]/.test(event.key))
+			event.preventDefault();		
+	}
+
+	const label = type.toUpperCase() + ' DEFENSE:';
+
+	return(
+		<div>
+		<label style={{display: 'inline-block', width: '160px'}} htmlFor={type}>{label}</label>
+		<input
+			style={{width: '50px', margin: '0px 0px 10px 5px', backgroundColor: glob.paletteColor(3)}}
+			id={type}
+			value={state.defense[type]}
+			onKeyPress={filterKeys}		
+			onChange={setDefense}
+		/>
+		</div>
+	)
+}
+
 const UnitDropDown = ({pos}) => {
 
 	const state = useContext(RicochetStateContext);
@@ -52,9 +82,7 @@ const UnitDropDown = ({pos}) => {
 
 	return (
 		<div>
-		<label htmlFor={id}>
-			SELECT UNIT:
-		</label>		
+		<label htmlFor={id}>SELECT UNIT:</label>
 		<select 
 			style={{margin: '0px 0px 10px 5px'}}
 			id={id}
@@ -79,6 +107,8 @@ const RicochetComponent = () => {
 
 	return(
 		<>
+		<DefenseInput type='kinetic' />
+		<DefenseInput type='energy' />
 		{
 			range.map(pos => <UnitDropDown pos={pos} key={pos} />)
 		}
