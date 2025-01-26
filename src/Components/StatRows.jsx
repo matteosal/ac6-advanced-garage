@@ -124,8 +124,8 @@ const namePadding = '4px 0px';
 
 const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) => {
 
-	let [left, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
-	let [right, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
+	let [left, leftDisplay] = glob.toValueAndDisplayNumber(leftRaw);
+	let [right, rightDisplay] = glob.toValueAndDisplayNumber(rightRaw);
 
 	let rightColor = 'white';
 	let triangle = '';
@@ -598,8 +598,8 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 
 const NoComparisonNumericRow = ({name, leftRaw, rightRaw, tooltip}) => {
 
-	let [, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
-	let [, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
+	let [, leftDisplay] = glob.toValueAndDisplayNumber(leftRaw);
+	let [, rightDisplay] = glob.toValueAndDisplayNumber(rightRaw);
 
 	if(!leftDisplay)
 		leftDisplay = longDashCharacter

@@ -272,7 +272,7 @@ function roundValue(val) {
 	return Math.round(val * roundFactor) / roundFactor;
 }
 
-export function toValueAndDisplayNumber(name, raw) {
+export function toValueAndDisplayNumber(raw) {
 	let value;
 	let display;
 	if(raw && raw.constructor === Array) {
