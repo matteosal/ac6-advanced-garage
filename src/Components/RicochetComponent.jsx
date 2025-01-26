@@ -61,6 +61,15 @@ function getRicochetRange(min, max, defense) {
 	return min + mult * (max - min);
 }
 
+function getNameRangesType(fullName) {
+	const realName = fullName.replace(chargedSuffix, '');
+	const partData = glob.partsData[unitNameToID[realName]];
+	const ranges = fullName.endsWith(chargedSuffix) ? 
+		[partData['ChgIdealRange'], partData['MaxChgRicochetRange']] :
+		[partData['IdealRange'], partData['MaxRicochetRange']];
+	return[realName, ranges, partData['AttackType']];
+}
+
 /***********************************************************************************/
 
 const DefenseInput = ({type}) => {
@@ -93,7 +102,7 @@ const DefenseInput = ({type}) => {
 	)
 }
 
-const UnitDropDown = ({pos}) => {
+const UnitSelector = ({pos}) => {
 
 	const state = useContext(RicochetStateContext);
 	const stateDispatch = useContext(RicochetStateDispatchContext);
@@ -102,23 +111,39 @@ const UnitDropDown = ({pos}) => {
 		{target: 'units', pos: pos, value: event.target.value}
 	);
 
+	const selectedUnit = state.units[pos];
+	const [, ranges, type] = selectedUnit !== '' ? 
+		getNameRangesType(selectedUnit) :
+		[0, 0];
+	const ricochetRange = getRicochetRange(ranges[0], ranges[1], state.defense[type]);
+
 	const id = 'dropdown-' + pos.toString();
 
 	return (
 		<div>
-		<label htmlFor={id}>SELECT UNIT:</label>
-		<select 
-			style={{margin: '0px 0px 10px 5px'}}
-			id={id}
-			value={state.units[pos]}
-			onChange={setUnit}
-		>
+			<label htmlFor={id}>UNIT:</label>
+			<select 
+				style={{margin: '0px 0px 10px 5px'}}
+				id={id}
+				value={state.units[pos]}
+				onChange={setUnit}
+			>
+				{
+					ricochetUnits.map(
+						name => <option value={name} key={name}>{name}</option>
+					)
+				}
+			</select>
+			<div style={{display: 'inline-block', marginLeft: 20}}>
+				RICOCHET RANGE:
+			</div>
 			{
-				ricochetUnits.map(
-					name => <option value={name} key={name}>{name}</option>
-				)
+				ricochetRange ? 
+					<div style={{display: 'inline-block', marginLeft: 10}}>
+						{glob.toValueAndDisplayNumber(ricochetRange)[1]}
+					</div> :
+					<></>
 			}
-		</select>
 		</div>
 	)
 }
@@ -157,11 +182,7 @@ const RicochetPlot = () => {
 		(name, pos) => {
 			if(name === '')
 				return null;
-			const realName = name.replace(chargedSuffix, '');
-			const partData = glob.partsData[unitNameToID[realName]];
-			const ranges = name.endsWith(chargedSuffix) ? 
-				[partData['ChgIdealRange'], partData['MaxChgRicochetRange']] :
-				[partData['IdealRange'], partData['MaxRicochetRange']];
+			const [realName, ranges, atkType] = getNameRangesType(name);
 			const plotPoints = ricochetDefBreakpoints.map(
 				([def, mult]) => [def, getRicochetRange(ranges[0], ranges[1], def)]
 			);
@@ -171,13 +192,13 @@ const RicochetPlot = () => {
 			plotPoints.push(
 				[plotRange.x[1], getRicochetRange(ranges[0], ranges[1], plotRange.x[1])]
 			);
-			const pairedDef = state.defense[partData['AttackType']];
+			const pairedDef = state.defense[atkType];
 			return [
 				{
 					x: plotPoints.map(([x, y]) => x),
 					y: plotPoints.map(([x, y]) => y),
 					mode: 'lines',
-					line: {dash: plotDashing[partData['AttackType']], color: plotColors[pos]},
+					line: {dash: plotDashing[atkType], color: plotColors[pos]},
 					name: realName,
 					legendgroup: 'units'
 				},
@@ -238,7 +259,7 @@ const RicochetComponent = () => {
 		<DefenseInput type='Kinetic' />
 		<DefenseInput type='Energy' />
 		{
-			range.map(pos => <UnitDropDown pos={pos} key={pos} />)
+			range.map(pos => <UnitSelector pos={pos} key={pos} />)
 		}
 		<RicochetPlot />
 		</>
