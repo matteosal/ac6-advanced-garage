@@ -1,4 +1,4 @@
-import { useState, useContext } from 'react';
+import { useContext } from 'react';
 
 import createPlotlyComponent from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-basic-dist';
@@ -21,7 +21,7 @@ function getRicochetUnits(charge) {
 		filtered.map(
 			part => {
 				const id = part['ID'];
-				let name = id == -1 ? '' : part['Name'];
+				let name = id === -1 ? '' : part['Name'];
 				if(charge)
 					name += chargedSuffix;				
 				return {name: name, id: id, charge: charge}
