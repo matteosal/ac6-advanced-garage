@@ -379,6 +379,32 @@ export function mean(list) {
 	return total(list) / list.length
 }
 
+// returns slope and intercept of a line passing through points [x1, y1] and [x2, y2]
+function lineParameters([[x1, y1], [x2, y2]]) {
+	return [(y1 - y2) / (x1 - x2), (x2*y1 - x1*y2) / (x2 - x1)];
+}
+
+export function piecewiseLinear(x, breakpoints) {
+	const lastPos = breakpoints.length - 1;
+
+	if(x < breakpoints[0][0]) {
+		return breakpoints[0][1];
+	} else if (x >= breakpoints[lastPos][0]) {
+		return breakpoints[lastPos][1];
+	}
+
+	let result = null;
+	for (let i = 1; i < lastPos + 1; i++) {
+		if (x < breakpoints[i][0]) {
+			const [m, q] = lineParameters(breakpoints.slice(i - 1, i + 1))
+			result = m * x + q
+			break;
+		}
+	}
+
+	return result;
+}
+
 /***************************************************************************************/
 
 function toKind(className) {

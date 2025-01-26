@@ -56,6 +56,11 @@ const ricochetDefBreakpoints = [
 	[900., 0.45], [1000., 0.4], [1100., 0.3], [1300., 0.15], [1500, 0.]
 ];
 
+function getRicochetRange(min, max, defense) {
+	const mult = glob.piecewiseLinear(defense, ricochetDefBreakpoints);
+	return min + mult * (max - min);
+}
+
 /***********************************************************************************/
 
 const DefenseInput = ({type}) => {
@@ -120,11 +125,35 @@ const UnitDropDown = ({pos}) => {
 
 const plotColors = 
 	['rgb(61, 153, 204)', 'rgb(242, 160, 36)', 'rgb(116, 178, 54)', 'rgb(253, 98, 23)'];
+const plotDashing = {'Kinetic': '7px,3px', 'Energy': '2px,2px'}
+const plotRange = {x: [850, 1550], y: [0, 600]};
 
 const RicochetPlot = () => {
 	const state = useContext(RicochetStateContext);
 
-	let plotData = state.units.map(
+	const kinDef = state.defense['Kinetic'];
+	const enDef = state.defense['Energy'];
+
+	const defPlotData = [
+		{
+			x: [kinDef, kinDef],
+			y: plotRange.y,
+			mode: 'lines',
+			line: {dash: plotDashing['Kinetic'], color: 'gray'},
+			name: 'Kinetic Defense',
+			legendgroup: 'defense'
+		},
+		{
+			x: [enDef, enDef],
+			y: plotRange.y,
+			mode: 'lines',
+			line: {dash: plotDashing['Energy'], color: 'gray'},
+			name: 'Energy Defense',
+			legendgroup: 'defense'
+		}		
+	];
+
+	let unitPlotData = state.units.map(
 		(name, pos) => {
 			if(name === '')
 				return null;
@@ -134,23 +163,39 @@ const RicochetPlot = () => {
 				[partData['ChgIdealRange'], partData['MaxChgRicochetRange']] :
 				[partData['IdealRange'], partData['MaxRicochetRange']];
 			const plotPoints = ricochetDefBreakpoints.map(
-				([def, mult]) => [def, ranges[0] + mult * (ranges[1] - ranges[0])]
+				([def, mult]) => [def, getRicochetRange(ranges[0], ranges[1], def)]
 			);
 			plotPoints.unshift(
-				[800, ranges[0] + ricochetDefBreakpoints[0][1] * (ranges[1] - ranges[0])]
+				[plotRange.x[0], getRicochetRange(ranges[0], ranges[1], plotRange.x[0])]
 			);
-			plotPoints.push([1600, ranges[0]]);
-			return {
-				x: plotPoints.map(([x, y]) => x),
-				y: plotPoints.map(([x, y]) => y),
-				mode: 'lines',
-				line: {color: plotColors[pos]}
-			}
+			plotPoints.push(
+				[plotRange.x[1], getRicochetRange(ranges[0], ranges[1], plotRange.x[1])]
+			);
+			const pairedDef = state.defense[partData['AttackType']];
+			return [
+				{
+					x: plotPoints.map(([x, y]) => x),
+					y: plotPoints.map(([x, y]) => y),
+					mode: 'lines',
+					line: {dash: plotDashing[partData['AttackType']], color: plotColors[pos]},
+					name: realName,
+					legendgroup: 'units'
+				},
+				{
+					x: [pairedDef],
+					y: [getRicochetRange(ranges[0], ranges[1], pairedDef)],
+					mode: 'markers',
+					marker: {color: plotColors[pos], size: 10},
+					showlegend: false
+				}
+			]
 		}
 	);
-	plotData = plotData.filter(data => data);
+	unitPlotData = unitPlotData.filter(data => data).flat();
 
-	const font = {family: 'Aldrich-Custom, sans-serif'};
+	const plotData = defPlotData.concat(unitPlotData);
+
+	const font = {family: 'Aldrich-Custom, sans-serif', color: 'white'};
 
 	return (
 		<div style={{width: '1000px', height: '600px'}}>
@@ -160,18 +205,19 @@ const RicochetPlot = () => {
 			layout={{
 				margin: {l: 80, r: 80, t: 80, b: 80},
 				xaxis: {
-					range: [850, 1550],
+					range: plotRange.x,
 					title: {text: 'Defense', font: font, standoff: 5},
 					tickfont: font,
 					color: 'white'
 				},
 				yaxis: {
-					range: [0, 600],
+					range: plotRange.y,
 					title: {text: 'Ricochet Distance', font: font, standoff: 5},
 					tickfont: font,
 					color: 'white'
 				},
-				showlegend: false,
+				legend: {x: 1, y: 1, xanchor: 'right', font: font,
+					bgcolor: glob.paletteColor(1)},
 				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
 				paper_bgcolor: 'rgb(255, 255, 255, 0.1)'
 			}}
@@ -189,8 +235,8 @@ const RicochetComponent = () => {
 
 	return(
 		<>
-		<DefenseInput type='kinetic' />
-		<DefenseInput type='energy' />
+		<DefenseInput type='Kinetic' />
+		<DefenseInput type='Energy' />
 		{
 			range.map(pos => <UnitDropDown pos={pos} key={pos} />)
 		}

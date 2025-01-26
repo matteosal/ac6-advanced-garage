@@ -14,37 +14,11 @@ function sumKeyOver(parts, key, slots) {
 	);
 }
 
-// returns slope and intercept of a line passing through points [x1, y1] and [x2, y2]
-function lineParameters([[x1, y1], [x2, y2]]) {
-	return [(y1 - y2) / (x1 - x2), (x2*y1 - x1*y2) / (x2 - x1)];
-}
-
-function piecewiseLinear(x, breakpoints) {
-	const lastPos = breakpoints.length - 1;
-
-	if(x < breakpoints[0][0]) {
-		return breakpoints[0][1];
-	} else if (x >= breakpoints[lastPos][0]) {
-		return breakpoints[lastPos][1];
-	}
-
-	let result = null;
-	for (let i = 1; i < lastPos + 1; i++) {
-		if (x < breakpoints[i][0]) {
-			const [m, q] = lineParameters(breakpoints.slice(i - 1, i + 1))
-			result = m * x + q
-			break;
-		}
-	}
-
-	return result;
-}
-
 /**********************************************************************************/
 
 function getAttitudeRecovery(weight) {
 	const base = 100;
-	const multiplier = piecewiseLinear(
+	const multiplier = glob.piecewiseLinear(
 		weight / 10000., 
 		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]]
 	);
@@ -52,11 +26,11 @@ function getAttitudeRecovery(weight) {
 }
 
 function getTargetTracking(firearmSpec, loadRatio) {
-	let result = 100 * piecewiseLinear(firearmSpec,
+	let result = 100 * glob.piecewiseLinear(firearmSpec,
 		[[0., 0.], [50., 0.8], [100., 0.9], [150., 1.], [200., 1.2]]
 	)
 	if(loadRatio > 1)
-		result *= piecewiseLinear(loadRatio, [[1., 1.], [1.2, 0.5], [1.21, 0.3], [2., 0.05]]);
+		result *= glob.piecewiseLinear(loadRatio, [[1., 1.], [1.2, 0.5], [1.21, 0.3], [2., 0.05]]);
 	return result;
 }
 
@@ -80,8 +54,8 @@ function recoilSimulation(units, recoilControl) {
 	if(units.length === 0)
 		return [0, []];
 
-	const recoilMult = piecewiseLinear(recoilControl, [[0, 1.2], [150, 0.9], [235, 0.8]]);
-	const reductionRate = piecewiseLinear(recoilControl,
+	const recoilMult = glob.piecewiseLinear(recoilControl, [[0, 1.2], [150, 0.9], [235, 0.8]]);
+	const reductionRate = glob.piecewiseLinear(recoilControl,
 		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
 	);
 	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05;
@@ -199,14 +173,14 @@ const speedBreakpoints = {
 }
 
 function getSpeedSpec(base, weight, loadRatio, breakpointsMult, breakpointsOver) {
-	let multiplier = piecewiseLinear(weight / 10000., breakpointsMult);
+	let multiplier = glob.piecewiseLinear(weight / 10000., breakpointsMult);
 	if(loadRatio > 1)
-		multiplier *= piecewiseLinear(loadRatio, breakpointsOver);
+		multiplier *= glob.piecewiseLinear(loadRatio, breakpointsOver);
 	return base * multiplier
 }
 
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
-	const multiplier = piecewiseLinear(
+	const multiplier = glob.piecewiseLinear(
 		(weight - idealWeight) / 10000., 
 		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]]
 	);
@@ -216,7 +190,7 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 function getENSupplyEfficiency(enOutput, enLoad) {
 	if(enLoad > enOutput)
 		return 100;
-	const res = piecewiseLinear(enOutput - enLoad,
+	const res = glob.piecewiseLinear(enOutput - enLoad,
 		[[0., 1500.], [1800., 9000.], [3500., 16500.]]
 	);
 	return res;

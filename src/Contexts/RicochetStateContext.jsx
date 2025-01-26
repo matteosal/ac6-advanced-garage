@@ -14,7 +14,7 @@ const ricochetStateReducer = (state, action) => {
 /***************************************************************************************/
 
 const initialRicochetState = {
-	defense: {kinetic: 1100, energy: 1100},
+	defense: {'Kinetic': 1150, 'Energy': 1250},
 	units: new Array(4).fill('')
 }
 
