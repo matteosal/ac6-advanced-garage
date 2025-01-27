@@ -1,4 +1,4 @@
-import { useContext } from 'react';
+import { useState, useContext } from 'react';
 
 import createPlotlyComponent from 'react-plotly.js/factory';
 import Plotly from 'plotly.js-basic-dist';
@@ -77,13 +77,15 @@ const DefenseInput = ({type}) => {
 	const state = useContext(RicochetStateContext);
 	const stateDispatch = useContext(RicochetStateDispatchContext);
 
-	const setDefense = event => stateDispatch(
-		{target: 'defense', pos: type, value: event.target.value}
-	);	
+	const [internalValue, setInternalValue] = useState(state.defense[type]);
 
-	const filterKeys = event => {
-		if(!/[0-9]/.test(event.key))
-			event.preventDefault();		
+	const handleChange = event => setInternalValue(event.target.value);
+
+	const handleKeyPress = event => {
+		if(event.key === 'Enter')
+			stateDispatch({target: 'defense', pos: type, value: internalValue})
+		else if(!/[0-9]/.test(event.key))
+			event.preventDefault();
 	}
 
 	const label = type.toUpperCase() + ' DEFENSE:';
@@ -94,9 +96,9 @@ const DefenseInput = ({type}) => {
 		<input
 			style={{width: '50px', margin: '0px 0px 10px 5px', backgroundColor: glob.paletteColor(3)}}
 			id={type}
-			value={state.defense[type]}
-			onKeyPress={filterKeys}		
-			onChange={setDefense}
+			value={internalValue}
+			onChange={handleChange}
+			onKeyPress={handleKeyPress}
 		/>
 		</div>
 	)
