@@ -1,5 +1,4 @@
 * Mechanics to figure out
-	* Ricochet distance calculation
 	* Heating/Cooling for orbits. BehaviorParamPC -> Active Orbit Continous Heat in Smithbox
 	* Bullet speed
 	* QB distance, ground and aerial (needs to figure out detals of the QB velocity curve
@@ -8,6 +7,7 @@
 	* FCS assist / firearm spec / lock times / etc
 	* Firing animation times are not factored into DPS calculations, so DPS is skewed when 
 	  those are large (fireAnimationNote tooltip)
+* Smooth transitions in FCS plot
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
 * Overburden / arms overburden / EN overload indicators in AC stats header
 * Build image using parts
