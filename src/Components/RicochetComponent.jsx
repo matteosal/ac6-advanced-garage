@@ -151,7 +151,7 @@ const UnitSelector = ({pos}) => {
 }
 
 const plotColors = 
-	['rgb(61, 153, 204)', 'rgb(242, 160, 36)', 'rgb(116, 178, 54)', 'rgb(253, 98, 23)'];
+	['rgb(61, 153, 204)', 'rgb(242, 160, 36)', 'rgb(116, 178, 54)', 'rgb(147, 130, 217)'];
 const plotDashing = {'Kinetic': '7px,3px', 'Energy': '2px,2px'}
 const plotRange = {x: [850, 1550], y: [0, 600]};
 
@@ -166,7 +166,7 @@ const RicochetPlot = () => {
 			x: [kinDef, kinDef],
 			y: plotRange.y,
 			mode: 'lines',
-			line: {dash: plotDashing['Kinetic'], color: 'gray'},
+			line: {dash: plotDashing['Kinetic'], color: 'rgb(253, 52, 45)'},
 			name: 'Kinetic Defense',
 			legendgroup: 'defense'
 		},
@@ -174,7 +174,7 @@ const RicochetPlot = () => {
 			x: [enDef, enDef],
 			y: plotRange.y,
 			mode: 'lines',
-			line: {dash: plotDashing['Energy'], color: 'gray'},
+			line: {dash: plotDashing['Energy'], color: 'rgb(253, 52, 45)'},
 			name: 'Energy Defense',
 			legendgroup: 'defense'
 		}		
