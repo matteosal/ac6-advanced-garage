@@ -94,7 +94,8 @@ const DefenseInput = ({type}) => {
 		<div>
 		<label style={{display: 'inline-block', width: '160px'}} htmlFor={type}>{label}</label>
 		<input
-			style={{width: '50px', margin: '0px 0px 10px 5px', backgroundColor: glob.paletteColor(3)}}
+			style={{width: '55px', margin: '0px 0px 10px 5px', 
+				padding: '1px 5px', backgroundColor: glob.paletteColor(3)}}
 			id={type}
 			value={internalValue}
 			onChange={handleChange}
@@ -136,22 +137,23 @@ const UnitSelector = ({pos}) => {
 					)
 				}
 			</select>
-			<div style={{display: 'inline-block', marginLeft: 20}}>
+			<div style={{display: 'inline-block', marginLeft: 15}}>
 				RICOCHET RANGE:
 			</div>
+			<div style={{width: '15px', display: 'inline-block', marginLeft: 10}}>
 			{
 				ricochetRange ? 
-					<div style={{display: 'inline-block', marginLeft: 10}}>
-						{glob.toValueAndDisplayNumber(ricochetRange)[1]}
-					</div> :
-					<></>
+					glob.toValueAndDisplayNumber(ricochetRange)[1] :
+					''
 			}
+			</div>
 		</div>
 	)
 }
 
 const plotColors = 
-	['rgb(61, 153, 204)', 'rgb(242, 160, 36)', 'rgb(116, 178, 54)', 'rgb(147, 130, 217)'];
+	['rgb(61, 153, 204)', 'rgb(242, 160, 36)', 'rgb(116, 178, 54)', 'rgb(147, 130, 217)',
+		'rgb(197, 110, 26)', 'rgb(204, 102, 194)'];
 const plotDashing = {'Kinetic': '7px,3px', 'Energy': '2px,2px'}
 const plotRange = {x: [850, 1550], y: [0, 600]};
 
@@ -221,12 +223,11 @@ const RicochetPlot = () => {
 	const font = {family: 'Aldrich-Custom, sans-serif', color: 'white'};
 
 	return (
-		<div style={{width: '1000px', height: '600px'}}>
 		<PlotlyPlot
 			style={{width: '100%', height: '100%'}}
 			data={plotData}
 			layout={{
-				margin: {l: 80, r: 80, t: 80, b: 80},
+				margin: {l: 80, r: 40, t: 40, b: 60},
 				xaxis: {
 					range: plotRange.x,
 					title: {text: 'Defense', font: font, standoff: 5},
@@ -246,7 +247,6 @@ const RicochetPlot = () => {
 			}}
 			config={{displayModeBar: false, staticPlot: true}}
 		/>
-		</div>
 	)
 }
 
@@ -254,16 +254,32 @@ const RicochetComponent = () => {
 
 	const state = useContext(RicochetStateContext);
 
-	const range = [...Array(state.units.length).keys()];
+	const ranges = glob.partitionList([...Array(state.units.length).keys()], 3);
 
 	return(
 		<>
-		<DefenseInput type='Kinetic' />
-		<DefenseInput type='Energy' />
-		{
-			range.map(pos => <UnitSelector pos={pos} key={pos} />)
-		}
-		<RicochetPlot />
+		<div 
+			style={{display: 'flex', justifyContent: 'space-evenly', 
+				alignItems: 'center', margin: '50px 0px 25px 0px', padding: '25px 0px 10px 0px',
+				...glob.dottedBackgroundStyle()}}
+		>
+			<div>
+				<DefenseInput type='Kinetic' />
+				<DefenseInput type='Energy' />
+			</div>
+			{
+				ranges.map(
+					range => <div>
+						{
+							range.map(pos => <UnitSelector pos={pos} key={pos} />)
+						}
+					</div>
+				)
+			}
+		</div>
+		<div style={{width: '1070px', height: '630px', margin: 'auto'}}>
+			<RicochetPlot />
+		</div>
 		</>
 	);
 }

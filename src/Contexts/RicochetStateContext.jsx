@@ -15,7 +15,7 @@ const ricochetStateReducer = (state, action) => {
 
 const initialRicochetState = {
 	defense: {'Kinetic': 1150, 'Energy': 1250},
-	units: ['MA-J-200 RANSETSU-RF', '', '', '']
+	units: ['MA-J-200 RANSETSU-RF', '', '', '', '', '']
 }
 
 export const RicochetStateProvider = ({children}) => {

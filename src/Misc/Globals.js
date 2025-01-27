@@ -405,6 +405,30 @@ export function piecewiseLinear(x, breakpoints) {
 	return result;
 }
 
+export function partitionList(list, subLength) {
+	const subLists = [];
+	let tempSubList = [];
+	let innerIdx = 0;
+
+	list.map(
+		colName => {
+			if(innerIdx > subLength - 1) {
+				subLists.push(tempSubList);
+				tempSubList = [];
+				innerIdx = 0;
+			}
+			tempSubList.push(colName);
+			innerIdx++;
+			return null;
+		}
+	);
+	for(let i = tempSubList.length - 1; i < subLength - 1; i++)
+		tempSubList.push(null)
+	subLists.push(tempSubList);
+
+	return subLists;
+}
+
 /***************************************************************************************/
 
 function toKind(className) {

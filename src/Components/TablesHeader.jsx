@@ -115,30 +115,6 @@ const TablesHeader = () => {
 	)
 }
 
-function partitionList(list, subLength) {
-	const subLists = [];
-	let tempSubList = [];
-	let innerIdx = 0;
-
-	list.map(
-		colName => {
-			if(innerIdx > subLength - 1) {
-				subLists.push(tempSubList);
-				tempSubList = [];
-				innerIdx = 0;
-			}
-			tempSubList.push(colName);
-			innerIdx++;
-			return null;
-		}
-	);
-	for(let i = tempSubList.length - 1; i < subLength - 1; i++)
-		tempSubList.push(null)
-	subLists.push(tempSubList);
-
-	return subLists;
-}
-
 const ColumnFilters = ({closeModal}) => {
 
 	const state = useContext(TablesStateContext);
@@ -176,7 +152,7 @@ const ColumnFilters = ({closeModal}) => {
 		stateDispatch({target: 'columnOrder', partClass: selectedClass, value: newOrder});
 	}
 
-	const rows = partitionList(allCols, 4);
+	const rows = glob.partitionList(allCols, 4);
 
 	return(
 		<>
@@ -251,7 +227,7 @@ const FilterGroup = ({group, checkboxes}) => {
 	const selectedClass = state.selectedClass;	
 	const unitFilters = state.unitFilters[selectedClass];
 
-	const rows = partitionList(Object.entries(unitFilterIcons[group]), 2);
+	const rows = glob.partitionList(Object.entries(unitFilterIcons[group]), 2);
 
 	const toggleKey = name => {
 		const newVal = !checkboxes[name];
@@ -343,7 +319,7 @@ const UnitFilters = ({closeModal}) => {
 
 	const cellStyle = {border: 'solid 2px ' + glob.paletteColor(4), padding: '10px'};
 
-	const rows = partitionList(Object.keys(glob.allUnitFilters), 2);
+	const rows = glob.partitionList(Object.keys(glob.allUnitFilters), 2);
 
 	return(
 		<>
