@@ -21,7 +21,7 @@ function getRicochetUnits(charge) {
 		filtered.map(
 			part => {
 				const id = part['ID'];
-				let name = id === -1 ? '' : part['Name'];
+				let name = part['Name'];
 				if(charge)
 					name += chargedSuffix;				
 				return {name: name, id: id, charge: charge}
@@ -199,7 +199,7 @@ const RicochetPlot = () => {
 					y: plotPoints.map(([x, y]) => y),
 					mode: 'lines',
 					line: {dash: plotDashing[atkType], color: plotColors[pos]},
-					name: realName,
+					name: name,
 					legendgroup: 'units'
 				},
 				{
