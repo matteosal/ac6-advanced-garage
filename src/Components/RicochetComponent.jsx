@@ -61,13 +61,13 @@ function getRicochetRange(min, max, defense) {
 	return min + mult * (max - min);
 }
 
-function getNameRangesType(fullName) {
+function getRangesAndType(fullName) {
 	const realName = fullName.replace(chargedSuffix, '');
 	const partData = glob.partsData[unitNameToID[realName]];
 	const ranges = fullName.endsWith(chargedSuffix) ? 
 		[partData['ChgIdealRange'], partData['MaxChgRicochetRange']] :
 		[partData['IdealRange'], partData['MaxRicochetRange']];
-	return[realName, ranges, partData['AttackType']];
+	return[ranges, partData['AttackType']];
 }
 
 /***********************************************************************************/
@@ -115,9 +115,7 @@ const UnitSelector = ({pos}) => {
 	);
 
 	const selectedUnit = state.units[pos];
-	const [, ranges, type] = selectedUnit !== '' ? 
-		getNameRangesType(selectedUnit) :
-		[0, 0];
+	const [ranges, type] = selectedUnit !== '' ? getRangesAndType(selectedUnit) : [0, 0];
 	const ricochetRange = getRicochetRange(ranges[0], ranges[1], state.defense[type]);
 
 	const id = 'dropdown-' + pos.toString();
@@ -186,7 +184,7 @@ const RicochetPlot = () => {
 		(name, pos) => {
 			if(name === '')
 				return null;
-			const [realName, ranges, atkType] = getNameRangesType(name);
+			const [ranges, atkType] = getRangesAndType(name);
 			const plotPoints = ricochetDefBreakpoints.map(
 				([def, mult]) => [def, getRicochetRange(ranges[0], ranges[1], def)]
 			);
