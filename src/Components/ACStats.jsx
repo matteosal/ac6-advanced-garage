@@ -46,17 +46,19 @@ function getAttitudeRecovery(weight) {
 	const base = 100;
 	const multiplier = piecewiseLinear(
 		weight / 10000., 
-		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]]
+		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]] // graph 278
 	);
 	return base * multiplier;
 }
 
 function getTargetTracking(firearmSpec, loadRatio) {
 	let result = 100 * piecewiseLinear(firearmSpec,
-		[[0., 0.], [50., 0.8], [100., 0.9], [150., 1.], [200., 1.2]]
+		[[0., 0.], [50., 0.8], [100., 0.9], [150., 1.], [200., 1.2]] // graph 970
 	)
 	if(loadRatio > 1)
-		result *= piecewiseLinear(loadRatio, [[1., 1.], [1.2, 0.5], [1.21, 0.3], [2., 0.05]]);
+		result *= piecewiseLinear(loadRatio, 
+			[[1., 1.], [1.2, 0.5], [1.21, 0.3], [2., 0.05]] // graph 701
+		);
 	return result;
 }
 
@@ -80,11 +82,13 @@ function recoilSimulation(units, recoilControl) {
 	if(units.length === 0)
 		return [0, []];
 
-	const recoilMult = piecewiseLinear(recoilControl, [[0, 1.2], [150, 0.9], [235, 0.8]]);
-	const reductionRate = piecewiseLinear(recoilControl,
-		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
+	const recoilMult = piecewiseLinear(recoilControl,
+		[[0, 1.2], [150, 0.9], [235, 0.8]] // graph 850
 	);
-	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05;
+	const reductionRate = piecewiseLinear(recoilControl,
+		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]] // graph 851
+	);
+	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05; // graph 852
 
 	// shotsByUnit has dimensions [nUnits, nShots(unit), 2] where the last dimension contains
 	// pairs [shotTime, shotRecoil]. Shot times for different units are arbitrarily offset by 
@@ -159,6 +163,7 @@ function recoilSimulation(units, recoilControl) {
 	return [recoilSum / allShots.length, plotPoints];
 }
 
+// graphs 260, 263, 290 
 const boostBreakpoints = [[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.65]];
 const qbBreakpoints = [[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]];
 const overweightBreakpoints = 
@@ -167,34 +172,34 @@ const overweightBreakpoints =
 const speedBreakpoints = {
 	boostGrounded: [boostBreakpoints, overweightBreakpoints],
 	boostGroundedFortaleza: [
-		[[5, 1], [6.25, 0.94], [7.5, 0.86], [10, 0.75], [15, 0.6]],
+		[[5, 1], [6.25, 0.94], [7.5, 0.86], [10, 0.75], [15, 0.6]], // graph 224
 		overweightBreakpoints
 	],
 	boostGroundedTank: [
-		[[5, 1], [7.5, 0.9], [10, 0.85], [12, 0.8], [14, 0.7]],
+		[[5, 1], [7.5, 0.9], [10, 0.85], [12, 0.8], [14, 0.7]], // graph 274
 		overweightBreakpoints
 	],
 	boostAerial: [boostBreakpoints, overweightBreakpoints],
 	quickBoost: [qbBreakpoints, overweightBreakpoints],
 	upwards: [
-		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
+		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]], // graph 262
 		overweightBreakpoints
 	],
 	assaultBoost: [
-		[[4., 1.], [5, 0.95], [7.5, 0.9], [10, 0.7], [15, 0.55]],
+		[[4., 1.], [5, 0.95], [7.5, 0.9], [10, 0.7], [15, 0.55]], // graph 267
 		overweightBreakpoints
 	],
 	meleeBoost: [
-		[[4., 1.], [6.25, 0.95], [7.5, 0.85], [8, 0.75], [12, 0.65]],
+		[[4., 1.], [6.25, 0.95], [7.5, 0.85], [8, 0.75], [12, 0.65]], // graphs 268, 269
 		overweightBreakpoints
 	],
 	hover: [
-		[[7., 1.], [9, 0.9], [10, 0.85], [11, 0.75], [12, 0.7]],
-		[[1., 1.], [1.05, 0.9], [1.1, 0.8], [1.3, 0.7], [1.5, 0.6]]
+		[[7., 1.], [9, 0.9], [10, 0.85], [11, 0.75], [12, 0.7]], // graph 282
+		[[1., 1.], [1.05, 0.9], [1.1, 0.8], [1.3, 0.7], [1.5, 0.6]] // graph 296
 	],
 	hoverQuickBoost: [
 		qbBreakpoints,
-		[[1., 1.], [1.05, 0.75], [1.1, 0.5], [1.3, 0.25], [1.5, 0.]]
+		[[1., 1.], [1.05, 0.75], [1.1, 0.5], [1.3, 0.25], [1.5, 0.]] // graph 293
 	]
 }
 
@@ -208,7 +213,7 @@ function getSpeedSpec(base, weight, loadRatio, breakpointsMult, breakpointsOver)
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 	const multiplier = piecewiseLinear(
 		(weight - idealWeight) / 10000., 
-		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]]
+		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]] // graph 320
 	);
 	return baseReloadTime * multiplier;
 }
