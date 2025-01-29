@@ -736,7 +736,8 @@ const statTooltips = {
 	'AverageRecoil': 'Average recoil incurred by each shot (immediately before it is ' +
 		'fired) during the recoil accumulation ' +
 		'simulation. An average of 0 indicates that recoil is always completely reabsorbed ' +
-		'before the next shot. Recoil caps at 100.'
+		'before the next shot. Recoil caps at 100.',
+	'BurstFireInterval': 'Time between individual shots in a single burst.'
 };
 
 const statTooltipsComparerMode = {

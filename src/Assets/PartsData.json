@@ -1786,6 +1786,7 @@
 		"Weight": 2810.0,
 		"ENLoad": 98.0,
 		"MaxRecoilAngle": 9.0,
+		"BurstFireInterval": 0.05,
 		"DefaultOrdering": 23
 	},
 	{
@@ -1824,6 +1825,7 @@
 		"Weight": 960.0,
 		"ENLoad": 62.0,
 		"MaxRecoilAngle": 12.0,
+		"BurstFireInterval": 0.1,
 		"DefaultOrdering": 30
 	},
 	{
@@ -1904,6 +1906,7 @@
 		"Weight": 3620.0,
 		"ENLoad": 132.0,
 		"MaxRecoilAngle": 6.0,
+		"BurstFireInterval": 0.09,
 		"DefaultOrdering": 19
 	},
 	{

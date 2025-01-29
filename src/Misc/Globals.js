@@ -127,9 +127,10 @@ export const partStatGroups = {
 		[
 			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'MaxRecoilAngle', 'Guidance', 
 			'IdealRange',  'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 
-			'ChgENLoad', 'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 
-			'FullChgAmmoConsump', 'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 
-			'ReloadTimeOverheat', 'DeploymentRange', 'Cooling', 'CoolingDelay', 'AmmunitionCost'
+			'BurstFireInterval', 'ChgENLoad', 'ChargeTime', 'FullChgTime',
+			'ChgAmmoConsumption', 'FullChgAmmoConsump', 'MagazineRounds', 'MagDumpTime', 
+			'TotalRounds', 'ReloadTime', 'ReloadTimeOverheat', 'DeploymentRange', 'Cooling', 
+			'CoolingDelay', 'AmmunitionCost'
 		],
 		['Weight', 'ENLoad']
 	],
