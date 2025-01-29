@@ -67,9 +67,45 @@ const mod = (a, b) => {
 	// res can sometimes be x.99999999 when it should be x+1 so we round to 3 decimals
 	return Math.round(res * 1000) / 1000;
 }
-const generateShots = (nShots, interval, offset, recoil) => [...Array(nShots).keys()].map(
-	i => [i * interval + offset, recoil]
-);
+const getFiringIntervals = unit => {
+	if(unit['BurstFireInterval']) {
+		const nBurstShots = unit['AttackPower'][1];
+		const res = Array(nBurstShots - 1).fill(unit['BurstFireInterval']);
+		res.push(nBurstShots / unit['RapidFire'] - glob.total(res));
+		return res;
+	} else
+		return [1 / unit['RapidFire']]
+}
+const generateShots = (nShots, intervals, offset, recoil) => {
+	if(intervals.length === 1) {
+		const actualShots = Math.min(
+			nShots,
+			Math.floor((simulationTime - offset) / intervals[0]) + 1
+		);
+		return [...Array(actualShots).keys()].map(
+			i => [i * intervals[0] + offset, recoil]
+		)
+	}
+	else {
+		let shots = Array(nShots);
+		const nBursts = nShots / intervals.length;
+		let k = -1;
+		let time = offset;
+		let breakEarly = false;
+		for(let i = 0; i < nBursts && !breakEarly; i++) {
+			for(let j = 0; j < intervals.length && !breakEarly; j++) {
+				k++;
+				shots[k] = [time, recoil];
+				time += intervals[j];
+				if(time > simulationTime) {
+					shots = shots.slice(0, k + 1);
+					breakEarly = true;
+				}
+			}
+		}
+		return shots;
+	}
+};
 const simulationTime = 5;
 const simulationShotOffset = 0.05;
 const recoilExcludedUnits = ['FASAN/60E', 'VE-60LCA', 'VE-60LCB', 'VP-60LCD', 'VP-60LCS'];
@@ -96,31 +132,21 @@ function recoilSimulation(units, recoilControl) {
 	// the exact same time
 	const shotsByUnit = Array(units.length);
 	for(let i = 0; i < units.length; i++) {
+		const magSize = units[i]['MagazineRounds'];
 		const cycleTime = units[i]['MagDumpTime'] + units[i]['ReloadTime'];
-		const nFullCycles = Math.floor(simulationTime / cycleTime);
-		const lastCycleNShots = Math.min(
-			units[i]['MagazineRounds'],
-			Math.floor(units[i]['RapidFire'] * mod(simulationTime, cycleTime) + 1)
-		);
+		const nCycles = Math.ceil(simulationTime / cycleTime);
+		const firingIntervals = getFiringIntervals(units[i]);
 		shotsByUnit[i] = [];
-		for(let cycle = 0; cycle < nFullCycles; cycle++) {
+		for(let cycle = 0; cycle < nCycles; cycle++) {
 			shotsByUnit[i] = shotsByUnit[i].concat(
 				generateShots(
-					units[i]['MagazineRounds'],
-					1 / units[i]['RapidFire'],
+					magSize,
+					firingIntervals,
 					cycle * cycleTime + i * simulationShotOffset,
 					units[i]['Recoil'] * recoilMult
 				)
 			);
 		}
-		shotsByUnit[i] = shotsByUnit[i].concat(
-			generateShots(
-				lastCycleNShots,
-				1 / units[i]['RapidFire'],
-				nFullCycles * cycleTime + i * simulationShotOffset,
-				units[i]['Recoil'] * recoilMult
-			)
-		)
 	}
 	// allShots is a list of pairs [shotTime, shotRecoil] for all the shots in the
 	// simulation
