@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ac6-advanced-garage/static/css/main.1bb9dc12.css",
-    "main.js": "/ac6-advanced-garage/static/js/main.70418839.js",
+    "main.js": "/ac6-advanced-garage/static/js/main.e5374839.js",
     "static/media/VP-66EG.png": "/ac6-advanced-garage/static/media/VP-66EG.8533945541d4412c8b7f.png",
     "static/media/BML-G1_P29CNT.png": "/ac6-advanced-garage/static/media/BML-G1_P29CNT.f7aafca710c45a0dc169.png",
     "static/media/VE-40A.png": "/ac6-advanced-garage/static/media/VE-40A.b72388e95c639a2fb88c.png",
@@ -37,7 +37,7 @@
     "static/media/AC-J-120_BASHO.png": "/ac6-advanced-garage/static/media/AC-J-120_BASHO.43fe73abedd5ff9ad4c4.png",
     "static/media/DF-MG-02_CHANG-CHEN.png": "/ac6-advanced-garage/static/media/DF-MG-02_CHANG-CHEN.be8b32971c339fb32ef2.png",
     "static/media/HC-3000_WRECKER.png": "/ac6-advanced-garage/static/media/HC-3000_WRECKER.b7ca57fedb11270afe86.png",
-    "static/media/DF-ET09_TAI-YANG-SHOU.png": "/ac6-advanced-garage/static/media/DF-ET09_TAI-YANG-SHOU.57452fa61fca9f7abfe9.png",
+    "static/media/DF-ET-09_TAI-YANG-SHOU.png": "/ac6-advanced-garage/static/media/DF-ET-09_TAI-YANG-SHOU.57452fa61fca9f7abfe9.png",
     "static/media/SG-027_ZIMMERMAN.png": "/ac6-advanced-garage/static/media/SG-027_ZIMMERMAN.e8f88267314cd4fc0a79.png",
     "static/media/EL-PC-00_ALBA.png": "/ac6-advanced-garage/static/media/EL-PC-00_ALBA.f8023e9268fba493a78e.png",
     "static/media/BML-G2_P17SPL-16.png": "/ac6-advanced-garage/static/media/BML-G2_P17SPL-16.de4f2c7b252a08138f6a.png",
@@ -265,10 +265,10 @@
     "static/media/aldrich-custom-webfont.woff2": "/ac6-advanced-garage/static/media/aldrich-custom-webfont.2d4367283755ea19122b.woff2",
     "index.html": "/ac6-advanced-garage/index.html",
     "main.1bb9dc12.css.map": "/ac6-advanced-garage/static/css/main.1bb9dc12.css.map",
-    "main.70418839.js.map": "/ac6-advanced-garage/static/js/main.70418839.js.map"
+    "main.e5374839.js.map": "/ac6-advanced-garage/static/js/main.e5374839.js.map"
   },
   "entrypoints": [
     "static/css/main.1bb9dc12.css",
-    "static/js/main.70418839.js"
+    "static/js/main.e5374839.js"
   ]
 }
