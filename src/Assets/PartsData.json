@@ -23,7 +23,8 @@
 		"AmmunitionCost": 750.0,
 		"Weight": 5920.0,
 		"ENLoad": 299.0,
-		"DefaultOrdering": 36
+		"DefaultOrdering": 36,
+		"BulletSpeed": 1296.0
 	},
 	{
 		"Name": "44-142 KRSV",
@@ -63,7 +64,9 @@
 		"ReloadTimeOverheat": 8.93,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 54
+		"DefaultOrdering": 54,
+		"BulletSpeed": 1800.0,
+		"FullChgBulletSpeed": 2628.0
 	},
 	{
 		"Name": "44-143 HMMR",
@@ -130,7 +133,8 @@
 		"AmmunitionCost": 450,
 		"Weight": 4250,
 		"ENLoad": 425,
-		"DefaultOrdering": 38
+		"DefaultOrdering": 38,
+		"BulletSpeed": 1620.0
 	},
 	{
 		"Name": "45-091 ORBT",
@@ -167,7 +171,8 @@
 		"ENLoad": 446,
 		"CoolingDelay": 1.2,
 		"DefaultOrdering": 45,
-		"MaxRicochetRange": 412
+		"MaxRicochetRange": 412,
+		"BulletSpeed": 2448.0
 	},
 	{
 		"Name": "BML-G1/P01VTC-04",
@@ -203,7 +208,8 @@
 		"AmmunitionCost": 120,
 		"Weight": 2240,
 		"ENLoad": 258,
-		"DefaultOrdering": 30
+		"DefaultOrdering": 30,
+		"BulletSpeed": 1260.0
 	},
 	{
 		"Name": "BML-G1/P03VTC-08",
@@ -239,7 +245,8 @@
 		"AmmunitionCost": 120,
 		"Weight": 3920,
 		"ENLoad": 380,
-		"DefaultOrdering": 31
+		"DefaultOrdering": 31,
+		"BulletSpeed": 1260.0
 	},
 	{
 		"Name": "BML-G1/P07VTC-12",
@@ -275,7 +282,8 @@
 		"AmmunitionCost": 120,
 		"Weight": 5010,
 		"ENLoad": 525,
-		"DefaultOrdering": 32
+		"DefaultOrdering": 32,
+		"BulletSpeed": 1260.0
 	},
 	{
 		"Name": "BML-G1/P20MLT-04",
@@ -311,7 +319,8 @@
 		"AmmunitionCost": 80,
 		"Weight": 2120,
 		"ENLoad": 154,
-		"DefaultOrdering": 21
+		"DefaultOrdering": 21,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "BML-G1/P29CNT",
@@ -336,7 +345,8 @@
 		"AmmunitionCost": 800,
 		"Weight": 6370,
 		"ENLoad": 150,
-		"DefaultOrdering": 35
+		"DefaultOrdering": 35,
+		"BulletSpeed": 720.0
 	},
 	{
 		"Name": "BML-G1/P31DUO-02",
@@ -372,7 +382,8 @@
 		"AmmunitionCost": 70,
 		"Weight": 1900,
 		"ENLoad": 182,
-		"DefaultOrdering": 27
+		"DefaultOrdering": 27,
+		"BulletSpeed": 1260.0
 	},
 	{
 		"Name": "BML-G1/P32DUO-03",
@@ -408,7 +419,8 @@
 		"AmmunitionCost": 70,
 		"Weight": 3450,
 		"ENLoad": 262,
-		"DefaultOrdering": 28
+		"DefaultOrdering": 28,
+		"BulletSpeed": 1260.0
 	},
 	{
 		"Name": "BML-G2/P03MLT-06",
@@ -444,7 +456,8 @@
 		"AmmunitionCost": 80,
 		"Weight": 3610,
 		"ENLoad": 241,
-		"DefaultOrdering": 22
+		"DefaultOrdering": 22,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "BML-G2/P05MLT-10",
@@ -480,7 +493,8 @@
 		"AmmunitionCost": 80,
 		"Weight": 5220,
 		"ENLoad": 320,
-		"DefaultOrdering": 23
+		"DefaultOrdering": 23,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "BML-G2/P08DUO-03",
@@ -516,7 +530,8 @@
 		"AmmunitionCost": 100,
 		"Weight": 4020,
 		"ENLoad": 332,
-		"DefaultOrdering": 29
+		"DefaultOrdering": 29,
+		"BulletSpeed": 1260.0
 	},
 	{
 		"Name": "BML-G2/P16SPL-08",
@@ -543,7 +558,8 @@
 		"AmmunitionCost": 500,
 		"Weight": 2800,
 		"ENLoad": 228,
-		"DefaultOrdering": 25
+		"DefaultOrdering": 25,
+		"BulletSpeed": 900
 	},
 	{
 		"Name": "BML-G2/P17SPL-16",
@@ -579,7 +595,8 @@
 		"AmmunitionCost": 500,
 		"Weight": 5010,
 		"ENLoad": 510,
-		"DefaultOrdering": 26
+		"DefaultOrdering": 26,
+		"BulletSpeed": 900
 	},
 	{
 		"Name": "BML-G2/P19SPL-12",
@@ -615,7 +632,8 @@
 		"AmmunitionCost": 400,
 		"Weight": 3580,
 		"ENLoad": 325,
-		"DefaultOrdering": 24
+		"DefaultOrdering": 24,
+		"BulletSpeed": 900
 	},
 	{
 		"Name": "BML-G3/P04ACT-01",
@@ -643,7 +661,8 @@
 		"AmmunitionCost": 450,
 		"Weight": 2270,
 		"ENLoad": 213,
-		"DefaultOrdering": 33
+		"DefaultOrdering": 33,
+		"BulletSpeed": 392.4
 	},
 	{
 		"Name": "BML-G3/P05ACT-02",
@@ -680,7 +699,8 @@
 		"AmmunitionCost": 450,
 		"Weight": 4320,
 		"ENLoad": 424,
-		"DefaultOrdering": 34
+		"DefaultOrdering": 34,
+		"BulletSpeed": 392.4
 	},
 	{
 		"Name": "BO-044 HUXLEY",
@@ -717,7 +737,11 @@
 		"ENLoad": 435,
 		"CoolingDelay": 0.8,
 		"DefaultOrdering": 44,
+<<<<<<< HEAD
 		"MaxRicochetRange": 380
+=======
+		"BulletSpeed": 1800.0
+>>>>>>> master
 	},
 	{
 		"Name": "DF-BA-06 XUAN-GE",
@@ -743,10 +767,11 @@
 		"AmmunitionCost": 450.0,
 		"Weight": 5480.0,
 		"ENLoad": 240.0,
-		"DefaultOrdering": 33
+		"DefaultOrdering": 33,
+		"BulletSpeed": 1152.0
 	},
 	{
-		"Name": "DF-ET09 TAI-YANG-SHOU",
+		"Name": "DF-ET-09 TAI-YANG-SHOU",
 		"Kind": "Unit",
 		"Manufacturer": "DAFENG",
 		"Description": "Explosive Thrower",
@@ -772,7 +797,9 @@
 		"AmmunitionCost": 600.0,
 		"Weight": 3790.0,
 		"ENLoad": 160.0,
-		"DefaultOrdering": 2
+		"DefaultOrdering": 2,
+		"BulletSpeed": 1188.0,
+		"ChgBulletSpeed": 2340.0
 	},
 	{
 		"Name": "DF-GA-08 HU-BEN",
@@ -804,7 +831,11 @@
 		"ReloadTimeOverheat": 6.58,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 24,
+<<<<<<< HEAD
 		"MaxRicochetRange": 450
+=======
+		"BulletSpeed": 1800.0
+>>>>>>> master
 	},
 	{
 		"Name": "DF-GA-09 SHAO-WEI",
@@ -836,7 +867,11 @@
 		"ReloadTimeOverheat": 2.52,
 		"MaxRecoilAngle": 9.0,
 		"DefaultOrdering": 8,
+<<<<<<< HEAD
 		"MaxRicochetRange": 601
+=======
+		"BulletSpeed": 1800.0
+>>>>>>> master
 	},
 	{
 		"Name": "DF-GR-07 GOU-CHEN",
@@ -863,7 +898,8 @@
 		"Weight": 4841.0,
 		"ENLoad": 308.0,
 		"MaxRecoilAngle": 25.0,
-		"DefaultOrdering": 37
+		"DefaultOrdering": 37,
+		"BulletSpeed": 1296.0
 	},
 	{
 		"Name": "DF-MG-02 CHANG-CHEN",
@@ -893,7 +929,11 @@
 		"ENLoad": 143.0,
 		"MaxRecoilAngle": 9.0,
 		"DefaultOrdering": 21,
+<<<<<<< HEAD
 		"MaxRicochetRange": 516
+=======
+		"BulletSpeed": 1872.0
+>>>>>>> master
 	},
 	{
 		"Name": "DIZZY",
@@ -920,7 +960,8 @@
 		"Weight": 5590.0,
 		"ENLoad": 364.0,
 		"MaxRecoilAngle": 25.0,
-		"DefaultOrdering": 38
+		"DefaultOrdering": 38,
+		"BulletSpeed": 1224.0
 	},
 	{
 		"Name": "EARSHOT",
@@ -946,7 +987,8 @@
 		"AmmunitionCost": 1600.0,
 		"Weight": 7230.0,
 		"ENLoad": 386.0,
-		"DefaultOrdering": 10
+		"DefaultOrdering": 10,
+		"BulletSpeed": 1296.0
 	},
 	{
 		"Name": "EL-PW-00 VIENTO",
@@ -1012,7 +1054,11 @@
 		"Weight": 3100,
 		"ENLoad": 420,
 		"DefaultOrdering": 39,
+<<<<<<< HEAD
 		"MaxRicochetRange": 645
+=======
+		"BulletSpeed": 2160.0
+>>>>>>> master
 	},
 	{
 		"Name": "EULE/60D",
@@ -1041,7 +1087,8 @@
 		"AmmunitionCost": 400.0,
 		"Weight": 2760.0,
 		"ENLoad": 382.0,
-		"DefaultOrdering": 19
+		"DefaultOrdering": 19,
+		"BulletSpeed": 756.0
 	},
 	{
 		"Name": "FASAN/60E",
@@ -1080,7 +1127,9 @@
 		"CoolingDelay": 1.7,
 		"ReloadTimeOverheat": 7.95,
 		"IsEnergyFirearmSpec": true,
-		"DefaultOrdering": 17
+		"DefaultOrdering": 17,
+		"BulletSpeed": 1296.0,
+		"ChgBulletSpeed": 3528.0
 	},
 	{
 		"Name": "HG-003 COQUILLETT",
@@ -1110,7 +1159,11 @@
 		"ENLoad": 122.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 28,
+<<<<<<< HEAD
 		"MaxRicochetRange": 360
+=======
+		"BulletSpeed": 1692.0
+>>>>>>> master
 	},
 	{
 		"Name": "HG-004 DUCKETT",
@@ -1140,7 +1193,11 @@
 		"ENLoad": 158.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 29,
+<<<<<<< HEAD
 		"MaxRicochetRange": 385
+=======
+		"BulletSpeed": 1692.0
+>>>>>>> master
 	},
 	{
 		"Name": "HI-16: GU-Q1",
@@ -1172,7 +1229,8 @@
 		"ReloadTimeOverheat": 3.18,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 15.0,
-		"DefaultOrdering": 55
+		"DefaultOrdering": 55,
+		"BulletSpeed": 1440.0
 	},
 	{
 		"Name": "HI-18: GU-A2",
@@ -1204,7 +1262,8 @@
 		"ReloadTimeOverheat": 5.25,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 15.0,
-		"DefaultOrdering": 56
+		"DefaultOrdering": 56,
+		"BulletSpeed": 1440.0
 	},
 	{
 		"Name": "HI-32: BU-TT/A",
@@ -1268,7 +1327,8 @@
 		"AmmunitionCost": 150.0,
 		"Weight": 3250.0,
 		"ENLoad": 165.0,
-		"DefaultOrdering": 57
+		"DefaultOrdering": 57,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "HML-G3/P08SPL-06",
@@ -1295,7 +1355,8 @@
 		"AmmunitionCost": 650.0,
 		"Weight": 4630.0,
 		"ENLoad": 180.0,
-		"DefaultOrdering": 58
+		"DefaultOrdering": 58,
+		"BulletSpeed": 900
 	},
 	{
 		"Name": "IA-C01W1: NEBULA",
@@ -1335,7 +1396,9 @@
 		"ReloadTimeOverheat": 6.47,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 51
+		"DefaultOrdering": 51,
+		"BulletSpeed": 1008.0,
+		"ChgBulletSpeed": 1008.0
 	},
 	{
 		"Name": "IA-C01W2: MOONLIGHT",
@@ -1365,7 +1428,9 @@
 		"CoolingDelay": 1.1,
 		"IsEnergyFirearmSpec": true,
 		"IsMeleeSpec": true,
-		"DefaultOrdering": 11
+		"DefaultOrdering": 11,
+		"BulletSpeed": 1260.0,
+		"ChgBulletSpeed": 1260.0
 	},
 	{
 		"Name": "IA-C01W3: AURORA",
@@ -1403,7 +1468,8 @@
 		"Weight": 3330,
 		"ENLoad": 390,
 		"IsEnergyFirearmSpec": true,
-		"DefaultOrdering": 20
+		"DefaultOrdering": 20,
+		"BulletSpeed": 1980.0
 	},
 	{
 		"Name": "IA-C01W6: NB-REDSHIFT",
@@ -1443,7 +1509,9 @@
 		"CoolingDelay": 1.2,
 		"ReloadTimeOverheat": 7.82,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 52
+		"DefaultOrdering": 52,
+		"BulletSpeed": 1080.0,
+		"ChgBulletSpeed": 1800.0
 	},
 	{
 		"Name": "IA-C01W7: ML-REDSHIFT",
@@ -1472,7 +1540,9 @@
 		"ENLoad": 544.0,
 		"CoolingDelay": 1.5,
 		"IsMeleeSpec": true,
-		"DefaultOrdering": 12
+		"DefaultOrdering": 12,
+		"BulletSpeed": 1260.0,
+		"ChgBulletSpeed": 1260.0
 	},
 	{
 		"Name": "IB-C03W1: WLT 011",
@@ -1511,7 +1581,9 @@
 		"CoolingDelay": 1.0,
 		"ReloadTimeOverheat": 8.0,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 53
+		"DefaultOrdering": 53,
+		"BulletSpeed": 2340.0,
+		"ChgBulletSpeed": 3240.0
 	},
 	{
 		"Name": "IB-C03W2: WLT 101",
@@ -1573,7 +1645,9 @@
 		"AmmunitionCost": 650,
 		"Weight": 4200,
 		"ENLoad": 783,
-		"DefaultOrdering": 43
+		"DefaultOrdering": 43,
+		"BulletSpeed": 432.0,
+		"ChgBulletSpeed": 432.0
 	},
 	{
 		"Name": "IB-C03W4: NGI 028",
@@ -1624,7 +1698,8 @@
 		"Weight": 2020.0,
 		"ENLoad": 290.0,
 		"MaxRecoilAngle": 25.0,
-		"DefaultOrdering": 39
+		"DefaultOrdering": 39,
+		"BulletSpeed": 1512.0
 	},
 	{
 		"Name": "KRANICH/60Z",
@@ -1656,7 +1731,8 @@
 		"ReloadTimeOverheat": 6.78,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 9.0,
-		"DefaultOrdering": 18
+		"DefaultOrdering": 18,
+		"BulletSpeed": 1440.0
 	},
 	{
 		"Name": "LITTLE GEM",
@@ -1682,7 +1758,8 @@
 		"AmmunitionCost": 450.0,
 		"Weight": 2940.0,
 		"ENLoad": 169.0,
-		"DefaultOrdering": 35
+		"DefaultOrdering": 35,
+		"BulletSpeed": 1242.0
 	},
 	{
 		"Name": "LR-036 CURTIS",
@@ -1720,10 +1797,15 @@
 		"ReloadTimeOverheat": 5.68,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 15,
+<<<<<<< HEAD
 		"ChgIdealRange": 220,
 		"ChgEffectiveRange": 364,
 		"MaxRicochetRange": 680,
 		"MaxChgRicochetRange": 700
+=======
+		"BulletSpeed": 2232.0,
+		"ChgBulletSpeed": 2700.0
+>>>>>>> master
 	},
 	{
 		"Name": "LR-037 HARRIS",
@@ -1761,10 +1843,15 @@
 		"ReloadTimeOverheat": 3.63,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 16,
+<<<<<<< HEAD
 		"ChgIdealRange": 248,
 		"ChgEffectiveRange": 480,
 		"MaxRicochetRange": 800,
 		"MaxChgRicochetRange": 1020
+=======
+		"BulletSpeed": 2520.0,
+		"ChgBulletSpeed": 3240.0
+>>>>>>> master
 	},
 	{
 		"Name": "MA-E-210 ETSUJIN",
@@ -1803,8 +1890,13 @@
 		"ENLoad": 98.0,
 		"MaxRecoilAngle": 9.0,
 		"BurstFireInterval": 0.05,
+<<<<<<< HEAD
 		"MaxRicochetRange": 515,
 		"DefaultOrdering": 23
+=======
+		"DefaultOrdering": 23,
+		"BulletSpeed": 2088.0
+>>>>>>> master
 	},
 	{
 		"Name": "MA-E-211 SAMPU",
@@ -1843,8 +1935,13 @@
 		"ENLoad": 62.0,
 		"MaxRecoilAngle": 12.0,
 		"BurstFireInterval": 0.1,
+<<<<<<< HEAD
 		"MaxRicochetRange": 365,
 		"DefaultOrdering": 30
+=======
+		"DefaultOrdering": 30,
+		"BulletSpeed": 1908.0
+>>>>>>> master
 	},
 	{
 		"Name": "MA-J-200 RANSETSU-RF",
@@ -1887,10 +1984,15 @@
 		"ENLoad": 158.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 14,
+<<<<<<< HEAD
 		"ChgIdealRange": 200,
 		"ChgEffectiveRange": 335,
 		"MaxRicochetRange": 650,
 		"MaxChgRicochetRange": 650
+=======
+		"BulletSpeed": 1908.0,
+		"ChgBulletSpeed": 1908.0
+>>>>>>> master
 	},
 	{
 		"Name": "MA-J-201 RANSETSU-AR",
@@ -1929,8 +2031,13 @@
 		"ENLoad": 132.0,
 		"MaxRecoilAngle": 6.0,
 		"BurstFireInterval": 0.09,
+<<<<<<< HEAD
 		"MaxRicochetRange": 625,
 		"DefaultOrdering": 19
+=======
+		"DefaultOrdering": 19,
+		"BulletSpeed": 1980.0
+>>>>>>> master
 	},
 	{
 		"Name": "MAJESTIC",
@@ -1956,7 +2063,8 @@
 		"AmmunitionCost": 600.0,
 		"Weight": 4660.0,
 		"ENLoad": 178.0,
-		"DefaultOrdering": 34
+		"DefaultOrdering": 34,
+		"BulletSpeed": 1242.0
 	},
 	{
 		"Name": "MA-T-222 KYORAI",
@@ -1993,7 +2101,9 @@
 		"AmmunitionCost": 200.0,
 		"Weight": 2890.0,
 		"ENLoad": 60.0,
-		"DefaultOrdering": 40
+		"DefaultOrdering": 40,
+		"BulletSpeed": 900.0,
+		"ChgBulletSpeed": 900.0
 	},
 	{
 		"Name": "MA-T-223 KYORIKU",
@@ -2021,7 +2131,9 @@
 		"Weight": 2600.0,
 		"ENLoad": 52.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 41
+		"DefaultOrdering": 41,
+		"BulletSpeed": 1440.0,
+		"ChgBulletSpeed": 1440.0
 	},
 	{
 		"Name": "MG-014 LUDLOW",
@@ -2051,7 +2163,11 @@
 		"ENLoad": 82.0,
 		"MaxRecoilAngle": 9.0,
 		"DefaultOrdering": 20,
+<<<<<<< HEAD
 		"MaxRicochetRange": 536
+=======
+		"BulletSpeed": 1872.0
+>>>>>>> master
 	},
 	{
 		"Name": "PB-033M ASHMEAD",
@@ -2160,7 +2276,11 @@
 		"ENLoad": 102.0,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 17,
+<<<<<<< HEAD
 		"MaxRicochetRange": 629
+=======
+		"BulletSpeed": 1980.0
+>>>>>>> master
 	},
 	{
 		"Name": "RF-025 SCUDDER",
@@ -2190,7 +2310,11 @@
 		"ENLoad": 153.0,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 18,
+<<<<<<< HEAD
 		"MaxRicochetRange": 656
+=======
+		"BulletSpeed": 1980.0
+>>>>>>> master
 	},
 	{
 		"Name": "SB-033M MORLEY",
@@ -2216,7 +2340,8 @@
 		"AmmunitionCost": 800.0,
 		"Weight": 6580.0,
 		"ENLoad": 465.0,
-		"DefaultOrdering": 9
+		"DefaultOrdering": 9,
+		"BulletSpeed": 1008.0
 	},
 	{
 		"Name": "SG-026 HALDEMAN",
@@ -2244,7 +2369,11 @@
 		"ENLoad": 185.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 25,
+<<<<<<< HEAD
 		"MaxRicochetRange": 360
+=======
+		"BulletSpeed": 1980.0
+>>>>>>> master
 	},
 	{
 		"Name": "SG-027 ZIMMERMAN",
@@ -2272,7 +2401,11 @@
 		"ENLoad": 242.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 26,
+<<<<<<< HEAD
 		"MaxRicochetRange": 376
+=======
+		"BulletSpeed": 1980.0
+>>>>>>> master
 	},
 	{
 		"Name": "SI-24: SU-Q5",
@@ -2379,7 +2512,8 @@
 		"AmmunitionCost": 600.0,
 		"Weight": 5500.0,
 		"ENLoad": 285.0,
-		"DefaultOrdering": 11
+		"DefaultOrdering": 11,
+		"BulletSpeed": 1296.0
 	},
 	{
 		"Name": "VE-60LCA",
@@ -2436,10 +2570,15 @@
 		"ReloadTimeOverheat": 9.5,
 		"IsEnergyFirearmSpec": true,
 		"DefaultOrdering": 14,
+<<<<<<< HEAD
 		"ChgIdealRange": 300,
 		"ChgEffectiveRange": 450,
 		"MaxRicochetRange": 780,
 		"MaxChgRicochetRange": 800
+=======
+		"BulletSpeed": 1800.0,
+		"ChgBulletSpeed": 2880.0
+>>>>>>> master
 	},
 	{
 		"Name": "VE-60LCB",
@@ -2506,7 +2645,11 @@
 		"Weight": 6150.0,
 		"ENLoad": 825.0,
 		"DefaultOrdering": 12,
+<<<<<<< HEAD
 		"MaxRicochetRange": 980
+=======
+		"BulletSpeed": 1800.0
+>>>>>>> master
 	},
 	{
 		"Name": "VE-61PSA",
@@ -2570,10 +2713,15 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 45,
+<<<<<<< HEAD
 		"ChgIdealRange": 280,
 		"ChgEffectiveRange": 433,
 		"MaxRicochetRange": 760,
 		"MaxChgRicochetRange": 790
+=======
+		"BulletSpeed": 2160.0,
+		"ChgBulletSpeed": 3240.0
+>>>>>>> master
 	},
 	{
 		"Name": "VE-66LRB",
@@ -2613,10 +2761,15 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 46,
+<<<<<<< HEAD
 		"ChgIdealRange": 265,
 		"ChgEffectiveRange": 411,
 		"MaxRicochetRange": 600,
 		"MaxChgRicochetRange": 752
+=======
+		"BulletSpeed": 1800.0,
+		"ChgBulletSpeed": 2160.0
+>>>>>>> master
 	},
 	{
 		"Name": "VE-67LLA",
@@ -2684,7 +2837,12 @@
 		"ReloadTimeOverheat": 6.62,
 		"IsEnergyFirearmSpec": true,
 		"DefaultOrdering": 16,
+<<<<<<< HEAD
 		"MaxRicochetRange": 420
+=======
+		"BulletSpeed": 1980.0,
+		"ChgBulletSpeed": 1980.0
+>>>>>>> master
 	},
 	{
 		"Name": "VP-60LCS",
@@ -2723,10 +2881,15 @@
 		"ReloadTimeOverheat": 7.13,
 		"IsEnergyFirearmSpec": true,
 		"DefaultOrdering": 13,
+<<<<<<< HEAD
 		"ChgIdealRange": 300,
 		"ChgEffectiveRange": 447,
 		"MaxRicochetRange": 660,
 		"MaxChgRicochetRange": 790
+=======
+		"BulletSpeed": 1800.0,
+		"ChgBulletSpeed": 2880.0
+>>>>>>> master
 	},
 	{
 		"Name": "VP-60LT",
@@ -2763,7 +2926,11 @@
 		"Weight": 2800,
 		"ENLoad": 560,
 		"DefaultOrdering": 46,
+<<<<<<< HEAD
 		"MaxRicochetRange": 430
+=======
+		"BulletSpeed": 2664.0
+>>>>>>> master
 	},
 	{
 		"Name": "VP-61PB",
@@ -2842,7 +3009,11 @@
 		"ENLoad": 247.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 32,
+<<<<<<< HEAD
 		"MaxRicochetRange": 298
+=======
+		"BulletSpeed": 1800.0
+>>>>>>> master
 	},
 	{
 		"Name": "VP-66LH",
@@ -2890,10 +3061,15 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 49,
+<<<<<<< HEAD
 		"ChgIdealRange": 190,
 		"ChgEffectiveRange": 247,
 		"MaxRicochetRange": 380,
 		"MaxChgRicochetRange": 380
+=======
+		"BulletSpeed": 2268.0,
+		"ChgBulletSpeed": 2268.0
+>>>>>>> master
 	},
 	{
 		"Name": "VP-66LR",
@@ -2933,10 +3109,15 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 44,
+<<<<<<< HEAD
 		"ChgIdealRange": 250,
 		"ChgEffectiveRange": 364,
 		"MaxRicochetRange": 412,
 		"MaxChgRicochetRange": 630
+=======
+		"BulletSpeed": 2520.0,
+		"ChgBulletSpeed": 3024.0
+>>>>>>> master
 	},
 	{
 		"Name": "VP-66LS",
@@ -2977,7 +3158,12 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 47,
+<<<<<<< HEAD
 		"MaxRicochetRange": 560
+=======
+		"BulletSpeed": 1980.0,
+		"ChgBulletSpeed": 1620.0
+>>>>>>> master
 	},
 	{
 		"Name": "VP-67EB",
@@ -3110,7 +3296,8 @@
 		"AmmunitionCost": 100,
 		"Weight": 2310,
 		"ENLoad": 210,
-		"DefaultOrdering": 40
+		"DefaultOrdering": 40,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "Vvc-706PM",
@@ -3138,7 +3325,8 @@
 		"AmmunitionCost": 100,
 		"Weight": 3650,
 		"ENLoad": 276,
-		"DefaultOrdering": 41
+		"DefaultOrdering": 41,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "Vvc-70VPM",
@@ -3166,7 +3354,8 @@
 		"AmmunitionCost": 150.0,
 		"Weight": 3760.0,
 		"ENLoad": 268.0,
-		"DefaultOrdering": 42
+		"DefaultOrdering": 42,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "Vvc-760PR",
@@ -3206,7 +3395,9 @@
 		"ReloadTimeOverheat": 6.17,
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 50
+		"DefaultOrdering": 50,
+		"BulletSpeed": 1476.0,
+		"ChgBulletSpeed": 1008.0
 	},
 	{
 		"Name": "Vvc-770LB",
@@ -3303,7 +3494,8 @@
 		"CoolingDelay": 0.8,
 		"ReloadTimeOverheat": 5.93,
 		"MaxRecoilAngle": 7.0,
-		"DefaultOrdering": 43
+		"DefaultOrdering": 43,
+		"BulletSpeed": 828.0
 	},
 	{
 		"Name": "WB-0010 DOUBLE TROUBLE",
@@ -3361,7 +3553,11 @@
 		"ENLoad": 303.0,
 		"MaxRecoilAngle": 9.0,
 		"DefaultOrdering": 22,
+<<<<<<< HEAD
 		"MaxRicochetRange": 575
+=======
+		"BulletSpeed": 2088.0
+>>>>>>> master
 	},
 	{
 		"Name": "WR-0777 SWEET SIXTEEN",
@@ -3398,7 +3594,11 @@
 		"ENLoad": 268.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 27,
+<<<<<<< HEAD
 		"MaxRicochetRange": 340
+=======
+		"BulletSpeed": 1980.0
+>>>>>>> master
 	},
 	{
 		"Name": "WR-0999 DELIVERY BOY",
@@ -3463,7 +3663,9 @@
 		"AmmunitionCost": 150.0,
 		"Weight": 3180.0,
 		"ENLoad": 82.0,
-		"DefaultOrdering": 42
+		"DefaultOrdering": 42,
+		"BulletSpeed": 1080.0,
+		"ChgBulletSpeed": 900.0
 	},
 	{
 		"Name": "WS-5000 APERITIF",
@@ -3499,7 +3701,8 @@
 		"AmmunitionCost": 70.0,
 		"Weight": 4600.0,
 		"ENLoad": 165.0,
-		"DefaultOrdering": 59
+		"DefaultOrdering": 59,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "WS-5001 SOUP",
@@ -3537,7 +3740,8 @@
 		"AmmunitionCost": 50,
 		"Weight": 5620,
 		"ENLoad": 680,
-		"DefaultOrdering": 37
+		"DefaultOrdering": 37,
+		"BulletSpeed": 900.0
 	},
 	{
 		"Name": "WUERGER/66E",
@@ -3577,7 +3781,12 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 48,
+<<<<<<< HEAD
 		"MaxRicochetRange": 480
+=======
+		"BulletSpeed": 1980.0,
+		"ChgBulletSpeed": 3024.0
+>>>>>>> master
 	},
 	{
 		"Name": "20-081 MIND ALPHA",
