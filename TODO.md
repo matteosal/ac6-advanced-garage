@@ -3,7 +3,6 @@
 	* Heating/Cooling for orbits. BehaviorParamPC -> Active Orbit Continous Heat in Smithbox
 	* QB distance, ground and aerial (needs to figure out detals of the QB velocity curve
 		  over time)
-	* Kick stats (damage, impact, range, ...)
 	* FCS assist / firearm spec / lock times / etc
 	* Firing animation times are not factored into DPS calculations, so DPS is skewed when 
 	  those are large (fireAnimationNote tooltip). Adding BurstFireInterval should correct

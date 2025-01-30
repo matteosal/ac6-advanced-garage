@@ -268,6 +268,14 @@ function getUnitRangesData(units, fcs) {
 	)
 }
 
+function getKickDamage(legType, weight) {
+	const baseDmg = legType === 'Reverse-Joint' ? 350 : 420;
+	const mult = piecewiseLinear(weight / 10000.,
+		[[5., 1.], [6., 1.1], [7., 1.3], [8., 1.6], [13., 2.]] // graph 280
+	);
+	return baseDmg * mult;
+}
+
 /**********************************************************************************/
 
 const unitSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack'];
@@ -374,6 +382,8 @@ function computeAllStats(parts) {
 		arms['RecoilControl']
 	);
 
+	const kickDamage = getKickDamage(legs['Type'], weight);
+
 	return [
 		[
 			{name: 'AP', value: ap},
@@ -396,6 +406,8 @@ function computeAllStats(parts) {
 				)
 			},
 			{name: 'AimAssistGraph', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
+			{name: 'KickDamage', value: kickDamage},
+			{name: 'KickDirectDamage', value: kickDamage * 2.8},
 			{name: 'RecoilAccumulationGraph', value: recoilPlotPoints, type: 'RecoilPlot'},
 			{name: 'AverageRecoil', value: avgRecoil}
 		],
@@ -490,7 +502,7 @@ function getOverloadTable(stats) {
 	)	
 }
 
-const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
+const groupNames = ['DURABILITY', 'OFFENSIVE', 'MOBILITY', 'ENERGY', 'LIMITS'];
 
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
