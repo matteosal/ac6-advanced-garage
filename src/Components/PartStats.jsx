@@ -118,8 +118,10 @@ const PartStatsHeader = ({part}) => {
 	)
 }
 
+const noComparisonStats = ['MagDumpTime', 'BurstFireInterval'];
+
 function toRowType(statName) {
-	return statName === 'MagDumpTime' ? 'NumericNoComparison' : 'Numeric'
+	return noComparisonStats.includes(statName) ? 'NumericNoComparison' : 'Numeric'
 }
 
 const PartStatsBody = ({leftPart, rightPart}) => {

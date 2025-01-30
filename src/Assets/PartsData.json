@@ -1802,8 +1802,9 @@
 		"Weight": 2810.0,
 		"ENLoad": 98.0,
 		"MaxRecoilAngle": 9.0,
-		"DefaultOrdering": 23,
-		"MaxRicochetRange": 515
+		"BurstFireInterval": 0.05,
+		"MaxRicochetRange": 515,
+		"DefaultOrdering": 23
 	},
 	{
 		"Name": "MA-E-211 SAMPU",
@@ -1841,8 +1842,9 @@
 		"Weight": 960.0,
 		"ENLoad": 62.0,
 		"MaxRecoilAngle": 12.0,
-		"DefaultOrdering": 30,
-		"MaxRicochetRange": 365
+		"BurstFireInterval": 0.1,
+		"MaxRicochetRange": 365,
+		"DefaultOrdering": 30
 	},
 	{
 		"Name": "MA-J-200 RANSETSU-RF",
@@ -1926,8 +1928,9 @@
 		"Weight": 3620.0,
 		"ENLoad": 132.0,
 		"MaxRecoilAngle": 6.0,
-		"DefaultOrdering": 19,
-		"MaxRicochetRange": 625
+		"BurstFireInterval": 0.09,
+		"MaxRicochetRange": 625,
+		"DefaultOrdering": 19
 	},
 	{
 		"Name": "MAJESTIC",

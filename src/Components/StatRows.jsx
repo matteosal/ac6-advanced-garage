@@ -740,6 +740,7 @@ const statTooltips = {
 		'fired) during the recoil accumulation ' +
 		'simulation. An average of 0 indicates that recoil is always completely reabsorbed ' +
 		'before the next shot. Recoil caps at 100.',
+	'BurstFireInterval': 'Time between individual shots in a single burst.'
 	'EffectiveRange': effectiveRangeDesc,
 	'ChgIdealRange': 'Ideal range of charged shot.',
 	'ChgEffectiveRange': 'Effective range of charged shot. ' + effectiveRangeDesc
