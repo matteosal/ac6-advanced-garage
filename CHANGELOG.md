@@ -1,3 +1,10 @@
+## [v1.1.10](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.10) (Jan 30 2025)
+* Added burst fire interval for kinetic weapons and accounter for it in recoil simulation graph
+* Added bullet speeds
+* Added kick damage
+* Data fixes
+
+
 ## [v1.1.9](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.9) (Jan 23 2025)
 * Added "Upward Economy" and "Assault Boost Economy" AC specs
 * Added default part ordering
