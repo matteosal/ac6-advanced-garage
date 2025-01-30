@@ -115,14 +115,15 @@ export const partStatGroups = {
 			'AccumulativeImpact/s', 'Damage/sInclReload', 'Impact/sInclReload', 
 			'AccImpact/sInclReload', 'ComboDamage', 'ComboImpact', 'ComboAccumulativeImpact', 
 			'DirectAttackPower', 'DirectDamage/s', 'ComboDirectDamage', 'BlastRadius', 
-			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
+			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening',
+			'BulletSpeed'
 		],
 		[
 			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgDirectAttackPower', 
 			'ChgBlastRadius', 'ChgHeatBuildup', 'FullChgAttackPower', 'FullChgImpact', 
 			'FullChgAccumImpact', 'FullChgDirectAttackPower', 'FullChgBlastRadius', 
 			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration', 
-			'DplyHeatBuildup'
+			'DplyHeatBuildup', 'ChgBulletSpeed', 'FullChgBulletSpeed'
 		],
 		[
 			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'MaxRecoilAngle', 'Guidance', 

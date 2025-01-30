@@ -1,7 +1,6 @@
 * Mechanics to figure out
 	* Ricochet distance calculation
 	* Heating/Cooling for orbits. BehaviorParamPC -> Active Orbit Continous Heat in Smithbox
-	* Bullet speed
 	* QB distance, ground and aerial (needs to figure out detals of the QB velocity curve
 		  over time)
 	* Kick stats (damage, impact, range, ...)
