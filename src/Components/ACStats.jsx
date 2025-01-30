@@ -62,11 +62,6 @@ function getTargetTracking(firearmSpec, loadRatio) {
 	return result;
 }
 
-const mod = (a, b) => {
-	const res = ((a % b) + b) % b;
-	// res can sometimes be x.99999999 when it should be x+1 so we round to 3 decimals
-	return Math.round(res * 1000) / 1000;
-}
 const getFiringIntervals = unit => {
 	if(unit['BurstFireInterval']) {
 		const nBurstShots = unit['AttackPower'][1];
