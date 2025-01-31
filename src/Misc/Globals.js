@@ -14,6 +14,7 @@ function importAll(r) {
 }
 
 export const partImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
+export const splitArmsImages = importAll(require.context('../Assets/Images/SplitArms', false, /\.png/));
 export const slotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
 export const unitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
 export const manufacturerLogos = importAll(
