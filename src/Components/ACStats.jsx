@@ -498,6 +498,25 @@ function filterStats(toFilter, reference) {
 	);
 }
 
+const Indicator = ({text, isOverload}) => {
+	return(
+		<div style={{visibility: isOverload ? 'visible' : 'hidden', 
+		 	padding: '4px', marginTop: '10px', marginBottom: '5px', background: 'black',
+		 	color: 'red', border: '1px solid red', fontSize: '12px'}}>
+			{text}
+		</div>
+	)
+}
+const OverloadIndicators = ({load, en, arms}) => {
+	return(
+		<div style={{display: 'flex', gap: '15px'}}>
+			<Indicator text={'OVERBURDENED'} isOverload={load} />
+			<Indicator text={'ARMS OVERBURDENED'} isOverload={arms} />
+			<Indicator text={'EN OVERLOAD'} isOverload={en} />
+		</div>
+	)
+}
+
 const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 
 	let leftStats, rightStats;
@@ -522,12 +541,16 @@ const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 	return (
 		<div style={
 			{
-				...{boxSizing: 'border-box', height: '100%', padding: '15px 15px'},				
+				...{boxSizing: 'border-box', height: '100%', padding: '0px 15px'},				
 				...glob.dottedBackgroundStyle()
 			}
 		}>
-			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>
-				{glob.boxCharacter + ' AC SPECS'}
+			<div style={{display: 'flex', paddingLeft: '10px'}}>
+				<div style={{fontSize: '12px', padding: '5px 20px 5px 0px', marginTop: '10px'}}>
+					{glob.boxCharacter + ' AC SPECS'}
+				</div>
+				<OverloadIndicators load={overloadTable['TotalLoad']} 
+					en={overloadTable['TotalENLoad']} arms={overloadTable['TotalArmsLoad']} />
 			</div>
 			<div className="my-scrollbar" style={{height: '95%', overflowY: 'auto'}}>
 				{

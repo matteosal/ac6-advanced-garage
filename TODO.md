@@ -8,7 +8,6 @@
 	  many of them (especially missiles)
 * Smooth transitions in FCS plot
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
-* Overburden / arms overburden / EN overload indicators in AC stats header
 * Build image using parts
 * Tests
 * Create custom Plotly bundle to reduce size
