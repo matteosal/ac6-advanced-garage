@@ -8,6 +8,5 @@
 	  many of them (especially missiles)
 * Smooth transitions in FCS plot
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
-* Build image using parts
 * Tests
 * Create custom Plotly bundle to reduce size

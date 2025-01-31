@@ -73,13 +73,10 @@ const backgroundTextStyle = {width: 'fit-content',
 	textShadow: '2px 2px 0px #666, 5px 7px 8px black'
 }
 
-const Title = () => {
-	const [modal, setModal] = useState(false);
-	const closeModal = () => setModal(false);
-
+export const Title = () => {
 	return(
 		<>
-		<div style={{...backgroundTextStyle, marginTop: '0px'}}>
+		<div style={{...backgroundTextStyle}}>
 			ARMORED CORE VI
 		</div>
 		<div style={
@@ -88,6 +85,16 @@ const Title = () => {
 		}>
 			ADVANCED GARAGE
 		</div>
+
+		</>
+	)
+}
+
+export const InfoButton = () => {
+	const [modal, setModal] = useState(false);
+	const closeModal = () => setModal(false);
+	return(
+		<>
 		<button 
 			style={{display: 'block', margin: 'auto'}}
 			onClick={() => setModal(true)}
@@ -102,7 +109,5 @@ const Title = () => {
 			}
 		</ModalWrapper>
 		</>
-	)
+	)	
 }
-
-export default Title;

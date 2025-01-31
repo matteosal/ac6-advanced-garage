@@ -12,11 +12,11 @@ const partImgsAspectRatio = 347/179.;
 // they are translated to shifts given to the left and top border respectively
 const srcBaseImgDirectives = {
 	// leftArm: {width: 180, top: 350, left: 550, zIndex: 11, transform: 'rotate(-30deg)'},
-	armsr: {width: 100 * 1.2, top: 215, left: 460, zIndex: 10},
-	head:  {width: 120 * 1.2, top: 155, left: 320, zIndex: 9},
-	core:  {width: 220 * 1.2, top: 250, left: 320, zIndex: 8},
-	legs:  {width: 500 * 1.2, top: 460, left: 320, zIndex: 7},
-	armsl: {width: 120 * 1.2, top: 220, left: 200, zIndex: 6}
+	armsr: {width: 100 * 1.2, top: 125, left: 440, zIndex: 10},
+	head:  {width: 120 * 1.2, top: 65,  left: 320, zIndex: 9},
+	core:  {width: 220 * 1.2, top: 160, left: 320, zIndex: 8},
+	legs:  {width: 500 * 1.2, top: 370, left: 320, zIndex: 7},
+	armsl: {width: 120 * 1.2, top: 130, left: 220, zIndex: 6}
 };
 const partDirectiveCorrections = {
 	// HEAD
@@ -25,23 +25,25 @@ const partDirectiveCorrections = {
 	'VP-44D': {width: 1.2},
 	'AH-J-124 BASHO': {width: 0.85},
 	'AH-J-124/RC JAILBREAK': {width: 0.85},
-	'LAMMERGEIER/44F': {width: 0.9},
+	'LAMMERGEIER/44F': {width: 0.85},
 	'HC-2000 FINDER EYE': {width: 0.85},
 	'IA-C01H: EPHEMERA': {width: 1.25},
 	'IB-C03H: HAL 826': {width: 1.2},
-	'20-082 MIND BETA': {width: 0.9},
+	'20-082 MIND BETA': {width: 0.8},
 	'HC-3000 WRECKER': {width: 0.85},
 	'HS-5000 APPETIZER': {width: 0.9},
+	'DF-HD-08 TIAN-QIANG': {width: 0.8},
+	'EL-PH-00 ALBA': {width: 0.9},
 	//CORE
 	'DF-BD-08 TIAN-QIANG': {width: 1.1},
-	'IB-C03C: HAL 826': {width: 1.3, left: 20},
+	'IB-C03C: HAL 826': {width: 1.25, left: 20},
 	'CC-3000 WRECKER': {width: 1.2},
 	'CC-2000 ORBITER': {width: 1.25, top: -10},
 	// ARMS
 	'AS-5000 SALAD RIGHT': {top: 10},
 	// LEGS	
 	'EL-TL-11 FORTALEZA': {width: 0.75, top: -25},
-	'VE-42B': {top: -30},
+	'VE-42B': {width: 0.9, top: -50},
 	'LG-022T BORNEMISSZA': {top: -25}
 }
 
@@ -109,7 +111,7 @@ const AssemblyImage = () => {
 	const imgs = Object.fromEntries(imgsEntries);
 	const imgDirectives = getImageDirectives(parts);
 	return(
-		<div style={{position: 'relative', width: '100%', height: '631px'}}>
+		<div style={{position: 'relative'}}>
 		{
 			Object.keys(imgDirectives).map(
 				slot => <img 
