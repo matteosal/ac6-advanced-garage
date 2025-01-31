@@ -319,7 +319,7 @@ const RangePlot = ({left, right}) => {
 
 	let data = [
 		{
-			x: [0, 130, 130, 260, 260, 320],
+			x: [0, 120, 140, 250, 270, 320],
 			y: [right[4], right[4], right[5], right[5], right[6], right[6]],
 			mode: 'lines',
 			line: {color: cyan}
@@ -334,7 +334,7 @@ const RangePlot = ({left, right}) => {
 	if(left)
 		data.push(
 			{
-			x: [0, 130, 130, 260, 260, 320],
+			x: [0, 120, 140, 250, 270, 320],
 			y: [left[4], left[4], left[5], left[5], left[6], left[6]],
 				mode: 'lines',
 				line: {dash: '3px,2px', color: cyan}
