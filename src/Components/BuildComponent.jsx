@@ -10,6 +10,7 @@ import ACAssembly from './ACAssembly.jsx';
 import PartsExplorer from './PartsExplorer.jsx';
 import PartStats from './PartStats.jsx';
 import ACStats from './ACStats.jsx';
+import AssemblyImage from './AssemblyImage.jsx';
 import Title from './Title.jsx';
 import InfoBox from './InfoBox.jsx';
 
@@ -107,6 +108,7 @@ const BuildComponent = () => {
 					</div>
 				</div>
 				<div style={{display:'inline-block', verticalAlign: 'top', width: '65%'}}>
+					<AssemblyImage />
 					<Title />
 				</div>
 				</> 

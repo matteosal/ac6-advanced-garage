@@ -79,7 +79,7 @@ const Title = () => {
 
 	return(
 		<>
-		<div style={{...backgroundTextStyle, marginTop: '325px'}}>
+		<div style={{...backgroundTextStyle, marginTop: '0px'}}>
 			ARMORED CORE VI
 		</div>
 		<div style={
