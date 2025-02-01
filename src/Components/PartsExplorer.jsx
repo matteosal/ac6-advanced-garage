@@ -273,7 +273,7 @@ const PartBox = ({part, highlighted, setHighlightedId}) => {
 		stateDispatch({target: 'part', slot: previewSlot, id: part['ID']})				
 	}
 
-	const [imgW, imgAspectRatio] = [220, 0.51];
+	const [imgW, imgAspectRatio] = [220, 0.575];
 	const imgH = Math.round(imgW * imgAspectRatio);
 
 	const pairedPart = acParts[glob.pairedUnitSlots[previewSlot]];
