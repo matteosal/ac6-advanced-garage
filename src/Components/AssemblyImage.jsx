@@ -12,11 +12,11 @@ const partImgsAspectRatio = 347/179.;
 // they are translated to shifts given to the left and top border respectively
 const srcBaseImgDirectives = {
 	// leftArm: {width: 180, top: 350, left: 550, zIndex: 11, transform: 'rotate(-30deg)'},
-	armsr: {width: 100 * 1.2, top: 125, left: 440, zIndex: 10},
-	head:  {width: 120 * 1.2, top: 65,  left: 320, zIndex: 9},
-	core:  {width: 220 * 1.2, top: 160, left: 320, zIndex: 8},
+	armsr: {width: 100 * 1.2, top: 105, left: 480, zIndex: 10},
+	head:  {width: 120 * 1.2, top: 25,  left: 320, zIndex: 9},
+	core:  {width: 220 * 1.2, top: 140, left: 320, zIndex: 8},
 	legs:  {width: 500 * 1.2, top: 370, left: 320, zIndex: 7},
-	armsl: {width: 120 * 1.2, top: 130, left: 220, zIndex: 6}
+	armsl: {width: 120 * 1.2, top: 120, left: 180, zIndex: 6}
 };
 const partDirectiveCorrections = {
 	// HEAD
@@ -43,7 +43,7 @@ const partDirectiveCorrections = {
 	'AS-5000 SALAD RIGHT': {top: 10},
 	// LEGS	
 	'EL-TL-11 FORTALEZA': {width: 0.75, top: -25},
-	'VE-42B': {width: 0.9, top: -50},
+	'VE-42B': {width: 1, top: -50},
 	'LG-022T BORNEMISSZA': {top: -25}
 }
 
