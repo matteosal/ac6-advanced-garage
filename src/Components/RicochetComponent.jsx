@@ -153,7 +153,7 @@ const plotColors =
 	['rgb(61, 153, 204)', 'rgb(242, 160, 36)', 'rgb(116, 178, 54)', 'rgb(147, 130, 217)',
 		'rgb(197, 110, 26)', 'rgb(204, 102, 194)'];
 const plotDashing = {'Kinetic': '7px,3px', 'Energy': '2px,2px'}
-const plotRange = {x: [850, 1550], y: [0, 600]};
+const xRange = [850, 1550];
 
 const RicochetPlot = () => {
 	const state = useContext(RicochetStateContext);
@@ -164,7 +164,7 @@ const RicochetPlot = () => {
 	const defPlotData = [
 		{
 			x: [kinDef, kinDef],
-			y: plotRange.y,
+			y: [0, 1000],
 			mode: 'lines',
 			line: {dash: plotDashing['Kinetic'], color: 'rgb(253, 52, 45)'},
 			name: 'Kinetic Defense',
@@ -172,7 +172,7 @@ const RicochetPlot = () => {
 		},
 		{
 			x: [enDef, enDef],
-			y: plotRange.y,
+			y: [0, 1000],
 			mode: 'lines',
 			line: {dash: plotDashing['Energy'], color: 'rgb(253, 52, 45)'},
 			name: 'Energy Defense',
@@ -189,10 +189,10 @@ const RicochetPlot = () => {
 				([def, mult]) => [def, getRicochetRange(ranges[0], ranges[1], def)]
 			);
 			plotPoints.unshift(
-				[plotRange.x[0], getRicochetRange(ranges[0], ranges[1], plotRange.x[0])]
+				[xRange[0], getRicochetRange(ranges[0], ranges[1], xRange[0])]
 			);
 			plotPoints.push(
-				[plotRange.x[1], getRicochetRange(ranges[0], ranges[1], plotRange.x[1])]
+				[xRange[1], getRicochetRange(ranges[0], ranges[1], xRange[1])]
 			);
 			const pairedDef = state.defense[atkType];
 			return [
@@ -220,6 +220,8 @@ const RicochetPlot = () => {
 
 	const font = {family: 'Aldrich-Custom, sans-serif', color: 'white'};
 
+	const maxY = Math.max(430, 1.05 * Math.max(...unitPlotData.map(d => d.y).flat()));
+
 	return (
 		<PlotlyPlot
 			style={{width: '100%', height: '100%'}}
@@ -227,13 +229,13 @@ const RicochetPlot = () => {
 			layout={{
 				margin: {l: 80, r: 40, t: 40, b: 60},
 				xaxis: {
-					range: plotRange.x,
+					range: xRange,
 					title: {text: 'Defense', font: font, standoff: 5},
 					tickfont: font,
 					color: 'white'
 				},
 				yaxis: {
-					range: plotRange.y,
+					range: [0, maxY],
 					title: {text: 'Ricochet Distance', font: font, standoff: 5},
 					tickfont: font,
 					color: 'white'
