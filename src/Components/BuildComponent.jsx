@@ -108,7 +108,7 @@ const BuildComponent = () => {
 					</div>
 				</div>
 				<div style={{display:'inline-block', verticalAlign: 'top', width: '65%'}}>
-					<div style={{marginTop: '60px'}}>
+					<div style={{marginTop: '25px'}}>
 						<Title />
 					</div>
 					<div style={{width: '100%', height: '571px'}}>

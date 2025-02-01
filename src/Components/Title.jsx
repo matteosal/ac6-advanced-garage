@@ -1,5 +1,7 @@
 import { useState } from 'react';
 
+import * as glob from '../Misc/Globals.js';
+
 import ModalWrapper from './ModalWrapper.jsx'
 
 const AboutModal = ({closeModal}) => {
@@ -63,25 +65,33 @@ const AboutModal = ({closeModal}) => {
 	)
 }
 
-const backgroundTextStyle = {width: 'fit-content',
+const titleTextStyle = {width: 'fit-content',
 	margin: 'auto',
-	fontSize: '80px',
 	textAlign: 'center',
-	color: '#eee',
-	fontFamily: 'Operation-Napalm, serif',
+	color: 'white',
+	fontFamily: 'AgencyFB, serif',
+	fontSize: 100,
 	fontWeight: 1000,
+	textShadow: '2px 2px 0px #666, 7px 9px 8px black'
+}
+
+const subtitleTextStyle = {width: 'fit-content',
+	margin: '0px auto 25px auto',
+	textAlign: 'center',
+	color: 'rgb(225, 0, 0)',
+	fontFamily: 'NHL, serif',
+	fontSize: 50,
 	textShadow: '2px 2px 0px #666, 5px 7px 8px black'
 }
 
 export const Title = () => {
 	return(
 		<>
-		<div style={{...backgroundTextStyle}}>
+		<div style={{...titleTextStyle}}>
 			ARMORED CORE VI
 		</div>
 		<div style={
-				{...backgroundTextStyle, fontSize: '45px', 
-					marginBottom: '25px'}
+				{...subtitleTextStyle}
 		}>
 			ADVANCED GARAGE
 		</div>
