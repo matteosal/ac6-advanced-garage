@@ -76,12 +76,13 @@ function getImageDirectives(parts) {
 					srcBaseImgDirectives['armsr'],
 					name + ' RIGHT'
 				);
-				return;
+				return null;
 			}
 			const base = srcBaseImgDirectives[slot];
 			if(!base)
-				return;
-			directives[slot] = makeDirective(base, name)
+				return null;
+			directives[slot] = makeDirective(base, name);
+			return null
 		}
 	)
 	return directives;
@@ -117,6 +118,7 @@ const AssemblyImage = () => {
 				slot => <img 
 					style={{position: 'absolute', ...imgDirectives[slot]}}
 					src={imgs[slot]}
+					alt={slot}
 					key={slot}
 				/>
 			)
