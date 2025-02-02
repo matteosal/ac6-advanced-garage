@@ -356,7 +356,7 @@ function computeAllStats(parts) {
 		arms['RecoilControl']
 	);
 
-	const kickDamage = getKickDamage(legs['Type'], weight);
+	const kickDamage = getKickDamage(legs['LegType'], weight);
 
 	return [
 		[
