@@ -152,7 +152,7 @@ const UnitSelector = ({pos}) => {
 const plotColors = 
 	['rgb(61, 153, 204)', 'rgb(242, 160, 36)', 'rgb(116, 178, 54)', 'rgb(147, 130, 217)',
 		'rgb(197, 110, 26)', 'rgb(204, 102, 194)'];
-const plotDashing = {'Kinetic': '7px,3px', 'Energy': '2px,2px'}
+const plotDashing = {'Kinetic': '9px,3px', 'Energy': '2px,2px'}
 const xRange = [850, 1550];
 
 const RicochetPlot = () => {
