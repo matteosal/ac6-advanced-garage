@@ -23,14 +23,9 @@ function valueOrNaN(val) {
 	return val ? val : NaN
 }
 
-// The game is inconsistent in what "a*b" means in attack power and impact specs
-const singleBulletRapidFireUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 
-	'MA-E-211 SAMPU', 'MA-J-201 RANSETSU-AR', 'WS-5001 SOUP'];
-function resolveList(partName, spec) {
+function resolveList(spec) {
 	if(Number.isNaN(spec))
 		return NaN;
-	else if(spec.constructor === Array && singleBulletRapidFireUnits.includes(partName))
-		return spec[0];
 	else if(spec.constructor === Array)
 		return spec[0] * spec[1];
 	else
@@ -53,6 +48,13 @@ function getDirectAtkPwrStat(rawStat, directHitAdj) {
 		return rawStat * directHitAdj / 100
 }
 
+// The game is inconsistent in what rapid fire means for weapons whose attack/impact 
+// is given in the form of a x b. For singleBulletRapidFireUnits, rapid fire refers to
+// the average fire rate of individual shots, while for the others it refers to bullet
+// groups (groups of b shots)
+const singleBulletRapidFireUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 
+	'MA-E-211 SAMPU', 'MA-J-201 RANSETSU-AR'];
+
 function addAdvancedUnitStats(unit) {
 	let res = {...unit};
 
@@ -60,41 +62,52 @@ function addAdvancedUnitStats(unit) {
 	if(unit['Description'] === 'Laser Turret')
 		return res;
 
-	const [rawAtkPwr, rawImpact, rawAccImpact, rapidFire, 
-		consecutiveHits, lockTime, heatBuildup, cooling, coolingDelay, rawChgAtkPwr,
-			rawFullChgAtkPwr] = 
-		['AttackPower', 'Impact', 'AccumulativeImpact', 'RapidFire', 'ConsecutiveHits', 
-			'HomingLockTime', 'ATKHeatBuildup', 'Cooling', 'CoolingDelay', 
-			'ChgAttackPower', 'FullChgAttackPower'].map(
+	const [rawAtkPwr, rawImpact, rawAccImpact, consecutiveHits, lockTime, lockDelay, 
+		heatBuildup, cooling, coolingDelay, rawChgAtkPwr, rawFullChgAtkPwr] = 
+		['AttackPower', 'Impact', 'AccumulativeImpact', 'ConsecutiveHits', 'HomingLockTime', 
+			'HomingLockDelay', 'ATKHeatBuildup', 'Cooling', 'CoolingDelay', 'ChgAttackPower', 
+			'FullChgAttackPower'].map(
 		stat => valueOrNaN(unit[stat])
 	);
-	let [magSize, reloadTime] = ['MagazineRounds', 'ReloadTime'].map(
+	let [rapidFire, magSize, reloadTime] = ['RapidFire', 'MagazineRounds', 'ReloadTime'].map(
 		stat => valueOrNaN(unit[stat])
 	);
 
+	const bulletGroupSize = rawAtkPwr.constructor === Array ? rawAtkPwr[1] : 1
+	if(singleBulletRapidFireUnits.includes(unit['Name'])) {
+		rapidFire /= bulletGroupSize;
+	}
+
+	// Correct rapid fire if we have to wait for lock before firing
+	if(!Number.isNaN(rapidFire) && !Number.isNaN(lockDelay)) {
+		const rapidFireInterval = 1 / rapidFire;
+		rapidFire = 1 / Math.max(rapidFireInterval, lockDelay + lockTime);
+	}
+
 	if(unit['ReloadType'] === 'Single Shot')
-		magSize = 1;
+		magSize = bulletGroupSize;
 	else if(unit['ReloadType'] === 'Overheat') {
 		// These are the mag size and cooldown time without overheat (1 shot away from 
 		// overheating) which is the best case scenario. This means that Damage/sInclReload 
 		// and related stats refer to this case
 		const heatPerShot = heatBuildup - Math.max(0, 1 / rapidFire - coolingDelay) * cooling;
-		magSize = addIfValid(res, 'MagazineRounds', Math.ceil(1000 / heatPerShot) - 1);
+		magSize = addIfValid(res, 'MagazineRounds', 
+			(Math.ceil(1000 / heatPerShot) - 1) * bulletGroupSize
+		);
 		reloadTime = addIfValid(res, 
 			'ReloadTime', 
-			coolingDelay + heatPerShot * magSize / cooling
+			coolingDelay + heatPerShot * magSize / bulletGroupSize / cooling
 		);		
 	}
 
 	const [atkPwr, impact, accImpact] = [rawAtkPwr, rawImpact, rawAccImpact].map(
-		val => resolveList(unit['Name'], val)
+		val => resolveList(val)
 	);
 
-	let magDumpTime = (magSize - 1) / rapidFire;
-	if(unit['Name'] === 'WS-5001 SOUP')
-	// SOUP is the only unit with a magazine and a lock time
-		magDumpTime += 3 * lockTime
-	addIfValid(res, 'MagDumpTime', magDumpTime);
+	const groupMagSize = magSize / bulletGroupSize;
+	let magDumpTime = (groupMagSize - 1) / rapidFire;
+	if(magDumpTime > 0)
+		addIfValid(res, 'MagDumpTime', magDumpTime);
 
 	// DPS/IPS related stats don't make sense for this
 	if(unit['Description'] === 'Pulse Shield Launcher')
@@ -106,11 +119,10 @@ function addAdvancedUnitStats(unit) {
 
 	let den = reloadTime;
 	den = Number.isNaN(magDumpTime) ? den : den + magDumpTime;
-	den = Number.isNaN(lockTime) || unit['Name'] === 'WS-5001 SOUP' ? den : den + lockTime;
-	// ^ Lock time is already into magDumpTime for SOUP
-	addIfValid(res, 'Damage/sInclReload', magSize * atkPwr / den);
-	addIfValid(res, 'Impact/sInclReload', magSize * impact / den);
-	addIfValid(res, 'AccImpact/sInclReload', magSize * accImpact / den);
+	den = Number.isNaN(lockTime) ? den : den + lockTime;
+	addIfValid(res, 'Damage/sInclReload', groupMagSize * atkPwr / den);
+	addIfValid(res, 'Impact/sInclReload', groupMagSize * impact / den);
+	addIfValid(res, 'AccImpact/sInclReload', groupMagSize * accImpact / den);
 
 	const comboDmg = addIfValid(res, 'ComboDamage', atkPwr * consecutiveHits);
 	addIfValid(res, 'ComboImpact', impact * consecutiveHits);
@@ -179,8 +191,7 @@ function updateRange(kind, partName, dataEntry, res) {
 	if(typeof val !== 'number' && val.constructor !== Array)
 		return;
 
-	if(val.constructor === Array)
-		val = val[0] * val[1];
+	val = resolveList(val);
 
 	if(res[kind][name] === undefined) {
 		res[kind][name] = [val, val];
