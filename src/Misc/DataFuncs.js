@@ -24,12 +24,12 @@ function valueOrNaN(val) {
 }
 
 // The game is inconsistent in what "a*b" means in attack power and impact specs
-const takeFirstUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 'MA-E-211 SAMPU',
-	'MA-J-201 RANSETSU-AR', 'WS-5001 SOUP'];
+const singleBulletRapidFireUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 
+	'MA-E-211 SAMPU', 'MA-J-201 RANSETSU-AR', 'WS-5001 SOUP'];
 function resolveList(partName, spec) {
 	if(Number.isNaN(spec))
 		return NaN;
-	else if(spec.constructor === Array && takeFirstUnits.includes(partName))
+	else if(spec.constructor === Array && singleBulletRapidFireUnits.includes(partName))
 		return spec[0];
 	else if(spec.constructor === Array)
 		return spec[0] * spec[1];
@@ -179,7 +179,8 @@ function updateRange(kind, partName, dataEntry, res) {
 	if(typeof val !== 'number' && val.constructor !== Array)
 		return;
 
-	val = resolveList(partName, val);
+	if(val.constructor === Array)
+		val = val[0] * val[1];
 
 	if(res[kind][name] === undefined) {
 		res[kind][name] = [val, val];
