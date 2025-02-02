@@ -50,7 +50,9 @@ const BuildComponent = () => {
 	else {
 		comparedParts = {...acParts};
 		comparedParts[preview.slot] = preview.part;
-		if(
+		if(comparedParts.legs['LegType'] === 'Tank') {
+			comparedParts.booster = glob.noneBooster
+		} else if(
 			comparedParts.legs['LegType'] !== 'Tank' && 
 			comparedParts.booster['ID'] === glob.noneBooster['ID']
 		) {
