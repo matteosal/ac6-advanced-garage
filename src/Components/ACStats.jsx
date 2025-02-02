@@ -250,6 +250,13 @@ function getKickDamage(legType, weight) {
 	return baseDmg * mult;
 }
 
+const legTypeImpact = {
+	'Bipedal': [480, 210],
+	'Reverse-Joint': [700, 320],
+	'Tetrapod': [360, 160],
+	'Tank': [590, 270]
+};
+
 /**********************************************************************************/
 
 const unitSlots = ['rightArm', 'leftArm', 'rightBack', 'leftBack'];
@@ -358,6 +365,8 @@ function computeAllStats(parts) {
 
 	const kickDamage = getKickDamage(legs['LegType'], weight);
 
+	const [kickImpact, kickAccImpact] = legTypeImpact[legs['LegType']];
+
 	return [
 		[
 			{name: 'AP', value: ap},
@@ -381,6 +390,8 @@ function computeAllStats(parts) {
 			},
 			{name: 'AimAssistGraph', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
 			{name: 'KickDamage', value: kickDamage},
+			{name: 'KickImpact', value: kickImpact},
+			{name: 'KickAccumulativeImpact', value: kickAccImpact},
 			{name: 'KickDirectDamage', value: kickDamage * 2.8},
 			{name: 'RecoilAccumulationGraph', value: recoilPlotPoints, type: 'RecoilPlot'},
 			{name: 'AverageRecoil', value: avgRecoil}

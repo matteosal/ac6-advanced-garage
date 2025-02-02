@@ -644,7 +644,8 @@ const aimAssistGraphDesc = 'Gives an indication of how well the FCS is paired wi
 const enRecoveryGraphDesc = 'Shows the energy recovered over time in the normal (cyan) ' +
 	'and redlining (red) cases.';
 
-const kickDesc = 'Increases with weight, base damage is higher for reverse joint legs.';
+const kickDmgDesc = 'Increases with weight, base damage is higher for reverse joint legs.';
+const kickImpactDesc = 'Only depends on leg type.';
 
 const fireAnimationNote = 'NOTE: all DPS/IPS related specs assume that the fire animation ' +
 	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
@@ -747,8 +748,10 @@ const statTooltips = {
 		'after the initial acceleration',
 	'ChgBulletSpeed': 'Bullet speed of charged shots',
 	'FullChgBulletSpeed': 'Bullet speed of fully charged shots',
-	'KickDamage': kickDesc,
-	'KickDirectDamage': kickDesc,
+	'KickDamage': kickDmgDesc,
+	'KickImpact': kickImpactDesc,
+	'KickAccumulativeImpact': kickImpactDesc,
+	'KickDirectDamage': kickDmgDesc,
 	'EffectiveRange': effectiveRangeDesc,
 	'ChgIdealRange': 'Ideal range of charged shot.',
 	'ChgEffectiveRange': 'Effective range of charged shot. ' + effectiveRangeDesc

@@ -5,7 +5,8 @@
 	* FCS assist / firearm spec / lock times / etc
 	* Firing animation times are not factored into DPS calculations, so DPS is skewed when 
 	  those are large (fireAnimationNote tooltip). Adding BurstFireInterval should correct
-	  many of them (especially missiles)
+	  many of them (especially missiles). Also consider shoulderShootDelay and 
+	  shoulderChargedShootDelay in equipParamWeapon
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
 * Tests
 * Create custom Plotly bundle to reduce size
