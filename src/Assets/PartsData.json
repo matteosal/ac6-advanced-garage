@@ -1004,7 +1004,9 @@
 		"AmmunitionCost": 80.0,
 		"Weight": 1180.0,
 		"ENLoad": 215.0,
-		"DefaultOrdering": 31
+		"DefaultOrdering": 31,
+		"MaxRicochetRange": 395,
+		"BulletSpeed": 1800
 	},
 	{
 		"Name": "EL-PW-01 TRUENO",
@@ -2559,7 +2561,10 @@
 		"CoolingDelay": 3.5,
 		"ReloadTimeOverheat": 9.65,
 		"IsEnergyFirearmSpec": true,
-		"DefaultOrdering": 15
+		"DefaultOrdering": 15,
+		"MaxRicochetRange": 790,
+		"BulletSpeed": 1980.0,
+		"ChgBulletSpeed": 1980.0		
 	},
 	{
 		"Name": "VE-60SNA",
