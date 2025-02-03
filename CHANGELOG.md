@@ -1,3 +1,6 @@
+## [v1.2.1](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.1) (Feb 3 2025)
+* Fixed Assembly image covering tooltips
+
 ## [v1.2.0](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.0) (Feb 3 2025)
 * Added charged Ideal and Effective Ranges
 * Added a ricochet calculator section
