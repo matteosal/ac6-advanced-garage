@@ -747,9 +747,9 @@ const statTooltips = {
 		'before the next shot. Recoil caps at 100.',
 	'BurstFireInterval': 'Time between individual shots in a single burst.',
 	'BulletSpeed': 'Bullet speed of regular shots. For missiles, this is the travel speed ' +
-		'after the initial acceleration',
-	'ChgBulletSpeed': 'Bullet speed of charged shots',
-	'FullChgBulletSpeed': 'Bullet speed of fully charged shots',
+		'after the initial acceleration.',
+	'ChgBulletSpeed': 'Bullet speed of charged shots.',
+	'FullChgBulletSpeed': 'Bullet speed of fully charged shots.',
 	'KickDamage': kickDmgDesc,
 	'KickImpact': kickImpactDesc,
 	'KickAccumulativeImpact': kickImpactDesc,
