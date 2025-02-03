@@ -652,6 +652,8 @@ const fireAnimationNote = 'NOTE: all DPS/IPS related specs assume that the fire 
 	'launchers that fire individual missiles in rapid sequence or heavy back weapons with ' +
 	'delayed fire).'
 
+const lockTimeNote = 'Reported value for missiles takes lock time into account.';
+
 const enRecoveryGraphNote = 'NOTE: the cyan Graph is a limit case because if the ' +
 	'generator is not fully depleted energy recovery will not start from zero energy.';
 
@@ -692,12 +694,12 @@ const statTooltips = {
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total energy load.',
-	'Damage/s': 'Damage dealt per second, not counting reload / cooldown / lock time.\n' +
-		fireAnimationNote,
-	'Impact/s': 'Impact damage dealt per second, not counting reload / cooldown / lock ' +
-		'time.\n' + fireAnimationNote,
+	'Damage/s': 'Damage dealt per second, not counting reload / cooldown time. ' + 
+		lockTimeNote + '\n' + fireAnimationNote,
+	'Impact/s': 'Impact damage dealt per second, not counting reload / cooldown time. ' +
+		lockTimeNote + '\n' + fireAnimationNote,
 	'AccumulativeImpact/s': 'Accumulated impact damage dealt per second, not counting ' +
-		'reload / cooldown / lock time.\n' + fireAnimationNote,
+		'reload / cooldown time. ' + lockTimeNote + '\n' + fireAnimationNote,
 	'Damage/sInclReload': 'Damage per second factoring in reload / cooldown / lock time, ' +
 		'whichever is applicable.\n' + fireAnimationNote + '\n' + overheatUnitsReloadNote,
 	'Impact/sInclReload': 'Impact per second factoring in reload / cooldown / lock time, ' +
