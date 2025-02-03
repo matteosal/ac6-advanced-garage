@@ -560,8 +560,11 @@ const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 				<div style={{fontSize: '12px', padding: '5px 20px 5px 0px', marginTop: '10px'}}>
 					{glob.boxCharacter + ' AC SPECS'}
 				</div>
-				<OverloadIndicators load={overloadTable['TotalLoad']} 
-					en={overloadTable['TotalENLoad']} arms={overloadTable['TotalArmsLoad']} />
+				{
+					buildCompareMode ? <></> : 
+					<OverloadIndicators load={overloadTable['TotalLoad']} 
+						en={overloadTable['TotalENLoad']} arms={overloadTable['TotalArmsLoad']} />
+				}
 			</div>
 			<div className="my-scrollbar" style={{height: '95%', overflowY: 'auto'}}>
 				{
