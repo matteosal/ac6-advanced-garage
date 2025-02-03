@@ -40,6 +40,15 @@ const HelpModal = ({closeModal}) => {
 			can be filtered using the associated button and can be moved by dragging the headers
 			onto other columns. Unit parts can also be filtered according to their attributes.
 		</p>
+		<ul style={{paddingLeft: '20px', paddingBottom: '10px'}}>
+			<li style={{fontSize: '20px', fontWeight: 'bold'}}>RICOCHET CALCULATOR SECTION</li>
+		</ul>
+		<p style={{paddingBottom: '15px'}}>
+			Set the defending AC's defense values and choose a weapon from the dropdown. Energy/
+			Kinetic weapons and defenses use different dashing in the graph. The intersection
+			between the weapon's ricochet profile and the corresponding vertical defense line
+			gives the displayed ricochet range.
+		</p>
 		<button
 			style={{display: 'block', width: 'fit-content', margin: '10px auto'}}
 			onClick={closeModal}
@@ -82,6 +91,8 @@ const MainSwitcher = ({selectedSwitch, setSelectedSwitch}) => {
 			<SwitcherButton name={'COMPARE BUILDS'}
 				selected={selectedSwitch} setter={setSelectedSwitch} />
 			<SwitcherButton name={'TABLES'}
+				selected={selectedSwitch} setter={setSelectedSwitch} />
+			<SwitcherButton name={'RICOCHET CALCULATOR'}
 				selected={selectedSwitch} setter={setSelectedSwitch} />
 			<button 
 				style={{...switcherButtonStyle, position: 'absolute', right: 0}}

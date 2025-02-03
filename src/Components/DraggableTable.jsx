@@ -51,7 +51,7 @@ function toCellDisplay(val, colName) {
 	else if (typeof val === 'string')
 		return val.toUpperCase();
 	else 
-		return glob.toValueAndDisplayNumber(colName, val)[1]
+		return glob.toValueAndDisplayNumber(val)[1]
 }
 
 function getShowShiftSymbols(shiftInfo, pos) {

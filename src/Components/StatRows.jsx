@@ -124,8 +124,8 @@ const namePadding = '4px 0px';
 
 const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) => {
 
-	let [left, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
-	let [right, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
+	let [left, leftDisplay] = glob.toValueAndDisplayNumber(leftRaw);
+	let [right, rightDisplay] = glob.toValueAndDisplayNumber(rightRaw);
 
 	let rightColor = 'white';
 	let triangle = '';
@@ -319,7 +319,7 @@ const RangePlot = ({left, right}) => {
 
 	let data = [
 		{
-			x: [0, 130, 130, 260, 260, 320],
+			x: [0, 120, 140, 250, 270, 320],
 			y: [right[4], right[4], right[5], right[5], right[6], right[6]],
 			mode: 'lines',
 			line: {color: cyan}
@@ -334,7 +334,7 @@ const RangePlot = ({left, right}) => {
 	if(left)
 		data.push(
 			{
-			x: [0, 130, 130, 260, 260, 320],
+			x: [0, 120, 140, 250, 270, 320],
 			y: [left[4], left[4], left[5], left[5], left[6], left[6]],
 				mode: 'lines',
 				line: {dash: '3px,2px', color: cyan}
@@ -598,8 +598,8 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 
 const NoComparisonNumericRow = ({name, leftRaw, rightRaw, tooltip}) => {
 
-	let [, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
-	let [, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
+	let [, leftDisplay] = glob.toValueAndDisplayNumber(leftRaw);
+	let [, rightDisplay] = glob.toValueAndDisplayNumber(rightRaw);
 
 	if(!leftDisplay)
 		leftDisplay = longDashCharacter
@@ -644,12 +644,15 @@ const aimAssistGraphDesc = 'Gives an indication of how well the FCS is paired wi
 const enRecoveryGraphDesc = 'Shows the energy recovered over time in the normal (cyan) ' +
 	'and redlining (red) cases.';
 
-const kickDesc = 'Increases with weight, base damage is higher for reverse joint legs.';
+const kickDmgDesc = 'Increases with weight, base damage is higher for reverse joint legs.';
+const kickImpactDesc = 'Only depends on leg type.';
 
 const fireAnimationNote = 'NOTE: all DPS/IPS related specs assume that the fire animation ' +
 	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
 	'launchers that fire individual missiles in rapid sequence or heavy back weapons with ' +
 	'delayed fire).'
+
+const lockTimeNote = 'Reported value for missiles takes lock time into account.';
 
 const enRecoveryGraphNote = 'NOTE: the cyan Graph is a limit case because if the ' +
 	'generator is not fully depleted energy recovery will not start from zero energy.';
@@ -657,6 +660,9 @@ const enRecoveryGraphNote = 'NOTE: the cyan Graph is a limit case because if the
 const overheatUnitsReloadNote = 'NOTE: when comparing this stat between a unit with true ' +
 	'reload and a unit with heating/cooling mechanics, keep in mind that heating/cooling ' +
 	'is an inherently superior reload mechanism that generally allows for less downtime.'
+
+const effectiveRangeDesc = 'For units with a ricochet mechanic, effective range is the ' +
+	'ricochet threshold for an enemy defense of 1100.'
 
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
@@ -688,12 +694,12 @@ const statTooltips = {
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total energy load.',
-	'Damage/s': 'Damage dealt per second, not counting reload / cooldown / lock time.\n' +
-		fireAnimationNote,
-	'Impact/s': 'Impact damage dealt per second, not counting reload / cooldown / lock ' +
-		'time.\n' + fireAnimationNote,
+	'Damage/s': 'Damage dealt per second, not counting reload / cooldown time. ' + 
+		lockTimeNote + '\n' + fireAnimationNote,
+	'Impact/s': 'Impact damage dealt per second, not counting reload / cooldown time. ' +
+		lockTimeNote + '\n' + fireAnimationNote,
 	'AccumulativeImpact/s': 'Accumulated impact damage dealt per second, not counting ' +
-		'reload / cooldown / lock time.\n' + fireAnimationNote,
+		'reload / cooldown time. ' + lockTimeNote + '\n' + fireAnimationNote,
 	'Damage/sInclReload': 'Damage per second factoring in reload / cooldown / lock time, ' +
 		'whichever is applicable.\n' + fireAnimationNote + '\n' + overheatUnitsReloadNote,
 	'Impact/sInclReload': 'Impact per second factoring in reload / cooldown / lock time, ' +
@@ -744,8 +750,13 @@ const statTooltips = {
 		'after the initial acceleration.',
 	'ChgBulletSpeed': 'Bullet speed of charged shots.',
 	'FullChgBulletSpeed': 'Bullet speed of fully charged shots.',
-	'KickDamage': kickDesc,
-	'KickDirectDamage': kickDesc
+	'KickDamage': kickDmgDesc,
+	'KickImpact': kickImpactDesc,
+	'KickAccumulativeImpact': kickImpactDesc,
+	'KickDirectDamage': kickDmgDesc,
+	'EffectiveRange': effectiveRangeDesc,
+	'ChgIdealRange': 'Ideal range of charged shot.',
+	'ChgEffectiveRange': 'Effective range of charged shot. ' + effectiveRangeDesc
 };
 
 const statTooltipsComparerMode = {

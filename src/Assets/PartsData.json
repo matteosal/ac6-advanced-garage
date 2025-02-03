@@ -171,6 +171,7 @@
 		"ENLoad": 446,
 		"CoolingDelay": 1.2,
 		"DefaultOrdering": 45,
+		"MaxRicochetRange": 412,
 		"BulletSpeed": 2448.0
 	},
 	{
@@ -354,7 +355,7 @@
 		"Description": "Dual Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
-		"ReloadType": "Magazine",
+		"ReloadType": "Single Shot",
 		"RightArm": false,
 		"LeftArm": false,
 		"RightBack": true,
@@ -391,7 +392,7 @@
 		"Description": "Dual Missile Launcher",
 		"AttackType": "Explosive",
 		"WeaponType": "Homing",
-		"ReloadType": "Magazine",
+		"ReloadType": "Single Shot",
 		"RightArm": false,
 		"LeftArm": false,
 		"RightBack": true,
@@ -736,6 +737,7 @@
 		"ENLoad": 435,
 		"CoolingDelay": 0.8,
 		"DefaultOrdering": 44,
+		"MaxRicochetRange": 380,
 		"BulletSpeed": 1800.0
 	},
 	{
@@ -826,6 +828,7 @@
 		"ReloadTimeOverheat": 6.58,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 24,
+		"MaxRicochetRange": 450,
 		"BulletSpeed": 1800.0
 	},
 	{
@@ -858,6 +861,7 @@
 		"ReloadTimeOverheat": 2.52,
 		"MaxRecoilAngle": 9.0,
 		"DefaultOrdering": 8,
+		"MaxRicochetRange": 601,
 		"BulletSpeed": 1800.0
 	},
 	{
@@ -916,6 +920,7 @@
 		"ENLoad": 143.0,
 		"MaxRecoilAngle": 9.0,
 		"DefaultOrdering": 21,
+		"MaxRicochetRange": 516,
 		"BulletSpeed": 1872.0
 	},
 	{
@@ -1037,6 +1042,7 @@
 		"Weight": 3100,
 		"ENLoad": 420,
 		"DefaultOrdering": 39,
+		"MaxRicochetRange": 645,
 		"BulletSpeed": 2160.0
 	},
 	{
@@ -1138,6 +1144,7 @@
 		"ENLoad": 122.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 28,
+		"MaxRicochetRange": 360,
 		"BulletSpeed": 1692.0
 	},
 	{
@@ -1168,6 +1175,7 @@
 		"ENLoad": 158.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 29,
+		"MaxRicochetRange": 385,
 		"BulletSpeed": 1692.0
 	},
 	{
@@ -1768,6 +1776,10 @@
 		"ReloadTimeOverheat": 5.68,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 15,
+		"ChgIdealRange": 220,
+		"ChgEffectiveRange": 364,
+		"MaxRicochetRange": 680,
+		"MaxChgRicochetRange": 700,
 		"BulletSpeed": 2232.0,
 		"ChgBulletSpeed": 2700.0
 	},
@@ -1807,6 +1819,10 @@
 		"ReloadTimeOverheat": 3.63,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 16,
+		"ChgIdealRange": 248,
+		"ChgEffectiveRange": 480,
+		"MaxRicochetRange": 800,
+		"MaxChgRicochetRange": 1020,
 		"BulletSpeed": 2520.0,
 		"ChgBulletSpeed": 3240.0
 	},
@@ -1847,6 +1863,7 @@
 		"ENLoad": 98.0,
 		"MaxRecoilAngle": 9.0,
 		"BurstFireInterval": 0.05,
+		"MaxRicochetRange": 515,
 		"DefaultOrdering": 23,
 		"BulletSpeed": 2088.0
 	},
@@ -1887,6 +1904,7 @@
 		"ENLoad": 62.0,
 		"MaxRecoilAngle": 12.0,
 		"BurstFireInterval": 0.1,
+		"MaxRicochetRange": 365,
 		"DefaultOrdering": 30,
 		"BulletSpeed": 1908.0
 	},
@@ -1931,6 +1949,10 @@
 		"ENLoad": 158.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 14,
+		"ChgIdealRange": 200,
+		"ChgEffectiveRange": 335,
+		"MaxRicochetRange": 650,
+		"MaxChgRicochetRange": 650,
 		"BulletSpeed": 1908.0,
 		"ChgBulletSpeed": 1908.0
 	},
@@ -1971,6 +1993,7 @@
 		"ENLoad": 132.0,
 		"MaxRecoilAngle": 6.0,
 		"BurstFireInterval": 0.09,
+		"MaxRicochetRange": 625,
 		"DefaultOrdering": 19,
 		"BulletSpeed": 1980.0
 	},
@@ -2098,6 +2121,7 @@
 		"ENLoad": 82.0,
 		"MaxRecoilAngle": 9.0,
 		"DefaultOrdering": 20,
+		"MaxRicochetRange": 536,
 		"BulletSpeed": 1872.0
 	},
 	{
@@ -2135,7 +2159,7 @@
 		"Description": "Pulse Missle Launcher",
 		"AttackType": "Energy",
 		"WeaponType": "Homing",
-		"ReloadType": "Single Shot",
+		"ReloadType": "Magazine",
 		"RightArm": true,
 		"LeftArm": true,
 		"RightBack": true,
@@ -2170,6 +2194,9 @@
 		"Guidance": 170,
 		"EffectiveRange": 1999,
 		"ChargeTime": 1.6,
+		"RapidFire": 2.4,
+		"HomingLockDelay": 0.42,
+		"MagazineRounds": 6,
 		"TotalRounds": 228,
 		"HomingLockTime": 0.2,
 		"MaxLockCount": 1,
@@ -2207,6 +2234,7 @@
 		"ENLoad": 102.0,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 17,
+		"MaxRicochetRange": 629,
 		"BulletSpeed": 1980.0
 	},
 	{
@@ -2237,6 +2265,7 @@
 		"ENLoad": 153.0,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 18,
+		"MaxRicochetRange": 656,
 		"BulletSpeed": 1980.0
 	},
 	{
@@ -2292,6 +2321,7 @@
 		"ENLoad": 185.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 25,
+		"MaxRicochetRange": 360,
 		"BulletSpeed": 1980.0
 	},
 	{
@@ -2320,6 +2350,7 @@
 		"ENLoad": 242.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 26,
+		"MaxRicochetRange": 376,
 		"BulletSpeed": 1980.0
 	},
 	{
@@ -2485,6 +2516,10 @@
 		"ReloadTimeOverheat": 9.5,
 		"IsEnergyFirearmSpec": true,
 		"DefaultOrdering": 14,
+		"ChgIdealRange": 300,
+		"ChgEffectiveRange": 450,
+		"MaxRicochetRange": 780,
+		"MaxChgRicochetRange": 800,
 		"BulletSpeed": 1800.0,
 		"ChgBulletSpeed": 2880.0
 	},
@@ -2553,6 +2588,7 @@
 		"Weight": 6150.0,
 		"ENLoad": 825.0,
 		"DefaultOrdering": 12,
+		"MaxRicochetRange": 980,
 		"BulletSpeed": 1800.0
 	},
 	{
@@ -2617,6 +2653,10 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 45,
+		"ChgIdealRange": 280,
+		"ChgEffectiveRange": 433,
+		"MaxRicochetRange": 760,
+		"MaxChgRicochetRange": 790,
 		"BulletSpeed": 2160.0,
 		"ChgBulletSpeed": 3240.0
 	},
@@ -2658,6 +2698,10 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 46,
+		"ChgIdealRange": 265,
+		"ChgEffectiveRange": 411,
+		"MaxRicochetRange": 600,
+		"MaxChgRicochetRange": 752,
 		"BulletSpeed": 1800.0,
 		"ChgBulletSpeed": 2160.0
 	},
@@ -2727,6 +2771,7 @@
 		"ReloadTimeOverheat": 6.62,
 		"IsEnergyFirearmSpec": true,
 		"DefaultOrdering": 16,
+		"MaxRicochetRange": 420,
 		"BulletSpeed": 1980.0,
 		"ChgBulletSpeed": 1980.0
 	},
@@ -2767,6 +2812,10 @@
 		"ReloadTimeOverheat": 7.13,
 		"IsEnergyFirearmSpec": true,
 		"DefaultOrdering": 13,
+		"ChgIdealRange": 300,
+		"ChgEffectiveRange": 447,
+		"MaxRicochetRange": 660,
+		"MaxChgRicochetRange": 790,
 		"BulletSpeed": 1800.0,
 		"ChgBulletSpeed": 2880.0
 	},
@@ -2805,6 +2854,7 @@
 		"Weight": 2800,
 		"ENLoad": 560,
 		"DefaultOrdering": 46,
+		"MaxRicochetRange": 430,
 		"BulletSpeed": 2664.0
 	},
 	{
@@ -2884,6 +2934,7 @@
 		"ENLoad": 247.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 32,
+		"MaxRicochetRange": 298,
 		"BulletSpeed": 1800.0
 	},
 	{
@@ -2932,6 +2983,10 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 49,
+		"ChgIdealRange": 190,
+		"ChgEffectiveRange": 247,
+		"MaxRicochetRange": 380,
+		"MaxChgRicochetRange": 380,
 		"BulletSpeed": 2268.0,
 		"ChgBulletSpeed": 2268.0
 	},
@@ -2973,6 +3028,10 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 44,
+		"ChgIdealRange": 250,
+		"ChgEffectiveRange": 364,
+		"MaxRicochetRange": 412,
+		"MaxChgRicochetRange": 630,
 		"BulletSpeed": 2520.0,
 		"ChgBulletSpeed": 3024.0
 	},
@@ -3015,6 +3074,7 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 47,
+		"MaxRicochetRange": 560,
 		"BulletSpeed": 1980.0,
 		"ChgBulletSpeed": 1620.0
 	},
@@ -3406,6 +3466,7 @@
 		"ENLoad": 303.0,
 		"MaxRecoilAngle": 9.0,
 		"DefaultOrdering": 22,
+		"MaxRicochetRange": 575,
 		"BulletSpeed": 2088.0
 	},
 	{
@@ -3443,6 +3504,7 @@
 		"ENLoad": 268.0,
 		"MaxRecoilAngle": 12.0,
 		"DefaultOrdering": 27,
+		"MaxRicochetRange": 340,
 		"BulletSpeed": 1980.0
 	},
 	{
@@ -3576,7 +3638,8 @@
 		"DirectHitAdjustment": 145,
 		"Guidance": 180,
 		"EffectiveRange": 2500,
-		"RapidFire": 2.9,
+		"RapidFire": 0.34,
+		"HomingLockDelay": 2.5,
 		"MagazineRounds": 30,
 		"TotalRounds": 420,
 		"HomingLockTime": 0.5,
@@ -3626,6 +3689,7 @@
 		"IsEnergyFirearmSpec": true,
 		"MaxRecoilAngle": 6.0,
 		"DefaultOrdering": 48,
+		"MaxRicochetRange": 480,
 		"BulletSpeed": 1980.0,
 		"ChgBulletSpeed": 3024.0
 	},

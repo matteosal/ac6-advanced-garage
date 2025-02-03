@@ -77,7 +77,65 @@ function validateAssembly(assembly) {
 		);
 }
 
+const randomBuildIDs = {
+	rightArm: [0, 1, 21, 23, 25, 26, 27, 29, 33, 34, 35, 36, 38, 39, 40, 43, 45, 49, 51, 52, 
+		53, 54, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 67, 68, 77, 78, 85, 86, 87, 88, 95, 98,
+		100, 101, 103, 104, 106],
+	leftArm: [0, 1, 2, 21, 22, 23, 25, 26, 27, 29, 33, 34, 35, 36, 37, 38, 39, 40, 41, 43, 44,
+		45, 46, 49, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 67, 68, 77, 
+		78, 79, 85, 86, 87, 88, 89, 90, 95, 96, 97, 98, 99, 100, 101, 103, 104, 106],
+	rightBack: [0, 1, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 
+		23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 38, 39, 40, 42, 43, 45, 47, 
+		49, 50, 51, 52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 63, 64, 65, 66, 67, 68, 72, 73, 
+		74, 75, 77, 78, 80, 81, 82, 85, 86, 87, 88, 91, 92, 93, 94, 95, 98, 100, 101, 102, 
+		103, 104, 105, 106],
+	leftBack: [...Array(107).keys()],
+	head: [...Array(23).keys()].map(i => i + 107),
+	core: [...Array(17).keys()].map(i => i + 130),
+	arms: [...Array(19).keys()].map(i => i + 147),
+	legs: [...Array(25).keys()].map(i => i + 166),
+	booster: [...Array(12).keys()].map(i => i + 191),
+	fcs: [...Array(10).keys()].map(i => i + 203),
+	generator: [...Array(14).keys()].map(i => i + 213),
+	expansion:  [...Array(4).keys()].map(i => i + 227)
+}
+
+function getRandomPart(slot) {
+	return glob.partsData[randomElement(randomBuildIDs[slot])];
+}
+function getPairedUnits(armSlot, backSlot) {
+	const armPart = getRandomPart(armSlot);
+	let backPart = getRandomPart(backSlot);
+	while(backPart['ID'] === armPart['ID'])
+		backPart = getRandomPart(backSlot);
+	return [armPart, backPart];
+}
+function makeRandomBuild() {
+	const [rArm, rBack] = getPairedUnits('rightArm', 'rightBack');
+	const [lArm, lBack] = getPairedUnits('leftArm', 'leftBack');
+	const legs = getRandomPart('legs');
+	const booster = legs['LegType'] === 'Tank' ? glob.noneBooster : getRandomPart('booster');
+	return {
+		rightArm: rArm, rightBack: rBack,
+		leftArm: lArm, leftBack: lBack,
+		head: getRandomPart('head'),
+		core: getRandomPart('core'),
+		arms: getRandomPart('arms'),
+		legs: legs,
+		booster: booster,
+		fcs: getRandomPart('fcs'),
+		generator: getRandomPart('generator'),
+		expansion: getRandomPart('expansion')
+	}
+}
+
+function randomElement(list) {
+	return list[Math.floor(Math.random() * list.length)];
+}
+
 function parseQuery(query) {
+	if(query === 'random')
+		return makeRandomBuild();
 	const ids = query.split('-').map(n => Number(n));
 	// Check that we have 12 numeric ids
 	if(ids.length !== 12)

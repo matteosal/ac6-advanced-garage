@@ -14,37 +14,11 @@ function sumKeyOver(parts, key, slots) {
 	);
 }
 
-// returns slope and intercept of a line passing through points [x1, y1] and [x2, y2]
-function lineParameters([[x1, y1], [x2, y2]]) {
-	return [(y1 - y2) / (x1 - x2), (x2*y1 - x1*y2) / (x2 - x1)];
-}
-
-function piecewiseLinear(x, breakpoints) {
-	const lastPos = breakpoints.length - 1;
-
-	if(x < breakpoints[0][0]) {
-		return breakpoints[0][1];
-	} else if (x >= breakpoints[lastPos][0]) {
-		return breakpoints[lastPos][1];
-	}
-
-	let result = null;
-	for (let i = 1; i < lastPos + 1; i++) {
-		if (x < breakpoints[i][0]) {
-			const [m, q] = lineParameters(breakpoints.slice(i - 1, i + 1))
-			result = m * x + q
-			break;
-		}
-	}
-
-	return result;
-}
-
 /**********************************************************************************/
 
 function getAttitudeRecovery(weight) {
 	const base = 100;
-	const multiplier = piecewiseLinear(
+	const multiplier = glob.piecewiseLinear(
 		weight / 10000., 
 		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]] // graph 278
 	);
@@ -52,11 +26,11 @@ function getAttitudeRecovery(weight) {
 }
 
 function getTargetTracking(firearmSpec, loadRatio) {
-	let result = 100 * piecewiseLinear(firearmSpec,
+	let result = 100 * glob.piecewiseLinear(firearmSpec,
 		[[0., 0.], [50., 0.8], [100., 0.9], [150., 1.], [200., 1.2]] // graph 970
 	)
 	if(loadRatio > 1)
-		result *= piecewiseLinear(loadRatio, 
+		result *= glob.piecewiseLinear(loadRatio,
 			[[1., 1.], [1.2, 0.5], [1.21, 0.3], [2., 0.05]] // graph 701
 		);
 	return result;
@@ -113,10 +87,10 @@ function recoilSimulation(units, recoilControl) {
 	if(units.length === 0)
 		return [0, []];
 
-	const recoilMult = piecewiseLinear(recoilControl,
+	const recoilMult = glob.piecewiseLinear(recoilControl,
 		[[0, 1.2], [150, 0.9], [235, 0.8]] // graph 850
 	);
-	const reductionRate = piecewiseLinear(recoilControl,
+	const reductionRate = glob.piecewiseLinear(recoilControl,
 		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]] // graph 851
 	);
 	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05; // graph 852
@@ -225,14 +199,14 @@ const speedBreakpoints = {
 }
 
 function getSpeedSpec(base, weight, loadRatio, breakpointsMult, breakpointsOver) {
-	let multiplier = piecewiseLinear(weight / 10000., breakpointsMult);
+	let multiplier = glob.piecewiseLinear(weight / 10000., breakpointsMult);
 	if(loadRatio > 1)
-		multiplier *= piecewiseLinear(loadRatio, breakpointsOver);
+		multiplier *= glob.piecewiseLinear(loadRatio, breakpointsOver);
 	return base * multiplier
 }
 
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
-	const multiplier = piecewiseLinear(
+	const multiplier = glob.piecewiseLinear(
 		(weight - idealWeight) / 10000., 
 		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]] // graph 320
 	);
@@ -242,7 +216,7 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 function getENSupplyEfficiency(enOutput, enLoad) {
 	if(enLoad > enOutput)
 		return 100;
-	const res = piecewiseLinear(enOutput - enLoad,
+	const res = glob.piecewiseLinear(enOutput - enLoad,
 		[[0., 1500.], [1800., 9000.], [3500., 16500.]]
 	);
 	return res;
@@ -270,11 +244,18 @@ function getUnitRangesData(units, fcs) {
 
 function getKickDamage(legType, weight) {
 	const baseDmg = legType === 'Reverse-Joint' ? 350 : 420;
-	const mult = piecewiseLinear(weight / 10000.,
+	const mult = glob.piecewiseLinear(weight / 10000.,
 		[[5., 1.], [6., 1.1], [7., 1.3], [8., 1.6], [13., 2.]] // graph 280
 	);
 	return baseDmg * mult;
 }
+
+const legTypeImpact = {
+	'Bipedal': [480, 210],
+	'Reverse-Joint': [700, 320],
+	'Tetrapod': [360, 160],
+	'Tank': [590, 270]
+};
 
 /**********************************************************************************/
 
@@ -382,7 +363,9 @@ function computeAllStats(parts) {
 		arms['RecoilControl']
 	);
 
-	const kickDamage = getKickDamage(legs['Type'], weight);
+	const kickDamage = getKickDamage(legs['LegType'], weight);
+
+	const [kickImpact, kickAccImpact] = legTypeImpact[legs['LegType']];
 
 	return [
 		[
@@ -407,6 +390,8 @@ function computeAllStats(parts) {
 			},
 			{name: 'AimAssistGraph', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
 			{name: 'KickDamage', value: kickDamage},
+			{name: 'KickImpact', value: kickImpact},
+			{name: 'KickAccumulativeImpact', value: kickAccImpact},
 			{name: 'KickDirectDamage', value: kickDamage * 2.8},
 			{name: 'RecoilAccumulationGraph', value: recoilPlotPoints, type: 'RecoilPlot'},
 			{name: 'AverageRecoil', value: avgRecoil}
@@ -420,10 +405,10 @@ function computeAllStats(parts) {
 			{name: 'MaxConsecutiveQB', value: Math.ceil(enCapacity / qbENConsumption)},
 			{name: 'UpwardSpeed', value: speedValues.upwards},
 			{name: 'UpwardEconomy', 
-				value: 3.6 * booster['UpwardENConsumption'] / speedValues.upwards},
+				value: 3.6 * boosterSrcPart['UpwardENConsumption'] / speedValues.upwards},
 			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
 			{name: 'AssaultBoostEconomy', 
-				value: 3.6 * booster['ABENConsumption'] / speedValues.assaultBoost},
+				value: 3.6 * boosterSrcPart['ABENConsumption'] / speedValues.assaultBoost},
 			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},
 			{name: 'HoverSpeed', value: speedValues.hover},
 			{name: 'HoverQBSpeed', value: speedValues.hoverQuickBoost}
@@ -524,6 +509,25 @@ function filterStats(toFilter, reference) {
 	);
 }
 
+const Indicator = ({text, isOverload}) => {
+	return(
+		<div style={{visibility: isOverload ? 'visible' : 'hidden', 
+		 	padding: '4px', marginTop: '10px', marginBottom: '5px', background: 'black',
+		 	color: 'red', border: '1px solid red', fontSize: '12px'}}>
+			{text}
+		</div>
+	)
+}
+const OverloadIndicators = ({load, en, arms}) => {
+	return(
+		<div style={{display: 'flex', gap: '15px'}}>
+			<Indicator text={'OVERBURDENED'} isOverload={load} />
+			<Indicator text={'ARMS OVERBURDENED'} isOverload={arms} />
+			<Indicator text={'EN OVERLOAD'} isOverload={en} />
+		</div>
+	)
+}
+
 const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 
 	let leftStats, rightStats;
@@ -548,12 +552,16 @@ const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 	return (
 		<div style={
 			{
-				...{boxSizing: 'border-box', height: '100%', padding: '15px 15px'},				
+				...{boxSizing: 'border-box', height: '100%', padding: '0px 15px'},				
 				...glob.dottedBackgroundStyle()
 			}
 		}>
-			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>
-				{glob.boxCharacter + ' AC SPECS'}
+			<div style={{display: 'flex', paddingLeft: '10px'}}>
+				<div style={{fontSize: '12px', padding: '5px 20px 5px 0px', marginTop: '10px'}}>
+					{glob.boxCharacter + ' AC SPECS'}
+				</div>
+				<OverloadIndicators load={overloadTable['TotalLoad']} 
+					en={overloadTable['TotalENLoad']} arms={overloadTable['TotalArmsLoad']} />
 			</div>
 			<div className="my-scrollbar" style={{height: '95%', overflowY: 'auto'}}>
 				{

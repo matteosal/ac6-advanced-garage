@@ -531,8 +531,6 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 			</div>		
 			<div style={{display: 'inline-block', marginRight: '5px'}}>FILTER:</div>
 			<input
-				className='search-tooltip-anchor'
-				data-tooltip-delay-show={100}
 				style={{
 					height: '25px',
 					width: '175px',
