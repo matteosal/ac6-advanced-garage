@@ -243,7 +243,7 @@ function getUnitRangesData(units, fcs) {
 }
 
 function getKickDamage(legType, weight) {
-	const baseDmg = legType === 'Reverse-Joint' ? 350 : 420;
+	const baseDmg = legType === 'Reverse-Joint' ? 420 : 350;
 	const mult = glob.piecewiseLinear(weight / 10000.,
 		[[5., 1.], [6., 1.1], [7., 1.3], [8., 1.6], [13., 2.]] // graph 280
 	);
