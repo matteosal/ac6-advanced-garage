@@ -1,3 +1,6 @@
+## [v1.2.3](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.3) (Feb 3 2025)
+* Fixed kick damage
+
 ## [v1.2.2](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.2) (Feb 3 2025)
 * Added bullet speed for LCB and Viento
 * Added LCB and Viento to recoil calculator
