@@ -1,9 +1,19 @@
+## [v1.2.0](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.0) (Feb 3 2025)
+* Added charged Ideal and Effective Ranges
+* Added a ricochet calculator section
+* Added overload indicators in the AC stats panel of the builder section
+* Show AC assembly using frame part images in builder section
+* Updated main title
+* Fixed kick damage for reverse joint legs and added kick impact specs
+* Fixed mag dump time and dps-related unit specs for burst weapons and other weapons which report their damage stats as an "a x b" product
+* Account for PFAU having 2 shots in its magazine
+* Account for homing lock delay and homing lock time in dps-related stats for SOUP and PFAU
+
 ## [v1.1.10](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.10) (Jan 30 2025)
 * Added burst fire interval for kinetic weapons and accounter for it in recoil simulation graph
 * Added bullet speeds
 * Added kick damage
 * Data fixes
-
 
 ## [v1.1.9](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.1.9) (Jan 23 2025)
 * Added "Upward Economy" and "Assault Boost Economy" AC specs
