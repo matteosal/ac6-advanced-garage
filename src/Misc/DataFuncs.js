@@ -23,7 +23,7 @@ function valueOrNaN(val) {
 	return val ? val : NaN
 }
 
-function resolveList(spec) {
+export function resolveList(spec) {
 	if(Number.isNaN(spec))
 		return NaN;
 	else if(spec.constructor === Array)
@@ -55,6 +55,20 @@ function getDirectAtkPwrStat(rawStat, directHitAdj) {
 const singleBulletRapidFireUnits = ['45-091 ORBT', 'BO-044 HUXLEY', 'MA-E-210 ETSUJIN', 
 	'MA-E-211 SAMPU', 'MA-J-201 RANSETSU-AR'];
 
+// We don't change RapidFire for display but we change its value to compute other stuff
+export function normalizeRapidFire(name, rapidFire, rawAtkPwr, lockDelay, lockTime) {
+	const bulletGroupSize = rawAtkPwr.constructor === Array ? rawAtkPwr[1] : 1
+	if(singleBulletRapidFireUnits.includes(name)) {
+		rapidFire /= bulletGroupSize;
+	}
+	// Correct if we have to wait for lock before firing
+	if(!Number.isNaN(rapidFire) && !Number.isNaN(lockDelay)) {
+		const rapidFireInterval = 1 / rapidFire;
+		rapidFire = 1 / Math.max(rapidFireInterval, lockDelay + lockTime);
+	}
+	return [rapidFire, bulletGroupSize];
+}
+
 function addAdvancedUnitStats(unit) {
 	let res = {...unit};
 
@@ -73,16 +87,9 @@ function addAdvancedUnitStats(unit) {
 		stat => valueOrNaN(unit[stat])
 	);
 
-	const bulletGroupSize = rawAtkPwr.constructor === Array ? rawAtkPwr[1] : 1
-	if(singleBulletRapidFireUnits.includes(unit['Name'])) {
-		rapidFire /= bulletGroupSize;
-	}
-
-	// Correct rapid fire if we have to wait for lock before firing
-	if(!Number.isNaN(rapidFire) && !Number.isNaN(lockDelay)) {
-		const rapidFireInterval = 1 / rapidFire;
-		rapidFire = 1 / Math.max(rapidFireInterval, lockDelay + lockTime);
-	}
+	let bulletGroupSize;
+	[rapidFire, bulletGroupSize] = normalizeRapidFire(unit['Name'], rapidFire, rawAtkPwr,
+		lockDelay, lockTime);
 
 	if(unit['ReloadType'] === 'Single Shot')
 		magSize = bulletGroupSize;
@@ -105,7 +112,7 @@ function addAdvancedUnitStats(unit) {
 	);
 
 	const groupMagSize = magSize / bulletGroupSize;
-	let magDumpTime = (groupMagSize - 1) / rapidFire;
+	const magDumpTime = (groupMagSize - 1) / rapidFire;
 	if(magDumpTime > 0)
 		addIfValid(res, 'MagDumpTime', magDumpTime);
 

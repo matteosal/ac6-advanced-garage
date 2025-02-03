@@ -318,8 +318,9 @@ export function partSortingFunction(key, ascend, a, b) {
 
 const meleeSpecStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
 	'ComboDirectDamage', 'ChgAttackPower', 'ChgDirectAttackPower'];
-const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
-	'Impact/sInclReload', 'AccImpact/sInclReload'];
+const missileLockCorrectionStats = ['HomingLockTime', 'Damage/s', 'Impact/s', 'AccImpact/s', 
+	'Damage/sInclReload', 'Impact/sInclReload', 'AccImpact/sInclReload', 'MagDumpTime',
+	];
 const energyFirearmSpecStats = ['AttackPower', 'Damage/s', 'Damage/sInclReload', 
 	'DirectAttackPower', 'DirectDamage/s', 'ChgAttackPower', 'FullChgAttackPower', 
 	'ChargeTime', 'FullChgTime', 'ChgDirectAttackPower', 'FullChgDirectAttackPower'];
@@ -345,11 +346,35 @@ function modifyUnitSpec(part, name, assembly) {
 		if(name === 'HomingLockTime')
 			return newLockTime;
 
-		let oldDen = part['ReloadTime'] + baseLockTime;
-		if(part['MagDumpTime'])
-			oldDen += part['MagDumpTime'];
+		const [newRapidFire, bulletGroupSize] = dataFuncs.normalizeRapidFire(
+			part['Name'], part['RapidFire'], part['AttackPower'], part['HomingLockDelay'], 
+			newLockTime);
 
-		return part[name] * oldDen / (oldDen - baseLockTime + newLockTime);
+		if(name === 'Damage/s') 
+			return dataFuncs.resolveList(part['AttackPower']) * newRapidFire;
+		else if(name === 'Impact/s') 
+			return dataFuncs.resolveList(part['Impact']) * newRapidFire;
+		else if(name === 'AccumulativeImpact/s') 
+			return dataFuncs.resolveList(part['AccumulativeImpact']) * newRapidFire;
+
+		const groupMagSize = part['MagazineRounds'] / bulletGroupSize;
+		const newMagDumpTime = (groupMagSize - 1) / newRapidFire;
+		if(name === 'MagDumpTime')
+			return newMagDumpTime;
+
+		let oldDen = part['ReloadTime'] + baseLockTime;
+		let newDen = part['ReloadTime'] + newLockTime;
+		if(part['MagDumpTime']) {
+			oldDen += part['MagDumpTime'];
+			newDen += newMagDumpTime;
+		}
+
+		if(part['Name'] === 'WS-5001 SOUP' && name === 'Damage/sInclReload') {
+			console.log(oldDen);
+			console.log(newDen);
+		}
+
+		return part[name] * oldDen / newDen;
 	} else if(part['IsEnergyFirearmSpec'] && energyFirearmSpecStats.includes(name)) {
 		// Energy firearm specialization		
 		if(['ChargeTime', 'FullChgTime'].includes(name)) {
