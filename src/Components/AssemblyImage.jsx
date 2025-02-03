@@ -11,11 +11,11 @@ const partImgsAspectRatio = 602/307.;
 // top and left values refer to shifts given to the *center* of the image,
 // they are translated to shifts given to the left and top border respectively
 const srcBaseImgDirectives = {
-	armsr: {width: 90 * 1.36, top: 125, left: 460, zIndex: 10},
-	head:  {width: 120 * 1.36, top: 35,  left: 320, zIndex: 9},
-	core:  {width: 220 * 1.36, top: 150, left: 320, zIndex: 8},
-	legs:  {width: 500 * 1.36, top: 380, left: 320, zIndex: 7},
-	armsl: {width: 110 * 1.36, top: 115, left: 180, zIndex: 6}
+	armsr: {width: 90 * 1.36,  top: 125, left: 460, zIndex: 5},
+	head:  {width: 120 * 1.36, top: 35,  left: 320, zIndex: 4},
+	core:  {width: 220 * 1.36, top: 150, left: 320, zIndex: 3},
+	legs:  {width: 500 * 1.36, top: 380, left: 320, zIndex: 2},
+	armsl: {width: 110 * 1.36, top: 115, left: 180, zIndex: 1}
 };
 const partDirectiveCorrections = {
 	// HEAD
