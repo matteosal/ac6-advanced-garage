@@ -236,7 +236,7 @@ const RicochetPlot = () => {
 				},
 				yaxis: {
 					range: [0, maxY],
-					title: {text: 'Ricochet Distance', font: font, standoff: 5},
+					title: {text: 'Ricochet Range', font: font, standoff: 5},
 					tickfont: font,
 					color: 'white'
 				},
