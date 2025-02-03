@@ -6,17 +6,16 @@ import {BuilderStateContext} from '../Contexts/BuilderStateContext.jsx'
 
 /*********************************************************************************/
 
-const partImgsAspectRatio = 347/179.;
+const partImgsAspectRatio = 602/307.;
 
 // top and left values refer to shifts given to the *center* of the image,
 // they are translated to shifts given to the left and top border respectively
 const srcBaseImgDirectives = {
-	// leftArm: {width: 180, top: 350, left: 550, zIndex: 11, transform: 'rotate(-30deg)'},
-	armsr: {width: 100 * 1.2, top: 135, left: 460, zIndex: 10},
-	head:  {width: 120 * 1.2, top: 25,  left: 320, zIndex: 9},
-	core:  {width: 220 * 1.2, top: 140, left: 320, zIndex: 8},
-	legs:  {width: 500 * 1.2, top: 370, left: 320, zIndex: 7},
-	armsl: {width: 120 * 1.2, top: 125, left: 180, zIndex: 6}
+	armsr: {width: 90 * 1.36, top: 125, left: 460, zIndex: 10},
+	head:  {width: 120 * 1.36, top: 35,  left: 320, zIndex: 9},
+	core:  {width: 220 * 1.36, top: 150, left: 320, zIndex: 8},
+	legs:  {width: 500 * 1.36, top: 380, left: 320, zIndex: 7},
+	armsl: {width: 110 * 1.36, top: 115, left: 180, zIndex: 6}
 };
 const partDirectiveCorrections = {
 	// HEAD
