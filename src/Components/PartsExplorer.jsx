@@ -410,6 +410,7 @@ function computeSortingKeys(slot, backSubslot) {
 		stat => displayedStats.includes(stat)
 	).sort();
 	sortingKeys.unshift('Name');
+	sortingKeys.unshift('DefaultOrdering');
 	return sortingKeys;	
 }
 
@@ -419,8 +420,10 @@ glob.partSlots.map(
 		if(!['leftBack', 'rightBack'].includes(slot))
 			partSortingKeys[slot] = computeSortingKeys(slot, 0); // 2nd arg is irrelevant
 		else // This looks like shit
-			partSortingKeys[slot] = {0: computeSortingKeys(slot, 0), 1: 
-				computeSortingKeys(slot, 1)}
+			partSortingKeys[slot] = {
+				0: computeSortingKeys(slot, 0), 
+				1: computeSortingKeys(slot, 1)
+			}
 		return null;
 	}
 )
@@ -528,8 +531,6 @@ const PartSelector = ({searchString, onSearch, modal, setModal}) => {
 			</div>		
 			<div style={{display: 'inline-block', marginRight: '5px'}}>FILTER:</div>
 			<input
-				className='search-tooltip-anchor'
-				data-tooltip-delay-show={100}
 				style={{
 					height: '25px',
 					width: '175px',

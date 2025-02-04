@@ -30,7 +30,8 @@ const InfoBox = ({name, tooltip, place = 'left'}) => {
 			<img src={glob.infoIcon} alt={'info icon'} width='100%'/>
 		</div>
 		<Tooltip 
-			style={{maxWidth: '20%', textAlign: 'justify', zIndex: 1}}
+			style={{maxWidth: '20%', textAlign: 'justify', zIndex: 6}}
+			// ^ zIndex must be larger than the max zIndex of AssemblyImage 
 			anchorSelect={'.' + anchorName}
 			place={place}
 		>

@@ -12,6 +12,7 @@ import 'react-tooltip/dist/react-tooltip.css'
 import {BuilderStateProvider} from "./Contexts/BuilderStateContext.jsx";
 import {ComparerStateProvider} from "./Contexts/ComparerStateContext.jsx";
 import {TablesStateProvider} from "./Contexts/TablesStateContext.jsx";
+import {RicochetStateProvider} from "./Contexts/RicochetStateContext.jsx";
 
 import './reset.css'
 
@@ -21,8 +22,10 @@ root.render(
 		<BuilderStateProvider>
 		<ComparerStateProvider>
 		<TablesStateProvider>
+		<RicochetStateProvider>
 			<App />
 			<ToastContainer />
+		</RicochetStateProvider>
 		</TablesStateProvider>
 		</ComparerStateProvider>
 		</BuilderStateProvider>

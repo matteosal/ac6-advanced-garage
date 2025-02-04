@@ -14,76 +14,86 @@ function sumKeyOver(parts, key, slots) {
 	);
 }
 
-// returns slope and intercept of a line passing through points [x1, y1] and [x2, y2]
-function lineParameters([[x1, y1], [x2, y2]]) {
-	return [(y1 - y2) / (x1 - x2), (x2*y1 - x1*y2) / (x2 - x1)];
-}
-
-function piecewiseLinear(x, breakpoints) {
-	const lastPos = breakpoints.length - 1;
-
-	if(x < breakpoints[0][0]) {
-		return breakpoints[0][1];
-	} else if (x >= breakpoints[lastPos][0]) {
-		return breakpoints[lastPos][1];
-	}
-
-	let result = null;
-	for (let i = 1; i < lastPos + 1; i++) {
-		if (x < breakpoints[i][0]) {
-			const [m, q] = lineParameters(breakpoints.slice(i - 1, i + 1))
-			result = m * x + q
-			break;
-		}
-	}
-
-	return result;
-}
-
 /**********************************************************************************/
 
 function getAttitudeRecovery(weight) {
 	const base = 100;
-	const multiplier = piecewiseLinear(
+	const multiplier = glob.piecewiseLinear(
 		weight / 10000., 
-		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]]
+		[[4, 1.5], [6, 1.2], [8, 0.9], [11, 0.6], [14, 0.57]] // graph 278
 	);
 	return base * multiplier;
 }
 
 function getTargetTracking(firearmSpec, loadRatio) {
-	let result = 100 * piecewiseLinear(firearmSpec,
-		[[0., 0.], [50., 0.8], [100., 0.9], [150., 1.], [200., 1.2]]
+	let result = 100 * glob.piecewiseLinear(firearmSpec,
+		[[0., 0.], [50., 0.8], [100., 0.9], [150., 1.], [200., 1.2]] // graph 970
 	)
 	if(loadRatio > 1)
-		result *= piecewiseLinear(loadRatio, [[1., 1.], [1.2, 0.5], [1.21, 0.3], [2., 0.05]]);
+		result *= glob.piecewiseLinear(loadRatio,
+			[[1., 1.], [1.2, 0.5], [1.21, 0.3], [2., 0.05]] // graph 701
+		);
 	return result;
 }
 
-const mod = (a, b) => ((a % b) + b) % b;
-const generateShots = (nShots, interval, offset, recoil) => [...Array(nShots).keys()].map(
-	i => [i * interval + offset, recoil]
-);
-const maxSimulationTime = 5;
+const getFiringIntervals = unit => {
+	if(unit['BurstFireInterval']) {
+		const nBurstShots = unit['AttackPower'][1];
+		const res = Array(nBurstShots - 1).fill(unit['BurstFireInterval']);
+		res.push(nBurstShots / unit['RapidFire'] - glob.total(res));
+		return res;
+	} else
+		return [1 / unit['RapidFire']]
+}
+const generateShots = (nShots, intervals, offset, recoil) => {
+	if(intervals.length === 1) {
+		const actualShots = Math.min(
+			nShots,
+			Math.floor((simulationTime - offset) / intervals[0]) + 1
+		);
+		return [...Array(actualShots).keys()].map(
+			i => [i * intervals[0] + offset, recoil]
+		)
+	}
+	else {
+		let shots = Array(nShots);
+		const nBursts = nShots / intervals.length;
+		let k = -1;
+		let time = offset;
+		let breakEarly = false;
+		for(let i = 0; i < nBursts && !breakEarly; i++) {
+			for(let j = 0; j < intervals.length && !breakEarly; j++) {
+				k++;
+				shots[k] = [time, recoil];
+				time += intervals[j];
+				if(time > simulationTime) {
+					shots = shots.slice(0, k + 1);
+					breakEarly = true;
+				}
+			}
+		}
+		return shots;
+	}
+};
+const simulationTime = 5;
 const simulationShotOffset = 0.05;
 const recoilExcludedUnits = ['FASAN/60E', 'VE-60LCA', 'VE-60LCB', 'VP-60LCD', 'VP-60LCS'];
 // ^ These have both RapidFire and Recoil but arm weapons stop firing when they fire so they
 // mess things up in the simulation
-function getAverageRecoil(units, recoilControl) {
+
+// Simulates firing all selected weapons simultaneously and tracks the accumulated recoil
+function recoilSimulation(units, recoilControl) {
 
 	if(units.length === 0)
-		return 0;
+		return [0, []];
 
-	const recoilMult = piecewiseLinear(recoilControl, [[0, 1.2], [150, 0.9], [235, 0.8]]);
-	const reductionRate = piecewiseLinear(recoilControl,
-		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]]
+	const recoilMult = glob.piecewiseLinear(recoilControl,
+		[[0, 1.2], [150, 0.9], [235, 0.8]] // graph 850
 	);
-	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05;
-
-	const simulationTime = Math.min(
-		Math.max.apply(Math, units.map(u => u['MagDumpTime'])),
-		maxSimulationTime
+	const reductionRate = glob.piecewiseLinear(recoilControl,
+		[[0, 10], [50, 60], [100, 80], [150, 160], [235, 200]] // graph 851
 	);
+	const reductionDelay = recoilControl === 45 ? 0.095 : 0.05; // graph 852
 
 	// shotsByUnit has dimensions [nUnits, nShots(unit), 2] where the last dimension contains
 	// pairs [shotTime, shotRecoil]. Shot times for different units are arbitrarily offset by 
@@ -91,111 +101,107 @@ function getAverageRecoil(units, recoilControl) {
 	// the exact same time
 	const shotsByUnit = Array(units.length);
 	for(let i = 0; i < units.length; i++) {
+		const magSize = units[i]['MagazineRounds'];
 		const cycleTime = units[i]['MagDumpTime'] + units[i]['ReloadTime'];
-		const nFullCycles = Math.floor(simulationTime / cycleTime);
-		const lastCycleNShots = Math.min(
-			units[i]['MagazineRounds'],
-			Math.floor(units[i]['RapidFire'] * mod(simulationTime, cycleTime))
-		);
+		const nCycles = Math.ceil(simulationTime / cycleTime);
+		const firingIntervals = getFiringIntervals(units[i]);
 		shotsByUnit[i] = [];
-		for(let cycle = 0; cycle < nFullCycles; cycle++) {
+		for(let cycle = 0; cycle < nCycles; cycle++) {
 			shotsByUnit[i] = shotsByUnit[i].concat(
 				generateShots(
-					units[i]['MagazineRounds'],
-					1 / units[i]['RapidFire'],
+					magSize,
+					firingIntervals,
 					cycle * cycleTime + i * simulationShotOffset,
 					units[i]['Recoil'] * recoilMult
 				)
 			);
 		}
-		shotsByUnit[i] = shotsByUnit[i].concat(
-			generateShots(
-				lastCycleNShots,
-				1 / units[i]['RapidFire'],
-				nFullCycles * cycleTime + i * simulationShotOffset,
-				units[i]['Recoil'] * recoilMult
-			)
-		)
 	}
-	let mergedShots = shotsByUnit.flat();
-	mergedShots.sort((a, b) => a[0] - b[0]);
+	// allShots is a list of pairs [shotTime, shotRecoil] for all the shots in the
+	// simulation
+	let allShots = shotsByUnit.flat();
+	allShots.sort((a, b) => a[0] - b[0]);
 
-	// shotWindows contains time windows between shots with recoil added by the shot:
-	// [[timeBetweenShot1And2, recoilShot1], [timeBetweenShot2And3, recoilShot2], ...]
-	let shotWindows = Array(mergedShots.length - 1);
-	for(let i = 0; i < shotWindows.length; i++) {
-		shotWindows[i] = [mergedShots[i + 1][0] - mergedShots[i][0], mergedShots[i][1]]
-	}
+	// Run the simulation
+	let recoilSum = 0;
+	let time = 0;
+	let plotPoints = [];
+	allShots.reduce(
+		(startRecoil, shot, pos) => {
+			const [shotTime, shotRecoil] = shot;
+			recoilSum += startRecoil;
 
-	// Compute the integral mean of the accumulated recoil across all the shot windows
-	let recoilIntegral = 0;
-	shotWindows.reduce(
-		(startRecoil, val, pos) => {
-			// Compute value of recoil at the end of the window
-			const fullWindow = shotWindows[pos][0];
-			const postShotRecoil = Math.min(100, startRecoil + shotWindows[pos][1]);
-			const reductionWindow = Math.max(0, fullWindow - reductionDelay);
+			const nextShotTime = pos < allShots.length - 1 ? 
+				allShots[pos + 1][0] : simulationTime;
+			const shotWindow = nextShotTime - shotTime;
+			const postShotRecoil = Math.min(100, startRecoil + shotRecoil);
+			const reductionWindow = Math.max(0, shotWindow - reductionDelay);
 			const endRecoil = Math.max(0, 
 				postShotRecoil - reductionWindow * reductionRate
 			);
 
-			// Save the integral of the recoil across the window
-			const decreaseWindow = Math.min(reductionWindow, postShotRecoil / reductionRate);
-			// ^ window where recoil is actually decreasing (might hit 0 before the end of
-			// reductionWindow)
-			recoilIntegral +=
-				postShotRecoil * Math.min(reductionDelay, fullWindow) + decreaseWindow * 
-				(postShotRecoil - 0.5 * reductionRate * decreaseWindow);
+			plotPoints.push([time, postShotRecoil]);
+			if(reductionWindow > 0) {
+				plotPoints.push([time + reductionDelay, postShotRecoil]);
+				if(endRecoil === 0) {
+					plotPoints.push([time + reductionDelay + postShotRecoil / reductionRate, 0])
+				}
+			}
+			plotPoints.push([time + shotWindow, endRecoil]);
+			time += shotWindow;
 
 			return endRecoil;
 		},
 		0
 	);
-	const realMaxTime = mergedShots[mergedShots.length - 1][0];
-	return recoilIntegral / realMaxTime;
+
+	return [recoilSum / allShots.length, plotPoints];
 }
 
+// graphs 260, 263, 290 
 const boostBreakpoints = [[4., 1.], [6.25, 0.925], [7.5, 0.85], [8., 0.775], [12, 0.65]];
+const qbBreakpoints = [[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]];
 const overweightBreakpoints = 
 	[[1., 1.], [1.05, 0.95], [1.1, 0.8], [1.3, 0.75], [1.5, 0.7]];
 
 const speedBreakpoints = {
 	boostGrounded: [boostBreakpoints, overweightBreakpoints],
 	boostGroundedFortaleza: [
-		[[5, 1], [6.25, 0.94], [7.5, 0.86], [10, 0.75], [15, 0.6]],
+		[[5, 1], [6.25, 0.94], [7.5, 0.86], [10, 0.75], [15, 0.6]], // graph 224
 		overweightBreakpoints
 	],
 	boostGroundedTank: [
-		[[5, 1], [7.5, 0.9], [10, 0.85], [12, 0.8], [14, 0.7]],
+		[[5, 1], [7.5, 0.9], [10, 0.85], [12, 0.8], [14, 0.7]], // graph 274
 		overweightBreakpoints
 	],
 	boostAerial: [boostBreakpoints, overweightBreakpoints],
+	quickBoost: [qbBreakpoints, overweightBreakpoints],
 	upwards: [
-		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
+		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]], // graph 262
 		overweightBreakpoints
 	],
 	assaultBoost: [
-		[[4., 1.], [5, 0.95], [7.5, 0.9], [10, 0.7], [15, 0.55]],
+		[[4., 1.], [5, 0.95], [7.5, 0.9], [10, 0.7], [15, 0.55]], // graph 267
 		overweightBreakpoints
 	],
 	meleeBoost: [
-		[[4., 1.], [6.25, 0.95], [7.5, 0.85], [8, 0.75], [12, 0.65]],
+		[[4., 1.], [6.25, 0.95], [7.5, 0.85], [8, 0.75], [12, 0.65]], // graphs 268, 269
 		overweightBreakpoints
 	],
 	hover: [
-		[[7., 1.], [9, 0.9], [10, 0.85], [11, 0.75], [12, 0.7]],
-		[[1., 1.], [1.05, 0.9], [1.1, 0.8], [1.3, 0.7], [1.5, 0.6]]
+		[[7., 1.], [9, 0.9], [10, 0.85], [11, 0.75], [12, 0.7]], // graph 282
+		[[1., 1.], [1.05, 0.9], [1.1, 0.8], [1.3, 0.7], [1.5, 0.6]] // graph 296
 	],
-	quickBoost: [
-		[[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]],
-		overweightBreakpoints
+	hoverQuickBoost: [
+		qbBreakpoints,
+		[[1., 1.], [1.05, 0.75], [1.1, 0.5], [1.3, 0.25], [1.5, 0.]] // graph 293
 	]
 }
 
 function getSpeedSpec(base, weight, loadRatio, breakpointsMult, breakpointsOver) {
-	let multiplier = piecewiseLinear(weight / 10000., breakpointsMult);
+	let multiplier = glob.piecewiseLinear(weight / 10000., breakpointsMult);
 	if(loadRatio > 1)
-		multiplier *= piecewiseLinear(loadRatio, breakpointsOver);
+		multiplier *= glob.piecewiseLinear(loadRatio, breakpointsOver);
 	return base * multiplier
 }
 
@@ -215,9 +221,9 @@ function getQBDistance(nominalSpeed, duration) {
 }
 
 function getQBReloadTime(baseReloadTime, idealWeight, weight) {
-	const multiplier = piecewiseLinear(
+	const multiplier = glob.piecewiseLinear(
 		(weight - idealWeight) / 10000., 
-		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]]
+		[[0, 1], [0.5, 1.1], [1, 1.3], [3, 3], [5, 3.5]] // graph 320
 	);
 	return baseReloadTime * multiplier;
 }
@@ -225,7 +231,7 @@ function getQBReloadTime(baseReloadTime, idealWeight, weight) {
 function getENSupplyEfficiency(enOutput, enLoad) {
 	if(enLoad > enOutput)
 		return 100;
-	const res = piecewiseLinear(enOutput - enLoad,
+	const res = glob.piecewiseLinear(enOutput - enLoad,
 		[[0., 1500.], [1800., 9000.], [3500., 16500.]]
 	);
 	return res;
@@ -250,6 +256,21 @@ function getUnitRangesData(units, fcs) {
 		[fcs['CloseRangeAssist'], fcs['MediumRangeAssist'], fcs['LongRangeAssist']]
 	)
 }
+
+function getKickDamage(legType, weight) {
+	const baseDmg = legType === 'Reverse-Joint' ? 420 : 350;
+	const mult = glob.piecewiseLinear(weight / 10000.,
+		[[5., 1.], [6., 1.1], [7., 1.3], [8., 1.6], [13., 2.]] // graph 280
+	);
+	return baseDmg * mult;
+}
+
+const legTypeImpact = {
+	'Bipedal': [480, 210],
+	'Reverse-Joint': [700, 320],
+	'Tetrapod': [360, 160],
+	'Tank': [590, 270]
+};
 
 /**********************************************************************************/
 
@@ -293,11 +314,12 @@ function computeAllStats(parts) {
 
 	const baseSpeedValues = {
 		boostAerial: baseBoostSpeed,
+		quickBoost: boosterSrcPart['QBThrust'] / 50.,
 		upwards: boosterSrcPart['UpwardThrust'] * 6 / 100,
 		assaultBoost: boosterSrcPart['ABThrust'] * 6 / 100,
-		meleeBoost: boosterSrcPart['MeleeAttackThrust'] * 6.3 / 100,
+		meleeBoost: boosterSrcPart['MeleeAttackThrust'] * 6 / 100,
 		hover: legs['BaseHoverSpeed'] ? legs['BaseHoverSpeed'] : 0,
-		quickBoost: boosterSrcPart['QBThrust'] / 50.,
+		hoverQuickBoost: legs['BaseHoverQBSpeed'] ? legs['BaseHoverQBSpeed'] : 0
 	};
 	let boostSpeedKey;
 	if(legs['Name'] === 'EL-TL-11 FORTALEZA')
@@ -354,7 +376,14 @@ function computeAllStats(parts) {
 	const recoilUnits = units.filter(u => 
 		u['Recoil'] && u['RapidFire'] && !recoilExcludedUnits.includes(u['Name'])
 	);
-	const avgRecoil = getAverageRecoil(recoilUnits, arms['RecoilControl']);
+	const [avgRecoil, recoilPlotPoints] = recoilSimulation(
+		recoilUnits,
+		arms['RecoilControl']
+	);
+
+	const kickDamage = getKickDamage(legs['LegType'], weight);
+
+	const [kickImpact, kickAccImpact] = legTypeImpact[legs['LegType']];
 
 	return [
 		[
@@ -377,22 +406,31 @@ function computeAllStats(parts) {
 					armsLoad / arms['ArmsLoadLimit']
 				)
 			},
-			{name: 'AimAssistProfile', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
+			{name: 'AimAssistGraph', value: getUnitRangesData(units, fcs), type: 'RangePlot'},
+			{name: 'KickDamage', value: kickDamage},
+			{name: 'KickImpact', value: kickImpact},
+			{name: 'KickAccumulativeImpact', value: kickAccImpact},
+			{name: 'KickDirectDamage', value: kickDamage * 2.8},
+			{name: 'RecoilAccumulationGraph', value: recoilPlotPoints, type: 'RecoilPlot'},
 			{name: 'AverageRecoil', value: avgRecoil}
 		],
 		[
 			{name: 'GroundedBoostSpeed', value: speedValues[boostSpeedKey]},
 			{name: 'AerialBoostSpeed', value: speedValues.boostAerial},
-			{name: 'UpwardSpeed', value: speedValues.upwards},
-			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
-			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},
-			{name: 'HoverSpeed', value: speedValues.hover},
 			{name: 'QBSpeed', value: avgQBSpeed},
 			{name: 'QBDistance', value: qbDistance},
 			{name: 'QBENConsumption', value: qbENConsumption},
 			{name: 'QBReloadTime', value: qbReloadTime},
-			{name: 'MaxConsecutiveQB', value: 
-				Math.ceil(enCapacity / qbENConsumption)}
+			{name: 'MaxConsecutiveQB', value: Math.ceil(enCapacity / qbENConsumption)},
+			{name: 'UpwardSpeed', value: speedValues.upwards},
+			{name: 'UpwardEconomy', 
+				value: 3.6 * boosterSrcPart['UpwardENConsumption'] / speedValues.upwards},
+			{name: 'AssaultBoostSpeed', value: speedValues.assaultBoost},
+			{name: 'AssaultBoostEconomy', 
+				value: 3.6 * boosterSrcPart['ABENConsumption'] / speedValues.assaultBoost},
+			{name: 'MeleeBoostSpeed', value: speedValues.meleeBoost},
+			{name: 'HoverSpeed', value: speedValues.hover},
+			{name: 'HoverQBSpeed', value: speedValues.hoverQuickBoost}
 		],
 		[
 			{name: 'ENCapacity', value: enCapacity},
@@ -402,7 +440,7 @@ function computeAllStats(parts) {
 			{name: 'QBENRechargeTime', value: qbENRechargeTime},
 			{name: 'FullRechargeTime', value: fullRechargeTime},
 			{name: 'FullRechargeTimeRedline', value: fullRechargeTimeRedline},
-			{name: 'ENRecoveryProfiles', 
+			{name: 'ENRecoveryGraph', 
 				value: {
 					normal: 
 						[enRechargeDelay.normal, 0, enSupplyEfficiency, enCapacity],
@@ -468,7 +506,7 @@ function getOverloadTable(stats) {
 	)	
 }
 
-const groupNames = ['DURABILITY', 'TARGETING', 'MOBILITY', 'ENERGY', 'LIMITS'];
+const groupNames = ['DURABILITY', 'OFFENSIVE', 'MOBILITY', 'ENERGY', 'LIMITS'];
 
 const limitGroupPos = groupNames.indexOf('LIMITS');
 
@@ -488,6 +526,25 @@ function filterStats(toFilter, reference) {
 			}
 		)
 	);
+}
+
+const Indicator = ({text, isOverload}) => {
+	return(
+		<div style={{visibility: isOverload ? 'visible' : 'hidden', 
+		 	padding: '4px', marginTop: '10px', marginBottom: '5px', background: 'black',
+		 	color: 'red', border: '1px solid red', fontSize: '12px'}}>
+			{text}
+		</div>
+	)
+}
+const OverloadIndicators = ({load, en, arms}) => {
+	return(
+		<div style={{display: 'flex', gap: '15px'}}>
+			<Indicator text={'OVERBURDENED'} isOverload={load} />
+			<Indicator text={'ARMS OVERBURDENED'} isOverload={arms} />
+			<Indicator text={'EN OVERLOAD'} isOverload={en} />
+		</div>
+	)
 }
 
 const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
@@ -514,12 +571,19 @@ const ACStats = ({acParts, comparedParts, buildCompareMode}) => {
 	return (
 		<div style={
 			{
-				...{boxSizing: 'border-box', height: '100%', padding: '15px 15px'},				
+				...{boxSizing: 'border-box', height: '100%', padding: '0px 15px'},				
 				...glob.dottedBackgroundStyle()
 			}
 		}>
-			<div style={{fontSize: '12px', padding: '0px 0px 10px 10px'}}>
-				{glob.boxCharacter + ' AC SPECS'}
+			<div style={{display: 'flex', paddingLeft: '10px'}}>
+				<div style={{fontSize: '12px', padding: '5px 20px 5px 0px', marginTop: '10px'}}>
+					{glob.boxCharacter + ' AC SPECS'}
+				</div>
+				{
+					buildCompareMode ? <></> : 
+					<OverloadIndicators load={overloadTable['TotalLoad']} 
+						en={overloadTable['TotalENLoad']} arms={overloadTable['TotalArmsLoad']} />
+				}
 			</div>
 			<div className="my-scrollbar" style={{height: '95%', overflowY: 'auto'}}>
 				{

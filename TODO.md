@@ -1,17 +1,12 @@
 * Mechanics to figure out
-	* Ricochet distance calculation
 	* Heating/Cooling for orbits. BehaviorParamPC -> Active Orbit Continous Heat in Smithbox
-	* Bullet speed
-	* Several mobility stats (CalcCorrectGraph in Smithbox)
-		* QB distance, ground and aerial
-		* EN efficiency (EN/m) for all movements
-		* All speeds when overburdened
-	* Target tracking value when arms are overburdened and firearm spec generically
-	* Kick stats (damage, impact, range, ...)
+	* QB distance, ground and aerial (needs to figure out detals of the QB velocity curve
+		  over time)
+	* FCS assist / firearm spec / lock times / etc
 	* Firing animation times are not factored into DPS calculations, so DPS is skewed when 
-	  those are large (fireAnimationNote tooltip)
+	  those are large (fireAnimationNote tooltip). Adding BurstFireInterval should correct
+	  many of them (especially missiles). Also consider shoulderShootDelay and 
+	  shoulderChargedShootDelay in equipParamWeapon
 * Discrete scrolling for parts and stats. Factor code with slot box scrolling
-* Default part ordering
-* Build image using parts
 * Tests
 * Create custom Plotly bundle to reduce size

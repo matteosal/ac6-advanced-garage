@@ -8,9 +8,17 @@
 }
 
 @font-face {
-	font-family: 'Operation-Napalm';
-	src: url('Assets/Fonts/operationnapalm-nrbwo-webfont.woff2') format('woff2'),
-			 url('Assets/Fonts/operationnapalm-nrbwo-webfont.woff') format('woff');
+	font-family: 'AgencyFB';
+	src: url('Assets/Fonts/agencyfb-bold-webfont.woff2') format('woff2'),
+			 url('Assets/Fonts/agencyfb-bold-webfont.woff') format('woff');
+	font-weight: normal;
+	font-style: normal;
+}
+
+@font-face {
+	font-family: 'NHL';
+	src: url('Assets/Fonts/nhl-webfont.woff2') format('woff2'),
+			 url('Assets/Fonts/nhl-webfont.woff') format('woff');
 	font-weight: normal;
 	font-style: normal;
 }

@@ -84,7 +84,7 @@ const initialBuilderState = {
 	backSubslot: 0,
 	sortBy: Object.fromEntries(
 		glob.partSlots.map(slot =>
-			{return [slot, {key: 'Name', ascend: true}]}
+			{return [slot, {key: 'DefaultOrdering', ascend: true}]}
 		)
 	),
 	toastMsg: null,

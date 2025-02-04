@@ -22,7 +22,8 @@ const lowerIsBetter = ['QBENConsumption', 'QBReloadTime', 'ENRechargeDelay', 'To
 	'MeleeAtkENConsumption', 'Weight', 'ENLoad', 'CurrentLoad', 'CurrentArmsLoad', 
 	'CurrentENLoad', 'ENRechargeDelayRedline', 'QBENRechargeTime', 'FullRechargeTime',
 	'FullRechargeTimeRedline', 'UpwardENConsumption','MeleeAtkENConsump', 
-	'CoolingDelay', 'ReloadTimeOverheat', 'AverageRecoil', 'MaxRecoilAngle'];
+	'CoolingDelay', 'ReloadTimeOverheat', 'AverageRecoil', 'MaxRecoilAngle',
+	'UpwardEconomy', 'AssaultBoostEconomy'];
 
 function isBetter(name, a, b) {
 	if (lowerIsBetter.includes(name))
@@ -32,6 +33,8 @@ function isBetter(name, a, b) {
 }
 
 const [blue, red] = ['rgb(62, 152, 254)', 'rgb(253, 52, 45)'];
+
+const plotWidth = '350px';
 
 /***************************************************************************************/
 
@@ -121,8 +124,8 @@ const namePadding = '4px 0px';
 
 const NumericRow = ({name, leftRaw, rightRaw, kind, tooltip, buildCompareMode}) => {
 
-	let [left, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
-	let [right, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
+	let [left, leftDisplay] = glob.toValueAndDisplayNumber(leftRaw);
+	let [right, rightDisplay] = glob.toValueAndDisplayNumber(rightRaw);
 
 	let rightColor = 'white';
 	let triangle = '';
@@ -316,7 +319,7 @@ const RangePlot = ({left, right}) => {
 
 	let data = [
 		{
-			x: [0, 130, 130, 260, 260, 320],
+			x: [0, 120, 140, 250, 270, 320],
 			y: [right[4], right[4], right[5], right[5], right[6], right[6]],
 			mode: 'lines',
 			line: {color: cyan}
@@ -328,13 +331,13 @@ const RangePlot = ({left, right}) => {
 		})
 	);
 
-	if(left !== null)
+	if(left)
 		data.push(
 			{
-			x: [0, 130, 130, 260, 260, 320],
+			x: [0, 120, 140, 250, 270, 320],
 			y: [left[4], left[4], left[5], left[5], left[6], left[6]],
 				mode: 'lines',
-				line: {dash: 'dash', color: cyan}
+				line: {dash: '3px,2px', color: cyan}
 			}
 		)
 
@@ -345,7 +348,7 @@ const RangePlot = ({left, right}) => {
 			style={{width: '100%', height: '100%'}}
 			data={data}
 			layout={{
-				margin: {l: 30, r: 25, t: 25, b: 45},
+				margin: {l: 60, r: 25, t: 25, b: 45},
 				xaxis: {
 					range: [0, 320],
 					title: {text: 'Distance', font: font, standoff: 5},
@@ -354,9 +357,9 @@ const RangePlot = ({left, right}) => {
 				},
 				yaxis: {
 					range: [0, 95],
-					title: {text: 'Assist', font: font, standoff: 1},
-					color: 'white',
-					showticklabels: false
+					title: {text: 'Assist', font: font, standoff: 5},
+					tickfont: font,
+					color: 'white'
 				},
 				showlegend: false,
 				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
@@ -380,8 +383,82 @@ const RangePlotRow = ({name, left, right, tooltip}) => {
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
+			<div style={{width: plotWidth, height: '200px', margin: '0px auto'}}>
 				<RangePlot left={left} right={right} />
+			</div>
+		</>
+	)
+}
+
+/***************************************************************************************/
+
+const RecoilPlot = ({left, right}) => {
+
+	let data = [
+		{
+			x: right.map(([x, y]) => x),
+			y: right.map(([x, y]) => y),
+			mode: 'lines',
+			line: {color: cyan}
+		}
+	];
+
+	if(left)
+		data.push(
+			{
+				x: left.map(([x, y]) => x),
+				y: left.map(([x, y]) => y),
+				mode: 'lines',
+				line: {dash: '3px,2px', color: cyan}
+			}
+		)
+
+	const font = {family: 'Aldrich-Custom, sans-serif'};
+
+	return (
+		<PlotlyPlot
+			style={{width: '100%', height: '100%'}}
+			data={data}
+			layout={{
+				margin: {l: 60, r: 25, t: 25, b: 45},
+				xaxis: {
+					range: [0, 5],
+					title: {text: 'Time', font: font, standoff: 5},
+					tickfont: font,
+					color: 'white'
+				},
+				yaxis: {
+					range: [0, 105],
+					title: {text: 'Recoil', font: font, standoff: 5},
+					tickfont: font,
+					color: 'white',
+					tick0: 0,
+					dtick: 25
+				},
+				showlegend: false,
+				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
+				paper_bgcolor: 'rgb(255, 255, 255, 0.1)'
+			}}
+			config={{displayModeBar: false, staticPlot: true}}
+		/>
+	)
+}
+
+const RecoilPlotRow = ({name, left, right, tooltip}) => {
+	return(
+		<>
+			<div 
+				style={{display: 'inline-block', width: '15px', verticalAlign: 'middle'}}
+				className={name}
+			>
+				{tooltip !== undefined ? <InfoBox name={name} tooltip={tooltip} /> : <></>}
+			</div>		
+			<div style={{display: 'inline-block', padding: namePadding}
+			}>
+				{glob.toDisplayString(name)}
+			</div>
+			<div style={{width: plotWidth, height: '200px', margin: '0px auto'}}>
+				<RecoilPlot left={left} right={right} />
 			</div>
 		</>
 	)
@@ -455,7 +532,7 @@ const EnergyPlot = ({left, right}) => {
 				x: leftPoints.normal.t,
 				y: leftPoints.normal.en,
 				mode: 'lines',
-				line: {dash: 'dash', color: cyan}
+				line: {dash: '3px,2px', color: cyan}
 			}
 		);
 		data.push(
@@ -463,7 +540,7 @@ const EnergyPlot = ({left, right}) => {
 				x: leftPoints.redline.t,
 				y: leftPoints.redline.en,
 				mode: 'lines',
-				line: {dash: 'dash', color: red}
+				line: {dash: '3px,2px', color: red}
 			}
 		);
 	}
@@ -475,7 +552,7 @@ const EnergyPlot = ({left, right}) => {
 			style={{width: '100%', height: '100%'}}
 			data={data}
 			layout={{
-				margin: {l: 30, r: 25, t: 25, b: 45},
+				margin: {l: 60, r: 25, t: 25, b: 45},
 				xaxis: {
 					range: [0, plotW],
 					title: {text: 'Time', font: font, standoff: 5},
@@ -484,9 +561,9 @@ const EnergyPlot = ({left, right}) => {
 				},
 				yaxis: {
 					range: [0, plotH],
-					title: {text: 'EN', font: font, standoff: 1},
-					color: 'white',
-					showticklabels: false
+					title: {text: 'EN', font: font, standoff: 5},
+					tickfont: font,
+					color: 'white'
 				},
 				showlegend: false,
 				plot_bgcolor: 'rgb(255, 255, 255, 0.1)',
@@ -510,7 +587,7 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 			}>
 				{glob.toDisplayString(name)}
 			</div>
-			<div style={{width: '305px', height: '200px', margin: '0px auto'}}>
+			<div style={{width: plotWidth, height: '200px', margin: '0px auto'}}>
 				<EnergyPlot left={left} right={right} />
 			</div>
 		</>
@@ -521,8 +598,8 @@ const EnergyPlotRow = ({name, left, right, tooltip}) => {
 
 const NoComparisonNumericRow = ({name, leftRaw, rightRaw, tooltip}) => {
 
-	let [, leftDisplay] = glob.toValueAndDisplayNumber(name, leftRaw);
-	let [, rightDisplay] = glob.toValueAndDisplayNumber(name, rightRaw);
+	let [, leftDisplay] = glob.toValueAndDisplayNumber(leftRaw);
+	let [, rightDisplay] = glob.toValueAndDisplayNumber(rightRaw);
 
 	if(!leftDisplay)
 		leftDisplay = longDashCharacter
@@ -560,31 +637,39 @@ const NoComparisonNumericRow = ({name, leftRaw, rightRaw, tooltip}) => {
 
 /**********************************************************************************/
 
-const aimAssistProfileDesc = 'Gives an indication of how well the FCS is paired with the ' +
+const aimAssistGraphDesc = 'Gives an indication of how well the FCS is paired with the ' +
 	'unit ranges. Shows the FCS aim assist at close/medium/long range (horizontal cyan ' +
 	'lines) and unit ideal ranges (vertical red lines), arbitrarily capped at 300m.';
 
-const enRecoveryProfilesDesc = 'Shows the energy recovered over time in the normal (cyan) ' +
+const enRecoveryGraphDesc = 'Shows the energy recovered over time in the normal (cyan) ' +
 	'and redlining (red) cases.';
+
+const kickDmgDesc = 'Increases with weight, base damage is higher for reverse joint legs.';
+const kickImpactDesc = 'Only depends on leg type.';
 
 const fireAnimationNote = 'NOTE: all DPS/IPS related specs assume that the fire animation ' +
 	'time is zero, so they are an overestimate when that is not the case (e.g. missile ' +
 	'launchers that fire individual missiles in rapid sequence or heavy back weapons with ' +
 	'delayed fire).'
 
-const enRecoveryProfilesNote = 'NOTE: the cyan profile is a limit case because if the ' +
+const lockTimeNote = 'Reported value for missiles takes lock time into account.';
+
+const enRecoveryGraphNote = 'NOTE: the cyan Graph is a limit case because if the ' +
 	'generator is not fully depleted energy recovery will not start from zero energy.';
 
 const overheatUnitsReloadNote = 'NOTE: when comparing this stat between a unit with true ' +
 	'reload and a unit with heating/cooling mechanics, keep in mind that heating/cooling ' +
 	'is an inherently superior reload mechanism that generally allows for less downtime.'
 
+const effectiveRangeDesc = 'For units with a ricochet mechanic, effective range is the ' +
+	'ricochet threshold for an enemy defense of 1100.'
+
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
 	'EffectiveAPExplosive': 'Amount of raw explosive damage that can be sustained.',
 	'EffectiveAPAvg': 'Average of all effective AP values.',
-	'AimAssistProfile': aimAssistProfileDesc + ' When a new FCS is in preview, the current ' +
+	'AimAssistGraph': aimAssistGraphDesc + ' When a new FCS is in preview, the current ' +
 		'FCS assist values are shown with dashed lines and the new with solid ones. When a ' +
 		'unit is in preview only the new unit ranges are shown.',
 	'MaxConsecutiveQB': 'Maximum number of consecutive quick boosts before running out of ' +
@@ -602,19 +687,19 @@ const statTooltips = {
 		'energy capacity.',
 	'FullRechargeTimeRedline': 'Time to fully recover energy when the generator is fully ' +
 		'depleted',
-	'ENRecoveryProfiles': enRecoveryProfilesDesc + ' When a new part is in preview, the ' +
-		'current profiles are shown with dashed lines and the new ones with solid ones.\n' + 
-		enRecoveryProfilesNote,
+	'ENRecoveryGraph': enRecoveryGraphDesc + ' When a new part is in preview, the ' +
+		'current graphs are shown with dashed lines and the new ones with solid ones.\n' + 
+		enRecoveryGraphNote,
 	'WeightByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total weight.',
 	'ENLoadByGroup': 'Shows the contributions of units (left), frame (middle) and inner ' +
 		'parts (right) to the total energy load.',
-	'Damage/s': 'Damage dealt per second, not counting reload / cooldown / lock time.\n' +
-		fireAnimationNote,
-	'Impact/s': 'Impact damage dealt per second, not counting reload / cooldown / lock ' +
-		'time.\n' + fireAnimationNote,
+	'Damage/s': 'Damage dealt per second, not counting reload / cooldown time. ' + 
+		lockTimeNote + '\n' + fireAnimationNote,
+	'Impact/s': 'Impact damage dealt per second, not counting reload / cooldown time. ' +
+		lockTimeNote + '\n' + fireAnimationNote,
 	'AccumulativeImpact/s': 'Accumulated impact damage dealt per second, not counting ' +
-		'reload / cooldown / lock time.\n' + fireAnimationNote,
+		'reload / cooldown time. ' + lockTimeNote + '\n' + fireAnimationNote,
 	'Damage/sInclReload': 'Damage per second factoring in reload / cooldown / lock time, ' +
 		'whichever is applicable.\n' + fireAnimationNote + '\n' + overheatUnitsReloadNote,
 	'Impact/sInclReload': 'Impact per second factoring in reload / cooldown / lock time, ' +
@@ -638,9 +723,6 @@ const statTooltips = {
 	'CoolingDelay': 'Time for the weapon to start cooling when not overheated.',
 	'ChgDirectAttackPower': 'Charged attack power on staggered opponents.',
 	'FullChgDirectAttackPower': 'Fully charged attack power on staggered opponents.',
-	'AverageRecoil': 'Estimate of the average accumulated recoil from firing all ' +
-		'units with a rapid fire spec simultaneously at maximum fire rate. Back units ' +
-		'which interrupt arm units are excluded. Recoil caps at 100.',
 	'MaxRecoilAngle': 'Maximum firing direction error at maximum accumulated recoil (100).',
 	'GroundedBoostSpeed': 'Boost speed on the ground. Same as aerial boost speed except ' +
 		'for tank legs.',
@@ -648,8 +730,33 @@ const statTooltips = {
 		'except for tank legs.',
 	'UpwardSpeed': 'Speed when flying upwards.',
 	'AssaultBoostSpeed': 'Stable assault boost speed.',
-	'MeleeBoostSpeed': 'Initial melee boost speed.',
-	'HoverSpeed': 'Tetrapod hover speed',
+	'MeleeBoostSpeed': 'Melee boost speed.',
+	'HoverSpeed': 'Tetrapod hover speed.',
+	'HoverQBSpeed': 'Tetrapod quick boost speed while hovering.',
+	'UpwardEconomy': 'Energy spent to travel 1m upwards.',
+	'AssaultBoostEconomy': 'Energy spent to travel 1m when assault boosting.',
+	'RecoilAccumulationGraph': 'Simulates firing all units with a rapid fire spec ' +
+		'simultaneously at maximum fire rate and tracks the accumulated recoil over time. ' +
+		'The simulation lasts 5s and includes reload/cooldown downtimes. Back units which ' +
+		'interrupt arm units are excluded. Recoil caps at 100. When a new part that changes ' +
+		'the simulation is in preview, the old graph is shown with dashed lines and the new ' +
+		'one with solid lines.',
+	'AverageRecoil': 'Average recoil incurred by each shot (immediately before it is ' +
+		'fired) during the recoil accumulation ' +
+		'simulation. An average of 0 indicates that recoil is always completely reabsorbed ' +
+		'before the next shot. Recoil caps at 100.',
+	'BurstFireInterval': 'Time between individual shots in a single burst.',
+	'BulletSpeed': 'Bullet speed of regular shots. For missiles, this is the travel speed ' +
+		'after the initial acceleration.',
+	'ChgBulletSpeed': 'Bullet speed of charged shots.',
+	'FullChgBulletSpeed': 'Bullet speed of fully charged shots.',
+	'KickDamage': kickDmgDesc,
+	'KickImpact': kickImpactDesc,
+	'KickAccumulativeImpact': kickImpactDesc,
+	'KickDirectDamage': kickDmgDesc,
+	'EffectiveRange': effectiveRangeDesc,
+	'ChgIdealRange': 'Ideal range of charged shot.',
+	'ChgEffectiveRange': 'Effective range of charged shot. ' + effectiveRangeDesc,
 	'QBSpeed': 'This is a more indicative value than what the in-game one provides. ' +
 		'Quick boost speed starts high then decreases during the window given by the ' +
 		'booster\'s QB jet duration, and this is its average value.',
@@ -658,12 +765,12 @@ const statTooltips = {
 };
 
 const statTooltipsComparerMode = {
-	'AimAssistProfile': aimAssistProfileDesc + ' When two builds are compared, this build\'s ' +
+	'AimAssistGraph': aimAssistGraphDesc + ' When two builds are compared, this build\'s ' +
 		'FCS assist values are shown with solid lines and the ones from the other build with ' +
 		'dashed lines.',
-	'ENRecoveryProfiles': enRecoveryProfilesDesc + ' When two builds are compared, this ' +
-		'build\'s profiles are shown with solid lines and the ones from the other build with ' +
-		'dashed lines.\n' + enRecoveryProfilesNote
+	'ENRecoveryGraph': enRecoveryGraphDesc + ' When two builds are compared, this ' +
+		'build\'s Graphs are shown with solid lines and the ones from the other build with ' +
+		'dashed lines.\n' + enRecoveryGraphNote
 }
 
 function getTooltip(name, buildCompareMode) {
@@ -716,6 +823,17 @@ export const StatRow = ({leftStat, rightStat, pos, kind, buildCompareMode}) => {
 	else if(rightStat.type === 'RangePlot') {
 		return(
 			<RangePlotRow
+				name={rightStat.name}
+				left={leftStat.value}	
+				right={rightStat.value}
+				tooltip={tooltip}
+				key = {pos}
+			/>		
+		)		
+	}
+	else if(rightStat.type === 'RecoilPlot') {
+		return(
+			<RecoilPlotRow
 				name={rightStat.name}
 				left={leftStat.value}	
 				right={rightStat.value}

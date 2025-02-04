@@ -14,6 +14,7 @@ function importAll(r) {
 }
 
 export const partImages = importAll(require.context('../Assets/Images/Parts', false, /\.png/));
+export const splitArmsImages = importAll(require.context('../Assets/Images/SplitArms', false, /\.png/));
 export const slotImages = importAll(require.context('../Assets/Images/Slots', false, /\.png/));
 export const unitIcons = importAll(require.context('../Assets/Images/UnitIcons', false, /\.png/));
 export const manufacturerLogos = importAll(
@@ -115,21 +116,23 @@ export const partStatGroups = {
 			'AccumulativeImpact/s', 'Damage/sInclReload', 'Impact/sInclReload', 
 			'AccImpact/sInclReload', 'ComboDamage', 'ComboImpact', 'ComboAccumulativeImpact', 
 			'DirectAttackPower', 'DirectDamage/s', 'ComboDirectDamage', 'BlastRadius', 
-			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening'
+			'ATKHeatBuildup', 'ConsecutiveHits', 'DamageMitigation', 'ImpactDampening',
+			'BulletSpeed'
 		],
 		[
 			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgDirectAttackPower', 
 			'ChgBlastRadius', 'ChgHeatBuildup', 'FullChgAttackPower', 'FullChgImpact', 
 			'FullChgAccumImpact', 'FullChgDirectAttackPower', 'FullChgBlastRadius', 
 			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration', 
-			'DplyHeatBuildup'
+			'DplyHeatBuildup', 'ChgBulletSpeed', 'FullChgBulletSpeed'
 		],
 		[
 			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'MaxRecoilAngle', 'Guidance', 
-			'IdealRange',  'EffectiveRange', 'HomingLockTime', 'MaxLockCount', 'RapidFire', 
-			'ChgENLoad', 'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 
-			'FullChgAmmoConsump', 'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 
-			'ReloadTimeOverheat', 'DeploymentRange', 'Cooling', 'CoolingDelay', 'AmmunitionCost'
+			'IdealRange',  'EffectiveRange', 'ChgIdealRange', 'ChgEffectiveRange', 
+			'HomingLockTime', 'MaxLockCount', 'RapidFire', 'BurstFireInterval', 'ChgENLoad',
+			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
+			'MagazineRounds', 'MagDumpTime', 'TotalRounds', 'ReloadTime', 'ReloadTimeOverheat', 
+			'DeploymentRange', 'Cooling', 'CoolingDelay', 'AmmunitionCost'
 		],
 		['Weight', 'ENLoad']
 	],
@@ -217,7 +220,8 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'ACS Failure': 'ACS Failure', 'Semi-Auto': 'Semi-Auto', 'Full-Auto': 'Full-Auto',
 	'ReloadTimeOverheat': 'Reload Time (Overheat)',
 	'GroundedBoostSpeed': 'Boost Speed (Grounded)',
-	'AerialBoostSpeed': 'Boost Speed (Aerial)'
+	'AerialBoostSpeed': 'Boost Speed (Aerial)',
+	'DefaultOrdering': 'Default'
 };
 
 function stringInsert(str, insert, pos) {
@@ -270,7 +274,7 @@ function roundValue(val) {
 	return Math.round(val * roundFactor) / roundFactor;
 }
 
-export function toValueAndDisplayNumber(name, raw) {
+export function toValueAndDisplayNumber(raw) {
 	let value;
 	let display;
 	if(raw && raw.constructor === Array) {
@@ -314,8 +318,9 @@ export function partSortingFunction(key, ascend, a, b) {
 
 const meleeSpecStats = ['AttackPower', 'ComboDamage', 'DirectAttackPower',
 	'ComboDirectDamage', 'ChgAttackPower', 'ChgDirectAttackPower'];
-const missileLockCorrectionStats = ['HomingLockTime', 'Damage/sInclReload',
-	'Impact/sInclReload', 'AccImpact/sInclReload'];
+const missileLockCorrectionStats = ['HomingLockTime', 'Damage/s', 'Impact/s', 'AccImpact/s', 
+	'Damage/sInclReload', 'Impact/sInclReload', 'AccImpact/sInclReload', 'MagDumpTime',
+	];
 const energyFirearmSpecStats = ['AttackPower', 'Damage/s', 'Damage/sInclReload', 
 	'DirectAttackPower', 'DirectDamage/s', 'ChgAttackPower', 'FullChgAttackPower', 
 	'ChargeTime', 'FullChgTime', 'ChgDirectAttackPower', 'FullChgDirectAttackPower'];
@@ -341,11 +346,35 @@ function modifyUnitSpec(part, name, assembly) {
 		if(name === 'HomingLockTime')
 			return newLockTime;
 
-		let oldDen = part['ReloadTime'] + baseLockTime;
-		if(part['MagDumpTime'])
-			oldDen += part['MagDumpTime'];
+		const [newRapidFire, bulletGroupSize] = dataFuncs.normalizeRapidFire(
+			part['Name'], part['RapidFire'], part['AttackPower'], part['HomingLockDelay'], 
+			newLockTime);
 
-		return part[name] * oldDen / (oldDen - baseLockTime + newLockTime);
+		if(name === 'Damage/s') 
+			return dataFuncs.resolveList(part['AttackPower']) * newRapidFire;
+		else if(name === 'Impact/s') 
+			return dataFuncs.resolveList(part['Impact']) * newRapidFire;
+		else if(name === 'AccumulativeImpact/s') 
+			return dataFuncs.resolveList(part['AccumulativeImpact']) * newRapidFire;
+
+		const groupMagSize = part['MagazineRounds'] / bulletGroupSize;
+		const newMagDumpTime = (groupMagSize - 1) / newRapidFire;
+		if(name === 'MagDumpTime')
+			return newMagDumpTime;
+
+		let oldDen = part['ReloadTime'] + baseLockTime;
+		let newDen = part['ReloadTime'] + newLockTime;
+		if(part['MagDumpTime']) {
+			oldDen += part['MagDumpTime'];
+			newDen += newMagDumpTime;
+		}
+
+		if(part['Name'] === 'WS-5001 SOUP' && name === 'Damage/sInclReload') {
+			console.log(oldDen);
+			console.log(newDen);
+		}
+
+		return part[name] * oldDen / newDen;
 	} else if(part['IsEnergyFirearmSpec'] && energyFirearmSpecStats.includes(name)) {
 		// Energy firearm specialization		
 		if(['ChargeTime', 'FullChgTime'].includes(name)) {
@@ -375,6 +404,56 @@ export function mean(list) {
 	if(list.length === 0)
 		return undefined;
 	return total(list) / list.length
+}
+
+// returns slope and intercept of a line passing through points [x1, y1] and [x2, y2]
+function lineParameters([[x1, y1], [x2, y2]]) {
+	return [(y1 - y2) / (x1 - x2), (x2*y1 - x1*y2) / (x2 - x1)];
+}
+
+export function piecewiseLinear(x, breakpoints) {
+	const lastPos = breakpoints.length - 1;
+
+	if(x < breakpoints[0][0]) {
+		return breakpoints[0][1];
+	} else if (x >= breakpoints[lastPos][0]) {
+		return breakpoints[lastPos][1];
+	}
+
+	let result = null;
+	for (let i = 1; i < lastPos + 1; i++) {
+		if (x < breakpoints[i][0]) {
+			const [m, q] = lineParameters(breakpoints.slice(i - 1, i + 1))
+			result = m * x + q
+			break;
+		}
+	}
+
+	return result;
+}
+
+export function partitionList(list, subLength) {
+	const subLists = [];
+	let tempSubList = [];
+	let innerIdx = 0;
+
+	list.map(
+		colName => {
+			if(innerIdx > subLength - 1) {
+				subLists.push(tempSubList);
+				tempSubList = [];
+				innerIdx = 0;
+			}
+			tempSubList.push(colName);
+			innerIdx++;
+			return null;
+		}
+	);
+	for(let i = tempSubList.length - 1; i < subLength - 1; i++)
+		tempSubList.push(null)
+	subLists.push(tempSubList);
+
+	return subLists;
 }
 
 /***************************************************************************************/

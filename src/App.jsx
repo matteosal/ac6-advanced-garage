@@ -5,6 +5,7 @@ import MainSwitcher from './Components/MainSwitcher.jsx';
 import BuildComponent from './Components/BuildComponent.jsx';
 import CompareBuildsComponent from './Components/CompareBuildsComponent.jsx';
 import TablesComponent from './Components/TablesComponent.jsx';
+import RicochetComponent from './Components/RicochetComponent.jsx';
 
 /*************************************************************************************/
 
@@ -42,6 +43,8 @@ const SwitchedComponent = ({selectedSwitch}) => {
 			return <CompareBuildsComponent />
 		case 'TABLES':
 			return <TablesComponent />
+		case 'RICOCHET CALCULATOR':
+			return <RicochetComponent />
 		default:
 			window.alert('Internal error: invalid selected switch');
 			return <></>
