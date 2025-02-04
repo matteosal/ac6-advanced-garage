@@ -79,13 +79,29 @@ const DefenseInput = ({type}) => {
 
 	const [internalValue, setInternalValue] = useState(state.defense[type]);
 
-	const handleChange = event => setInternalValue(event.target.value);
+	const handleChange = event => {
+		const val = event.target.value;
+		setInternalValue(val);
+		if(val > xRange[0] && val < xRange[1]) {
+			stateDispatch({target: 'defense', pos: type, value: val})
+		}
+	};
 
 	const handleKeyPress = event => {
-		if(event.key === 'Enter')
-			stateDispatch({target: 'defense', pos: type, value: internalValue})
-		else if(!/[0-9]/.test(event.key))
+		if(!/[0-9]/.test(event.key))
 			event.preventDefault();
+	}
+
+	const handleFocusOut = event => {
+		const val = event.target.value;
+		if(val < xRange[0]) {
+			setInternalValue(xRange[0]);
+			stateDispatch({target: 'defense', pos: type, value: xRange[0]})
+		}
+		else if(val > xRange[1]) {
+			setInternalValue(xRange[1]);
+			stateDispatch({target: 'defense', pos: type, value: xRange[1]})
+		}
 	}
 
 	const label = type.toUpperCase() + ' DEFENSE:';
@@ -100,6 +116,7 @@ const DefenseInput = ({type}) => {
 			value={internalValue}
 			onChange={handleChange}
 			onKeyPress={handleKeyPress}
+			onBlur={handleFocusOut}
 		/>
 		</div>
 	)
