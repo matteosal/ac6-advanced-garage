@@ -1,7 +1,5 @@
 import { useState } from 'react';
 
-import * as glob from '../Misc/Globals.js';
-
 import ModalWrapper from './ModalWrapper.jsx'
 
 const AboutModal = ({closeModal}) => {
