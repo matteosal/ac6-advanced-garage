@@ -1,3 +1,6 @@
+## [v1.2.4](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.4) (Feb 4 2025)
+* Avoid requiring to press enter to change defense in ricochet section
+
 ## [v1.2.3](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.3) (Feb 3 2025)
 * Fixed kick damage
 
