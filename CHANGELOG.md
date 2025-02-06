@@ -1,3 +1,6 @@
+## [v1.2.5](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.5) (Feb 6 2025)
+* Finetune ac assembly image, replaced old low-res versions of split arms images
+
 ## [v1.2.4](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.4) (Feb 4 2025)
 * Avoid requiring to press enter to change defense in ricochet section
 
