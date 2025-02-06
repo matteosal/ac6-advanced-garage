@@ -12,16 +12,18 @@ const partImgsAspectRatio = 602/307.;
 // they are translated to shifts given to the left and top border respectively
 const srcBaseImgDirectives = {
 	armsr: {width: 90 * 1.36,  top: 125, left: 460, zIndex: 5},
-	head:  {width: 120 * 1.36, top: 35,  left: 320, zIndex: 4},
+	head:  {width: 100 * 1.36, top: 45,  left: 320, zIndex: 4},
 	core:  {width: 220 * 1.36, top: 150, left: 320, zIndex: 3},
 	legs:  {width: 500 * 1.36, top: 380, left: 320, zIndex: 2},
-	armsl: {width: 110 * 1.36, top: 115, left: 180, zIndex: 1}
+	armsl: {width: 110 * 1.36, top: 115, left: 200, zIndex: 1}
 };
 const partDirectiveCorrections = {
 	// HEAD
 	'KASUAR/44Z': {width: 1.15},
 	'NACHTREIHER/44E': {width: 0.9},
-	'VP-44D': {width: 1.2},
+	'VE-44B': {width: 1.1},
+	'VP-44D': {width: 1.1},
+	'VP-44S': {width: 1.2},	
 	'AH-J-124 BASHO': {width: 0.85},
 	'AH-J-124/RC JAILBREAK': {width: 0.85},
 	'LAMMERGEIER/44F': {width: 0.85},
