@@ -1,3 +1,6 @@
+## [v1.2.6](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.6) (Mar 21 2025)
+* Updated parts data to patch 1.08.1
+
 ## [v1.2.5](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.5) (Feb 6 2025)
 * Finetune ac assembly image, replaced old low-res versions of split arms images
 
