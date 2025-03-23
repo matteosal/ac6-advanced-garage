@@ -1,3 +1,7 @@
+## [v1.2.7](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.7) (Mar 23 2025)
+* Added level 1 charge specs for KRSV and WLT rifle
+* Added charged / fully charged diret hit adjustments when they differ from the normal one
+
 ## [v1.2.6](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.6) (Mar 21 2025)
 * Updated parts data to patch 1.08.1
 
