@@ -121,10 +121,10 @@ export const partStatGroups = {
 		],
 		[
 			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgDirectAttackPower', 
-			'ChgBlastRadius', 'ChgHeatBuildup', 'FullChgAttackPower', 'FullChgImpact', 
-			'FullChgAccumImpact', 'FullChgDirectAttackPower', 'FullChgBlastRadius', 
-			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration', 
-			'DplyHeatBuildup', 'ChgBulletSpeed', 'FullChgBulletSpeed'
+			'ChgBlastRadius', 'ChgHeatBuildup', 'ChgBulletSpeed', 'FullChgAttackPower', 
+			'FullChgImpact', 'FullChgAccumImpact', 'FullChgDirectAttackPower', 
+			'FullChgBlastRadius', 'FullChgHeatBuildup', 'IGDamageMitigation', 
+			'IGImpactDampening', 'IGDuration', 'DplyHeatBuildup', 'FullChgBulletSpeed'
 		],
 		[
 			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'MaxRecoilAngle', 'Guidance', 
