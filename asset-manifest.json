@@ -1,7 +1,7 @@
 {
   "files": {
     "main.css": "/ac6-advanced-garage/static/css/main.d1eb40bd.css",
-    "main.js": "/ac6-advanced-garage/static/js/main.f404b9a9.js",
+    "main.js": "/ac6-advanced-garage/static/js/main.dc6bd132.js",
     "static/media/IB-C03G_NGI_000.png": "/ac6-advanced-garage/static/media/IB-C03G_NGI_000.7a574302e26ecf5d0d7c.png",
     "static/media/BML-G1_P29CNT.png": "/ac6-advanced-garage/static/media/BML-G1_P29CNT.9d6f92c127bb7876dc51.png",
     "static/media/IA-C01G_AORTA.png": "/ac6-advanced-garage/static/media/IA-C01G_AORTA.45f2e231ee71e36b1f92.png",
@@ -305,10 +305,10 @@
     "static/media/aldrich-custom-webfont.woff2": "/ac6-advanced-garage/static/media/aldrich-custom-webfont.2d4367283755ea19122b.woff2",
     "index.html": "/ac6-advanced-garage/index.html",
     "main.d1eb40bd.css.map": "/ac6-advanced-garage/static/css/main.d1eb40bd.css.map",
-    "main.f404b9a9.js.map": "/ac6-advanced-garage/static/js/main.f404b9a9.js.map"
+    "main.dc6bd132.js.map": "/ac6-advanced-garage/static/js/main.dc6bd132.js.map"
   },
   "entrypoints": [
     "static/css/main.d1eb40bd.css",
-    "static/js/main.f404b9a9.js"
+    "static/js/main.dc6bd132.js"
   ]
 }
