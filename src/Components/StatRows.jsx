@@ -664,6 +664,12 @@ const overheatUnitsReloadNote = 'NOTE: when comparing this stat between a unit w
 const effectiveRangeDesc = 'For units with a ricochet mechanic, effective range is the ' +
 	'ricochet threshold for an enemy defense of 1100.'
 
+function directHitDesc(name) {
+	return 'Direct hit adjustment for ' + name + ' attacks. If the associated attack ' + 
+		'exists but this field is not present, the direct hit adjustment to the normal ' +
+		'attack is applied.'
+}
+
 const statTooltips = {
 	'EffectiveAPKinetic': 'Amount of raw kinetic damage that can be sustained.',
 	'EffectiveAPEnergy': 'Amount of raw energy damage that can be sustained.',
@@ -757,6 +763,8 @@ const statTooltips = {
 	'EffectiveRange': effectiveRangeDesc,
 	'ChgIdealRange': 'Ideal range of charged shot.',
 	'ChgEffectiveRange': 'Effective range of charged shot. ' + effectiveRangeDesc,
+	'ChgDirectHitAdjustment': directHitDesc('charged'),
+	'FullChgDirectHitAdjustment': directHitDesc('fully charged'),
 	'QBSpeed': 'This is a more indicative value than what the in-game one provides. ' +
 		'Quick boost speed starts high then decreases during the window given by the ' +
 		'booster\'s QB jet duration, and this is its average value.',

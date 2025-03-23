@@ -121,13 +121,14 @@ export const partStatGroups = {
 		],
 		[
 			'ChgAttackPower', 'ChgImpact', 'ChgAccumImpact', 'ChgDirectAttackPower', 
-			'ChgBlastRadius', 'ChgHeatBuildup', 'FullChgAttackPower', 'FullChgImpact', 
-			'FullChgAccumImpact', 'FullChgDirectAttackPower', 'FullChgBlastRadius', 
-			'FullChgHeatBuildup', 'IGDamageMitigation', 'IGImpactDampening', 'IGDuration', 
-			'DplyHeatBuildup', 'ChgBulletSpeed', 'FullChgBulletSpeed'
+			'ChgBlastRadius', 'ChgHeatBuildup', 'ChgBulletSpeed', 'FullChgAttackPower', 
+			'FullChgImpact', 'FullChgAccumImpact', 'FullChgDirectAttackPower', 
+			'FullChgBlastRadius', 'FullChgHeatBuildup', 'IGDamageMitigation', 
+			'IGImpactDampening', 'IGDuration', 'DplyHeatBuildup', 'FullChgBulletSpeed'
 		],
 		[
-			'DirectHitAdjustment', 'PAInterference', 'Recoil', 'MaxRecoilAngle', 'Guidance', 
+			'DirectHitAdjustment', 'ChgDirectHitAdjustment', 'FullChgDirectHitAdjustment', 
+			'PAInterference', 'Recoil', 'MaxRecoilAngle', 'Guidance', 
 			'IdealRange',  'EffectiveRange', 'ChgIdealRange', 'ChgEffectiveRange', 
 			'HomingLockTime', 'MaxLockCount', 'RapidFire', 'BurstFireInterval', 'ChgENLoad',
 			'ChargeTime', 'FullChgTime', 'ChgAmmoConsumption', 'FullChgAmmoConsump', 
@@ -221,7 +222,9 @@ const displayStringTable = {'rightArm': 'R-ARM UNIT', 'leftArm': 'L-ARM UNIT',
 	'ReloadTimeOverheat': 'Reload Time (Overheat)',
 	'GroundedBoostSpeed': 'Boost Speed (Grounded)',
 	'AerialBoostSpeed': 'Boost Speed (Aerial)',
-	'DefaultOrdering': 'Default'
+	'DefaultOrdering': 'Default',
+	'ChgDirectHitAdjustment': 'Chg Direct Hit Adj.',
+	'FullChgDirectHitAdjustment': 'Full Chg Direct Hit Adj.'
 };
 
 function stringInsert(str, insert, pos) {

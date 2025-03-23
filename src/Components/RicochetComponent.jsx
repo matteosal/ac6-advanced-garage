@@ -235,7 +235,7 @@ const RicochetPlot = () => {
 
 	const plotData = defPlotData.concat(unitPlotData);
 
-	const font = {family: 'Aldrich-Custom, sans-serif', color: 'white'};
+	const font = {family: 'Aldrich-Custom, sans-serif', color: 'white', size: 16};
 
 	const maxY = Math.max(430, 1.05 * Math.max(...unitPlotData.map(d => d.y).flat()));
 

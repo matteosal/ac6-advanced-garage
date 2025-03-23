@@ -5,13 +5,15 @@ AC6 Advanced Garage is a tool to create, analyze and optimize builds for the gam
 * [Deployed site](https://matteosal.github.io/ac6-advanced-garage)
 * [Changelog](https://github.com/matteosal/ac6-advanced-garage/blob/master/CHANGELOG.md)
 
-## In-game specs
-
-Barring possible errors in the part specs data, AC6 Advanced Garage correctly computes (up to very minor errors) the in-game specs except currently for Speed/QBSpeed in case of overloading and Target Tracking in case of arms overload. I could look into adding their correct computation but these cases are not relevant for the game.
+## Features
 
 ## Advanced specs
 
-There are quite a lot more specs that can be computed out from the data given by the in-game builder, and AC6 Advanced Garage adds some of them. These advanced specs are labeled with an information icon that shows a descriptive tooltip when hovered.
+Barring possible errors in the part specs data, AC6 Advanced Garage correctly computes (up to very minor errors) all the specs reported by the in-game builder. In addition it also computes/reports several others for individual weapon parts and for the entire AC. These extra specs are labeled with an information icon that shows a descriptive tooltip when hovered. Some of these specs can be computed from the ones given by the in-game builder while others are obtained via data mining of the game files and/or reverse engineering of the game mechanics.
+
+## Additional sections
+
+In addition to an AC builder, AC6 Advanced Garage also features a section to compare different builds against each other, dynamic tables for all the parts data and a section to compute ricochet distances.
 
 # Getting Started
 
