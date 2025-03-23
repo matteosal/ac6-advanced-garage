@@ -135,13 +135,18 @@ function addAdvancedUnitStats(unit) {
 	addIfValid(res, 'ComboImpact', impact * consecutiveHits);
 	addIfValid(res, 'ComboAccumulativeImpact', accImpact * consecutiveHits)
 
+	const directHitAdj = res['DirectHitAdjustment'];
+	const chgDirectHitAdj = res['ChgDirectHitAdjustment'] || directHitAdj;
+	const fullChgDirectHitAdj = res['FullChgDirectHitAdjustment'] || directHitAdj;
+
 	const directAtkStatsData = [
-		['DirectAttackPower', rawAtkPwr], ['ChgDirectAttackPower', rawChgAtkPwr],
-			['FullChgDirectAttackPower', rawFullChgAtkPwr]
+		['DirectAttackPower', rawAtkPwr, directHitAdj], 
+		['ChgDirectAttackPower', rawChgAtkPwr, chgDirectHitAdj],
+		['FullChgDirectAttackPower', rawFullChgAtkPwr, fullChgDirectHitAdj]
 	];
 	directAtkStatsData.map(
-		([name, val]) => {
-			addIfValid(res, name, getDirectAtkPwrStat(val, res['DirectHitAdjustment']));
+		([name, val, adj]) => {
+			addIfValid(res, name, getDirectAtkPwrStat(val, adj));
 			return null;
 		}
 	);
