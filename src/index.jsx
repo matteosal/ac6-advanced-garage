@@ -13,6 +13,7 @@ import {BuilderStateProvider} from "./Contexts/BuilderStateContext.jsx";
 import {ComparerStateProvider} from "./Contexts/ComparerStateContext.jsx";
 import {TablesStateProvider} from "./Contexts/TablesStateContext.jsx";
 import {RicochetStateProvider} from "./Contexts/RicochetStateContext.jsx";
+import {SpeedCurvesStateProvider} from "./Contexts/SpeedCurvesStateContext.jsx";
 
 import './reset.css'
 
@@ -23,8 +24,10 @@ root.render(
 		<ComparerStateProvider>
 		<TablesStateProvider>
 		<RicochetStateProvider>
+		<SpeedCurvesStateProvider>
 			<App />
 			<ToastContainer />
+		</SpeedCurvesStateProvider>
 		</RicochetStateProvider>
 		</TablesStateProvider>
 		</ComparerStateProvider>

@@ -94,6 +94,8 @@ const MainSwitcher = ({selectedSwitch, setSelectedSwitch}) => {
 				selected={selectedSwitch} setter={setSelectedSwitch} />
 			<SwitcherButton name={'RICOCHET CALCULATOR'}
 				selected={selectedSwitch} setter={setSelectedSwitch} />
+			<SwitcherButton name={'SPEED CURVES'}
+				selected={selectedSwitch} setter={setSelectedSwitch} />
 			<button 
 				style={{...switcherButtonStyle, position: 'absolute', right: 0}}
 				onClick={openModal}

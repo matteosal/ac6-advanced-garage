@@ -6,6 +6,7 @@ import BuildComponent from './Components/BuildComponent.jsx';
 import CompareBuildsComponent from './Components/CompareBuildsComponent.jsx';
 import TablesComponent from './Components/TablesComponent.jsx';
 import RicochetComponent from './Components/RicochetComponent.jsx';
+import SpeedCurvesComponent from './Components/SpeedCurvesComponent.jsx';
 
 /*************************************************************************************/
 
@@ -45,8 +46,10 @@ const SwitchedComponent = ({selectedSwitch}) => {
 			return <TablesComponent />
 		case 'RICOCHET CALCULATOR':
 			return <RicochetComponent />
+		case 'SPEED CURVES':
+			return <SpeedCurvesComponent />
 		default:
-			window.alert('Internal error: invalid selected switch');
+			window.alert('Internal error: invalid selected switch: ' + selectedSwitch);
 			return <></>
 	}
 }
