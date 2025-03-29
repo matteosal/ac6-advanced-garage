@@ -210,7 +210,7 @@ function getHeaderColor(range, endpoint, pos) {
 		return glob.paletteColor(4)
 }
 
-export function stickyRowBackground(pos) {
+function stickyRowBackground(pos) {
 	if(pos % 2)
 		return glob.paletteColor(4, 1, 0.95);
 	else

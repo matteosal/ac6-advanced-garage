@@ -286,7 +286,7 @@ const RicochetComponent = () => {
 			</div>
 			{
 				ranges.map(
-					range => <div>
+					range => <div key={range}>
 						{
 							range.map(pos => <UnitSelector pos={pos} key={pos} />)
 						}
