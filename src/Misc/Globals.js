@@ -365,16 +365,21 @@ function modifyUnitSpec(part, name, assembly) {
 		if(name === 'MagDumpTime')
 			return newMagDumpTime;
 
-		let oldDen = part['ReloadTime'] + baseLockTime;
-		let newDen = part['ReloadTime'] + newLockTime;
+		let oldDen = part['ReloadTime'];
+		let newDen = part['ReloadTime'];
+		if(baseLockTime) {
+			oldDen += baseLockTime;
+			newDen += newLockTime;
+		}
 		if(part['MagDumpTime']) {
 			oldDen += part['MagDumpTime'];
 			newDen += newMagDumpTime;
 		}
 
-		if(part['Name'] === 'WS-5001 SOUP' && name === 'Damage/sInclReload') {
-			console.log(oldDen);
-			console.log(newDen);
+		if(part['Name'] === 'BML-G1/P29CNT' && name === 'Damage/sInclReload') {
+			console.log(part['ReloadTime']);
+			console.log(baseLockTime);
+			console.log(newLockTime);
 		}
 
 		return part[name] * oldDen / newDen;
