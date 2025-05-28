@@ -1,3 +1,7 @@
+## [v1.2.8](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.8) (May 28 2025)
+* Updated data to ame patch 1.09
+* Fixed modified stats for BML-G1/P29CNT Container Missile Launcher
+
 ## [v1.2.7](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.7) (Mar 23 2025)
 * Added level 1 charge specs for KRSV and WLT rifle
 * Added charged / fully charged diret hit adjustments when they differ from the normal one
