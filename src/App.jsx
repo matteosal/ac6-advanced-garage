@@ -51,7 +51,7 @@ const SwitchedComponent = ({selectedSwitch}) => {
 	}
 }
 
-const gameVersion = '1.8.1';
+const gameVersion = '1.9.0';
 
 function App() {
 	const [selectedSwitch, setSelectedSwitch] = useState('BUILD');
