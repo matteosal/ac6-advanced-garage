@@ -164,7 +164,7 @@ const qbBreakpoints = [[4., 1.], [6.25, 0.9], [7.5, 0.85], [8., 0.8], [12, 0.7]]
 const overweightBreakpoints = 
 	[[1., 1.], [1.05, 0.95], [1.1, 0.8], [1.3, 0.75], [1.5, 0.7]];
 
-const speedBreakpoints = {
+export const speedBreakpoints = {
 	boostGrounded: [boostBreakpoints, overweightBreakpoints],
 	boostGroundedFortaleza: [
 		[[5, 1], [6.25, 0.94], [7.5, 0.86], [10, 0.75], [15, 0.6]], // graph 224
