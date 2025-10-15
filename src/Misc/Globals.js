@@ -376,12 +376,6 @@ function modifyUnitSpec(part, name, assembly) {
 			newDen += newMagDumpTime;
 		}
 
-		if(part['Name'] === 'BML-G1/P29CNT' && name === 'Damage/sInclReload') {
-			console.log(part['ReloadTime']);
-			console.log(baseLockTime);
-			console.log(newLockTime);
-		}
-
 		return part[name] * oldDen / newDen;
 	} else if(part['IsEnergyFirearmSpec'] && energyFirearmSpecStats.includes(name)) {
 		// Energy firearm specialization		
