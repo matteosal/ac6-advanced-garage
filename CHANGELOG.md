@@ -1,3 +1,6 @@
+## [v1.2.9](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.9) (Oct 15 2025)
+* Fixed NACHTREIHER/42E Attitude Stability
+
 ## [v1.2.8](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.8) (May 28 2025)
 * Updated data to ame patch 1.09
 * Fixed modified stats for BML-G1/P29CNT Container Missile Launcher
