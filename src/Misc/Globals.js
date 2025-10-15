@@ -367,6 +367,8 @@ function modifyUnitSpec(part, name, assembly) {
 
 		let oldDen = part['ReloadTime'];
 		let newDen = part['ReloadTime'];
+		if(part['Name'] === 'IA-C01W3: AURORA')
+			newDen *= 2 - (assembly.generator)['EnergyFirearmSpec'] / 100.;
 		if(baseLockTime) {
 			oldDen += baseLockTime;
 			newDen += newLockTime;
@@ -376,7 +378,17 @@ function modifyUnitSpec(part, name, assembly) {
 			newDen += newMagDumpTime;
 		}
 
-		return part[name] * oldDen / newDen;
+		var baseValue;
+		if(part['IsEnergyFirearmSpec'] && energyFirearmSpecStats.includes(name)) {
+			//this is only used for Aurora
+			baseValue = getModifiedDmgSpec(
+				part[name],
+				(assembly.generator)['EnergyFirearmSpec']
+			);
+		} else
+			baseValue = part[name];
+
+		return baseValue * oldDen / newDen;
 	} else if(part['IsEnergyFirearmSpec'] && energyFirearmSpecStats.includes(name)) {
 		// Energy firearm specialization		
 		if(['ChargeTime', 'FullChgTime'].includes(name)) {
@@ -388,12 +400,20 @@ function modifyUnitSpec(part, name, assembly) {
 		return part[name]
 }
 
+// This should be completely refactored, we should modify all the specs in one go instead 
+// of going through them one by one. It simplify the code, make it faster and remove the 
+// special treatment for Aurora
 export function getModifiedPartsData(part, assembly) {
-	return Object.fromEntries(
+	let modifiedSpecs = Object.fromEntries(
 		Object.keys(part).map(
 			key => [key, modifyUnitSpec(part, key, assembly)]
 		)
-	)
+	);
+	if(part['Name'] === 'IA-C01W3: AURORA') {
+		const correction = 2 - (assembly.generator)['EnergyFirearmSpec'] / 100.;
+		modifiedSpecs['ReloadTime'] *= correction;
+	}
+	return modifiedSpecs;
 }
 
 /***************************************************************************************/
