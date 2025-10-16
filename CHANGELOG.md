@@ -1,3 +1,6 @@
+## [v1.2.10](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.10) (Oct 16 2025)
+* Fixed modified stats for Aurora missile
+
 ## [v1.2.9](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.9) (Oct 15 2025)
 * Fixed NACHTREIHER/42E Attitude Stability
 
