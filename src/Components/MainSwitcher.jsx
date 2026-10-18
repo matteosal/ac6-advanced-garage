@@ -41,6 +41,17 @@ const HelpModal = ({closeModal}) => {
 			onto other columns. Unit parts can also be filtered according to their attributes.
 		</p>
 		<ul style={{paddingLeft: '20px', paddingBottom: '10px'}}>
+			<li style={{fontSize: '20px', fontWeight: 'bold'}}>PARTS OPTIMIZER SECTION</li>
+		</ul>
+		<p style={{paddingBottom: '15px'}}>
+			Searches all head/core/arms/legs/booster/generator combinations for those that fit
+			under a maximum weight and meet your minimum/maximum thresholds (QBs, QB speed,
+			boost speed, AB distance, melee + QB cycles, jump distance and EN
+			recharge times). Set the other equipment to account for its weight and EN load. The
+			results are sorted by a score that weighs effective AP and stability. The wrench
+			button next to a result opens that build in the build section.
+		</p>
+		<ul style={{paddingLeft: '20px', paddingBottom: '10px'}}>
 			<li style={{fontSize: '20px', fontWeight: 'bold'}}>RICOCHET CALCULATOR SECTION</li>
 		</ul>
 		<p style={{paddingBottom: '15px'}}>
@@ -91,6 +102,8 @@ const MainSwitcher = ({selectedSwitch, setSelectedSwitch}) => {
 			<SwitcherButton name={'COMPARE BUILDS'}
 				selected={selectedSwitch} setter={setSelectedSwitch} />
 			<SwitcherButton name={'TABLES'}
+				selected={selectedSwitch} setter={setSelectedSwitch} />
+			<SwitcherButton name={'PARTS OPTIMIZER'}
 				selected={selectedSwitch} setter={setSelectedSwitch} />
 			<SwitcherButton name={'RICOCHET CALCULATOR'}
 				selected={selectedSwitch} setter={setSelectedSwitch} />

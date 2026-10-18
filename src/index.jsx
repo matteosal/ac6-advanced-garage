@@ -13,6 +13,7 @@ import {BuilderStateProvider} from "./Contexts/BuilderStateContext.jsx";
 import {ComparerStateProvider} from "./Contexts/ComparerStateContext.jsx";
 import {TablesStateProvider} from "./Contexts/TablesStateContext.jsx";
 import {RicochetStateProvider} from "./Contexts/RicochetStateContext.jsx";
+import {OptimizerStateProvider} from "./Contexts/OptimizerStateContext.jsx";
 
 import './reset.css'
 
@@ -23,8 +24,10 @@ root.render(
 		<ComparerStateProvider>
 		<TablesStateProvider>
 		<RicochetStateProvider>
+		<OptimizerStateProvider>
 			<App />
 			<ToastContainer />
+		</OptimizerStateProvider>
 		</RicochetStateProvider>
 		</TablesStateProvider>
 		</ComparerStateProvider>
