@@ -181,16 +181,13 @@ export function parseBuildQuery(query) {
 	}
 }
 
+export function buildLinkUrl(parts) {
+	const idString = glob.partSlots.map(slot => parts[slot]['ID']).join('-');
+	return window.location.origin + window.location.pathname + '?build=' + idString;
+}
+
 export function copyBuildLink(parts) {
-	const partIds = glob.partSlots.map(slot => parts[slot]['ID']);
-	const idString = partIds.reduce(
-		(acc, id, pos) => 
-			pos === 0 ?
-				acc + id :
-				acc + '-' + id,
-		''
-	);
-	const url = window.location.origin + window.location.pathname + '?build=' + idString;
+	const url = buildLinkUrl(parts);
 	const promise = navigator.clipboard.writeText(url);
 	promise.then(() => glob.notify('Link copied to clipboard'));
 }

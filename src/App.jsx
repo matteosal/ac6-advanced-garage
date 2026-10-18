@@ -6,6 +6,7 @@ import BuildComponent from './Components/BuildComponent.jsx';
 import CompareBuildsComponent from './Components/CompareBuildsComponent.jsx';
 import TablesComponent from './Components/TablesComponent.jsx';
 import RicochetComponent from './Components/RicochetComponent.jsx';
+import OptimizerComponent from './Components/OptimizerComponent.jsx';
 
 /*************************************************************************************/
 
@@ -45,6 +46,8 @@ const SwitchedComponent = ({selectedSwitch}) => {
 			return <TablesComponent />
 		case 'RICOCHET CALCULATOR':
 			return <RicochetComponent />
+		case 'PARTS OPTIMIZER':
+			return <OptimizerComponent />
 		default:
 			window.alert('Internal error: invalid selected switch');
 			return <></>

@@ -19,7 +19,9 @@ let anchorId = 0;
 function toAnchorName(str) {
 	if(anchorId === 1000)
 		anchorId = 0;
-	return str.replace('/', '') + (anchorId++)
+	// Strip every non-alphanumeric character so the result is a valid CSS class name
+	// (spaces or slashes in the name would otherwise break the anchorSelect selector).
+	return str.replace(/[^a-zA-Z0-9]/g, '') + (anchorId++)
 }
 
 const InfoBox = ({name, tooltip, place = 'left'}) => {
