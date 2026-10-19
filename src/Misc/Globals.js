@@ -66,6 +66,10 @@ export function tableRowBackground(pos) {
 		return paletteColor(2, 0.5);
 }
 
+export function makeFontSpec(size) {
+	return {family: 'Aldrich-Custom, sans-serif', color: 'white', size: size}
+}
+
 /***************************************************************************************/
 
 export const partsData = dataFuncs.postprocessData(rawPartsData);
@@ -292,12 +296,16 @@ export function toValueAndDisplayNumber(raw) {
 
 export const boxCharacter = '\u25a0';
 
+/***************************************************************************************/
+
 export function notify(msg) {
 	return toast(msg, 
 		{style: {background: paletteColor(0)}, type:'info', position: "top-right", 
 			autoClose: 3000, transition: Slide}
 	)
 }
+
+/***************************************************************************************/
 
 export function partSortingFunction(key, ascend, a, b) {
 	const order = ascend ? 1 : -1;

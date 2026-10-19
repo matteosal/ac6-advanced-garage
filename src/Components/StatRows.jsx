@@ -341,7 +341,7 @@ const RangePlot = ({left, right}) => {
 			}
 		)
 
-	const font = {family: 'Aldrich-Custom, sans-serif'};
+	const font = glob.makeFontSpec(13);
 
 	return (
 		<PlotlyPlot
@@ -413,7 +413,7 @@ const RecoilPlot = ({left, right}) => {
 			}
 		)
 
-	const font = {family: 'Aldrich-Custom, sans-serif'};
+	const font = glob.makeFontSpec(13);
 
 	return (
 		<PlotlyPlot
@@ -545,7 +545,7 @@ const EnergyPlot = ({left, right}) => {
 		);
 	}
 
-	const font = {family: 'Aldrich-Custom, sans-serif'};
+	const font = glob.makeFontSpec(13);
 
 	return (
 		<PlotlyPlot
