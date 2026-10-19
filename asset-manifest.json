@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.css": "/ac6-advanced-garage/static/css/main.99eec9c4.css",
-    "main.js": "/ac6-advanced-garage/static/js/main.e51f4b36.js",
+    "main.css": "/ac6-advanced-garage/static/css/main.b7a76186.css",
+    "main.js": "/ac6-advanced-garage/static/js/main.aa2fb72e.js",
     "static/media/IB-C03G_NGI_000.png": "/ac6-advanced-garage/static/media/IB-C03G_NGI_000.7a574302e26ecf5d0d7c.png",
     "static/media/BML-G1_P29CNT.png": "/ac6-advanced-garage/static/media/BML-G1_P29CNT.9d6f92c127bb7876dc51.png",
     "static/media/IA-C01G_AORTA.png": "/ac6-advanced-garage/static/media/IA-C01G_AORTA.45f2e231ee71e36b1f92.png",
@@ -286,11 +286,12 @@
     "static/media/EL-TA-10_FIRMEZA_L.png": "/ac6-advanced-garage/static/media/EL-TA-10_FIRMEZA_L.186f877ed5204d0a3fb6.png",
     "static/media/VP-46D_L.png": "/ac6-advanced-garage/static/media/VP-46D_L.358a0a93831c7ee35930.png",
     "static/media/BAWS.png": "/ac6-advanced-garage/static/media/BAWS.16a2009abac357f69325.png",
+    "static/media/square721-bt.woff2": "/ac6-advanced-garage/static/media/square721-bt.508d0e0cfba2fc1b6c45.woff2",
     "static/media/agencyfb-bold-webfont.woff": "/ac6-advanced-garage/static/media/agencyfb-bold-webfont.e961aa0b4b08dc834792.woff",
     "static/media/SCHNEIDER.png": "/ac6-advanced-garage/static/media/SCHNEIDER.b3cef5f89151cbf6df8c.png",
     "static/media/expansion.png": "/ac6-advanced-garage/static/media/expansion.e3e0ba96dcf994cddee9.png",
     "static/media/core.png": "/ac6-advanced-garage/static/media/core.e22e1b5c156b5d8b9737.png",
-    "static/media/aldrich-custom-webfont.woff": "/ac6-advanced-garage/static/media/aldrich-custom-webfont.49ae71e8fdf6ca29b13e.woff",
+    "static/media/square721-bt.woff": "/ac6-advanced-garage/static/media/square721-bt.2f772bd960c8c12501b3.woff",
     "static/media/head.png": "/ac6-advanced-garage/static/media/head.591deb8c483d82329f4e.png",
     "static/media/generator.png": "/ac6-advanced-garage/static/media/generator.16e01f424b35afc9ac45.png",
     "static/media/arms.png": "/ac6-advanced-garage/static/media/arms.1a5f8aab33163f03b516.png",
@@ -302,13 +303,12 @@
     "static/media/leftBack.png": "/ac6-advanced-garage/static/media/leftBack.a06e53bbbdd59a417a3f.png",
     "static/media/agencyfb-bold-webfont.woff2": "/ac6-advanced-garage/static/media/agencyfb-bold-webfont.d6f0ba31d17775fb817c.woff2",
     "static/media/fcs.png": "/ac6-advanced-garage/static/media/fcs.1c60e14375255ed9b2ed.png",
-    "static/media/aldrich-custom-webfont.woff2": "/ac6-advanced-garage/static/media/aldrich-custom-webfont.2d4367283755ea19122b.woff2",
     "index.html": "/ac6-advanced-garage/index.html",
-    "main.99eec9c4.css.map": "/ac6-advanced-garage/static/css/main.99eec9c4.css.map",
-    "main.e51f4b36.js.map": "/ac6-advanced-garage/static/js/main.e51f4b36.js.map"
+    "main.b7a76186.css.map": "/ac6-advanced-garage/static/css/main.b7a76186.css.map",
+    "main.aa2fb72e.js.map": "/ac6-advanced-garage/static/js/main.aa2fb72e.js.map"
   },
   "entrypoints": [
-    "static/css/main.99eec9c4.css",
-    "static/js/main.e51f4b36.js"
+    "static/css/main.b7a76186.css",
+    "static/js/main.aa2fb72e.js"
   ]
 }
