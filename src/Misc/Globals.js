@@ -294,7 +294,7 @@ export function toValueAndDisplayNumber(raw) {
 	return [value, display];
 }
 
-export const boxCharacter = '\u25a0';
+export const boxCharacter = '\u2610';
 
 /***************************************************************************************/
 

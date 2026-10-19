@@ -187,17 +187,17 @@ const SlotSelector = ({setSearchString, modal}) => {
 		<>
 		<div style={{width: '100%'}}>
 			<button 
-				style={{display: 'inline-block', width: '20%', marginRight: '10%'}}
+				style={{display: 'inline-block', width: '21%', marginRight: '10%'}}
 				onClick={() => moveSlot(-1)}
 			>
 				{'< (Q)'}
 			</button>
-			<div style={{display: 'inline-block', textAlign: 'center', width: '40%', 
+			<div style={{display: 'inline-block', textAlign: 'center', width: '38%', 
 				marginBottom: '12px'}}>
 				{glob.toDisplayString(previewSlot).toUpperCase()}
 			</div>
 			<button 
-				style={{display: 'inline-block', width: '20%', marginLeft: '10%'}}
+				style={{display: 'inline-block', width: '21%', marginLeft: '10%'}}
 				onClick={() => moveSlot(1)}
 			>
 				{'(E) >'}
