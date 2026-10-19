@@ -1,3 +1,6 @@
+## [v1.2.12](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.12) (Oct 26 2026)
+* Changed main font
+
 ## [v1.2.11](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.11) (Jan 26 2026)
 * Fixed Earshot manufacturer logo
 
@@ -8,7 +11,7 @@
 * Fixed NACHTREIHER/42E Attitude Stability
 
 ## [v1.2.8](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.8) (May 28 2025)
-* Updated data to ame patch 1.09
+* Updated data to game patch 1.09
 * Fixed modified stats for BML-G1/P29CNT Container Missile Launcher
 
 ## [v1.2.7](https://github.com/matteosal/ac6-advanced-garage/releases/tag/v1.2.7) (Mar 23 2025)
